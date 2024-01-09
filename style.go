@@ -28,5 +28,5 @@ var style = chroma.MustNewStyle("charm", chroma.StyleEntries{
 	chroma.GenericInserted:     "#00D787",
 	chroma.GenericStrong:       "bold",
 	chroma.GenericSubheading:   "#777777",
-	chroma.Background:          "bg:#262626",
+	chroma.Background:          "bg:#222222",
 })

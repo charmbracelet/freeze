@@ -16,18 +16,21 @@ import (
 )
 
 var (
-	output     string  = "out.svg"
-	window     bool    = true
-	shadow     bool    = true
-	rounded    bool    = true
-	padding    []int   = []int{30, 30}
-	fontSize   float64 = 14
-	lineHeight float64 = fontSize * 1.2
+	output       string  = "out.svg"
+	window       bool    = true
+	outline      bool    = true
+	shadow       bool    = true
+	cornerRadius int     = 8
+	padding      []int   = []int{20, 40, 20, 20}
+	fontSize     float64 = 14
+	lineHeight   float64 = fontSize * 1.2
 )
 
 const (
-	vertical   = 0
-	horizontal = 1
+	top = iota
+	right
+	bottom
+	left
 )
 
 func main() {
@@ -78,15 +81,51 @@ func main() {
 		heightAttr := child.SelectAttr("height")
 		w := dimensionToInt(widthAttr.Value)
 		h := dimensionToInt(heightAttr.Value)
-		heightAttr.Value = fmt.Sprintf("%dpx", h+(2*padding[vertical]))
-		widthAttr.Value = fmt.Sprintf("%dpx", w+(3*padding[horizontal]))
+
+		if window {
+			padding[top] += 10
+		}
+
+		rect := child.SelectElement("rect")
+		if cornerRadius > 0 {
+			rect.CreateAttr("rx", fmt.Sprintf("%d", cornerRadius))
+			rect.CreateAttr("ry", fmt.Sprintf("%d", cornerRadius))
+		}
+
+		if outline {
+			rect.CreateAttr("stroke", "#515151")
+			rect.CreateAttr("stroke-width", "1")
+			rect.CreateAttr("x", "0.5")
+			rect.CreateAttr("y", "0.5")
+
+			rect.SelectAttr("height").Value = fmt.Sprintf("%d", h+(padding[top]+padding[bottom]))
+			rect.SelectAttr("width").Value = fmt.Sprintf("%d", w+(padding[left]+padding[right]))
+			w += 1
+			h += 1
+		}
+
+		heightAttr.Value = fmt.Sprintf("%d", h+(padding[top]+padding[bottom]))
+		widthAttr.Value = fmt.Sprintf("%d", w+(padding[left]+padding[right]))
+
+		if window {
+			circleGroup := etree.NewElement("g")
+			for i, c := range []string{"#FF5A54", "#E6BF29", "#52C12B"} {
+				circle := etree.NewElement("circle")
+				circle.CreateAttr("cx", fmt.Sprintf("%d", (i+1)*15))
+				circle.CreateAttr("cy", "14")
+				circle.CreateAttr("r", "5")
+				circle.CreateAttr("fill", c)
+				circleGroup.AddChild(circle)
+			}
+			child.AddChild(circleGroup)
+		}
 
 		textElements := child.SelectElement("g").SelectElements("text")
 		for i, text := range textElements {
 			// Offset the text by padding...
 			// (x, y) -> (x+p, y+p)
-			text.SelectAttr("x").Value = fmt.Sprintf("%dpx", padding[horizontal])
-			text.SelectAttr("y").Value = fmt.Sprintf("%.2fpx", float64(i+1)*lineHeight+float64(padding[vertical]))
+			text.SelectAttr("x").Value = fmt.Sprintf("%dpx", padding[left])
+			text.SelectAttr("y").Value = fmt.Sprintf("%.2fpx", float64(i+1)*lineHeight+float64(padding[top]))
 		}
 	}
 
