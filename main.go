@@ -34,7 +34,6 @@ const (
 )
 
 func main() {
-
 	var (
 		input string
 		err   error
@@ -75,58 +74,42 @@ func main() {
 		log.Fatal(err)
 	}
 
-	for _, child := range doc.ChildElements() {
-		// Increase the width and height by double the padding.
-		widthAttr := child.SelectAttr("width")
-		heightAttr := child.SelectAttr("height")
-		w := dimensionToInt(widthAttr.Value)
-		h := dimensionToInt(heightAttr.Value)
+	elements := doc.ChildElements()
+	if len(elements) < 1 {
+		log.Fatal("no svg output")
+	}
 
-		if window {
-			padding[top] += 10
-		}
+	child := elements[0]
+	rect := child.SelectElement("rect")
 
-		rect := child.SelectElement("rect")
-		if cornerRadius > 0 {
-			rect.CreateAttr("rx", fmt.Sprintf("%d", cornerRadius))
-			rect.CreateAttr("ry", fmt.Sprintf("%d", cornerRadius))
-		}
+	w, h := getDimensions(child)
+	w += padding[left] + padding[right]
+	h += padding[top] + padding[bottom]
+	setDimensions(rect, w, h)
 
-		if outline {
-			rect.CreateAttr("stroke", "#515151")
-			rect.CreateAttr("stroke-width", "1")
-			rect.CreateAttr("x", "0.5")
-			rect.CreateAttr("y", "0.5")
+	if window {
+		addWindow(child)
+	}
 
-			rect.SelectAttr("height").Value = fmt.Sprintf("%d", h+(padding[top]+padding[bottom]))
-			rect.SelectAttr("width").Value = fmt.Sprintf("%d", w+(padding[left]+padding[right]))
-			w += 1
-			h += 1
-		}
+	if cornerRadius > 0 {
+		addCornerRadius(rect)
+	}
 
-		heightAttr.Value = fmt.Sprintf("%d", h+(padding[top]+padding[bottom]))
-		widthAttr.Value = fmt.Sprintf("%d", w+(padding[left]+padding[right]))
+	if outline {
+		addOutline(rect)
 
-		if window {
-			circleGroup := etree.NewElement("g")
-			for i, c := range []string{"#FF5A54", "#E6BF29", "#52C12B"} {
-				circle := etree.NewElement("circle")
-				circle.CreateAttr("cx", fmt.Sprintf("%d", (i+1)*15))
-				circle.CreateAttr("cy", "14")
-				circle.CreateAttr("r", "5")
-				circle.CreateAttr("fill", c)
-				circleGroup.AddChild(circle)
-			}
-			child.AddChild(circleGroup)
-		}
+		// NOTE: necessary so that we don't clip the outline.
+		setDimensions(child, w+1, h+1)
+	} else {
+		setDimensions(child, w, h)
+	}
 
-		textElements := child.SelectElement("g").SelectElements("text")
-		for i, text := range textElements {
-			// Offset the text by padding...
-			// (x, y) -> (x+p, y+p)
-			text.SelectAttr("x").Value = fmt.Sprintf("%dpx", padding[left])
-			text.SelectAttr("y").Value = fmt.Sprintf("%.2fpx", float64(i+1)*lineHeight+float64(padding[top]))
-		}
+	textElements := child.SelectElement("g").SelectElements("text")
+	for i, text := range textElements {
+		// Offset the text by padding...
+		// (x, y) -> (x+p, y+p)
+		text.SelectAttr("x").Value = fmt.Sprintf("%dpx", padding[left])
+		text.SelectAttr("y").Value = fmt.Sprintf("%.2fpx", float64(i+1)*lineHeight+float64(padding[top]))
 	}
 
 	err = doc.WriteToFile(output)
@@ -135,22 +118,73 @@ func main() {
 	}
 }
 
+// addCornerRadius adds corner radius to an element.
+func addCornerRadius(element *etree.Element) {
+	element.CreateAttr("rx", fmt.Sprintf("%d", cornerRadius))
+	element.CreateAttr("ry", fmt.Sprintf("%d", cornerRadius))
+}
+
+// addOutline adds an outline to the given element.
+func addOutline(element *etree.Element) {
+	element.CreateAttr("stroke", "#515151")
+	element.CreateAttr("stroke-width", "1")
+	element.CreateAttr("x", "0.5")
+	element.CreateAttr("y", "0.5")
+}
+
+// addWindow adds a colorful window bar element to the given element.
+func addWindow(element *etree.Element) {
+	group := etree.NewElement("g")
+	for i, c := range []string{"#FF5A54", "#E6BF29", "#52C12B"} {
+		circle := etree.NewElement("circle")
+		circle.CreateAttr("cx", fmt.Sprintf("%d", (i+1)*15))
+		circle.CreateAttr("cy", "15")
+		circle.CreateAttr("r", "5")
+		circle.CreateAttr("fill", c)
+		group.AddChild(circle)
+	}
+	element.AddChild(group)
+	padding[top] += 15
+}
+
+// setDimensions sets the width and height of the given element.
+func setDimensions(element *etree.Element, width, height int) {
+	widthAttr := element.SelectAttr("width")
+	heightAttr := element.SelectAttr("height")
+	heightAttr.Value = fmt.Sprintf("%d", height)
+	widthAttr.Value = fmt.Sprintf("%d", width)
+}
+
+// getDimensions returns the width and height of the element.
+func getDimensions(element *etree.Element) (int, int) {
+	widthValue := element.SelectAttrValue("width", "0px")
+	heightValue := element.SelectAttrValue("height", "0px")
+	width := dimensionToInt(widthValue)
+	height := dimensionToInt(heightValue)
+	return width, height
+}
+
+// dimensionToInt takes a string and returns the integer value.
+// e.g. "500px" -> 500
 func dimensionToInt(px string) int {
 	d := strings.TrimSuffix(px, "px")
 	v, _ := strconv.ParseInt(d, 10, 64)
 	return int(v)
 }
 
+// readFile returns the files content.
 func readFile(file string) (string, error) {
 	b, err := os.ReadFile(file)
 	return string(b), err
 }
 
+// readInput reads some input.
 func readInput(in io.Reader) (string, error) {
 	b, err := io.ReadAll(in)
 	return string(b), err
 }
 
+// isPipe returns whether the stdin is piped.
 func isPipe() bool {
 	stat, _ := os.Stdin.Stat()
 	return (stat.Mode() & os.ModeCharDevice) == 0
