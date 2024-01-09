@@ -26,6 +26,14 @@ var (
 	lineHeight   float64 = fontSize * 1.2
 )
 
+var (
+	red    string = "#FF5A54"
+	yellow string = "#E6BF29"
+	green  string = "#52C12B"
+
+	grey string = "#515151"
+)
+
 const (
 	top = iota
 	right
@@ -80,9 +88,9 @@ func main() {
 	}
 
 	child := elements[0]
-	rect := child.SelectElement("rect")
-
 	w, h := getDimensions(child)
+
+	rect := child.SelectElement("rect")
 	w += padding[left] + padding[right]
 	h += padding[top] + padding[bottom]
 	setDimensions(rect, w, h)
@@ -104,12 +112,13 @@ func main() {
 		setDimensions(child, w, h)
 	}
 
-	textElements := child.SelectElement("g").SelectElements("text")
-	for i, text := range textElements {
+	lines := child.SelectElement("g").SelectElements("text")
+	for i, line := range lines {
 		// Offset the text by padding...
 		// (x, y) -> (x+p, y+p)
-		text.SelectAttr("x").Value = fmt.Sprintf("%dpx", padding[left])
-		text.SelectAttr("y").Value = fmt.Sprintf("%.2fpx", float64(i+1)*lineHeight+float64(padding[top]))
+		x := float64(padding[left])
+		y := float64(i)*lineHeight + fontSize + float64(padding[top])
+		move(line, x, y)
 	}
 
 	err = doc.WriteToFile(output)
@@ -124,9 +133,15 @@ func addCornerRadius(element *etree.Element) {
 	element.CreateAttr("ry", fmt.Sprintf("%d", cornerRadius))
 }
 
+// move moves the given element to the (x, y) position
+func move(element *etree.Element, x, y float64) {
+	element.SelectAttr("x").Value = fmt.Sprintf("%.2fpx", x)
+	element.SelectAttr("y").Value = fmt.Sprintf("%.2fpx", y)
+}
+
 // addOutline adds an outline to the given element.
 func addOutline(element *etree.Element) {
-	element.CreateAttr("stroke", "#515151")
+	element.CreateAttr("stroke", grey)
 	element.CreateAttr("stroke-width", "1")
 	element.CreateAttr("x", "0.5")
 	element.CreateAttr("y", "0.5")
@@ -135,7 +150,7 @@ func addOutline(element *etree.Element) {
 // addWindow adds a colorful window bar element to the given element.
 func addWindow(element *etree.Element) {
 	group := etree.NewElement("g")
-	for i, c := range []string{"#FF5A54", "#E6BF29", "#52C12B"} {
+	for i, c := range []string{red, yellow, green} {
 		circle := etree.NewElement("circle")
 		circle.CreateAttr("cx", fmt.Sprintf("%d", (i+1)*15))
 		circle.CreateAttr("cy", "15")
