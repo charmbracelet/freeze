@@ -22,6 +22,7 @@ var (
 	shadow       bool    = true
 	cornerRadius int     = 8
 	padding      []int   = []int{20, 40, 20, 20}
+	margin       []int   = []int{0, 0, 0, 0}
 	fontSize     float64 = 14
 	lineHeight   float64 = fontSize * 1.2
 )
@@ -47,6 +48,10 @@ func main() {
 		err   error
 		lexer chroma.Lexer
 	)
+
+	if shadow {
+		margin = []int{20, 20, 20, 20}
+	}
 
 	// Read input from file or stdin.
 	if len(os.Args) > 1 {
@@ -87,16 +92,17 @@ func main() {
 		log.Fatal("no svg output")
 	}
 
-	child := elements[0]
-	w, h := getDimensions(child)
+	svg := elements[0]
+	w, h := getDimensions(svg)
 
-	rect := child.SelectElement("rect")
+	rect := svg.SelectElement("rect")
 	w += padding[left] + padding[right]
 	h += padding[top] + padding[bottom]
 	setDimensions(rect, w, h)
+	move(rect, float64(margin[left]), float64(margin[top]))
 
 	if window {
-		addWindow(child)
+		addWindow(svg)
 	}
 
 	if cornerRadius > 0 {
@@ -106,18 +112,30 @@ func main() {
 	if outline {
 		addOutline(rect)
 
+		if !shadow {
+			move(rect, 0.5, 0.5)
+		}
+
 		// NOTE: necessary so that we don't clip the outline.
-		setDimensions(child, w+1, h+1)
-	} else {
-		setDimensions(child, w, h)
+		w += 1
+		h += 1
 	}
 
-	lines := child.SelectElement("g").SelectElements("text")
+	setDimensions(svg, w, h)
+
+	if shadow {
+		id := "shadow"
+		addShadow(svg, id)
+		svg.CreateAttr("filter", fmt.Sprintf("url(#%s)", id))
+		setDimensions(svg, w+120, h+120)
+	}
+
+	lines := svg.SelectElement("g").SelectElements("text")
 	for i, line := range lines {
 		// Offset the text by padding...
 		// (x, y) -> (x+p, y+p)
-		x := float64(padding[left])
-		y := float64(i)*lineHeight + fontSize + float64(padding[top])
+		x := float64(padding[left] + margin[left])
+		y := float64(i)*lineHeight + fontSize + float64(padding[top]) + float64(margin[top])
 		move(line, x, y)
 	}
 
@@ -125,6 +143,40 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
+}
+
+// addShadow adds a definition of a shadow to the <defs> with the given id.
+func addShadow(element *etree.Element, id string) {
+	filter := etree.NewElement("filter")
+	filter.CreateAttr("id", id)
+	filter.CreateAttr("x", "0")
+	filter.CreateAttr("y", "0")
+	filter.CreateAttr("width", "200%")
+	filter.CreateAttr("height", "200%")
+
+	offset := etree.NewElement("feOffset")
+	offset.CreateAttr("result", "offOut")
+	offset.CreateAttr("in", "SourceAlpha")
+	offset.CreateAttr("dx", "0")
+	offset.CreateAttr("dy", "0")
+
+	blur := etree.NewElement("feGaussianBlur")
+	blur.CreateAttr("result", "blurOut")
+	blur.CreateAttr("in", "offOut")
+	blur.CreateAttr("stdDeviation", "10")
+
+	blend := etree.NewElement("feBlend")
+	blend.CreateAttr("in", "SourceGraphic")
+	blend.CreateAttr("in2", "blurOut")
+	blend.CreateAttr("mode", "normal")
+
+	filter.AddChild(offset)
+	filter.AddChild(blur)
+	filter.AddChild(blend)
+
+	defs := etree.NewElement("defs")
+	defs.AddChild(filter)
+	element.AddChild(defs)
 }
 
 // addCornerRadius adds corner radius to an element.
@@ -135,16 +187,14 @@ func addCornerRadius(element *etree.Element) {
 
 // move moves the given element to the (x, y) position
 func move(element *etree.Element, x, y float64) {
-	element.SelectAttr("x").Value = fmt.Sprintf("%.2fpx", x)
-	element.SelectAttr("y").Value = fmt.Sprintf("%.2fpx", y)
+	element.CreateAttr("x", fmt.Sprintf("%.2fpx", x))
+	element.CreateAttr("y", fmt.Sprintf("%.2fpx", y))
 }
 
 // addOutline adds an outline to the given element.
 func addOutline(element *etree.Element) {
 	element.CreateAttr("stroke", grey)
 	element.CreateAttr("stroke-width", "1")
-	element.CreateAttr("x", "0.5")
-	element.CreateAttr("y", "0.5")
 }
 
 // addWindow adds a colorful window bar element to the given element.
@@ -152,8 +202,8 @@ func addWindow(element *etree.Element) {
 	group := etree.NewElement("g")
 	for i, c := range []string{red, yellow, green} {
 		circle := etree.NewElement("circle")
-		circle.CreateAttr("cx", fmt.Sprintf("%d", (i+1)*15))
-		circle.CreateAttr("cy", "15")
+		circle.CreateAttr("cx", fmt.Sprintf("%d", (i+1)*15+margin[left]))
+		circle.CreateAttr("cy", fmt.Sprintf("%d", 15+margin[top]))
 		circle.CreateAttr("r", "5")
 		circle.CreateAttr("fill", c)
 		group.AddChild(circle)
