@@ -185,7 +185,7 @@ func (c *Configuration) addWindow(element *etree.Element) {
 		circle := etree.NewElement("circle")
 		circle.CreateAttr("cx", fmt.Sprintf("%d", (i+1)*15+c.Margin.Left))
 		circle.CreateAttr("cy", fmt.Sprintf("%d", 12+c.Margin.Top))
-		circle.CreateAttr("r", "5")
+		circle.CreateAttr("r", "4.5")
 		circle.CreateAttr("fill", color)
 		group.AddChild(circle)
 	}
