@@ -46,7 +46,7 @@ func main() {
 
 	// Format code source.
 	l := chroma.Coalesce(lexer)
-	f := svg.New(svg.FontFamily("JetBrains Mono"))
+	f := svg.New(svg.FontFamily(config.FontFamily))
 	it, err := l.Tokenise(nil, input)
 	if err != nil {
 		log.Fatal(err)

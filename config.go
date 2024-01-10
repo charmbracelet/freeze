@@ -8,6 +8,7 @@ type Configuration struct {
 	CornerRadius int
 	Padding      Sides
 	Margin       Sides
+	FontFamily   string
 	FontSize     float64
 	LineHeight   float64
 }
@@ -21,6 +22,7 @@ func ConfigurationBase() Configuration {
 		CornerRadius: 0,
 		Padding:      NewSides(20, 40, 20, 20),
 		Margin:       NewSides(0),
+		FontFamily:   "JetBrains Mono",
 		FontSize:     14,
 		LineHeight:   14 * 1.2,
 	}
@@ -35,6 +37,7 @@ func ConfigurationDecoration() Configuration {
 		CornerRadius: 8,
 		Padding:      NewSides(20, 40, 20, 20),
 		Margin:       NewSides(20),
+		FontFamily:   "JetBrains Mono",
 		FontSize:     14,
 		LineHeight:   14 * 1.2,
 	}
