@@ -127,7 +127,7 @@ func main() {
 		id := "shadow"
 		addShadow(svg, id)
 		svg.CreateAttr("filter", fmt.Sprintf("url(#%s)", id))
-		setDimensions(svg, w+120, h+120)
+		setDimensions(svg, w+margin[left]+margin[right], h+margin[top]+margin[bottom])
 	}
 
 	lines := svg.SelectElement("g").SelectElements("text")
@@ -151,8 +151,6 @@ func addShadow(element *etree.Element, id string) {
 	filter.CreateAttr("id", id)
 	filter.CreateAttr("x", "0")
 	filter.CreateAttr("y", "0")
-	filter.CreateAttr("width", "200%")
-	filter.CreateAttr("height", "200%")
 
 	offset := etree.NewElement("feOffset")
 	offset.CreateAttr("result", "offOut")
