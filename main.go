@@ -31,7 +31,7 @@ func main() {
 		config Configuration
 	)
 
-	ctx := kong.Parse(&config)
+	_ = kong.Parse(&config)
 
 	config.Margin = expandMargin(config.Margin)
 	config.Padding = expandPadding(config.Padding)
@@ -40,8 +40,8 @@ func main() {
 		input, err = readInput(os.Stdin)
 		lexer = lexers.Analyse(input)
 	} else {
-		input, err = readFile(ctx.Args[0])
-		lexer = lexers.Get(ctx.Args[0])
+		input, err = readFile(config.Input)
+		lexer = lexers.Get(config.Input)
 	}
 
 	if config.Language != "" {
@@ -64,7 +64,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	f := svg.New(svg.FontFamily(config.FontFamily), ff)
+	f := svg.New(ff, svg.FontFamily(config.FontFamily))
 	it, err := l.Tokenise(nil, input)
 	if err != nil {
 		log.Fatal(err)
@@ -100,11 +100,11 @@ func main() {
 		config.addWindow(svg)
 	}
 
-	if config.CornerRadius > 0 {
+	if config.Radius > 0 {
 		config.addCornerRadius(rect)
 	}
 
-	if config.Outline {
+	if config.Border {
 		addOutline(rect)
 
 		if !config.Shadow {
@@ -181,8 +181,8 @@ func addShadow(element *etree.Element, id string) {
 
 // addCornerRadius adds corner radius to an element.
 func (c *Configuration) addCornerRadius(element *etree.Element) {
-	element.CreateAttr("rx", fmt.Sprintf("%d", c.CornerRadius))
-	element.CreateAttr("ry", fmt.Sprintf("%d", c.CornerRadius))
+	element.CreateAttr("rx", fmt.Sprintf("%d", c.Radius))
+	element.CreateAttr("ry", fmt.Sprintf("%d", c.Radius))
 }
 
 // move moves the given element to the (x, y) position
@@ -247,10 +247,4 @@ func readFile(file string) (string, error) {
 func readInput(in io.Reader) (string, error) {
 	b, err := io.ReadAll(in)
 	return string(b), err
-}
-
-// isPipe returns whether the stdin is piped.
-func isPipe() bool {
-	stat, _ := os.Stdin.Stat()
-	return (stat.Mode() & os.ModeCharDevice) == 0
 }
