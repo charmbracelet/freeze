@@ -14,6 +14,7 @@ import (
 	"github.com/alecthomas/kong"
 	"github.com/beevik/etree"
 	"github.com/charmbracelet/log"
+	"github.com/mattn/go-isatty"
 )
 
 var (
@@ -135,7 +136,11 @@ func main() {
 		move(line, x, y)
 	}
 
-	err = doc.WriteToFile(config.Output)
+	if isatty.IsTerminal(os.Stdout.Fd()) {
+		err = doc.WriteToFile(config.Output)
+	} else {
+		_, err = doc.WriteTo(os.Stdout)
+	}
 	if err != nil {
 		log.Fatal(err)
 	}
