@@ -6,7 +6,7 @@
   <a href="https://github.com/charmbracelet/freeze/actions"><img src="https://github.com/charmbracelet/freeze/workflows/build/badge.svg" alt="Build Status"></a>
 </p>
 
-Capture screenshots and share images of your code on the command line.
+Capture and share your code on the command line.
 
 <p align="center">
   <img alt="output of freeze command, haskell code block" src="https://github.com/charmbracelet/freeze/assets/42545625/6884a2ad-3d8e-4510-ad3d-e935e208d3b8" width="800" />
@@ -14,15 +14,15 @@ Capture screenshots and share images of your code on the command line.
 
 ## Tutorial
 
-To snap an image of your code, run the following:
+To generate an image of your code, run:
 
 <img alt="a terminal running: freeze -wsm 20 -r 8 artichoke.hs" src="https://vhs.charm.sh/vhs-3yL9rCVdQNUjYwVBqzW7Kc.gif" width="600" />
 
 ```sh
-freeze main.go > out.svg
+freeze main.go -o out.svg
 ```
 
-The `out.svg` file will contain your code screenshot.
+Your image file will live in `out.svg`.
 
 ## Installation
 
