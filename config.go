@@ -1,9 +1,10 @@
 package main
 
 type Configuration struct {
-	Input string `arg:"" help:"the file to read" default:"-"`
+	Input string `arg:"" help:"the file to read" optional:""`
 
-	Output       string  `help:"output of the image" type:"filepath" default:"out.svg"`
+	Language     string  `help:"code language"`
+	Output       string  `help:"output of the image" default:"out.svg"`
 	Window       bool    `help:"whether to show window controls" default:"false"`
 	Outline      bool    `help:"whether to add an outline to the window" default:"false"`
 	Shadow       bool    `help:"whether to add a shadow to the window" default:"false"`

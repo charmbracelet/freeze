@@ -36,13 +36,20 @@ func main() {
 	config.Margin = expandMargin(config.Margin)
 	config.Padding = expandPadding(config.Padding)
 
-	switch ctx.Args[0] {
-	case "-":
+	if config.Input == "" || config.Input == "-" {
 		input, err = readInput(os.Stdin)
 		lexer = lexers.Analyse(input)
-	default:
+	} else {
 		input, err = readFile(ctx.Args[0])
 		lexer = lexers.Get(ctx.Args[0])
+	}
+
+	if config.Language != "" {
+		lexer = lexers.Get(config.Language)
+	}
+
+	if lexer == nil {
+		log.Fatal("unable to detect language, specify `--language`")
 	}
 
 	input = strings.TrimSpace(input)
@@ -115,8 +122,9 @@ func main() {
 		id := "shadow"
 		addShadow(svg, id)
 		svg.CreateAttr("filter", fmt.Sprintf("url(#%s)", id))
-		setDimensions(svg, w+config.Margin[left]+config.Margin[right], h+config.Margin[top]+config.Margin[bottom])
 	}
+
+	setDimensions(svg, w+config.Margin[left]+config.Margin[right], h+config.Margin[top]+config.Margin[bottom])
 
 	lines := svg.SelectElement("g").SelectElements("text")
 	for i, line := range lines {
