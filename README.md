@@ -1,9 +1,6 @@
 # Freeze
 
 <p>
-  <img src="https://user-images.githubusercontent.com/42545625/198402537-12ca2f6c-0779-4eb8-a67c-8db9cb3df13c.png#gh-dark-mode-only" width="500" />
-  <img src="https://user-images.githubusercontent.com/42545625/198402542-a305f669-a05a-4d91-b18b-ca76e72b655a.png#gh-light-mode-only" width="500" />
-  <br>
   <a href="https://github.com/charmbracelet/freeze/releases"><img src="https://img.shields.io/github/release/charmbracelet/freeze.svg" alt="Latest Release"></a>
   <a href="https://pkg.go.dev/github.com/charmbracelet/freeze?tab=doc"><img src="https://godoc.org/github.com/golang/gddo?status.svg" alt="Go Docs"></a>
   <a href="https://github.com/charmbracelet/freeze/actions"><img src="https://github.com/charmbracelet/freeze/workflows/build/badge.svg" alt="Build Status"></a>
@@ -11,7 +8,13 @@
 
 Capture screenshots and share images of your code on the command line.
 
-<img alt="Welcome to VHS" src="https://vhs.charm.sh/vhs-3yL9rCVdQNUjYwVBqzW7Kc.gif" width="600" />
+<img alt="a terminal running: freeze -wsm 20 -r 8 artichoke.hs" src="https://vhs.charm.sh/vhs-3yL9rCVdQNUjYwVBqzW7Kc.gif" width="600" />
+
+Outputs:
+
+<p align="center">
+  <img alt="output of freeze command, haskell code block" src="https://github.com/charmbracelet/freeze/assets/42545625/6884a2ad-3d8e-4510-ad3d-e935e208d3b8" width="800" />
+</p>
 
 ## Tutorial
 
