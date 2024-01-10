@@ -70,6 +70,9 @@ There are a bunch of different options:
 * `FontSize`: the terminal font size.
 * `LineHeight`: the terminal line height.
 
+<br />
+<img alt="output of freeze command, haskell code block" src="https://github.com/charmbracelet/freeze/assets/42545625/f3fb212f-6629-4253-9c13-105055a4b6e8" width="600" />
+
 ## Output
 
 To output different file formats: `.png`, `.jpg`, `.webp`, use the `--output`
