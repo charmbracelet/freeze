@@ -53,7 +53,7 @@ func main() {
 
 	// Format code source.
 	l := chroma.Coalesce(lexer)
-	ff := svg.EmbedFont("JetBrains Mono", jetbrainsMono, svg.WOFF2)
+	ff := svg.EmbedFont("JetBrains Mono", FontJetBrainsMono, svg.WOFF2)
 	if err != nil {
 		log.Fatal(err)
 	}
