@@ -133,12 +133,18 @@ func addShadow(element *etree.Element, id string) {
 	offset.CreateAttr("result", "offOut")
 	offset.CreateAttr("in", "SourceAlpha")
 	offset.CreateAttr("dx", "0")
-	offset.CreateAttr("dy", "0")
+	offset.CreateAttr("dy", "5")
+
+	color := etree.NewElement("feColorMatrix")
+	color.CreateAttr("result", "matrixOut")
+	color.CreateAttr("in", "offOut")
+	color.CreateAttr("type", "matrix")
+	color.CreateAttr("values", "0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0")
 
 	blur := etree.NewElement("feGaussianBlur")
 	blur.CreateAttr("result", "blurOut")
-	blur.CreateAttr("in", "offOut")
-	blur.CreateAttr("stdDeviation", "10")
+	blur.CreateAttr("in", "matrixOut")
+	blur.CreateAttr("stdDeviation", "12")
 
 	blend := etree.NewElement("feBlend")
 	blend.CreateAttr("in", "SourceGraphic")
@@ -178,7 +184,7 @@ func (c *Configuration) addWindow(element *etree.Element) {
 	for i, color := range []string{red, yellow, green} {
 		circle := etree.NewElement("circle")
 		circle.CreateAttr("cx", fmt.Sprintf("%d", (i+1)*15+c.Margin.Left))
-		circle.CreateAttr("cy", fmt.Sprintf("%d", 15+c.Margin.Top))
+		circle.CreateAttr("cy", fmt.Sprintf("%d", 12+c.Margin.Top))
 		circle.CreateAttr("r", "5")
 		circle.CreateAttr("fill", color)
 		group.AddChild(circle)
