@@ -1,64 +1,41 @@
 package main
 
 type Configuration struct {
-	Output       string
-	Window       bool
-	Outline      bool
-	Shadow       bool
-	CornerRadius int
-	Padding      Sides
-	Margin       Sides
-	FontFamily   string
-	FontSize     float64
-	LineHeight   float64
+	Input string `arg:"" help:"the file to read" default:"-"`
+
+	Output       string  `help:"output of the image" type:"filepath" default:"out.svg"`
+	Window       bool    `help:"whether to show window controls" default:"false"`
+	Outline      bool    `help:"whether to add an outline to the window" default:"false"`
+	Shadow       bool    `help:"whether to add a shadow to the window" default:"false"`
+	CornerRadius int     `help:"amount to round the corners" default:"0"`
+	Padding      []int   `help:"padding of the window" default:"20,40,20,20"`
+	Margin       []int   `help:"margin of the window" default:"0"`
+	FontFamily   string  `help:"font family" default:"JetBrains Mono"`
+	FontSize     float64 `help:"font size" default:"14"`
+	LineHeight   float64 `help:"line height" default:"16.8"`
 }
 
-func ConfigurationBase() Configuration {
-	return Configuration{
-		Output:       "out.svg",
-		Window:       false,
-		Outline:      false,
-		Shadow:       false,
-		CornerRadius: 0,
-		Padding:      NewSides(20, 40, 20, 20),
-		Margin:       NewSides(0),
-		FontFamily:   "JetBrains Mono",
-		FontSize:     14,
-		LineHeight:   14 * 1.2,
-	}
-}
-
-func ConfigurationDecoration() Configuration {
-	return Configuration{
-		Output:       "out.svg",
-		Window:       true,
-		Outline:      true,
-		Shadow:       true,
-		CornerRadius: 6,
-		Padding:      NewSides(20, 40, 20, 20),
-		Margin:       NewSides(40),
-		FontFamily:   "JetBrains Mono",
-		FontSize:     14,
-		LineHeight:   14 * 1.2,
-	}
-}
-
-type Sides struct {
-	Top    int
-	Right  int
-	Bottom int
-	Left   int
-}
-
-func NewSides(sides ...int) Sides {
-	switch len(sides) {
+func expandPadding(p []int) []int {
+	switch len(p) {
 	case 1:
-		return Sides{sides[0], sides[0], sides[0], sides[0]}
+		return []int{p[top], p[top], p[top], p[top]}
 	case 2:
-		return Sides{sides[0], sides[1], sides[0], sides[1]}
+		return []int{p[top], p[right], p[top], p[right]}
 	case 4:
-		return Sides{sides[0], sides[1], sides[2], sides[3]}
+		return []int{p[top], p[right], p[bottom], p[left]}
 	default:
-		return Sides{}
+		return []int{0, 0, 0, 0}
+
 	}
 }
+
+var expandMargin = expandPadding
+
+type side int
+
+const (
+	top    side = 0
+	right  side = 1
+	bottom side = 2
+	left   side = 3
+)

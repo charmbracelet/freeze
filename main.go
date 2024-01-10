@@ -11,6 +11,7 @@ import (
 	"github.com/alecthomas/chroma"
 	"github.com/alecthomas/chroma/formatters/svg"
 	"github.com/alecthomas/chroma/lexers"
+	"github.com/alecthomas/kong"
 	"github.com/beevik/etree"
 	"github.com/charmbracelet/log"
 )
@@ -27,26 +28,36 @@ func main() {
 		input  string
 		err    error
 		lexer  chroma.Lexer
-		config = ConfigurationDecoration()
+		config Configuration
 	)
 
-	// Read input from file or stdin.
-	if len(os.Args) > 1 {
-		input, err = readFile(os.Args[1])
-		lexer = lexers.Get(os.Args[1])
-	} else if isPipe() {
+	ctx := kong.Parse(&config)
+
+	config.Margin = expandMargin(config.Margin)
+	config.Padding = expandPadding(config.Padding)
+
+	switch ctx.Args[0] {
+	case "-":
 		input, err = readInput(os.Stdin)
 		lexer = lexers.Analyse(input)
-	}
-	if err != nil || input == "" {
-		log.Fatal("no input provided.")
+	default:
+		input, err = readFile(ctx.Args[0])
+		lexer = lexers.Get(ctx.Args[0])
 	}
 
 	input = strings.TrimSpace(input)
 
+	if err != nil || input == "" {
+		log.Fatal("no input provided.")
+	}
+
 	// Format code source.
 	l := chroma.Coalesce(lexer)
-	f := svg.New(svg.FontFamily(config.FontFamily))
+	ff := svg.EmbedFont("JetBrains Mono", jetbrainsMono, svg.WOFF2)
+	if err != nil {
+		log.Fatal(err)
+	}
+	f := svg.New(svg.FontFamily(config.FontFamily), ff)
 	it, err := l.Tokenise(nil, input)
 	if err != nil {
 		log.Fatal(err)
@@ -73,10 +84,10 @@ func main() {
 	w, h := getDimensions(svg)
 
 	rect := svg.SelectElement("rect")
-	w += config.Padding.Left + config.Padding.Right
-	h += config.Padding.Top + config.Padding.Bottom
+	w += config.Padding[left] + config.Padding[right]
+	h += config.Padding[top] + config.Padding[bottom]
 	setDimensions(rect, w, h)
-	move(rect, float64(config.Margin.Left), float64(config.Margin.Top))
+	move(rect, float64(config.Margin[left]), float64(config.Margin[top]))
 
 	if config.Window {
 		config.addWindow(svg)
@@ -104,15 +115,15 @@ func main() {
 		id := "shadow"
 		addShadow(svg, id)
 		svg.CreateAttr("filter", fmt.Sprintf("url(#%s)", id))
-		setDimensions(svg, w+config.Margin.Left+config.Margin.Right, h+config.Margin.Top+config.Margin.Bottom)
+		setDimensions(svg, w+config.Margin[left]+config.Margin[right], h+config.Margin[top]+config.Margin[bottom])
 	}
 
 	lines := svg.SelectElement("g").SelectElements("text")
 	for i, line := range lines {
 		// Offset the text by padding...
 		// (x, y) -> (x+p, y+p)
-		x := float64(config.Padding.Left + config.Margin.Left)
-		y := float64(i)*config.LineHeight + config.FontSize + float64(config.Padding.Top) + float64(config.Margin.Top)
+		x := float64(config.Padding[left] + config.Margin[left])
+		y := float64(i)*config.LineHeight + config.FontSize + float64(config.Padding[top]) + float64(config.Margin[top])
 		move(line, x, y)
 	}
 
@@ -183,14 +194,14 @@ func (c *Configuration) addWindow(element *etree.Element) {
 	group := etree.NewElement("g")
 	for i, color := range []string{red, yellow, green} {
 		circle := etree.NewElement("circle")
-		circle.CreateAttr("cx", fmt.Sprintf("%d", (i+1)*15+c.Margin.Left))
-		circle.CreateAttr("cy", fmt.Sprintf("%d", 12+c.Margin.Top))
+		circle.CreateAttr("cx", fmt.Sprintf("%d", (i+1)*15+c.Margin[left]))
+		circle.CreateAttr("cy", fmt.Sprintf("%d", 12+c.Margin[top]))
 		circle.CreateAttr("r", "4.5")
 		circle.CreateAttr("fill", color)
 		group.AddChild(circle)
 	}
 	element.AddChild(group)
-	c.Padding.Top += 15
+	c.Padding[top] += 15
 }
 
 // setDimensions sets the width and height of the given element.
