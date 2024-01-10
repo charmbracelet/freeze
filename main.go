@@ -16,42 +16,19 @@ import (
 )
 
 var (
-	output       string  = "out.svg"
-	window       bool    = true
-	outline      bool    = true
-	shadow       bool    = true
-	cornerRadius int     = 8
-	padding      []int   = []int{20, 40, 20, 20}
-	margin       []int   = []int{0, 0, 0, 0}
-	fontSize     float64 = 14
-	lineHeight   float64 = fontSize * 1.2
-)
-
-var (
 	red    string = "#FF5A54"
 	yellow string = "#E6BF29"
 	green  string = "#52C12B"
-
-	grey string = "#515151"
-)
-
-const (
-	top = iota
-	right
-	bottom
-	left
+	grey   string = "#515151"
 )
 
 func main() {
 	var (
-		input string
-		err   error
-		lexer chroma.Lexer
+		input  string
+		err    error
+		lexer  chroma.Lexer
+		config = ConfigurationDecoration()
 	)
-
-	if shadow {
-		margin = []int{20, 20, 20, 20}
-	}
 
 	// Read input from file or stdin.
 	if len(os.Args) > 1 {
@@ -96,23 +73,23 @@ func main() {
 	w, h := getDimensions(svg)
 
 	rect := svg.SelectElement("rect")
-	w += padding[left] + padding[right]
-	h += padding[top] + padding[bottom]
+	w += config.Padding.Left + config.Padding.Right
+	h += config.Padding.Top + config.Padding.Bottom
 	setDimensions(rect, w, h)
-	move(rect, float64(margin[left]), float64(margin[top]))
+	move(rect, float64(config.Margin.Left), float64(config.Margin.Top))
 
-	if window {
-		addWindow(svg)
+	if config.Window {
+		config.addWindow(svg)
 	}
 
-	if cornerRadius > 0 {
-		addCornerRadius(rect)
+	if config.CornerRadius > 0 {
+		config.addCornerRadius(rect)
 	}
 
-	if outline {
+	if config.Outline {
 		addOutline(rect)
 
-		if !shadow {
+		if !config.Shadow {
 			move(rect, 0.5, 0.5)
 		}
 
@@ -123,23 +100,23 @@ func main() {
 
 	setDimensions(svg, w, h)
 
-	if shadow {
+	if config.Shadow {
 		id := "shadow"
 		addShadow(svg, id)
 		svg.CreateAttr("filter", fmt.Sprintf("url(#%s)", id))
-		setDimensions(svg, w+margin[left]+margin[right], h+margin[top]+margin[bottom])
+		setDimensions(svg, w+config.Margin.Left+config.Margin.Right, h+config.Margin.Top+config.Margin.Bottom)
 	}
 
 	lines := svg.SelectElement("g").SelectElements("text")
 	for i, line := range lines {
 		// Offset the text by padding...
 		// (x, y) -> (x+p, y+p)
-		x := float64(padding[left] + margin[left])
-		y := float64(i)*lineHeight + fontSize + float64(padding[top]) + float64(margin[top])
+		x := float64(config.Padding.Left + config.Margin.Left)
+		y := float64(i)*config.LineHeight + config.FontSize + float64(config.Padding.Top) + float64(config.Margin.Top)
 		move(line, x, y)
 	}
 
-	err = doc.WriteToFile(output)
+	err = doc.WriteToFile(config.Output)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -178,9 +155,9 @@ func addShadow(element *etree.Element, id string) {
 }
 
 // addCornerRadius adds corner radius to an element.
-func addCornerRadius(element *etree.Element) {
-	element.CreateAttr("rx", fmt.Sprintf("%d", cornerRadius))
-	element.CreateAttr("ry", fmt.Sprintf("%d", cornerRadius))
+func (c *Configuration) addCornerRadius(element *etree.Element) {
+	element.CreateAttr("rx", fmt.Sprintf("%d", c.CornerRadius))
+	element.CreateAttr("ry", fmt.Sprintf("%d", c.CornerRadius))
 }
 
 // move moves the given element to the (x, y) position
@@ -196,18 +173,18 @@ func addOutline(element *etree.Element) {
 }
 
 // addWindow adds a colorful window bar element to the given element.
-func addWindow(element *etree.Element) {
+func (c *Configuration) addWindow(element *etree.Element) {
 	group := etree.NewElement("g")
-	for i, c := range []string{red, yellow, green} {
+	for i, color := range []string{red, yellow, green} {
 		circle := etree.NewElement("circle")
-		circle.CreateAttr("cx", fmt.Sprintf("%d", (i+1)*15+margin[left]))
-		circle.CreateAttr("cy", fmt.Sprintf("%d", 15+margin[top]))
+		circle.CreateAttr("cx", fmt.Sprintf("%d", (i+1)*15+c.Margin.Left))
+		circle.CreateAttr("cy", fmt.Sprintf("%d", 15+c.Margin.Top))
 		circle.CreateAttr("r", "5")
-		circle.CreateAttr("fill", c)
+		circle.CreateAttr("fill", color)
 		group.AddChild(circle)
 	}
 	element.AddChild(group)
-	padding[top] += 15
+	c.Padding.Top += 15
 }
 
 // setDimensions sets the width and height of the given element.
