@@ -65,7 +65,7 @@ func main() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	f := svg.New(ff, svg.FontFamily(config.FontFamily))
+	f := svg.New(ff, svg.FontFamily(config.Font.Family))
 	it, err := l.Tokenise(nil, input)
 	if err != nil {
 		log.Fatal(err)
@@ -132,7 +132,7 @@ func main() {
 		// Offset the text by padding...
 		// (x, y) -> (x+p, y+p)
 		x := float64(config.Padding[left] + config.Margin[left])
-		y := float64(i)*config.LineHeight + config.FontSize + float64(config.Padding[top]) + float64(config.Margin[top])
+		y := float64(i)*config.LineHeight + config.Font.Size + float64(config.Padding[top]) + float64(config.Margin[top])
 		move(line, x, y)
 	}
 
