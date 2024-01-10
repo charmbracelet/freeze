@@ -1,4 +1,4 @@
-module github.com/charmbracelet/polaroid
+module github.com/charmbracelet/freeze
 
 go 1.21.5
 
