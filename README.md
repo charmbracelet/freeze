@@ -8,10 +8,6 @@
 
 Capture screenshots and share images of your code on the command line.
 
-<img alt="a terminal running: freeze -wsm 20 -r 8 artichoke.hs" src="https://vhs.charm.sh/vhs-3yL9rCVdQNUjYwVBqzW7Kc.gif" width="600" />
-
-Outputs:
-
 <p align="center">
   <img alt="output of freeze command, haskell code block" src="https://github.com/charmbracelet/freeze/assets/42545625/6884a2ad-3d8e-4510-ad3d-e935e208d3b8" width="800" />
 </p>
@@ -19,6 +15,8 @@ Outputs:
 ## Tutorial
 
 To snap an image of your code, run the following:
+
+<img alt="a terminal running: freeze -wsm 20 -r 8 artichoke.hs" src="https://vhs.charm.sh/vhs-3yL9rCVdQNUjYwVBqzW7Kc.gif" width="600" />
 
 ```sh
 freeze main.go > out.svg
