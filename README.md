@@ -3,7 +3,6 @@
 <p>
   <a href="https://github.com/charmbracelet/freeze/releases"><img src="https://img.shields.io/github/release/charmbracelet/freeze.svg" alt="Latest Release"></a>
   <a href="https://pkg.go.dev/github.com/charmbracelet/freeze?tab=doc"><img src="https://godoc.org/github.com/golang/gddo?status.svg" alt="Go Docs"></a>
-  <a href="https://github.com/charmbracelet/freeze/actions"><img src="https://github.com/charmbracelet/freeze/workflows/build/badge.svg" alt="Build Status"></a>
 </p>
 
 Capture and share your code on the command line.
@@ -59,16 +58,19 @@ Screenshots can be customized with `--flags`.
 
 There are a bunch of different options:
 
-* `Output`: where to output the SVG file.
-* `Window`: whether to add window bar controls.
-* `Border`: whether to add a pixel-wide border along the terminal.
-* `Shadow`: whether to add a shadow under the terminal.
-* `Radius`: the corner radius of the terminal.
-* `Padding`: the terminal padding.
-* `Margin`: the image margin.
-* `FontFamily`: the terminal font family.
-* `FontSize`: the terminal font size.
-* `LineHeight`: the terminal line height.
+```
+-l, --language       code language
+-o, --output         output file of the image
+-w, --window         show window controls
+-b, --border         add an outline to the window
+-s, --shadow         add a shadow to the window
+-r, --radius         corner radius
+-p, --padding        terminal padding
+-m, --margin         window margin
+    --font.family    font family
+    --font.size      font size
+    --line-height    line height
+```
 
 <br />
 <img alt="output of freeze command, haskell code block" src="https://github.com/charmbracelet/freeze/assets/42545625/f3fb212f-6629-4253-9c13-105055a4b6e8" width="600" />

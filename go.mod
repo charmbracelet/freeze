@@ -1,6 +1,6 @@
 module github.com/charmbracelet/freeze
 
-go 1.21.5
+go 1.21
 
 require (
 	github.com/alecthomas/chroma v0.10.0
