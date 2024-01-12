@@ -73,8 +73,6 @@ func main() {
 	}
 	buf := &bytes.Buffer{}
 
-	fmt.Println(styles.Names())
-
 	s, ok := styles.Registry[strings.ToLower(config.Theme)]
 	if s == nil || !ok {
 		s = charmStyle
@@ -117,7 +115,7 @@ func main() {
 	if config.Border {
 		addOutline(rect)
 
-		if config.Margin[left] <= 0 && config.Margin[top] <= 0 && !config.Shadow {
+		if config.Margin[left] <= 0 && config.Margin[top] <= 0 {
 			move(rect, 0.5, 0.5)
 		}
 
