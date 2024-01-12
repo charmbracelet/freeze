@@ -58,15 +58,15 @@ Screenshots can be customized with `--flags`.
 
 There are many different configuration options:
 
-* [`-l`, `--language`](#language): code language.
-* [`-t`, `--theme`](#theme): theme to use.
-* [`-o`, `--output`](#output): output file.
-* [`-r`, `--radius`](#corner-radius): add corner radius.
-* [`-w`, `--window`](#window): show window controls.
-* [`-b`, `--border`](#border): add a border to the window.
-* [`-p`, `--padding`](#padding): terminal padding.
-* [`-m`, `--margin`](#margin): window margin.
-* [`-s`, `--shadow`](#shadow): add a shadow to the window.
+* [`-l`](#language), [`--language`](#language): code language.
+* [`-t`](#theme), [`--theme`](#theme): theme to use.
+* [`-o`](#output), [`--output`](#output): output file.
+* [`-r`](#corner-radius), [`--radius`](#corner-radius): add corner radius.
+* [`-w`](#window), [`--window`](#window): show window controls.
+* [`-b`](#border), [`--border`](#border): add a border to the window.
+* [`-p`](#padding), [`--padding`](#padding): terminal padding.
+* [`-m`](#margin), [`--margin`](#margin): window margin.
+* [`-s`](#shadow), [`--shadow`](#shadow): add a shadow to the window.
 * [`--font.family`](#font): font family.
 * [`--font.size`](#font): font size.
 * [`--line-height`](#font): line height.
