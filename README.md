@@ -113,7 +113,7 @@ freeze artichoke.hs \
 Add rounded corners to the terminal.
 
 ```bash
-freeze artichoke.sh --radius 8
+freeze artichoke.hs --radius 8
 ```
 
 <br />
@@ -127,6 +127,9 @@ Add window controls to the terminal, macOS-style.
 freeze artichoke.hs --window
 ```
 
+<br />
+<img alt="output of freeze command, haskell code block with window controls applied" src="./examples/window.svg" width="600" />
+
 ### Border
 
 Add a border to the terminal window.
@@ -135,13 +138,8 @@ Add a border to the terminal window.
 freeze artichoke.hs --border --radius 8
 ```
 
-### Shadow
-
-Add a shadow under the terminal window.
-
-```bash
-freeze artichoke.hs --shadow --margin 20
-```
+<br />
+<img alt="output of freeze command, haskell code block with border applied" src="./examples/border.svg" width="600" />
 
 ### Padding
 
@@ -156,6 +154,10 @@ freeze main.go --padding 20          # all sides
 freeze main.go --padding 20,40       # vertical, horizontal
 freeze main.go --padding 20,60,20,40 # top, right, bottom, left
 ```
+
+<br />
+<img alt="output of freeze command, haskell code block with padding applied" src="./examples/padding.svg" width="600" />
+
 
 ### Margin
 
@@ -172,7 +174,18 @@ freeze main.go --margin 20,60,20,40 # top, right, bottom, left
 ```
 
 <br />
-<img alt="output of freeze command, haskell code block" src="https://github.com/charmbracelet/freeze/assets/42545625/f3fb212f-6629-4253-9c13-105055a4b6e8" width="600" />
+<img alt="output of freeze command, haskell code block with margin applied" src="./examples/margin.svg" width="600" />
+
+### Shadow
+
+Add a shadow under the terminal window.
+
+```bash
+freeze artichoke.hs --shadow --margin 20
+```
+
+<br />
+<img alt="output of freeze command, haskell code block with a shadow" src="./examples/shadow.svg" width="600" />
 
 ## Feedback
 
