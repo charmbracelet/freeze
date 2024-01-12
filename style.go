@@ -2,7 +2,7 @@ package main
 
 import "github.com/alecthomas/chroma"
 
-var style = chroma.MustNewStyle("charm", chroma.StyleEntries{
+var charmStyle = chroma.MustNewStyle("charm", chroma.StyleEntries{
 	chroma.Text:                "#C4C4C4",
 	chroma.Error:               "#F1F1F1 bg:#F05B5B",
 	chroma.Comment:             "#676767",

@@ -8,7 +8,7 @@
 Capture and share your code on the command line.
 
 <p align="center">
-  <img alt="output of freeze command, haskell code block" src="https://github.com/charmbracelet/freeze/assets/42545625/6884a2ad-3d8e-4510-ad3d-e935e208d3b8" width="800" />
+  <img alt="output of freeze command, haskell code block" src="./examples/shadow.svg" width="800" />
 </p>
 
 ## Tutorial
@@ -58,17 +58,19 @@ Screenshots can be customized with `--flags`.
 
 There are many different configuration options:
 
-* [`--language`](#language): code language.
-* [`--output`](#output): output file.
-* [`--font.family`](#font): font family.
-* [`--font.size`](#font): font size.
-* [`--line-height`](#font): line height.
-* [`--radius`](#corner-radius): add corner radius.
-* [`--window`](#window): show window controls.
-* [`--border`](#border): add a border to the window.
-* [`--padding`](#padding): terminal padding.
-* [`--margin`](#margin): window margin.
-* [`--shadow`](#shadow): add a shadow to the window.
+* [`-l, --language`](#language): code language.
+* [`-t, --theme`](#theme): theme to use.
+* [`-o, --output`](#output): output file.
+* [`-r, --radius`](#corner-radius): add corner radius.
+* [`-w, --window`](#window): show window controls.
+* [`-b, --border`](#border): add a border to the window.
+* [`-p, --padding`](#padding): terminal padding.
+* [`-m, --margin`](#margin): window margin.
+* [`-s, --shadow`](#shadow): add a shadow to the window.
+* [`    --font.family`](#font): font family.
+* [`    --font.size`](#font): font size.
+* [`    --line-height`](#font): line height.
+
 
 ### Language
 
@@ -81,6 +83,8 @@ cat artichoke.hs | freeze --language haskell
 
 <br />
 <img alt="output of freeze command, haskell code block" src="https://github.com/charmbracelet/freeze/assets/42545625/f3fb212f-6629-4253-9c13-105055a4b6e8" width="600" />
+
+### Theme
 
 ### Output
 

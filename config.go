@@ -4,6 +4,7 @@ type Configuration struct {
 	Input string `arg:"" help:"code file to screenshot" optional:""`
 
 	Language string `help:"code language" short:"l"`
+	Theme    string `help:"theme" short:"t"`
 	Output   string `help:"output of the image" short:"o" default:"out.svg"`
 	Window   bool   `help:"show window controls" short:"w" default:"false"`
 	Border   bool   `help:"add an outline to the window" short:"b" default:"false"`

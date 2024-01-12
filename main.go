@@ -11,6 +11,7 @@ import (
 	"github.com/alecthomas/chroma"
 	"github.com/alecthomas/chroma/formatters/svg"
 	"github.com/alecthomas/chroma/lexers"
+	"github.com/alecthomas/chroma/styles"
 	"github.com/alecthomas/kong"
 	"github.com/beevik/etree"
 	"github.com/charmbracelet/log"
@@ -71,7 +72,15 @@ func main() {
 		log.Fatal(err)
 	}
 	buf := &bytes.Buffer{}
-	err = f.Format(buf, style, it)
+
+	fmt.Println(styles.Names())
+
+	s, ok := styles.Registry[strings.ToLower(config.Theme)]
+	if s == nil || !ok {
+		s = charmStyle
+	}
+
+	err = f.Format(buf, s, it)
 	if err != nil {
 		log.Fatal(err)
 	}
