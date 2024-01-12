@@ -108,6 +108,10 @@ func main() {
 	if config.Border {
 		addOutline(rect)
 
+		if config.Margin[left] <= 0 && config.Margin[top] <= 0 && !config.Shadow {
+			move(rect, 0.5, 0.5)
+		}
+
 		// NOTE: necessary so that we don't clip the outline.
 		w += 1
 		h += 1
