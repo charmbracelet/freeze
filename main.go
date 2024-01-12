@@ -108,24 +108,18 @@ func main() {
 	if config.Border {
 		addOutline(rect)
 
-		if !config.Shadow {
-			move(rect, 0.5, 0.5)
-		}
-
 		// NOTE: necessary so that we don't clip the outline.
 		w += 1
 		h += 1
 	}
 
-	setDimensions(svg, w, h)
+	setDimensions(svg, w+config.Margin[left]+config.Margin[right], h+config.Margin[top]+config.Margin[bottom])
 
 	if config.Shadow {
 		id := "shadow"
 		addShadow(svg, id)
 		svg.CreateAttr("filter", fmt.Sprintf("url(#%s)", id))
 	}
-
-	setDimensions(svg, w+config.Margin[left]+config.Margin[right], h+config.Margin[top]+config.Margin[bottom])
 
 	lines := svg.SelectElement("g").SelectElements("text")
 	for i, line := range lines {
