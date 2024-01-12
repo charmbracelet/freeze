@@ -113,8 +113,11 @@ freeze artichoke.hs \
 Add rounded corners to the terminal.
 
 ```bash
-freeze artichoke --radius 8
+freeze artichoke.sh --radius 8
 ```
+
+<br />
+<img alt="code screenshot with corner radius of 8px" src="./examples/corner-radius.svg" width="600" />
 
 ### Window
 
