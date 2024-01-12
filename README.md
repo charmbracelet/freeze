@@ -60,11 +60,9 @@ There are many different configuration options:
 
 * [`--language`](#language): code language.
 * [`--output`](#output): output file.
-
 * [`--font.family`](#font): font family.
 * [`--font.size`](#font): font size.
 * [`--line-height`](#font): line height.
-
 * [`--radius`](#corner-radius): add corner radius.
 * [`--window`](#window): show window controls.
 * [`--border`](#border): add a border to the window.
