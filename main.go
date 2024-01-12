@@ -132,14 +132,20 @@ func main() {
 		// Offset the text by padding...
 		// (x, y) -> (x+p, y+p)
 		x := float64(config.Padding[left] + config.Margin[left])
-		y := float64(i)*config.LineHeight + config.Font.Size + float64(config.Padding[top]) + float64(config.Margin[top])
+		y := float64(i)*(config.Font.Size*config.LineHeight) + config.Font.Size + float64(config.Padding[top]) + float64(config.Margin[top])
 		move(line, x, y)
 	}
 
-	if isatty.IsTerminal(os.Stdout.Fd()) {
-		err = doc.WriteToFile(config.Output)
-	} else {
-		_, err = doc.WriteTo(os.Stdout)
+	istty := isatty.IsTerminal(os.Stdout.Fd())
+
+	switch {
+	case strings.HasSuffix(config.Output, ".png"):
+	case strings.HasSuffix(config.Output, ".svg"):
+		if istty {
+			err = doc.WriteToFile(config.Output)
+		} else {
+			_, err = doc.WriteTo(os.Stdout)
+		}
 	}
 	if err != nil {
 		log.Fatal(err)

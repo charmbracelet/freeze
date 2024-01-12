@@ -15,7 +15,7 @@ type Configuration struct {
 		Family string  `default:"JetBrains Mono"`
 		Size   float64 `default:"14"`
 	} `embed:"" prefix:"font."`
-	LineHeight float64 `default:"16.8"`
+	LineHeight float64 `default:"1.2"`
 }
 
 func expandPadding(p []int) []int {

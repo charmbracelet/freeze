@@ -56,35 +56,122 @@ Screenshots can be customized with `--flags`.
 > [!NOTE]
 > You can view all freeze customization with `freeze --help`.
 
-There are a bunch of different options:
+There are many different configuration options:
 
-```
--l, --language       code language
--o, --output         output file of the image
--w, --window         show window controls
--b, --border         add an outline to the window
--s, --shadow         add a shadow to the window
--r, --radius         corner radius
--p, --padding        terminal padding
--m, --margin         window margin
-    --font.family    font family
-    --font.size      font size
-    --line-height    line height
+* [`--language`](#language): code language.
+* [`--output`](#output): output file.
+
+* [`--font.family`](#font): font family.
+* [`--font.size`](#font): font size.
+* [`--line-height`](#font): line height.
+
+* [`--radius`](#corner-radius): add corner radius.
+* [`--window`](#window): show window controls.
+* [`--border`](#border): add a border to the window.
+* [`--padding`](#padding): terminal padding.
+* [`--margin`](#margin): window margin.
+* [`--shadow`](#shadow): add a shadow to the window.
+
+### Language
+
+If possible, `freeze` auto-detects the language from the file name or analyzing
+the file contents. Override this inference with the `--language` flag.
+
+```bash
+cat artichoke.hs | freeze --language haskell
 ```
 
 <br />
 <img alt="output of freeze command, haskell code block" src="https://github.com/charmbracelet/freeze/assets/42545625/f3fb212f-6629-4253-9c13-105055a4b6e8" width="600" />
 
-## Output
+### Output
 
-To output different file formats: `.png`, `.jpg`, `.webp`, use the `--output`
-flag with the desired extension.
+Change the output file location, defaults to `out.svg` or stdout if piped. This
+value supports `.svg`, `.png`, `.webp`.
 
 ```bash
-freeze main.go -o out.png
-freeze main.go -o out.jpg
-freeze main.go -o out.webp
+freeze main.go --output out.svg
+freeze main.go --output out.png
+freeze main.go --output out.webp
+
+# or all of the above
+freeze main.go --output out.{svg,png,webp}
 ```
+
+### Font
+
+Specify the font family, font size, and font line height of the output image.
+Defaults to `JetBrains Mono`, `14`(px), `1.2`(em).
+
+```bash
+freeze artichoke.hs \
+  --font.family "SF Mono" \
+  --font.size 16 \
+  --line-height 1.4
+```
+
+### Corner Radius
+
+Add rounded corners to the terminal.
+
+```bash
+freeze artichoke --radius 8
+```
+
+### Window
+
+Add window controls to the terminal, macOS-style.
+
+```bash
+freeze artichoke.hs --window
+```
+
+### Border
+
+Add a border to the terminal window.
+
+```bash
+freeze artichoke.hs --border --radius 8
+```
+
+### Shadow
+
+Add a shadow under the terminal window.
+
+```bash
+freeze artichoke.hs --shadow --margin 20
+```
+
+### Padding
+
+Add padding to the terminal window.
+
+Given 1 value, padding applies to all sides. Given 2 values, the first value
+applies to vertical padding and the second to horizontal padding. Given 4
+values, the padding applies to the top, right, bottom, left sides respectively.
+
+```bash
+freeze main.go --padding 20          # all sides
+freeze main.go --padding 20,40       # vertical, horizontal
+freeze main.go --padding 20,60,20,40 # top, right, bottom, left
+```
+
+### Margin
+
+Add margin to the terminal window.
+
+Given 1 value, margin applies to all sides. Given 2 values, the first value
+applies to vertical margin and the second to horizontal margin. Given 4
+values, the margin applies to the top, right, bottom, left sides respectively.
+
+```bash
+freeze main.go --margin 20          # all sides
+freeze main.go --margin 20,40       # vertical, horizontal
+freeze main.go --margin 20,60,20,40 # top, right, bottom, left
+```
+
+<br />
+<img alt="output of freeze command, haskell code block" src="https://github.com/charmbracelet/freeze/assets/42545625/f3fb212f-6629-4253-9c13-105055a4b6e8" width="600" />
 
 ## Feedback
 
