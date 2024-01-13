@@ -147,11 +147,7 @@ freeze artichoke.hs --border --radius 8
 
 ### Padding
 
-Add padding to the terminal window.
-
-Given 1 value, padding applies to all sides. Given 2 values, the first value
-applies to vertical padding and the second to horizontal padding. Given 4
-values, the padding applies to the top, right, bottom, left sides respectively.
+Add padding to the terminal window. You can provide 1, 2, or 4 values.
 
 ```bash
 freeze main.go --padding 20          # all sides
@@ -165,11 +161,7 @@ freeze main.go --padding 20,60,20,40 # top, right, bottom, left
 
 ### Margin
 
-Add margin to the terminal window.
-
-Given 1 value, margin applies to all sides. Given 2 values, the first value
-applies to vertical margin and the second to horizontal margin. Given 4
-values, the margin applies to the top, right, bottom, left sides respectively.
+Add margin to the terminal window. You can provide 1, 2, or 4 values.
 
 ```bash
 freeze main.go --margin 20          # all sides
@@ -178,7 +170,7 @@ freeze main.go --margin 20,60,20,40 # top, right, bottom, left
 ```
 
 <br />
-<img alt="output of freeze command, haskell code block with margin applied" src="./examples/margin.svg" width="600" />
+<img alt="output of freeze command, haskell code block with margin applied" src="./examples/margin.svg" width="640" />
 
 ### Shadow
 
@@ -189,7 +181,7 @@ freeze artichoke.hs --shadow --margin 20
 ```
 
 <br />
-<img alt="output of freeze command, haskell code block with a shadow" src="./examples/shadow.svg" width="600" />
+<img alt="output of freeze command, haskell code block with a shadow" src="./examples/shadow.svg" width="640" />
 
 ## Feedback
 
