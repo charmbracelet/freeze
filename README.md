@@ -82,9 +82,18 @@ cat artichoke.hs | freeze --language haskell
 ```
 
 <br />
-<img alt="output of freeze command, haskell code block" src="https://github.com/charmbracelet/freeze/assets/42545625/f3fb212f-6629-4253-9c13-105055a4b6e8" width="600" />
+<img alt="output of freeze command, haskell code block" src="./examples/language.svg" width="600" />
 
 ### Theme
+
+Change the theme of the screenshot.
+
+```bash
+freeze artichoke.hs --theme dracula
+```
+
+
+<br /><img alt="output of freeze command, haskell code block" src="./examples/theme.svg" width="600" />
 
 ### Output
 

@@ -1,5 +1,7 @@
 #!/bin/bash
 
+freeze artichoke.hs --language haskell --output language.svg
+freeze artichoke.hs --theme dracula --output theme.svg
 freeze artichoke.hs --radius 8 --output corner-radius.svg
 freeze artichoke.hs --radius 8 --window --output window.svg
 freeze artichoke.hs --radius 8 --window --border --output border.svg
