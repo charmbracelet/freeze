@@ -61,9 +61,9 @@ There are many different configuration options:
 * [`-l`](#language), [`--language`](#language): code language.
 * [`-t`](#theme), [`--theme`](#theme): theme to use.
 * [`-o`](#output), [`--output`](#output): output file.
-* [`-r`](#corner-radius), [`--radius`](#corner-radius): add corner radius.
+* [`-b`](#border-radius), [`--border.radius`](#border-radius): add border radius to the window.
 * [`-w`](#window), [`--window`](#window): show window controls.
-* [`-b`](#border), [`--border`](#border): add a border to the window.
+* [`-b`](#border-width), [`--border.width`](#border-width): add a border outline to the window.
 * [`-p`](#padding), [`--padding`](#padding): terminal padding.
 * [`-m`](#margin), [`--margin`](#margin): window margin.
 * [`-s`](#shadow), [`--shadow`](#shadow): add a shadow to the window.
@@ -121,12 +121,12 @@ freeze artichoke.hs \
   --line-height 1.4
 ```
 
-### Corner Radius
+### Border Radius
 
 Add rounded corners to the terminal.
 
 ```bash
-freeze artichoke.hs --radius 8
+freeze artichoke.hs --border.radius 8
 ```
 
 <br />
@@ -143,12 +143,12 @@ freeze artichoke.hs --window
 <br />
 <img alt="output of freeze command, haskell code block with window controls applied" src="./examples/window.svg" width="600" />
 
-### Border
+### Border Width
 
-Add a border to the terminal window.
+Add a border outline to the terminal window.
 
 ```bash
-freeze artichoke.hs --border --radius 8
+freeze artichoke.hs --border.width 1 --border.color "#515151" --border.radius 8
 ```
 
 <br />

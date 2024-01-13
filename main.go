@@ -22,7 +22,6 @@ var (
 	red    string = "#FF5A54"
 	yellow string = "#E6BF29"
 	green  string = "#52C12B"
-	grey   string = "#515151"
 )
 
 func main() {
@@ -108,20 +107,20 @@ func main() {
 		config.addWindow(svg)
 	}
 
-	if config.Radius > 0 {
+	if config.Border.Radius > 0 {
 		config.addCornerRadius(rect)
 	}
 
-	if config.Border {
-		addOutline(rect)
+	if config.Border.Width > 0 {
+		config.addOutline(rect)
 
 		if config.Margin[left] <= 0 && config.Margin[top] <= 0 {
-			move(rect, 0.5, 0.5)
+			move(rect, float64(config.Border.Width)/2, float64(config.Border.Width)/2)
 		}
 
 		// NOTE: necessary so that we don't clip the outline.
-		w += 1
-		h += 1
+		w += config.Border.Width
+		h += config.Border.Width
 	}
 
 	setDimensions(svg, w+config.Margin[left]+config.Margin[right], h+config.Margin[top]+config.Margin[bottom])
@@ -197,8 +196,8 @@ func addShadow(element *etree.Element, id string) {
 
 // addCornerRadius adds corner radius to an element.
 func (c *Configuration) addCornerRadius(element *etree.Element) {
-	element.CreateAttr("rx", fmt.Sprintf("%d", c.Radius))
-	element.CreateAttr("ry", fmt.Sprintf("%d", c.Radius))
+	element.CreateAttr("rx", fmt.Sprintf("%d", c.Border.Radius))
+	element.CreateAttr("ry", fmt.Sprintf("%d", c.Border.Radius))
 }
 
 // move moves the given element to the (x, y) position
@@ -208,9 +207,9 @@ func move(element *etree.Element, x, y float64) {
 }
 
 // addOutline adds an outline to the given element.
-func addOutline(element *etree.Element) {
-	element.CreateAttr("stroke", grey)
-	element.CreateAttr("stroke-width", "1")
+func (c *Configuration) addOutline(element *etree.Element) {
+	element.CreateAttr("stroke", c.Border.Color)
+	element.CreateAttr("stroke-width", fmt.Sprintf("%d", c.Border.Width))
 }
 
 // addWindow adds a colorful window bar element to the given element.

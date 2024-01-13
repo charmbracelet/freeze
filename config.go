@@ -7,12 +7,15 @@ type Configuration struct {
 	Theme    string `help:"theme" short:"t"`
 	Output   string `help:"output of the image" short:"o" default:"out.svg"`
 	Window   bool   `help:"show window controls" short:"w" default:"false"`
-	Border   bool   `help:"add an outline to the window" short:"b" default:"false"`
-	Shadow   bool   `help:"add a shadow to the window" short:"s" default:"false"`
-	Radius   int    `help:"corner radius" short:"r" default:"0"`
-	Padding  []int  `help:"terminal padding" short:"p" default:"20,40,20,20"`
-	Margin   []int  `help:"window margin" short:"m" default:"0"`
-	Font     struct {
+	Border   struct {
+		Radius int    `help:"corner radius" short:"r" default:"0"`
+		Width  int    `help:"border width" default:"0"`
+		Color  string `help:"border color" default:"#515151"`
+	} `embed:"" prefix:"border."`
+	Shadow  bool  `help:"add a shadow to the window" short:"s" default:"false"`
+	Padding []int `help:"terminal padding" short:"p" default:"20,40,20,20"`
+	Margin  []int `help:"window margin" short:"m" default:"0"`
+	Font    struct {
 		Family string  `default:"JetBrains Mono"`
 		Size   float64 `default:"14"`
 	} `embed:"" prefix:"font."`
