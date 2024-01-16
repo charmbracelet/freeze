@@ -66,9 +66,9 @@ There are many different configuration options:
 * [`-l`](#language), [`--language`](#language): Language of code file.
 * [`-o`](#output), [`--output`](#output): Output location for .svg, .png, .jpg.
 * [`-t`](#theme), [`--theme`](#theme): Theme to use for syntax highlighting.
-* [`-r`](#border), [`--border.radius`](#border): Corner radius of window.
-* [`--border.width`](#border): Border width thickness.
-* [`--border.color`](#border): Border color.
+* [`-r`](#border-radius), [`--border.radius`](#border-radius): Corner radius of window.
+* [`--border.width`](#border-width): Border width thickness.
+* [`--border.color`](#border-width): Border color.
 * [`--shadow.blur`](#shadow): Shadow Gaussian Blur.
 * [`--shadow.x`](#shadow): Shadow offset x coordinate.
 * [`--shadow.y`](#shadow): Shadow offset y coordinate.
@@ -125,7 +125,7 @@ freeze artichoke.hs \
   --line-height 1.4
 ```
 
-### Border
+### Border Radius
 
 Add rounded corners to the terminal.
 
