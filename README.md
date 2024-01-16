@@ -183,18 +183,18 @@ freeze main.go --margin 20,60,20,40 # top, right, bottom, left
 ```
 
 <br />
-<img alt="output of freeze command, haskell code block with margin applied" src="./examples/margin.svg" width="640" />
+<img alt="output of freeze command, haskell code block with margin applied" src="./examples/margin.svg" width="720" />
 
 ### Shadow
 
 Add a shadow under the terminal window.
 
 ```bash
-freeze artichoke.hs --shadow --margin 20
+freeze artichoke.hs --shadow.blur 20 --shadow.x 0 --shadow.y 10
 ```
 
 <br />
-<img alt="output of freeze command, haskell code block with a shadow" src="./examples/shadow.svg" width="640" />
+<img alt="output of freeze command, haskell code block with a shadow" src="./examples/shadow.svg" width="720" />
 
 ### Configuration
 
