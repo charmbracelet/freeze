@@ -1,6 +1,6 @@
 package main
 
-type Configuration struct {
+type Config struct {
 	Input string `arg:"" help:"code file to screenshot" optional:""`
 
 	Language string `help:"code language" short:"l"`

@@ -29,7 +29,7 @@ func main() {
 		input  string
 		err    error
 		lexer  chroma.Lexer
-		config Configuration
+		config Config
 	)
 
 	_ = kong.Parse(&config)
@@ -195,7 +195,7 @@ func addShadow(element *etree.Element, id string) {
 }
 
 // addCornerRadius adds corner radius to an element.
-func (c *Configuration) addCornerRadius(element *etree.Element) {
+func (c *Config) addCornerRadius(element *etree.Element) {
 	element.CreateAttr("rx", fmt.Sprintf("%d", c.Border.Radius))
 	element.CreateAttr("ry", fmt.Sprintf("%d", c.Border.Radius))
 }
@@ -207,13 +207,13 @@ func move(element *etree.Element, x, y float64) {
 }
 
 // addOutline adds an outline to the given element.
-func (c *Configuration) addOutline(element *etree.Element) {
+func (c *Config) addOutline(element *etree.Element) {
 	element.CreateAttr("stroke", c.Border.Color)
 	element.CreateAttr("stroke-width", fmt.Sprintf("%d", c.Border.Width))
 }
 
 // addWindow adds a colorful window bar element to the given element.
-func (c *Configuration) addWindow(element *etree.Element) {
+func (c *Config) addWindow(element *etree.Element) {
 	group := etree.NewElement("g")
 	for i, color := range []string{red, yellow, green} {
 		circle := etree.NewElement("circle")
