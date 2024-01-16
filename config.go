@@ -2,37 +2,37 @@ package main
 
 type Config struct {
 	Input    string `arg:"" help:"code file to screenshot" optional:""`
-	Config   string `help:"screenshot configuration" short:"c" group:"Settings" default:"base"`
-	Output   string `help:"output of the image" short:"o" group:"Settings" default:"out.svg"`
-	Language string `help:"code language" short:"l" group:"Settings"`
-	Theme    string `help:"theme" short:"t" group:"Settings"`
+	Config   string `help:"Base configuration file or template." short:"c" group:"Settings" default:"base"`
+	Output   string `help:"Output location for SVG, PNG, or JPEG." short:"o" group:"Settings" default:"out.svg"`
+	Language string `help:"Language of code file." short:"l" group:"Settings"`
+	Theme    string `help:"Theme to use for syntax highlighting." short:"t" group:"Settings"`
 
-	Window     bool   `help:"show window controls" short:"w"`
+	Window     bool   `help:"Display window controls." short:"w"`
 	Border     Border `embed:"" prefix:"border." group:"Border"`
-	Shadow     Shadow `embed:"" prefix:"shadow." help:"add a shadow to the window" short:"s" group:"shadow"`
-	Padding    []int  `help:"terminal padding" short:"p"`
-	Margin     []int  `help:"window margin" short:"m"`
-	Background string `help:"background fill" short:"b"`
+	Shadow     Shadow `embed:"" prefix:"shadow." help:"add a shadow to the window" short:"s" group:"Shadow"`
+	Padding    []int  `help:"Apply padding to the code." short:"p"`
+	Margin     []int  `help:"Apply margin to the window." short:"m"`
+	Background string `help:"Apply a background fill." short:"b"`
 
-	Font       Font    `embed:"" prefix:"font." group:"font"`
-	LineHeight float64 `group:"font"`
+	Font       Font    `embed:"" prefix:"font." group:"Font"`
+	LineHeight float64 `help:"Line height relative to font size." group:"font"`
 }
 
 type Shadow struct {
-	Blur int `help:"shadow blur"`
-	X    int `help:"x offset"`
-	Y    int `help:"y offset"`
+	Blur int `help:"Shadow Gaussian Blur."`
+	X    int `help:"Shadow offset X coordinate"`
+	Y    int `help:"Shadow offset Y coordinate"`
 }
 
 type Border struct {
-	Radius int    `help:"corner radius" short:"r"`
-	Width  int    `help:"border width"`
-	Color  string `help:"border color"`
+	Radius int    `help:"Cornder radius of window." short:"r"`
+	Width  int    `help:"Border width thickness."`
+	Color  string `help:"Border color."`
 }
 
 type Font struct {
-	Family string
-	Size   float64
+	Family string  `help:"Font family to use for code."`
+	Size   float64 `help:"Font size to use for code."`
 }
 
 var configs = map[string]string{
