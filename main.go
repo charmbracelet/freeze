@@ -34,6 +34,21 @@ func main() {
 
 	_ = kong.Parse(&config)
 
+	c, ok := configs[config.Config]
+	if !ok {
+		b, err := os.ReadFile(config.Config)
+		c = string(b)
+		if err != nil {
+			c = configs["base"]
+		}
+	}
+
+	r, err := kong.JSON(strings.NewReader(c))
+	if err != nil {
+		log.Fatal("invalid json configuration", "error", err)
+	}
+	_ = kong.Parse(&config, kong.Resolvers(r))
+
 	config.Margin = expandMargin(config.Margin)
 	config.Padding = expandPadding(config.Padding)
 

@@ -1,25 +1,69 @@
 package main
 
 type Config struct {
-	Input string `arg:"" help:"code file to screenshot" optional:""`
+	Input    string `arg:"" help:"code file to screenshot" optional:""`
+	Config   string `help:"screenshot configuration" short:"c" group:"Settings" default:"base"`
+	Output   string `help:"output of the image" short:"o" group:"Settings" default:"out.svg"`
+	Language string `help:"code language" short:"l" group:"Settings"`
+	Theme    string `help:"theme" short:"t" group:"Settings"`
 
-	Language string `help:"code language" short:"l"`
-	Theme    string `help:"theme" short:"t"`
-	Output   string `help:"output of the image" short:"o" default:"out.svg"`
-	Window   bool   `help:"show window controls" short:"w" default:"false"`
-	Border   struct {
-		Radius int    `help:"corner radius" short:"r" default:"0"`
-		Width  int    `help:"border width" default:"0"`
-		Color  string `help:"border color" default:"#515151"`
-	} `embed:"" prefix:"border."`
-	Shadow  bool  `help:"add a shadow to the window" short:"s" default:"false"`
-	Padding []int `help:"terminal padding" short:"p" default:"20,40,20,20"`
-	Margin  []int `help:"window margin" short:"m" default:"0"`
-	Font    struct {
-		Family string  `default:"JetBrains Mono"`
-		Size   float64 `default:"14"`
-	} `embed:"" prefix:"font."`
-	LineHeight float64 `default:"1.2"`
+	Window     bool   `help:"show window controls" short:"w"`
+	Border     Border `embed:"" prefix:"border." group:"Border"`
+	Shadow     bool   `help:"add a shadow to the window" short:"s"`
+	Padding    []int  `help:"terminal padding" short:"p"`
+	Margin     []int  `help:"window margin" short:"m"`
+	Background string `help:"background fill" short:"b"`
+
+	Font       Font    `embed:"" prefix:"font." group:"font"`
+	LineHeight float64 `group:"font"`
+}
+
+type Border struct {
+	Radius int    `help:"corner radius" short:"r"`
+	Width  int    `help:"border width"`
+	Color  string `help:"border color"`
+}
+
+type Font struct {
+	Family string
+	Size   float64
+}
+
+var configs = map[string]string{
+	"base": `{
+	"window": false,
+	"border": {
+		"radius": 0,
+		"width": 0,
+		"color": "#515151"
+	},
+	"shadow": false,
+	"padding": [20, 40, 20, 20],
+	"margin": "0",
+	"background": "#FFFFFF",
+	"font": {
+		"family": "JetBrains Mono",
+		"size": 14
+	},
+	"line_height": 1.2
+}`,
+	"full": `{
+	"window": true,
+	"border": {
+		"radius": 8,
+		"width": 1,
+		"color": "#515151"
+	},
+	"shadow": true,
+	"padding": [20, 40, 20, 20],
+	"margin": [20],
+	"background": "#FFFFFF",
+	"font": {
+		"family": "JetBrains Mono",
+		"size": 14
+	},
+	"line_height": 1.2
+}`,
 }
 
 func expandPadding(p []int) []int {
