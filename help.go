@@ -13,7 +13,7 @@ func helpPrinter(options kong.HelpOptions, ctx *kong.Context) error {
 	var codeBlockStyle = lipgloss.NewStyle().Background(lipgloss.Color("0")).Padding(1, 3).Margin(0, 2)
 
 	fmt.Println()
-	fmt.Println("  Screenshot code on the command line.")
+	fmt.Println("  Screenshot code on the command line. 📸")
 	fmt.Println()
 	fmt.Println(codeBlockStyle.Render(foreground("freeze", 13) + " main.go " + foreground("[-o code.svg] [--flags]", 244)))
 
