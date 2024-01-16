@@ -55,7 +55,11 @@ func main() {
 	config.Margin = expandMargin(config.Margin)
 	config.Padding = expandPadding(config.Padding)
 
-	if config.Input == "" || config.Input == "-" {
+	if config.Input == "" && !isPipe(os.Stdin) {
+		log.Fatal("no input provided.")
+	}
+
+	if config.Input == "-" || isPipe(os.Stdin) {
 		input, err = readInput(os.Stdin)
 		lexer = lexers.Analyse(input)
 	} else {
@@ -69,6 +73,7 @@ func main() {
 
 	if lexer == nil {
 		log.Fatal("unable to detect language, specify `--language`")
+
 	}
 
 	input = strings.TrimSpace(input)
@@ -280,4 +285,12 @@ func readFile(file string) (string, error) {
 func readInput(in io.Reader) (string, error) {
 	b, err := io.ReadAll(in)
 	return string(b), err
+}
+
+func isPipe(in *os.File) bool {
+	stat, err := in.Stat()
+	if err != nil {
+		return false
+	}
+	return (stat.Mode() & os.ModeCharDevice) == 0
 }
