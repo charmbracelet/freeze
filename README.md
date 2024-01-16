@@ -58,19 +58,25 @@ Screenshots can be customized with `--flags`.
 
 There are many different configuration options:
 
-* [`-l`](#language), [`--language`](#language): code language.
-* [`-t`](#theme), [`--theme`](#theme): theme to use.
-* [`-o`](#output), [`--output`](#output): output file.
-* [`-b`](#border-radius), [`--border.radius`](#border-radius): add border radius to the window.
-* [`-w`](#window), [`--window`](#window): show window controls.
-* [`-b`](#border-width), [`--border.width`](#border-width): add a border outline to the window.
-* [`-p`](#padding), [`--padding`](#padding): terminal padding.
-* [`-m`](#margin), [`--margin`](#margin): window margin.
-* [`-s`](#shadow), [`--shadow`](#shadow): add a shadow to the window.
-* [`--font.family`](#font): font family.
-* [`--font.size`](#font): font size.
-* [`--line-height`](#font): line height.
-
+| Short               | Name                          |  Description                           |
+| ------------------- | ----------------------------- |  ------------------------------------- |
+| [`-b`](#background) | [`--background`](#background) |  Apply a background fill.              |
+| [`-m`](#margin)     | [`--margin`](#margin)         |  Apply margin to the window.           |
+| [`-p`](#padding)    | [`--padding`](#padding)       |  Apply padding to the code.            |
+| [`-w`](#window)     | [`--window`](#window)         |  Display window controls.              |
+| [`-c`](#config)     | [`--config`](#config)         |  Base configuration file or template.  |
+| [`-l`](#language)   | [`--language`](#language)     |  Language of code file.                |
+| [`-o`](#output)     | [`--output`](#output)         |  Output location for .svg, .png, .jpg. |
+| [`-t`](#theme)      | [`--theme`](#theme)           |  Theme to use for syntax highlighting. |
+| [`-r`](#border)     | [`--border.radius`](#border)  |  Corner radius of window.              |
+|                     | [`--border.width`(#border)    |  Border width thickness.               |
+|                     | [`--border.color`(#border)    |  Border color.                         |
+|                     | [`--shadow.blur`](#shadow)    |  Shadow Gaussian Blur.                 |
+|                     | [`--shadow.x`](#shadow)       |  Shadow offset x coordinate.           |
+|                     | [`--shadow.y`](#shadow)       |  Shadow offset y coordinate.           |
+|                     | [`--font.family`](#font)      |  Font family to use for code.          |
+|                     | [`--font.size`](#font)        |  Font size to use for code.            |
+|                     | [`--line-height`](#font)      |  Line height relative to font size.    |
 
 ### Language
 
