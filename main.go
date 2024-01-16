@@ -48,7 +48,7 @@ func main() {
 	if err != nil {
 		log.Fatal("invalid json configuration", "error", err)
 	}
-	_ = kong.Parse(&config,
+	ctx := kong.Parse(&config,
 		kong.Resolvers(r),
 		kong.Help(helpPrinter))
 
@@ -56,7 +56,8 @@ func main() {
 	config.Padding = expandPadding(config.Padding)
 
 	if config.Input == "" && !isPipe(os.Stdin) {
-		log.Fatal("no input provided.")
+		_ = helpPrinter(kong.HelpOptions{}, ctx)
+		os.Exit(0)
 	}
 
 	if config.Input == "-" || isPipe(os.Stdin) {
