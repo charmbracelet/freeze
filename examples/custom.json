@@ -5,7 +5,11 @@
     "width": 0,
     "color": "#515151"
   },
-  "shadow": false,
+  "shadow": {
+    "blur": 0,
+    "x": 0,
+    "y": 0
+  },
   "padding": [
     20,
     40,

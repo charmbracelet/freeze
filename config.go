@@ -9,13 +9,19 @@ type Config struct {
 
 	Window     bool   `help:"show window controls" short:"w"`
 	Border     Border `embed:"" prefix:"border." group:"Border"`
-	Shadow     bool   `help:"add a shadow to the window" short:"s"`
+	Shadow     Shadow `embed:"" prefix:"shadow." help:"add a shadow to the window" short:"s" group:"shadow"`
 	Padding    []int  `help:"terminal padding" short:"p"`
 	Margin     []int  `help:"window margin" short:"m"`
 	Background string `help:"background fill" short:"b"`
 
 	Font       Font    `embed:"" prefix:"font." group:"font"`
 	LineHeight float64 `group:"font"`
+}
+
+type Shadow struct {
+	Blur int `help:"shadow blur"`
+	X    int `help:"x offset"`
+	Y    int `help:"y offset"`
 }
 
 type Border struct {
@@ -37,7 +43,11 @@ var configs = map[string]string{
 		"width": 0,
 		"color": "#515151"
 	},
-	"shadow": false,
+	"shadow": {
+		"blur": 0,
+		"x": 0,
+		"y": 0
+	},
 	"padding": [20, 40, 20, 20],
 	"margin": "0",
 	"background": "#FFFFFF",
@@ -54,9 +64,13 @@ var configs = map[string]string{
 		"width": 1,
 		"color": "#515151"
 	},
-	"shadow": true,
+	"shadow": {
+		"blur": 24,
+		"x": 0,
+		"y": 12
+	},
 	"padding": [20, 40, 20, 20],
-	"margin": [20],
+	"margin": [50, 60, 100, 60],
 	"background": "#FFFFFF",
 	"font": {
 		"family": "JetBrains Mono",

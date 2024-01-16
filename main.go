@@ -140,9 +140,9 @@ func main() {
 
 	setDimensions(svg, w+config.Margin[left]+config.Margin[right], h+config.Margin[top]+config.Margin[bottom])
 
-	if config.Shadow {
+	if config.Shadow.Blur > 0 || config.Shadow.X > 0 || config.Shadow.Y > 0 {
 		id := "shadow"
-		addShadow(svg, id)
+		config.addShadow(svg, id)
 		svg.CreateAttr("filter", fmt.Sprintf("url(#%s)", id))
 	}
 
@@ -172,7 +172,7 @@ func main() {
 }
 
 // addShadow adds a definition of a shadow to the <defs> with the given id.
-func addShadow(element *etree.Element, id string) {
+func (c *Config) addShadow(element *etree.Element, id string) {
 	filter := etree.NewElement("filter")
 	filter.CreateAttr("id", id)
 	filter.CreateAttr("x", "0")
@@ -181,8 +181,8 @@ func addShadow(element *etree.Element, id string) {
 	offset := etree.NewElement("feOffset")
 	offset.CreateAttr("result", "offOut")
 	offset.CreateAttr("in", "SourceAlpha")
-	offset.CreateAttr("dx", "0")
-	offset.CreateAttr("dy", "5")
+	offset.CreateAttr("dx", fmt.Sprintf("%d", c.Shadow.X))
+	offset.CreateAttr("dy", fmt.Sprintf("%d", c.Shadow.Y))
 
 	color := etree.NewElement("feColorMatrix")
 	color.CreateAttr("result", "matrixOut")
@@ -193,7 +193,7 @@ func addShadow(element *etree.Element, id string) {
 	blur := etree.NewElement("feGaussianBlur")
 	blur.CreateAttr("result", "blurOut")
 	blur.CreateAttr("in", "matrixOut")
-	blur.CreateAttr("stdDeviation", "12")
+	blur.CreateAttr("stdDeviation", fmt.Sprintf("%d", c.Shadow.Blur))
 
 	blend := etree.NewElement("feBlend")
 	blend.CreateAttr("in", "SourceGraphic")
