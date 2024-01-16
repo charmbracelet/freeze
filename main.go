@@ -35,16 +35,15 @@ func main() {
 	_ = kong.Parse(&config,
 		kong.Help(helpPrinter))
 
-	c, ok := configs[config.Config]
-	if !ok {
-		b, err := os.ReadFile(config.Config)
-		c = string(b)
+	c, err := configs.Open("configurations/" + config.Config + ".json")
+	if err != nil {
+		c, err = os.Open(config.Config)
 		if err != nil {
-			c = configs["base"]
+			c, _ = configs.Open("configurations/base.json")
 		}
 	}
 
-	r, err := kong.JSON(strings.NewReader(c))
+	r, err := kong.JSON(c)
 	if err != nil {
 		log.Fatal("invalid json configuration", "error", err)
 	}

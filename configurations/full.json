@@ -1,0 +1,31 @@
+{
+  "window": true,
+  "border": {
+    "radius": 8,
+    "width": 1,
+    "color": "#515151"
+  },
+  "shadow": {
+    "blur": 24,
+    "x": 0,
+    "y": 12
+  },
+  "padding": [
+    20,
+    40,
+    20,
+    20
+  ],
+  "margin": [
+    50,
+    60,
+    100,
+    60
+  ],
+  "background": "#FFFFFF",
+  "font": {
+    "family": "JetBrains Mono",
+    "size": 14
+  },
+  "line_height": 1.2
+}

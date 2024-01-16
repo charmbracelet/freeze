@@ -1,5 +1,10 @@
 package main
 
+import (
+	"embed"
+	_ "embed"
+)
+
 type Config struct {
 	Input string `arg:"" help:"Code to screenshot." optional:""`
 
@@ -39,50 +44,8 @@ type Font struct {
 	Size   float64 `help:"Font size to use for code." placeholder:"14"`
 }
 
-var configs = map[string]string{
-	"base": `{
-	"window": false,
-	"border": {
-		"radius": 0,
-		"width": 0,
-		"color": "#515151"
-	},
-	"shadow": {
-		"blur": 0,
-		"x": 0,
-		"y": 0
-	},
-	"padding": [20, 40, 20, 20],
-	"margin": "0",
-	"background": "#FFFFFF",
-	"font": {
-		"family": "JetBrains Mono",
-		"size": 14
-	},
-	"line_height": 1.2
-}`,
-	"full": `{
-	"window": true,
-	"border": {
-		"radius": 8,
-		"width": 1,
-		"color": "#515151"
-	},
-	"shadow": {
-		"blur": 24,
-		"x": 0,
-		"y": 12
-	},
-	"padding": [20, 40, 20, 20],
-	"margin": [50, 60, 100, 60],
-	"background": "#FFFFFF",
-	"font": {
-		"family": "JetBrains Mono",
-		"size": 14
-	},
-	"line_height": 1.2
-}`,
-}
+//go:embed configurations/*
+var configs embed.FS
 
 func expandPadding(p []int) []int {
 	switch len(p) {
