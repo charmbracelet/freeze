@@ -192,6 +192,49 @@ freeze artichoke.hs --shadow --margin 20
 <br />
 <img alt="output of freeze command, haskell code block with a shadow" src="./examples/shadow.svg" width="640" />
 
+### Configuration
+
+Instead of passing arguments and customization as `--flags`. Freeze supports
+configuration files that can be pass with the `--config` / `-c` flag.
+
+There are also some default configurations embedded into `freeze` which can be passed by name.
+
+* `base`: Simple screenshot of code.
+* `full`: MacOS-like screenshot.
+
+```bash
+freeze -c base main.go
+freeze -c full main.go
+freeze -c custom.json main.go
+```
+
+Here's what an example configuration looks like:
+
+```json
+{
+  "window": false,
+  "border": {
+    "radius": 0,
+    "width": 0,
+    "color": "#515151"
+  },
+  "shadow": false,
+  "padding": [
+    20,
+    40,
+    20,
+    20
+  ],
+  "margin": "0",
+  "background": "#FFFFFF",
+  "font": {
+    "family": "JetBrains Mono",
+    "size": 14
+  },
+  "line_height": 1.2
+}
+```
+
 ## Feedback
 
 We’d love to hear your thoughts on this project. Feel free to drop us a note!
