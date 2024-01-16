@@ -32,7 +32,8 @@ func main() {
 		config Config
 	)
 
-	_ = kong.Parse(&config)
+	_ = kong.Parse(&config,
+		kong.Help(helpPrinter))
 
 	c, ok := configs[config.Config]
 	if !ok {
@@ -47,7 +48,9 @@ func main() {
 	if err != nil {
 		log.Fatal("invalid json configuration", "error", err)
 	}
-	_ = kong.Parse(&config, kong.Resolvers(r))
+	_ = kong.Parse(&config,
+		kong.Resolvers(r),
+		kong.Help(helpPrinter))
 
 	config.Margin = expandMargin(config.Margin)
 	config.Padding = expandPadding(config.Padding)
