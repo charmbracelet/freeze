@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"errors"
 	"fmt"
 	"os"
 	"strings"
@@ -39,7 +40,7 @@ func main() {
 
 	r, err := kong.JSON(c)
 	if err != nil {
-		log.Fatal("invalid json configuration", "error", err)
+		fatal("Invalid JSON", err)
 	}
 	ctx := kong.Parse(&config,
 		kong.Resolvers(r),
@@ -58,6 +59,9 @@ func main() {
 		lexer = lexers.Analyse(input)
 	} else {
 		input, err = in.ReadFile(config.Input)
+		if err != nil {
+			fatal("File not found", err)
+		}
 		lexer = lexers.Get(config.Input)
 	}
 
@@ -66,26 +70,22 @@ func main() {
 	}
 
 	if lexer == nil {
-		log.Fatal("unable to detect language, specify `--language`")
-
+		fatal("Language Unknown", errors.New("specify a language with the --language flag"))
 	}
 
 	input = strings.TrimSpace(input)
 
 	if err != nil || input == "" {
-		log.Fatal("no input provided.")
+		fatal("No input", err)
 	}
 
 	// Format code source.
 	l := chroma.Coalesce(lexer)
 	ff := formatter.EmbedFont("JetBrains Mono", FontJetBrainsMono, formatter.WOFF2)
-	if err != nil {
-		log.Fatal(err)
-	}
 	f := formatter.New(ff, formatter.FontFamily(config.Font.Family))
 	it, err := l.Tokenise(nil, input)
 	if err != nil {
-		log.Fatal(err)
+		fatal("Malformed text", err)
 	}
 	buf := &bytes.Buffer{}
 
@@ -103,12 +103,12 @@ func main() {
 	doc := etree.NewDocument()
 	_, err = doc.ReadFrom(buf)
 	if err != nil {
-		log.Fatal(err)
+		fatal("Bad SVG", err)
 	}
 
 	elements := doc.ChildElements()
 	if len(elements) < 1 {
-		log.Fatal("no svg output")
+		fatal("Bad Output", nil)
 	}
 
 	image := elements[0]
@@ -172,6 +172,6 @@ func main() {
 		}
 	}
 	if err != nil {
-		log.Fatal(err)
+		fatal("Unable to write output", err)
 	}
 }
