@@ -5,6 +5,7 @@ import (
 	_ "embed"
 )
 
+// Config is the configuration options for a screenshot.
 type Config struct {
 	Input string `arg:"" help:"Code to screenshot." optional:""`
 
@@ -27,18 +28,21 @@ type Config struct {
 	LineHeight float64 `help:"Line height relative to font size." group:"Font" placeholder:"1.2"`
 }
 
+// Shadow is the configuration options for a drop shadow.
 type Shadow struct {
 	Blur int `help:"Shadow Gaussian Blur." placeholder:"0"`
 	X    int `help:"Shadow offset {{x}} coordinate" placeholder:"0"`
 	Y    int `help:"Shadow offset {{y}} coordinate" placeholder:"0"`
 }
 
+// Border is the configuration options for a window border.
 type Border struct {
 	Radius int    `help:"Corner radius of window." short:"r" placeholder:"0"`
 	Width  int    `help:"Border width thickness." placeholder:"1"`
 	Color  string `help:"Border color." placeholder:"#000"`
 }
 
+// Font is the configuration options for a font.
 type Font struct {
 	Family string  `help:"Font family to use for code." placeholder:"monospace"`
 	Size   float64 `help:"Font size to use for code." placeholder:"14"`
