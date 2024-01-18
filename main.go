@@ -27,8 +27,14 @@ func main() {
 		config Config
 	)
 
-	_ = kong.Parse(&config,
-		kong.Help(helpPrinter))
+	k, err := kong.New(&config, kong.Help(helpPrinter))
+	if err != nil {
+		printFatalError("Freeze Error", err)
+	}
+	ctx, err := k.Parse(os.Args[1:])
+	if err != nil || ctx.Error != nil {
+		printFatalError("Invalid Usage", err)
+	}
 
 	c, err := configs.Open("configurations/" + config.Config + ".json")
 	if err != nil {
@@ -40,16 +46,21 @@ func main() {
 
 	r, err := kong.JSON(c)
 	if err != nil {
-		fatal("Invalid JSON", err)
+		printFatalError("Invalid JSON", err)
 	}
-	ctx := kong.Parse(&config,
-		kong.Resolvers(r),
-		kong.Help(helpPrinter))
+	k, err = kong.New(&config, kong.Help(helpPrinter), kong.Resolvers(r))
+	if err != nil {
+		printFatalError("Something went wrong", err)
+	}
+	ctx, err = k.Parse(os.Args[1:])
+	if err != nil {
+		printFatalError("Invalid Usage", err)
+	}
 
 	config.Margin = expandMargin(config.Margin)
 	config.Padding = expandPadding(config.Padding)
 
-	if config.Input == "" && !in.IsPipe(os.Stdin) {
+	if config.Input == "" && !in.IsPipe(os.Stdin) && len(ctx.Flags()) <= 0 {
 		_ = helpPrinter(kong.HelpOptions{}, ctx)
 		os.Exit(0)
 	}
@@ -60,7 +71,7 @@ func main() {
 	} else {
 		input, err = in.ReadFile(config.Input)
 		if err != nil {
-			fatal("File not found", err)
+			printFatalError("File not found", err)
 		}
 		lexer = lexers.Get(config.Input)
 	}
@@ -70,13 +81,13 @@ func main() {
 	}
 
 	if lexer == nil {
-		fatal("Language Unknown", errors.New("specify a language with the --language flag"))
+		printFatalError("Language Unknown", errors.New("specify a language with the --language flag"))
 	}
 
 	input = strings.TrimSpace(input)
 
 	if err != nil || input == "" {
-		fatal("No input", err)
+		printFatalError("No input", err)
 	}
 
 	// Format code source.
@@ -85,7 +96,7 @@ func main() {
 	f := formatter.New(ff, formatter.FontFamily(config.Font.Family))
 	it, err := l.Tokenise(nil, input)
 	if err != nil {
-		fatal("Malformed text", err)
+		printFatalError("Malformed text", err)
 	}
 	buf := &bytes.Buffer{}
 
@@ -103,12 +114,12 @@ func main() {
 	doc := etree.NewDocument()
 	_, err = doc.ReadFrom(buf)
 	if err != nil {
-		fatal("Bad SVG", err)
+		printFatalError("Bad SVG", err)
 	}
 
 	elements := doc.ChildElements()
 	if len(elements) < 1 {
-		fatal("Bad Output", nil)
+		printFatalError("Bad Output", nil)
 	}
 
 	image := elements[0]
@@ -172,6 +183,6 @@ func main() {
 		}
 	}
 	if err != nil {
-		fatal("Unable to write output", err)
+		printFatalError("Unable to write output", err)
 	}
 }
