@@ -60,7 +60,7 @@ func main() {
 	config.Margin = expandMargin(config.Margin)
 	config.Padding = expandPadding(config.Padding)
 
-	if config.Input == "" && !in.IsPipe(os.Stdin) && len(ctx.Flags()) <= 0 {
+	if config.Input == "" && !in.IsPipe(os.Stdin) && len(ctx.Args) <= 0 {
 		_ = helpPrinter(kong.HelpOptions{}, ctx)
 		os.Exit(0)
 	}
