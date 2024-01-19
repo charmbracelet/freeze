@@ -16,10 +16,11 @@ type Config struct {
 	Window     bool   `help:"Display window controls." short:"w" group:"Window"`
 
 	// Settings
-	Config   string `help:"Base configuration file or template." short:"c" group:"Settings" default:"base" placeholder:"base"`
-	Language string `help:"Language of code file." short:"l" group:"Settings" placeholder:"go"`
-	Output   string `help:"Output location for {{.svg}}, {{.png}}, or {{.jpeg}}." short:"o" group:"Settings" default:"out.svg" placeholder:"out.svg"`
-	Theme    string `help:"Theme to use for syntax highlighting." short:"t" group:"Settings" placeholder:"charm"`
+	Config      string `help:"Base configuration file or template." short:"c" group:"Settings" default:"base" placeholder:"base"`
+	Interactive bool   `help:"Use an interactive form for configuration options." short:"i" group:"Settings"`
+	Language    string `help:"Language of code file." short:"l" group:"Settings" placeholder:"go"`
+	Output      string `help:"Output location for {{.svg}}, {{.png}}, or {{.jpeg}}." short:"o" group:"Settings" default:"out.svg" placeholder:"out.svg"`
+	Theme       string `help:"Theme to use for syntax highlighting." short:"t" group:"Settings" placeholder:"charm"`
 
 	Border Border `embed:"" prefix:"border." group:"Border"`
 	Shadow Shadow `embed:"" prefix:"shadow." help:"add a shadow to the window" short:"s" group:"Shadow"`
