@@ -7,95 +7,157 @@ import (
 	"strings"
 
 	"github.com/charmbracelet/huh"
+	"github.com/charmbracelet/lipgloss"
+)
+
+var (
+	green = lipgloss.Color("#03BF87")
 )
 
 func runForm(config *Config) (*Config, error) {
+	theme := huh.ThemeCharm()
+	theme.FieldSeparator = lipgloss.NewStyle()
+	theme.Blurred.Title.Width(14).Foreground(lipgloss.Color("7"))
+	theme.Focused.Title.Width(14).Foreground(green).Bold(true)
+	theme.Blurred.Description.Foreground(lipgloss.Color("0"))
+	theme.Focused.Description.Foreground(lipgloss.Color("7"))
+	theme.Blurred.BlurredButton = lipgloss.NewStyle().Foreground(lipgloss.Color("8")).PaddingRight(1)
+	theme.Blurred.FocusedButton = lipgloss.NewStyle().Foreground(lipgloss.Color("7")).PaddingRight(1)
+	theme.Focused.BlurredButton = lipgloss.NewStyle().Foreground(lipgloss.Color("8")).PaddingRight(1)
+	theme.Focused.FocusedButton = lipgloss.NewStyle().Foreground(lipgloss.Color("15")).PaddingRight(1)
+	theme.Focused.NoteTitle.Margin(1, 0)
+	theme.Blurred.NoteTitle.Margin(1, 0)
+	theme.Focused.Base.
+		Border(lipgloss.Border{Left: "> "}, false).
+		BorderLeft(true).
+		BorderForeground(green)
+
 	f := huh.NewForm(
 		huh.NewGroup(
-			huh.NewInput().Title("Output").
+			huh.NewNote().Title("Settings"),
+
+			huh.NewInput().
+				Title("Output").
 				Placeholder("out.svg").
-				Description("Output location for image.").
+				// Description("Output location for image.").
+				Inline(true).
+				Prompt("").
 				Value(&config.Output),
 
-			huh.NewInput().Title("Theme").
+			huh.NewInput().Title("Theme ").
 				Placeholder("charm").
-				Description("Theme for syntax highlighting").
-				Suggestions([]string{"charm", "dracula", "catppuccin"}).
+				// Description("Theme for syntax highlighting.").
+				Inline(true).
+				Prompt("").
 				Value(&config.Theme),
-		).Title("Settings"),
 
-		huh.NewGroup(
-			huh.NewInput().Title("Background").
-				Description("Apply a background fill.").
+			huh.NewInput().Title("Background ").
+				// Description("Apply a background fill.").
 				Placeholder("#FFF").
 				Value(&config.Background).
+				Inline(true).
+				Prompt("").
 				Validate(validateColor),
-
-			huh.NewInput().Title("Padding").
-				Description("Apply padding to the code.").
-				Placeholder("20 40").
-				Validate(validatePadding),
-
-			huh.NewInput().Title("Margin").
-				Description("Apply margin to the window.").
-				Placeholder("20").
-				Validate(validatePadding),
-
-			huh.NewConfirm().Title("Window Controls").
-				Description("Display window controls.").
-				Value(&config.Window),
-		).Title("Window"),
+		),
 
 		huh.NewGroup(
-			huh.NewInput().Title("Font Family").
-				Description("Font family to use for code").
+			huh.NewNote().Title("Window"),
+
+			huh.NewInput().Title("Padding ").
+				// Description("Apply padding to the code.").
+				Placeholder("20 40").
+				Inline(true).
+				Prompt("").
+				Validate(validatePadding),
+
+			huh.NewInput().Title("Margin ").
+				// Description("Apply margin to the window.").
+				Placeholder("20").
+				Inline(true).
+				Prompt("").
+				Validate(validatePadding),
+
+			huh.NewConfirm().Title("Controls").
+				Inline(true).
+				Value(&config.Window),
+		),
+
+		huh.NewGroup(
+			huh.NewNote().Title("Font"),
+
+			huh.NewInput().Title("Font Family ").
+				// Description("Font family to use for code").
 				Placeholder("JetBrains Mono").
+				Inline(true).
+				Prompt("").
 				Value(&config.Font.Family),
 
-			huh.NewInput().Title("Font Size").
-				Description("Font size to use for code.").
+			huh.NewInput().Title("Font Size ").
+				// Description("Font size to use for code.").
 				Placeholder("14").
+				Inline(true).
+				Prompt("").
 				Validate(validateInteger),
 
-			huh.NewInput().Title("Line Height").
-				Description("Line height relative to font size.").
+			huh.NewInput().Title("Line Height ").
+				// Description("Line height relative to size.").
 				Placeholder("1.2").
+				Inline(true).
+				Prompt("").
 				Validate(validateFloat),
-		).Title("Window"),
+		),
 
 		huh.NewGroup(
-			huh.NewInput().Title("Border Radius").
-				Description("Corner radius of the window.").
+			huh.NewNote().Title("Border"),
+
+			huh.NewInput().Title("Border Radius ").
+				// Description("Corner radius of the window.").
 				Placeholder("0").
+				Inline(true).
+				Prompt("").
 				Validate(validateInteger),
 
-			huh.NewInput().Title("Border Width").
-				Description("Border width thickness.").
+			huh.NewInput().Title("Border Width ").
+				// Description("Border width thickness.").
 				Placeholder("1").
+				Inline(true).
+				Prompt("").
 				Validate(validateInteger),
 
-			huh.NewInput().Title("Border color.").
+			huh.NewInput().Title("Border color ").
+				// Description("Color of outline stroke.").
 				Validate(validateColor).
+				Inline(true).
+				Prompt("").
 				Placeholder("#515151"),
-		).Title("Shadow"),
+		),
 
 		huh.NewGroup(
-			huh.NewInput().Title("Blur").
-				Description("Shadow Gaussian Blur.").
+			huh.NewNote().Title("Blur"),
+
+			huh.NewInput().Title("Blur ").
+				// Description("Shadow Gaussian Blur.").
 				Placeholder("0").
+				Inline(true).
+				Prompt("").
 				Validate(validateInteger),
 
-			huh.NewInput().Title("X Offset").
-				Description("Shadow offset x coordinate").
+			huh.NewInput().Title("X Offset ").
+				// Description("Shadow offset x coordinate").
 				Placeholder("0").
+				Inline(true).
+				Prompt("").
 				Validate(validateInteger),
 
-			huh.NewInput().Title("Y Offset").
-				Description("Shadow offset y coordinate").
+			huh.NewInput().Title("Y Offset ").
+				// Description("Shadow offset y coordinate").
 				Placeholder("0").
+				Inline(true).
+				Prompt("").
 				Validate(validateInteger),
-		).Title("Shadow"),
-	)
+		),
+	).WithTheme(theme).WithHeight(10)
+	f.NextField()
 	err := f.Run()
 	return config, err
 }
