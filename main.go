@@ -61,7 +61,7 @@ func main() {
 		cfg, err := runForm(&config)
 		config = *cfg
 		if err != nil {
-			printErrorFatal("Form Error", err)
+			printErrorFatal("", err)
 		}
 	}
 
