@@ -1,5 +1,6 @@
 {
   "window": true,
+  "theme": "charm",
   "border": {
     "radius": 8,
     "width": 1,
