@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"regexp"
 	"strconv"
 	"strings"
@@ -16,15 +17,15 @@ var (
 
 func runForm(config *Config) (*Config, error) {
 	var (
-		padding      string
-		margin       string
-		fontSize     string
-		lineHeight   string
-		borderRadius string
-		borderWidth  string
-		shadowBlur   string
-		shadowX      string
-		shadowY      string
+		padding      string = strings.Trim(fmt.Sprintf("%v", config.Padding), "[]")
+		margin       string = strings.Trim(fmt.Sprintf("%v", config.Margin), "[]")
+		fontSize     string = fmt.Sprintf("%d", int(config.Font.Size))
+		lineHeight   string = fmt.Sprintf("%.1f", config.LineHeight)
+		borderRadius string = fmt.Sprintf("%d", config.Border.Radius)
+		borderWidth  string = fmt.Sprintf("%d", config.Border.Width)
+		shadowBlur   string = fmt.Sprintf("%d", config.Shadow.Blur)
+		shadowX      string = fmt.Sprintf("%d", config.Shadow.X)
+		shadowY      string = fmt.Sprintf("%d", config.Shadow.Y)
 	)
 
 	theme := huh.ThemeCharm()
@@ -180,6 +181,7 @@ func runForm(config *Config) (*Config, error) {
 				Validate(validateInteger),
 		),
 	).WithTheme(theme).WithHeight(10)
+	err := f.Run()
 
 	config.Padding = parsePadding(padding)
 	config.Margin = parseMargin(margin)
@@ -190,8 +192,6 @@ func runForm(config *Config) (*Config, error) {
 	config.Shadow.Blur, _ = strconv.Atoi(shadowBlur)
 	config.Shadow.X, _ = strconv.Atoi(shadowX)
 	config.Shadow.Y, _ = strconv.Atoi(shadowY)
-
-	err := f.Run()
 	return config, err
 }
 
