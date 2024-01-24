@@ -15,6 +15,18 @@ var (
 )
 
 func runForm(config *Config) (*Config, error) {
+	var (
+		padding      string
+		margin       string
+		fontSize     string
+		lineHeight   string
+		borderRadius string
+		borderWidth  string
+		shadowBlur   string
+		shadowX      string
+		shadowY      string
+	)
+
 	theme := huh.ThemeCharm()
 	theme.FieldSeparator = lipgloss.NewStyle()
 	theme.Blurred.Title.Width(14).Foreground(lipgloss.Color("7"))
@@ -47,6 +59,7 @@ func runForm(config *Config) (*Config, error) {
 			huh.NewInput().Title("Theme ").
 				Placeholder("charm").
 				// Description("Theme for syntax highlighting.").
+				Suggestions([]string{"charm", "dracula"}).
 				Inline(true).
 				Prompt("").
 				Value(&config.Theme),
@@ -67,6 +80,7 @@ func runForm(config *Config) (*Config, error) {
 				// Description("Apply padding to the code.").
 				Placeholder("20 40").
 				Inline(true).
+				Value(&padding).
 				Prompt("").
 				Validate(validatePadding),
 
@@ -74,6 +88,7 @@ func runForm(config *Config) (*Config, error) {
 				// Description("Apply margin to the window.").
 				Placeholder("20").
 				Inline(true).
+				Value(&margin).
 				Prompt("").
 				Validate(validatePadding),
 
@@ -97,6 +112,7 @@ func runForm(config *Config) (*Config, error) {
 				Placeholder("14").
 				Inline(true).
 				Prompt("").
+				Value(&fontSize).
 				Validate(validateInteger),
 
 			huh.NewInput().Title("Line Height ").
@@ -104,6 +120,7 @@ func runForm(config *Config) (*Config, error) {
 				Placeholder("1.2").
 				Inline(true).
 				Prompt("").
+				Value(&lineHeight).
 				Validate(validateFloat),
 		),
 
@@ -115,6 +132,7 @@ func runForm(config *Config) (*Config, error) {
 				Placeholder("0").
 				Inline(true).
 				Prompt("").
+				Value(&borderRadius).
 				Validate(validateInteger),
 
 			huh.NewInput().Title("Border Width ").
@@ -122,6 +140,7 @@ func runForm(config *Config) (*Config, error) {
 				Placeholder("1").
 				Inline(true).
 				Prompt("").
+				Value(&borderWidth).
 				Validate(validateInteger),
 
 			huh.NewInput().Title("Border color ").
@@ -129,17 +148,19 @@ func runForm(config *Config) (*Config, error) {
 				Validate(validateColor).
 				Inline(true).
 				Prompt("").
+				Value(&config.Border.Color).
 				Placeholder("#515151"),
 		),
 
 		huh.NewGroup(
-			huh.NewNote().Title("Blur"),
+			huh.NewNote().Title("Shadow"),
 
 			huh.NewInput().Title("Blur ").
 				// Description("Shadow Gaussian Blur.").
 				Placeholder("0").
 				Inline(true).
 				Prompt("").
+				Value(&shadowBlur).
 				Validate(validateInteger),
 
 			huh.NewInput().Title("X Offset ").
@@ -147,6 +168,7 @@ func runForm(config *Config) (*Config, error) {
 				Placeholder("0").
 				Inline(true).
 				Prompt("").
+				Value(&shadowX).
 				Validate(validateInteger),
 
 			huh.NewInput().Title("Y Offset ").
@@ -154,10 +176,21 @@ func runForm(config *Config) (*Config, error) {
 				Placeholder("0").
 				Inline(true).
 				Prompt("").
+				Value(&shadowY).
 				Validate(validateInteger),
 		),
 	).WithTheme(theme).WithHeight(10)
-	f.NextField()
+
+	config.Padding = parsePadding(padding)
+	config.Margin = parseMargin(margin)
+	config.Font.Size, _ = strconv.ParseFloat(fontSize, 64)
+	config.LineHeight, _ = strconv.ParseFloat(lineHeight, 64)
+	config.Border.Radius, _ = strconv.Atoi(borderRadius)
+	config.Border.Width, _ = strconv.Atoi(borderWidth)
+	config.Shadow.Blur, _ = strconv.Atoi(shadowBlur)
+	config.Shadow.X, _ = strconv.Atoi(shadowX)
+	config.Shadow.Y, _ = strconv.Atoi(shadowY)
+
 	err := f.Run()
 	return config, err
 }
@@ -181,6 +214,10 @@ func validatePadding(s string) error {
 }
 
 func validateInteger(s string) error {
+	if len(s) <= 0 {
+		return nil
+	}
+
 	_, err := strconv.Atoi(s)
 	if err != nil {
 		return errors.New("must be valid integer")
@@ -189,6 +226,10 @@ func validateInteger(s string) error {
 }
 
 func validateFloat(s string) error {
+	if len(s) <= 0 {
+		return nil
+	}
+
 	_, err := strconv.ParseFloat(s, 64)
 	if err != nil {
 		return errors.New("must be valid float")
@@ -199,8 +240,23 @@ func validateFloat(s string) error {
 var colorRegex = regexp.MustCompile("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$")
 
 func validateColor(s string) error {
+	if len(s) <= 0 {
+		return nil
+	}
+
 	if !colorRegex.MatchString(s) {
 		return errors.New("must be valid color")
 	}
 	return nil
 }
+
+func parsePadding(v string) []int {
+	var values []int
+	for _, p := range strings.Fields(v) {
+		pi, _ := strconv.Atoi(p) // already validated
+		values = append(values, pi)
+	}
+	return expandPadding(values)
+}
+
+var parseMargin = parsePadding
