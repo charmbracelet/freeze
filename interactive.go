@@ -181,6 +181,12 @@ func runForm(config *Config) (*Config, error) {
 				Validate(validateInteger),
 		),
 	).WithTheme(theme).WithHeight(10)
+
+	// Let's first select a input file if not specified
+	if config.Input == "" {
+		config.Input = pickFile()
+	}
+
 	err := f.Run()
 
 	config.Padding = parsePadding(padding)
@@ -260,3 +266,7 @@ func parsePadding(v string) []int {
 }
 
 var parseMargin = parsePadding
+
+func pickFile() string {
+	return "main.go"
+}
