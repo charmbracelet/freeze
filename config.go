@@ -22,9 +22,11 @@ type Config struct {
 	Output      string `help:"Output location for {{.svg}}, {{.png}}, or {{.jpeg}}." short:"o" group:"Settings" default:"out.svg" placeholder:"out.svg"`
 	Theme       string `help:"Theme to use for syntax highlighting." short:"t" group:"Settings" placeholder:"charm"`
 
+	// Decoration
 	Border Border `embed:"" prefix:"border." group:"Border"`
 	Shadow Shadow `embed:"" prefix:"shadow." help:"add a shadow to the window" short:"s" group:"Shadow"`
 
+	// Font
 	Font       Font    `embed:"" prefix:"font." group:"Font"`
 	LineHeight float64 `help:"Line height relative to font size." group:"Font" placeholder:"1.2"`
 }
