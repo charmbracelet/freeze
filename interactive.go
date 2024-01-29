@@ -3,6 +3,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
@@ -30,16 +31,32 @@ func runForm(config *Config) (*Config, error) {
 
 	theme := huh.ThemeCharm()
 	theme.FieldSeparator = lipgloss.NewStyle()
-	theme.Blurred.Title.Width(14).Foreground(lipgloss.Color("7"))
-	theme.Focused.Title.Width(14).Foreground(green).Bold(true)
-	theme.Blurred.Description.Foreground(lipgloss.Color("0"))
-	theme.Focused.Description.Foreground(lipgloss.Color("7"))
+	theme.Blurred.Title = theme.Blurred.Title.Copy().Width(14).Foreground(lipgloss.Color("7"))
+	theme.Focused.Title = theme.Focused.Title.Copy().Width(14).Foreground(green).Bold(true)
+	theme.Focused.Title = theme.Focused.Title.Copy().Width(14).Foreground(green).Bold(true)
+	theme.Blurred.Description = theme.Blurred.Description.Copy().Foreground(lipgloss.Color("0"))
+	theme.Focused.Description = theme.Focused.Description.Copy().Foreground(lipgloss.Color("7"))
 	theme.Blurred.BlurredButton = lipgloss.NewStyle().Foreground(lipgloss.Color("8")).PaddingRight(1)
 	theme.Blurred.FocusedButton = lipgloss.NewStyle().Foreground(lipgloss.Color("7")).PaddingRight(1)
 	theme.Focused.BlurredButton = lipgloss.NewStyle().Foreground(lipgloss.Color("8")).PaddingRight(1)
 	theme.Focused.FocusedButton = lipgloss.NewStyle().Foreground(lipgloss.Color("15")).PaddingRight(1)
-	theme.Focused.NoteTitle.Margin(1, 0)
-	theme.Blurred.NoteTitle.Margin(1, 0)
+	theme.Focused.NoteTitle = theme.Focused.NoteTitle.Copy().Margin(1, 0)
+	theme.Blurred.NoteTitle = theme.Blurred.NoteTitle.Copy().Margin(1, 0)
+
+	if config.Input == "" {
+		_ = huh.NewForm(
+			huh.NewGroup(
+				huh.NewNote().Title("Capture file"),
+				huh.NewFilePicker().
+					Height(10).
+					Value(&config.Input),
+			),
+		).WithTheme(theme).Run()
+
+		base, ext := filepath.Base(config.Input), filepath.Ext(config.Input)
+		config.Output = strings.TrimSuffix(base, ext) + ".svg"
+	}
+
 	theme.Focused.Base.
 		Border(lipgloss.Border{Left: "> "}, false).
 		BorderLeft(true).
@@ -182,11 +199,6 @@ func runForm(config *Config) (*Config, error) {
 		),
 	).WithTheme(theme).WithHeight(10)
 
-	// Let's first select a input file if not specified
-	if config.Input == "" {
-		config.Input = pickFile()
-	}
-
 	err := f.Run()
 
 	config.Padding = parsePadding(padding)
@@ -266,7 +278,3 @@ func parsePadding(v string) []int {
 }
 
 var parseMargin = parsePadding
-
-func pickFile() string {
-	return "main.go"
-}
