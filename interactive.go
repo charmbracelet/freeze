@@ -31,8 +31,8 @@ func runForm(config *Config) (*Config, error) {
 
 	theme := huh.ThemeCharm()
 	theme.FieldSeparator = lipgloss.NewStyle()
+	theme.Blurred.TextInput.Text = theme.Blurred.TextInput.Text.Copy().Foreground(lipgloss.Color("243"))
 	theme.Blurred.Title = theme.Blurred.Title.Copy().Width(14).Foreground(lipgloss.Color("7"))
-	theme.Focused.Title = theme.Focused.Title.Copy().Width(14).Foreground(green).Bold(true)
 	theme.Focused.Title = theme.Focused.Title.Copy().Width(14).Foreground(green).Bold(true)
 	theme.Blurred.Description = theme.Blurred.Description.Copy().Foreground(lipgloss.Color("0"))
 	theme.Focused.Description = theme.Focused.Description.Copy().Foreground(lipgloss.Color("7"))
@@ -44,14 +44,23 @@ func runForm(config *Config) (*Config, error) {
 	theme.Blurred.NoteTitle = theme.Blurred.NoteTitle.Copy().Margin(1, 0)
 
 	if config.Input == "" {
-		_ = huh.NewForm(
+		err := huh.NewForm(
 			huh.NewGroup(
 				huh.NewNote().Title("Capture file"),
 				huh.NewFilePicker().
 					Height(10).
 					Value(&config.Input),
 			),
-		).WithTheme(theme).Run()
+		).
+			WithTheme(theme).
+			Run()
+
+		if err != nil {
+			printErrorFatal("Something went wrong", err)
+		}
+		if config.Input == "" {
+			printErrorFatal("No chosen file", errors.New("Try again"))
+		}
 
 		base, ext := filepath.Base(config.Input), filepath.Ext(config.Input)
 		config.Output = strings.TrimSuffix(base, ext) + ".svg"
@@ -161,7 +170,7 @@ func runForm(config *Config) (*Config, error) {
 				Value(&borderWidth).
 				Validate(validateInteger),
 
-			huh.NewInput().Title("Border color ").
+			huh.NewInput().Title("Border Color ").
 				// Description("Color of outline stroke.").
 				Validate(validateColor).
 				Inline(true).
