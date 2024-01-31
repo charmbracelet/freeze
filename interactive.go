@@ -97,9 +97,7 @@ func runForm(config *Config) (*Config, error) {
 				Inline(true).
 				Prompt("").
 				Validate(validateColor),
-		),
 
-		huh.NewGroup(
 			huh.NewNote().Title("Window"),
 
 			huh.NewInput().Title("Padding ").
@@ -121,9 +119,7 @@ func runForm(config *Config) (*Config, error) {
 			huh.NewConfirm().Title("Controls").
 				Inline(true).
 				Value(&config.Window),
-		),
 
-		huh.NewGroup(
 			huh.NewNote().Title("Font"),
 
 			huh.NewInput().Title("Font Family ").
@@ -148,9 +144,7 @@ func runForm(config *Config) (*Config, error) {
 				Prompt("").
 				Value(&lineHeight).
 				Validate(validateFloat),
-		),
 
-		huh.NewGroup(
 			huh.NewNote().Title("Border"),
 
 			huh.NewInput().Title("Border Radius ").
@@ -176,9 +170,7 @@ func runForm(config *Config) (*Config, error) {
 				Prompt("").
 				Value(&config.Border.Color).
 				Placeholder("#515151"),
-		),
 
-		huh.NewGroup(
 			huh.NewNote().Title("Shadow"),
 
 			huh.NewInput().Title("Blur ").
@@ -205,7 +197,7 @@ func runForm(config *Config) (*Config, error) {
 				Value(&shadowY).
 				Validate(validateInteger),
 		),
-	).WithTheme(theme).WithHeight(10)
+	).WithTheme(theme).WithHeight(33)
 
 	err := f.Run()
 
