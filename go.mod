@@ -6,7 +6,7 @@ require (
 	github.com/alecthomas/chroma v0.10.1-0.20220126230913-d491f1b5c1d2
 	github.com/alecthomas/kong v0.8.1
 	github.com/beevik/etree v1.3.0
-	github.com/charmbracelet/huh v0.3.1-0.20240125205708-bb9c8f48a9f4
+	github.com/charmbracelet/huh v0.3.1-0.20240131194652-914f076c9207
 	github.com/charmbracelet/lipgloss v0.9.1
 	github.com/charmbracelet/log v0.3.1
 	github.com/mattn/go-isatty v0.0.20
@@ -16,8 +16,9 @@ require (
 	github.com/atotto/clipboard v0.1.4 // indirect
 	github.com/aymanbagabas/go-osc52/v2 v2.0.1 // indirect
 	github.com/catppuccin/go v0.2.0 // indirect
-	github.com/charmbracelet/bubbles v0.17.2-0.20240129221336-07e7bd4ee418 // indirect
+	github.com/charmbracelet/bubbles v0.17.2-0.20240131162854-364eac96a867 // indirect
 	github.com/charmbracelet/bubbletea v0.25.0 // indirect
+	github.com/charmbracelet/x/exp/strings v0.0.0-20240130180102-bafe6fbaee60 // indirect
 	github.com/containerd/console v1.0.4-0.20230313162750-1ae8d489ac81 // indirect
 	github.com/dlclark/regexp2 v1.10.0 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
@@ -30,7 +31,7 @@ require (
 	github.com/muesli/reflow v0.3.0 // indirect
 	github.com/muesli/termenv v0.15.2 // indirect
 	github.com/rivo/uniseg v0.4.6 // indirect
-	golang.org/x/exp v0.0.0-20231006140011-7918f672742d // indirect
+	golang.org/x/exp v0.0.0-20240119083558-1b970713d09a // indirect
 	golang.org/x/sync v0.6.0 // indirect
 	golang.org/x/sys v0.16.0 // indirect
 	golang.org/x/term v0.16.0 // indirect
