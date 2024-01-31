@@ -32,8 +32,6 @@ func runForm(config *Config) (*Config, error) {
 	theme := huh.ThemeCharm()
 	theme.FieldSeparator = lipgloss.NewStyle()
 	theme.Blurred.TextInput.Text = theme.Blurred.TextInput.Text.Copy().Foreground(lipgloss.Color("243"))
-	theme.Blurred.Description = theme.Blurred.Description.Copy().Foreground(lipgloss.Color("0"))
-	theme.Focused.Description = theme.Focused.Description.Copy().Foreground(lipgloss.Color("7"))
 	theme.Blurred.BlurredButton = lipgloss.NewStyle().Foreground(lipgloss.Color("8")).PaddingRight(1)
 	theme.Blurred.FocusedButton = lipgloss.NewStyle().Foreground(lipgloss.Color("7")).PaddingRight(1)
 	theme.Focused.BlurredButton = lipgloss.NewStyle().Foreground(lipgloss.Color("8")).PaddingRight(1)
@@ -47,6 +45,7 @@ func runForm(config *Config) (*Config, error) {
 				huh.NewNote().Title("Capture file"),
 				huh.NewFilePicker().
 					Value(&config.Input),
+				huh.NewNote().Description("Choose a code file to screenshot."),
 			),
 		).
 			WithTheme(theme).
@@ -63,6 +62,8 @@ func runForm(config *Config) (*Config, error) {
 		config.Output = strings.TrimSuffix(base, ext) + ".svg"
 	}
 
+	theme.Blurred.Description = theme.Blurred.Description.Copy().Foreground(lipgloss.Color("0"))
+	theme.Focused.Description = theme.Focused.Description.Copy().Foreground(lipgloss.Color("7"))
 	theme.Blurred.Title = theme.Blurred.Title.Copy().Width(14).Foreground(lipgloss.Color("7"))
 	theme.Focused.Title = theme.Focused.Title.Copy().Width(14).Foreground(green).Bold(true)
 	theme.Focused.Base.
