@@ -14,6 +14,7 @@ func AddShadow(element *etree.Element, id string, x, y, blur int) {
 	f.CreateAttr("id", id)
 	f.CreateAttr("x", "0")
 	f.CreateAttr("y", "0")
+	f.CreateAttr("filterUnits", "userSpaceOnUse")
 
 	o := etree.NewElement("feOffset")
 	o.CreateAttr("result", "offOut")

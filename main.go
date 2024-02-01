@@ -5,6 +5,8 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"os/exec"
+	"strconv"
 	"strings"
 
 	"github.com/alecthomas/chroma"
@@ -18,6 +20,8 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/mattn/go-isatty"
 )
+
+const pngExportMultiplier = 3
 
 func main() {
 	var (
@@ -190,6 +194,26 @@ func main() {
 
 	switch {
 	case strings.HasSuffix(config.Output, ".png"):
+		_, err := exec.LookPath("rsvg-convert")
+		if err != nil {
+			printErrorFatal("PNG convert failure", fmt.Errorf("rsvg-convert required to convert to png, install librsvg."))
+		}
+		rsvgConvert := exec.Command("rsvg-convert",
+			"--width", strconv.Itoa(w*pngExportMultiplier),
+			"--keep-aspect-ratio",
+			"-f", "png",
+			"-o", config.Output,
+		)
+		svg, err := doc.WriteToString()
+		if err != nil {
+			printErrorFatal("Unable to write output", err)
+		}
+		rsvgConvert.Stdin = strings.NewReader(svg)
+		err = rsvgConvert.Run()
+		if err != nil {
+			printErrorFatal("Unable to write output", err)
+		}
+
 	case strings.HasSuffix(config.Output, ".svg"):
 		if istty {
 			err = doc.WriteToFile(config.Output)
