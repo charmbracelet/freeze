@@ -282,6 +282,7 @@ func parsePadding(v string) []int {
 var parseMargin = parsePadding
 
 var themes = []huh.Option[string]{
+	huh.NewOption("charm", "charm"),
 	huh.NewOption("abap", "abap"),
 	huh.NewOption("algol", "algol"),
 	huh.NewOption("algol_nu", "algol_nu"),
