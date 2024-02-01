@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/alecthomas/chroma/styles"
 	"github.com/charmbracelet/huh"
 	"github.com/charmbracelet/lipgloss"
 )
@@ -89,7 +90,7 @@ func runForm(config *Config) (*Config, error) {
 			huh.NewSelect[string]().Title("Theme ").
 				// Description("Theme for syntax highlighting.").
 				Inline(true).
-				Options(themes...).
+				Options(huh.NewOptions(styles.Names()...)...).
 				Value(&config.Theme),
 
 			huh.NewInput().Title("Background ").
@@ -280,67 +281,3 @@ func parsePadding(v string) []int {
 }
 
 var parseMargin = parsePadding
-
-var themes = []huh.Option[string]{
-	huh.NewOption("charm", "charm"),
-	huh.NewOption("abap", "abap"),
-	huh.NewOption("algol", "algol"),
-	huh.NewOption("algol_nu", "algol_nu"),
-	huh.NewOption("arduino", "arduino"),
-	huh.NewOption("autumn", "autumn"),
-	huh.NewOption("average", "average"),
-	huh.NewOption("base16-snazzy", "base16-snazzy"),
-	huh.NewOption("borland", "borland"),
-	huh.NewOption("bw", "bw"),
-	huh.NewOption("catppuccin-frappe", "catppuccin-frappe"),
-	huh.NewOption("catppuccin-latte", "catppuccin-latte"),
-	huh.NewOption("catppuccin-macchiato", "catppuccin-macchiato"),
-	huh.NewOption("catppuccin-mocha", "catppuccin-mocha"),
-	huh.NewOption("colorful", "colorful"),
-	huh.NewOption("doom-one", "doom-one"),
-	huh.NewOption("doom-one2", "doom-one2"),
-	huh.NewOption("dracula", "dracula"),
-	huh.NewOption("emacs", "emacs"),
-	huh.NewOption("friendly", "friendly"),
-	huh.NewOption("fruity", "fruity"),
-	huh.NewOption("github", "github"),
-	huh.NewOption("github-dark", "github-dark"),
-	huh.NewOption("gruvbox", "gruvbox"),
-	huh.NewOption("gruvbox-light", "gruvbox-light"),
-	huh.NewOption("hr_high_contrast", "hr_high_contrast"),
-	huh.NewOption("hrdark", "hrdark"),
-	huh.NewOption("igor", "igor"),
-	huh.NewOption("lovelace", "lovelace"),
-	huh.NewOption("manni", "manni"),
-	huh.NewOption("modus-operandi", "modus-operandi"),
-	huh.NewOption("modus-vivendi", "modus-vivendi"),
-	huh.NewOption("monokai", "monokai"),
-	huh.NewOption("monokailight", "monokailight"),
-	huh.NewOption("murphy", "murphy"),
-	huh.NewOption("native", "native"),
-	huh.NewOption("nord", "nord"),
-	huh.NewOption("onedark", "onedark"),
-	huh.NewOption("onesenterprise", "onesenterprise"),
-	huh.NewOption("paraiso-dark", "paraiso-dark"),
-	huh.NewOption("paraiso-light", "paraiso-light"),
-	huh.NewOption("pastie", "pastie"),
-	huh.NewOption("perldoc", "perldoc"),
-	huh.NewOption("pygments", "pygments"),
-	huh.NewOption("rainbow_dash", "rainbow_dash"),
-	huh.NewOption("rose-pine", "rose-pine"),
-	huh.NewOption("rose-pine-dawn", "rose-pine-dawn"),
-	huh.NewOption("rose-pine-moon", "rose-pine-moon"),
-	huh.NewOption("rrt", "rrt"),
-	huh.NewOption("solarized-dark", "solarized-dark"),
-	huh.NewOption("solarized-dark256", "solarized-dark256"),
-	huh.NewOption("solarized-light", "solarized-light"),
-	huh.NewOption("swapoff", "swapoff"),
-	huh.NewOption("tango", "tango"),
-	huh.NewOption("trac", "trac"),
-	huh.NewOption("vim", "vim"),
-	huh.NewOption("vs", "vs"),
-	huh.NewOption("vulcan", "vulcan"),
-	huh.NewOption("witchhazel", "witchhazel"),
-	huh.NewOption("xcode", "xcode"),
-	huh.NewOption("xcode-dark", "xcode-dark"),
-}
