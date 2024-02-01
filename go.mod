@@ -3,6 +3,7 @@ module github.com/charmbracelet/freeze
 go 1.21
 
 require (
+	github.com/adrg/xdg v0.4.0
 	github.com/alecthomas/chroma v0.10.1-0.20220126230913-d491f1b5c1d2
 	github.com/alecthomas/kong v0.8.2-0.20240122082144-30e84613fe34
 	github.com/beevik/etree v1.3.0

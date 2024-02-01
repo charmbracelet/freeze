@@ -36,15 +36,19 @@ func main() {
 		printErrorFatal("Invalid Usage", err)
 	}
 
-	c, err := configs.Open("configurations/" + config.Config + ".json")
-	if err != nil {
-		c, err = os.Open(config.Config)
-		if err != nil {
-			c, _ = configs.Open("configurations/base.json")
-		}
-	}
+	isDefaultConfig := config.Config == "default"
 
-	r, err := kong.JSON(c)
+	configFile, err := loadUserConfig()
+	if err != nil || !isDefaultConfig {
+		configFile, err = configs.Open("configurations/" + config.Config + ".json")
+	}
+	if err != nil {
+		configFile, err = os.Open(config.Config)
+	}
+	if err != nil {
+		configFile, _ = configs.Open("configurations/base.json")
+	}
+	r, err := kong.JSON(configFile)
 	if err != nil {
 		printErrorFatal("Invalid JSON", err)
 	}
@@ -62,6 +66,9 @@ func main() {
 		config = *cfg
 		if err != nil {
 			printErrorFatal("", err)
+		}
+		if isDefaultConfig {
+			_ = saveUserConfig(*cfg)
 		}
 	}
 
