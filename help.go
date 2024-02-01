@@ -13,9 +13,9 @@ var highlighter = regexp.MustCompile("{{(.+?)}}")
 
 func helpPrinter(options kong.HelpOptions, ctx *kong.Context) error {
 	codeBlockStyle := lipgloss.NewStyle().Background(lipgloss.Color("0")).Padding(1, 0)
-	programStyle := codeBlockStyle.Copy().Foreground(lipgloss.Color("12")).PaddingLeft(2).MarginLeft(2)
+	programStyle := codeBlockStyle.Copy().Foreground(lipgloss.Color("12")).PaddingLeft(3).MarginLeft(2)
 	argumentStyle := codeBlockStyle.Copy().Foreground(lipgloss.Color("7")).Padding(1, 1)
-	flagStyle := codeBlockStyle.Copy().Foreground(lipgloss.Color("244")).PaddingRight(2)
+	flagStyle := codeBlockStyle.Copy().Foreground(lipgloss.Color("244")).PaddingRight(3)
 	titleStyle := lipgloss.NewStyle().Bold(true).Margin(1, 0, 0, 2).Foreground(lipgloss.Color("#875FFF"))
 	dashStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("240")).MarginLeft(2)
 	keywordStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("1"))
