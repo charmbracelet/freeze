@@ -4,7 +4,6 @@ import (
 	"embed"
 	_ "embed"
 	"encoding/json"
-	"fmt"
 	"io/fs"
 	"os"
 	"path/filepath"
@@ -108,6 +107,5 @@ func saveUserConfig(config Config) error {
 		return err
 	}
 	_, err = f.Write(b)
-	fmt.Println(b)
 	return err
 }
