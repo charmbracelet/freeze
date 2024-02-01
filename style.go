@@ -1,8 +1,11 @@
 package main
 
-import "github.com/alecthomas/chroma"
+import (
+	"github.com/alecthomas/chroma"
+	"github.com/alecthomas/chroma/styles"
+)
 
-var charmStyle = chroma.MustNewStyle("charm", chroma.StyleEntries{
+var charmStyle = styles.Register(chroma.MustNewStyle("charm", chroma.StyleEntries{
 	chroma.Text:                "#C4C4C4",
 	chroma.Error:               "#F1F1F1 bg:#F05B5B",
 	chroma.Comment:             "#676767",
@@ -29,4 +32,4 @@ var charmStyle = chroma.MustNewStyle("charm", chroma.StyleEntries{
 	chroma.GenericStrong:       "bold",
 	chroma.GenericSubheading:   "#777777",
 	chroma.Background:          "bg:#222222",
-})
+}))
