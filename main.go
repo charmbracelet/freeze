@@ -178,7 +178,7 @@ func main() {
 	if config.Shadow.Blur > 0 || config.Shadow.X > 0 || config.Shadow.Y > 0 {
 		id := "shadow"
 		svg.AddShadow(image, id, config.Shadow.X, config.Shadow.Y, config.Shadow.Blur)
-		image.CreateAttr("filter", fmt.Sprintf("url(#%s)", id))
+		rect.CreateAttr("filter", fmt.Sprintf("url(#%s)", id))
 	}
 
 	lines := image.SelectElement("g").SelectElements("text")

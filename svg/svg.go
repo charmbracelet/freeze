@@ -12,35 +12,27 @@ import (
 func AddShadow(element *etree.Element, id string, x, y, blur int) {
 	f := etree.NewElement("filter")
 	f.CreateAttr("id", id)
-	f.CreateAttr("x", "0")
-	f.CreateAttr("y", "0")
 	f.CreateAttr("filterUnits", "userSpaceOnUse")
 
+	b := etree.NewElement("feGaussianBlur")
+	b.CreateAttr("in", "SourceAlpha")
+	b.CreateAttr("stdDeviation", fmt.Sprintf("%d", blur))
+
 	o := etree.NewElement("feOffset")
-	o.CreateAttr("result", "offOut")
-	o.CreateAttr("in", "SourceAlpha")
+	o.CreateAttr("result", "offsetblur")
 	o.CreateAttr("dx", fmt.Sprintf("%d", x))
 	o.CreateAttr("dy", fmt.Sprintf("%d", y))
 
-	c := etree.NewElement("feColorMatrix")
-	c.CreateAttr("result", "matrixOut")
-	c.CreateAttr("in", "offOut")
-	c.CreateAttr("type", "matrix")
-	c.CreateAttr("values", "0.2 0 0 0 0 0 0.2 0 0 0 0 0 0.2 0 0 0 0 0 1 0")
+	m := etree.NewElement("feMerge")
+	mn1 := etree.NewElement("feMergeNode")
+	mn2 := etree.NewElement("feMergeNode")
+	mn2.CreateAttr("in", "SourceGraphic")
+	m.AddChild(mn1)
+	m.AddChild(mn2)
 
-	b := etree.NewElement("feGaussianBlur")
-	b.CreateAttr("result", "blurOut")
-	b.CreateAttr("in", "matrixOut")
-	b.CreateAttr("stdDeviation", fmt.Sprintf("%d", blur))
-
-	blend := etree.NewElement("feBlend")
-	blend.CreateAttr("in", "SourceGraphic")
-	blend.CreateAttr("in2", "blurOut")
-	blend.CreateAttr("mode", "normal")
-
-	f.AddChild(o)
 	f.AddChild(b)
-	f.AddChild(blend)
+	f.AddChild(o)
+	f.AddChild(m)
 
 	defs := etree.NewElement("defs")
 	defs.AddChild(f)
