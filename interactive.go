@@ -48,6 +48,7 @@ func runForm(config *Config) (*Config, error) {
 				huh.NewNote().Description("Choose a code file to screenshot."),
 			),
 		).
+			WithHeight(10).
 			WithTheme(theme).
 			Run()
 
