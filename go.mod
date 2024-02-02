@@ -7,7 +7,7 @@ require (
 	github.com/alecthomas/chroma v0.10.1-0.20220126230913-d491f1b5c1d2
 	github.com/alecthomas/kong v0.8.2-0.20240122082144-30e84613fe34
 	github.com/beevik/etree v1.3.0
-	github.com/charmbracelet/huh v0.3.1-0.20240202163329-0ef2a3dbe2fb
+	github.com/charmbracelet/huh v0.3.1-0.20240202165528-38b7c486d782
 	github.com/charmbracelet/lipgloss v0.9.2-0.20240131031835-92946d34c234
 	github.com/charmbracelet/log v0.3.2-0.20240104164151-fd1729ad8eb8
 	github.com/mattn/go-isatty v0.0.20
