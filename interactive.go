@@ -3,7 +3,6 @@ package main
 import (
 	"errors"
 	"fmt"
-	"path/filepath"
 	"regexp"
 	"strconv"
 	"strings"
@@ -39,43 +38,23 @@ func runForm(config *Config) (*Config, error) {
 	theme.Focused.FocusedButton = lipgloss.NewStyle().Foreground(lipgloss.Color("15")).PaddingRight(1)
 	theme.Focused.NoteTitle = theme.Focused.NoteTitle.Copy().Margin(1, 0)
 	theme.Blurred.NoteTitle = theme.Blurred.NoteTitle.Copy().Margin(1, 0)
-
-	if config.Input == "" {
-		err := huh.NewForm(
-			huh.NewGroup(
-				huh.NewNote().Title("Capture file"),
-				huh.NewFilePicker().
-					Value(&config.Input),
-				huh.NewNote().Description("Choose a code file to screenshot."),
-			),
-		).
-			WithHeight(10).
-			WithTheme(theme).
-			Run()
-
-		if err != nil {
-			printErrorFatal("Something went wrong", err)
-		}
-		if config.Input == "" {
-			printErrorFatal("No chosen file", errors.New("Try again"))
-		}
-
-		base, ext := filepath.Base(config.Input), filepath.Ext(config.Input)
-		config.Output = strings.TrimSuffix(base, ext) + ".svg"
-	}
-
-	theme.Blurred.SelectedOption = theme.Blurred.SelectedOption.Copy().Foreground(lipgloss.Color("243"))
-	theme.Focused.SelectedOption = theme.Focused.SelectedOption.Copy().Foreground(lipgloss.Color("7"))
 	theme.Blurred.Description = theme.Blurred.Description.Copy().Foreground(lipgloss.Color("0"))
 	theme.Focused.Description = theme.Focused.Description.Copy().Foreground(lipgloss.Color("7"))
 	theme.Blurred.Title = theme.Blurred.Title.Copy().Width(14).Foreground(lipgloss.Color("7"))
 	theme.Focused.Title = theme.Focused.Title.Copy().Width(14).Foreground(green).Bold(true)
-	theme.Focused.Base.
-		Border(lipgloss.Border{Left: "> "}, false).
-		BorderLeft(true).
-		BorderForeground(green)
+	theme.Blurred.SelectedOption = theme.Blurred.SelectedOption.Copy().Foreground(lipgloss.Color("243"))
+	theme.Focused.SelectedOption = lipgloss.NewStyle().Foreground(green)
+	theme.Focused.Base.BorderForeground(green)
 
 	f := huh.NewForm(
+		huh.NewGroup(
+			huh.NewNote().Title("\nCapture file"),
+
+			huh.NewFilePicker().
+				Value(&config.Input),
+
+			huh.NewNote().Description("Choose a code file to screenshot."),
+		),
 		huh.NewGroup(
 			huh.NewNote().Title("Settings"),
 
