@@ -22,7 +22,7 @@ import (
 	"github.com/mattn/go-isatty"
 )
 
-const pngExportMultiplier = 3
+const pngExportMultiplier = 2
 
 func main() {
 	var (
@@ -75,6 +75,11 @@ func main() {
 		if isDefaultConfig {
 			_ = saveUserConfig(*cfg)
 		}
+	}
+
+	multiplier := 1
+	if strings.HasSuffix(config.Output, ".png") {
+		multiplier = pngExportMultiplier
 	}
 
 	config.Margin = expandMargin(config.Margin)
@@ -146,16 +151,37 @@ func main() {
 	w, h := svg.GetDimensions(image)
 
 	rect := image.SelectElement("rect")
+
+	// apply multiplier
+	w *= multiplier
+	h *= multiplier
+	config.Font.Size *= float64(multiplier)
+
+	for i := range config.Padding {
+		config.Padding[i] *= multiplier
+	}
+	for i := range config.Margin {
+		config.Margin[i] *= multiplier
+	}
+
 	w += config.Padding[left] + config.Padding[right]
 	h += config.Padding[top] + config.Padding[bottom]
+
+	config.Shadow.Blur *= multiplier
+	config.Shadow.X *= multiplier
+	config.Shadow.Y *= multiplier
+
+	config.Border.Radius *= multiplier
+	config.Border.Width *= multiplier
+
 	svg.SetDimensions(rect, w, h)
 	svg.Move(rect, float64(config.Margin[left]), float64(config.Margin[top]))
 
 	if config.Window {
-		windowControls := svg.NewWindowControls()
+		windowControls := svg.NewWindowControls(5.5*float64(multiplier), 19*multiplier, 12*multiplier)
 		svg.Move(windowControls, float64(config.Margin[left]), float64(config.Margin[top]))
 		image.AddChild(windowControls)
-		config.Padding[top] += 15
+		config.Padding[top] += (15 * multiplier)
 	}
 
 	if config.Border.Radius > 0 {
@@ -182,7 +208,9 @@ func main() {
 		rect.CreateAttr("filter", fmt.Sprintf("url(#%s)", id))
 	}
 
-	lines := image.SelectElement("g").SelectElements("text")
+	g := image.SelectElement("g")
+	g.CreateAttr("font-size", fmt.Sprintf("%.2fpx", config.Font.Size))
+	lines := g.SelectElements("text")
 	for i, line := range lines {
 		// Offset the text by padding...
 		// (x, y) -> (x+p, y+p)
@@ -212,29 +240,47 @@ func main() {
 		}
 		fontdb.LoadFontData(font.JetBrainsMonoTTF)
 
-		pixmap, err := worker.NewPixmap(uint32(w+config.Margin[left]+config.Margin[right]), uint32(h+config.Margin[top]+config.Margin[bottom]))
+		pixmap, err := worker.NewPixmap(uint32((w + config.Margin[left] + config.Margin[right])), uint32(h+config.Margin[top]+config.Margin[bottom]))
 		defer pixmap.Close()
 		if err != nil {
-			printErrorFatal("Unable to write output", err)
+			printError("Unable to write output", err)
+			os.Exit(1)
 		}
 
-		tree, err := worker.NewTreeFromData(svg, &resvg.Options{})
+		tree, err := worker.NewTreeFromData(svg, &resvg.Options{
+			Dpi:                288.0,
+			ShapeRenderingMode: resvg.ShapeRenderingModeGeometricPrecision,
+			TextRenderingMode:  resvg.TextRenderingModeGeometricPrecision,
+			ImageRenderingMode: resvg.ImageRenderingModeOptimizeQuality,
+			FontSize:           float32(config.Font.Size),
+		})
 		defer tree.Close()
 		if err != nil {
-			printErrorFatal("Unable to write output", err)
+			printError("Unable to write output", err)
+			os.Exit(1)
 		}
 
 		err = tree.ConvertText(fontdb)
 		if err != nil {
-			printErrorFatal("Unable to write output", err)
+			printError("Unable to render text", err)
+			os.Exit(1)
 		}
-		tree.Render(resvg.TransformIdentity(), pixmap)
+		err = tree.Render(resvg.TransformIdentity(), pixmap)
+		if err != nil {
+			printError("Unable to render PNG", err)
+			os.Exit(1)
+		}
 		png, err := pixmap.EncodePNG()
 		if err != nil {
-			printErrorFatal("Unable to write output", err)
+			printError("Unable to encode PNG", err)
+			os.Exit(1)
 		}
 
-		os.WriteFile(config.Output, png, 0644)
+		err = os.WriteFile(config.Output, png, 0644)
+		if err != nil {
+			printError("Unable to write output", err)
+			os.Exit(1)
+		}
 
 	case strings.HasSuffix(config.Output, ".svg"):
 		if istty {

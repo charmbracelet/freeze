@@ -8,8 +8,10 @@ require (
 	github.com/alecthomas/kong v0.8.2-0.20240122082144-30e84613fe34
 	github.com/beevik/etree v1.3.0
 	github.com/charmbracelet/huh v0.3.1-0.20240205173616-7d77334f08bd
+	github.com/charmbracelet/huh/spinner v0.0.0-20240205173616-7d77334f08bd
 	github.com/charmbracelet/lipgloss v0.9.2-0.20240203000443-de4601232b79
 	github.com/charmbracelet/log v0.3.2-0.20240104164151-fd1729ad8eb8
+	github.com/kanrichan/resvg-go v0.0.2-0.20231001163256-63db194ca9f5
 	github.com/mattn/go-isatty v0.0.20
 )
 
@@ -24,7 +26,6 @@ require (
 	github.com/dlclark/regexp2 v1.10.0 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/go-logfmt/logfmt v0.6.0 // indirect
-	github.com/kanrichan/resvg-go v0.0.2-0.20231001163256-63db194ca9f5 // indirect
 	github.com/lucasb-eyer/go-colorful v1.2.0 // indirect
 	github.com/mattn/go-localereader v0.0.1 // indirect
 	github.com/mattn/go-runewidth v0.0.15 // indirect
