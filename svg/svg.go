@@ -64,13 +64,13 @@ const (
 )
 
 // NewWindowControls returns a colorful window bar element.
-func NewWindowControls() *etree.Element {
+func NewWindowControls(r float64, x, y int) *etree.Element {
 	bar := etree.NewElement("svg")
 	for i, color := range []string{red, yellow, green} {
 		circle := etree.NewElement("circle")
-		circle.CreateAttr("cx", fmt.Sprintf("%d", (i+1)*19+-6))
-		circle.CreateAttr("cy", fmt.Sprintf("%d", 12))
-		circle.CreateAttr("r", "5.5")
+		circle.CreateAttr("cx", fmt.Sprintf("%.2f", float64(i+1)*float64(x)-float64(r)))
+		circle.CreateAttr("cy", fmt.Sprintf("%d", y))
+		circle.CreateAttr("r", fmt.Sprintf("%.2f", r))
 		circle.CreateAttr("fill", color)
 		bar.AddChild(circle)
 	}
