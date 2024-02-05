@@ -2,11 +2,10 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"errors"
 	"fmt"
 	"os"
-	"os/exec"
-	"strconv"
 	"strings"
 
 	"github.com/alecthomas/chroma"
@@ -15,9 +14,11 @@ import (
 	"github.com/alecthomas/chroma/styles"
 	"github.com/alecthomas/kong"
 	"github.com/beevik/etree"
+	"github.com/charmbracelet/freeze/font"
 	in "github.com/charmbracelet/freeze/input"
 	"github.com/charmbracelet/freeze/svg"
 	"github.com/charmbracelet/log"
+	"github.com/kanrichan/resvg-go"
 	"github.com/mattn/go-isatty"
 )
 
@@ -111,7 +112,7 @@ func main() {
 
 	// Format code source.
 	l := chroma.Coalesce(lexer)
-	ff := formatter.EmbedFont("JetBrains Mono", FontJetBrainsMono, formatter.WOFF2)
+	ff := formatter.EmbedFont("JetBrains Mono", font.JetBrainsMono, formatter.WOFF2)
 	f := formatter.New(ff, formatter.FontFamily(config.Font.Family))
 	it, err := l.Tokenise(nil, input)
 	if err != nil {
@@ -194,25 +195,46 @@ func main() {
 
 	switch {
 	case strings.HasSuffix(config.Output, ".png"):
-		_, err := exec.LookPath("rsvg-convert")
-		if err != nil {
-			printErrorFatal("PNG convert failure", fmt.Errorf("rsvg-convert required to convert to png, install librsvg."))
-		}
-		rsvgConvert := exec.Command("rsvg-convert",
-			"--width", strconv.Itoa(w*pngExportMultiplier),
-			"--keep-aspect-ratio",
-			"-f", "png",
-			"-o", config.Output,
-		)
-		svg, err := doc.WriteToString()
+		svg, err := doc.WriteToBytes()
 		if err != nil {
 			printErrorFatal("Unable to write output", err)
 		}
-		rsvgConvert.Stdin = strings.NewReader(svg)
-		err = rsvgConvert.Run()
+		worker, err := resvg.NewDefaultWorker(context.Background())
+		defer worker.Close()
 		if err != nil {
 			printErrorFatal("Unable to write output", err)
 		}
+
+		fontdb, err := worker.NewFontDBDefault()
+		defer fontdb.Close()
+		if err != nil {
+			printErrorFatal("Unable to write output", err)
+		}
+		fontdb.LoadFontData(font.JetBrainsMonoTTF)
+
+		pixmap, err := worker.NewPixmap(uint32(w+config.Margin[left]+config.Margin[right]), uint32(h+config.Margin[top]+config.Margin[bottom]))
+		defer pixmap.Close()
+		if err != nil {
+			printErrorFatal("Unable to write output", err)
+		}
+
+		tree, err := worker.NewTreeFromData(svg, &resvg.Options{})
+		defer tree.Close()
+		if err != nil {
+			printErrorFatal("Unable to write output", err)
+		}
+
+		err = tree.ConvertText(fontdb)
+		if err != nil {
+			printErrorFatal("Unable to write output", err)
+		}
+		tree.Render(resvg.TransformIdentity(), pixmap)
+		png, err := pixmap.EncodePNG()
+		if err != nil {
+			printErrorFatal("Unable to write output", err)
+		}
+
+		os.WriteFile(config.Output, png, 0644)
 
 	case strings.HasSuffix(config.Output, ".svg"):
 		if istty {
