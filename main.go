@@ -6,6 +6,8 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"os/exec"
+	"strconv"
 	"strings"
 
 	"github.com/alecthomas/chroma"
@@ -227,6 +229,24 @@ func main() {
 		if err != nil {
 			printErrorFatal("Unable to write output", err)
 		}
+
+		if _, err := exec.LookPath("rsvg-convert"); err == nil {
+			// rsvg-convert is installed use that to convert the SVG to PNG,
+			// since it is faster.
+			rsvgConvert := exec.Command("rsvg-convert",
+				"--width", strconv.Itoa(w),
+				"--keep-aspect-ratio",
+				"-f", "png",
+				"-o", config.Output,
+			)
+			rsvgConvert.Stdin = bytes.NewReader(svg)
+			err = rsvgConvert.Run()
+			if err == nil {
+				break
+			}
+
+		}
+
 		worker, err := resvg.NewDefaultWorker(context.Background())
 		defer worker.Close()
 		if err != nil {
@@ -288,8 +308,8 @@ func main() {
 		} else {
 			_, err = doc.WriteTo(os.Stdout)
 		}
-	}
-	if err != nil {
-		printErrorFatal("Unable to write output", err)
+		if err != nil {
+			printErrorFatal("Unable to write output", err)
+		}
 	}
 }
