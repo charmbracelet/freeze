@@ -21,6 +21,13 @@ To generate an image of your code, run:
 freeze main.go -o out.svg
 ```
 
+or pass data through `stdin`:
+
+```sh
+# capture lines 5 - 20.
+sed -n 5,20p main.go | freeze
+```
+
 Your image file will live in `out.svg`.
 
 ## Installation
