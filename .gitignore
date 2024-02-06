@@ -1,2 +1,2 @@
 *.svg
-!test/*.svg
+!test/golden/*.svg
