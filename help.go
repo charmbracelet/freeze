@@ -9,6 +9,8 @@ import (
 	"github.com/charmbracelet/lipgloss"
 )
 
+const space = 18
+
 var highlighter = regexp.MustCompile("{{(.+?)}}")
 
 func helpPrinter(options kong.HelpOptions, ctx *kong.Context) error {
@@ -41,11 +43,11 @@ func helpPrinter(options kong.HelpOptions, ctx *kong.Context) error {
 		if f.Short > 0 {
 			fmt.Print("  ", dashStyle.Render("-"), string(f.Short))
 			fmt.Print(dashStyle.Render("--"), f.Name)
-			fmt.Print(strings.Repeat(" ", 16-len(f.Name)))
+			fmt.Print(strings.Repeat(" ", space-len(f.Name)))
 		} else {
 			fmt.Print("  ", dashStyle.Render(" "), " ")
 			fmt.Print(dashStyle.Render("--"), f.Name)
-			fmt.Print(strings.Repeat(" ", 16-len(f.Name)))
+			fmt.Print(strings.Repeat(" ", space-len(f.Name)))
 
 		}
 		help := highlighter.ReplaceAllString(f.Help, keywordStyle.Render("$1"))
