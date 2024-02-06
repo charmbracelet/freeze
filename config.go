@@ -33,8 +33,12 @@ type Config struct {
 	Shadow Shadow `json:"shadow" embed:"" prefix:"shadow." help:"add a shadow to the window" short:"s" group:"Shadow"`
 
 	// Font
-	Font       Font    `json:"font" embed:"" prefix:"font." group:"Font"`
-	LineHeight float64 `json:"line_height" help:"Line height relative to font size." group:"Font" placeholder:"1.2"`
+	Font Font `json:"font" embed:"" prefix:"font." group:"Font"`
+
+	// Line
+	LineHeight  float64 `json:"line_height" help:"Line height relative to font size." group:"Line" placeholder:"1.2"`
+	LineNumbers bool    `json:"line_numbers" help:"Display line numbers" group:"Line" placeholder:"false"`
+	Lines       []int   `json:"-" help:"Lines to capture" group:"Line" placeholder:"0,-1" value:"0,-1"`
 }
 
 // Shadow is the configuration options for a drop shadow.
@@ -53,8 +57,9 @@ type Border struct {
 
 // Font is the configuration options for a font.
 type Font struct {
-	Family string  `json:"family" help:"Font family to use for code." placeholder:"monospace"`
-	Size   float64 `json:"size" help:"Font size to use for code." placeholder:"14"`
+	Family    string  `json:"family" help:"Font family to use for code." placeholder:"monospace"`
+	Size      float64 `json:"size" help:"Font size to use for code." placeholder:"14"`
+	Ligatures bool    `json:"ligatures" help:"Use ligatures in the font." placeholder:"false"`
 }
 
 //go:embed configurations/*

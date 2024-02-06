@@ -111,8 +111,7 @@ func main() {
 		printErrorFatal("Language Unknown", errors.New("specify a language with the --language flag"))
 	}
 
-	input = strings.TrimSpace(input)
-
+	input = cut(input, config.Lines)
 	if err != nil || input == "" {
 		printErrorFatal("No input", err)
 	}
@@ -158,6 +157,10 @@ func main() {
 	w *= multiplier
 	h *= multiplier
 	config.Font.Size *= float64(multiplier)
+
+	if config.LineNumbers {
+		w += int(config.Font.Size * 3)
+	}
 
 	for i := range config.Padding {
 		config.Padding[i] *= multiplier
@@ -212,10 +215,18 @@ func main() {
 
 	g := image.SelectElement("g")
 	g.CreateAttr("font-size", fmt.Sprintf("%.2fpx", config.Font.Size))
+
 	lines := g.SelectElements("text")
+
 	for i, line := range lines {
 		// Offset the text by padding...
 		// (x, y) -> (x+p, y+p)
+		if config.LineNumbers {
+			ln := etree.NewElement("tspan")
+			ln.CreateAttr("fill", s.Get(chroma.LineNumbers).Colour.String())
+			ln.SetText(fmt.Sprintf("%3d  ", i))
+			line.InsertChildAt(0, ln)
+		}
 		x := float64(config.Padding[left] + config.Margin[left])
 		y := float64(i)*(config.Font.Size*config.LineHeight) + config.Font.Size + float64(config.Padding[top]) + float64(config.Margin[top])
 		svg.Move(line, x, y)
