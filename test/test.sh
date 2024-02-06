@@ -32,7 +32,15 @@ fi
 FAILURES=0
 for f in configurations/*.json; do
   filename=$(basename -- "$f")
+
+  if [ ! -f golden/"${filename%.*}".svg ]; then
+    echo "Generating golden file for $filename, verify and commit."
+    ./freeze-test --config $f --output golden/"${filename%.*}".svg $f
+    continue
+  fi
+
   ./freeze-test --config $f --output output/"${filename%.*}".svg $f
+
   diff --color output/"${filename%.*}".svg golden/"${filename%.*}".svg
   if [ $? -ne 0 ]; then
     echo "=== Test failed for $filename ==="
