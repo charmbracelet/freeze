@@ -111,6 +111,11 @@ func main() {
 		printErrorFatal("Language Unknown", errors.New("specify a language with the --language flag"))
 	}
 
+	// adjust for 1-indexing
+	for i := range config.Lines {
+		config.Lines[i]--
+	}
+
 	input = cut(input, config.Lines)
 	if err != nil || input == "" {
 		printErrorFatal("No input", err)
@@ -224,7 +229,7 @@ func main() {
 		if config.LineNumbers {
 			ln := etree.NewElement("tspan")
 			ln.CreateAttr("fill", s.Get(chroma.LineNumbers).Colour.String())
-			ln.SetText(fmt.Sprintf("%3d  ", i))
+			ln.SetText(fmt.Sprintf("%3d  ", i+1))
 			line.InsertChildAt(0, ln)
 		}
 		x := float64(config.Padding[left] + config.Margin[left])
