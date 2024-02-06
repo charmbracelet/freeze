@@ -25,4 +25,5 @@ jobs:
       run: go build -v ./...
 
     - name: Test
-      run: ./test/test.sh
+      working-directory: test/
+      run: ./test.sh
