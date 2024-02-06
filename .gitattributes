@@ -1,1 +1,1 @@
-**/*.svg filter=lfs diff=lfs merge=lfs -text
+examples/*.svg filter=lfs diff=lfs merge=lfs -text
