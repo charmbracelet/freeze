@@ -163,7 +163,7 @@ func main() {
 	h *= multiplier
 	config.Font.Size *= float64(multiplier)
 
-	if config.LineNumbers {
+	if config.ShowLineNumbers {
 		w += int(config.Font.Size * 3)
 	}
 
@@ -226,7 +226,7 @@ func main() {
 	for i, line := range lines {
 		// Offset the text by padding...
 		// (x, y) -> (x+p, y+p)
-		if config.LineNumbers {
+		if config.ShowLineNumbers {
 			ln := etree.NewElement("tspan")
 			ln.CreateAttr("fill", s.Get(chroma.LineNumbers).Colour.String())
 			ln.SetText(fmt.Sprintf("%3d  ", i+1))
