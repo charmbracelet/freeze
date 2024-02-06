@@ -25,4 +25,4 @@ jobs:
       run: go build -v ./...
 
     - name: Test
-      run: cd test && ./test.sh
+      run: ./test/test.sh

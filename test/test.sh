@@ -1,5 +1,7 @@
 #!/bin/sh
 
+cd test
+
 if [ -f freeze-test ]; then
   rm freeze-test
 fi
