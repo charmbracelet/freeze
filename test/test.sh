@@ -29,14 +29,21 @@ if [ ! -d output ]; then
   mkdir output/
 fi
 
+FAILURES=0
 for f in configurations/*.json; do
   filename=$(basename -- "$f")
   ./freeze-test --config $f --output output/"${filename%.*}".svg $f
   diff --color output/"${filename%.*}".svg golden/"${filename%.*}".svg
   if [ $? -ne 0 ]; then
     echo "=== Test failed for $filename ==="
-    exit 1
+    FAILURES=$((FAILURES + 1))
   fi
 done
+
+if [ $FAILURES -ne 0 ]; then
+  echo "$FAILURES tests failed"
+  rm freeze-test
+  exit 1
+fi
 
 rm freeze-test
