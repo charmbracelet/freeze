@@ -10,6 +10,7 @@ import (
 	"strconv"
 	"strings"
 
+	"github.com/acarl005/stripansi"
 	"github.com/alecthomas/chroma"
 	formatter "github.com/alecthomas/chroma/formatters/svg"
 	"github.com/alecthomas/chroma/lexers"
@@ -107,7 +108,10 @@ func main() {
 		lexer = lexers.Get(config.Language)
 	}
 
-	if lexer == nil {
+	strippedInput := stripansi.Strip(input)
+	isAnsi := strings.ToLower(config.Language) == "ansi" || strippedInput != input
+
+	if !isAnsi && lexer == nil {
 		printErrorFatal("Language Unknown", errors.New("specify a language with the --language flag"))
 	}
 
@@ -121,21 +125,30 @@ func main() {
 		printErrorFatal("No input", err)
 	}
 
-	// Format code source.
-	l := chroma.Coalesce(lexer)
-	ff := formatter.EmbedFont("JetBrains Mono", font.JetBrainsMono, formatter.WOFF2)
-	f := formatter.New(ff, formatter.FontFamily(config.Font.Family))
-	it, err := l.Tokenise(nil, input)
-	if err != nil {
-		printErrorFatal("Malformed text", err)
-	}
-	buf := &bytes.Buffer{}
-
 	s, ok := styles.Registry[strings.ToLower(config.Theme)]
 	if s == nil || !ok {
 		s = charmStyle
 	}
 
+	// Create a token iterator.
+
+	var it chroma.Iterator
+	if isAnsi {
+		// For ANSI output, we'll inject our own SVG. For now, let's just strip the ANSI
+		// codes and print the text to properly size the input.
+		it = chroma.Literator(chroma.Token{Type: chroma.Text, Value: strippedInput})
+	} else {
+		it, err = chroma.Coalesce(lexer).Tokenise(nil, input)
+	}
+
+	// Format the code to an SVG.
+	ff := formatter.EmbedFont("JetBrains Mono", font.JetBrainsMono, formatter.WOFF2)
+	f := formatter.New(ff, formatter.FontFamily(config.Font.Family))
+	if err != nil {
+		printErrorFatal("Malformed text", err)
+	}
+
+	buf := &bytes.Buffer{}
 	err = f.Format(buf, s, it)
 	if err != nil {
 		log.Fatal(err)
@@ -220,10 +233,13 @@ func main() {
 
 	g := image.SelectElement("g")
 	g.CreateAttr("font-size", fmt.Sprintf("%.2fpx", config.Font.Size))
-
 	lines := g.SelectElements("text")
 
 	for i, line := range lines {
+		if isAnsi {
+			// line.SetText("")
+		}
+
 		// Offset the text by padding...
 		// (x, y) -> (x+p, y+p)
 		if config.ShowLineNumbers {
