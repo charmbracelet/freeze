@@ -379,7 +379,7 @@ func (p *dispatcher) Print(r rune) {
 	} else {
 		lastChild = children[len(children)-1]
 	}
-	lastChild.SetText(lastChild.Text() + string(r))
+	lastChild.SetText(lastChild.Text() + string(r) + strings.Repeat(" ", runewidth.RuneWidth(r)-1))
 	p.col += runewidth.RuneWidth(r)
 	if p.background != nil {
 		p.backgroundWidth += runewidth.RuneWidth(r)
@@ -401,10 +401,12 @@ func (p *dispatcher) EscDispatch(intermediates []byte, r rune, ignore bool) {}
 func (p *dispatcher) DcsHook(prefix string, params [][]uint16, intermediates []byte, r rune, ignore bool) {
 }
 
+const fontHeightToWidthRatio = 1.67
+
 func (p *dispatcher) beginBackground(fill string) {
 	rect := etree.NewElement("rect")
 	rect.CreateAttr("fill", fill)
-	rect.CreateAttr("x", fmt.Sprintf("%.2fpx", (float64(p.col)*p.config.Font.Size/1.658)+float64(p.config.Margin[left]+p.config.Padding[left])))
+	rect.CreateAttr("x", fmt.Sprintf("%.2fpx", (float64(p.col)*p.config.Font.Size/fontHeightToWidthRatio)+float64(p.config.Margin[left]+p.config.Padding[left])))
 	rect.CreateAttr("y", fmt.Sprintf("%.2fpx", float64(p.row)*p.config.Font.Size*p.config.LineHeight+float64(p.config.Margin[top]+p.config.Padding[top])))
 	rect.CreateAttr("height", fmt.Sprintf("%.2fpx", p.config.Font.Size*p.config.LineHeight+1))
 	p.background = rect
@@ -415,7 +417,7 @@ func (p *dispatcher) endBackground() {
 		return
 	}
 
-	p.background.CreateAttr("width", fmt.Sprintf("%.2fpx", float64(p.backgroundWidth)*p.config.Font.Size/1.658+1))
+	p.background.CreateAttr("width", fmt.Sprintf("%.2fpx", float64(p.backgroundWidth)*p.config.Font.Size/fontHeightToWidthRatio+1))
 	p.svg.InsertChildAt(0, p.background)
 	p.background = nil
 	p.backgroundWidth = 0
