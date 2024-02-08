@@ -21,6 +21,7 @@ require (
 	github.com/catppuccin/go v0.2.0 // indirect
 	github.com/charmbracelet/bubbles v0.18.0 // indirect
 	github.com/charmbracelet/bubbletea v0.25.0 // indirect
+	github.com/charmbracelet/term v0.0.0-20231102161446-1c87bc120d0b // indirect
 	github.com/charmbracelet/x/exp/strings v0.0.0-20240202113029-6ff29cf0473e // indirect
 	github.com/containerd/console v1.0.4 // indirect
 	github.com/dlclark/regexp2 v1.10.0 // indirect

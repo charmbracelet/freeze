@@ -21,6 +21,7 @@ import (
 	in "github.com/charmbracelet/freeze/input"
 	"github.com/charmbracelet/freeze/svg"
 	"github.com/charmbracelet/log"
+	"github.com/charmbracelet/term/ansi/parser"
 	"github.com/kanrichan/resvg-go"
 	"github.com/mattn/go-isatty"
 )
@@ -233,13 +234,17 @@ func main() {
 
 	g := image.SelectElement("g")
 	g.CreateAttr("font-size", fmt.Sprintf("%.2fpx", config.Font.Size))
-	lines := g.SelectElements("text")
+	text := g.SelectElements("text")
 
-	for i, line := range lines {
+	d := dispatcher{
+		lines: text,
+		line:  0,
+	}
+
+	for i, line := range text {
 		if isAnsi {
-			// line.SetText("")
+			line.SetText("")
 		}
-
 		// Offset the text by padding...
 		// (x, y) -> (x+p, y+p)
 		if config.ShowLineNumbers {
@@ -252,6 +257,8 @@ func main() {
 		y := float64(i)*(config.Font.Size*config.LineHeight) + config.Font.Size + float64(config.Padding[top]) + float64(config.Margin[top])
 		svg.Move(line, x, y)
 	}
+
+	parser.New(&d).Parse(strings.NewReader(input))
 
 	istty := isatty.IsTerminal(os.Stdout.Fd())
 
@@ -344,4 +351,69 @@ func main() {
 			printErrorFatal("Unable to write output", err)
 		}
 	}
+}
+
+type dispatcher struct {
+	lines []*etree.Element
+	line  int
+}
+
+func (p *dispatcher) Print(r rune) {
+	// insert the rune in the last tspan
+	children := p.lines[p.line].ChildElements()
+	if len(children) == 0 {
+		p.lines[p.line].SetText(string(r))
+		return
+	}
+	children[len(children)-1].SetText(children[len(children)-1].Text() + string(r))
+}
+
+func (p *dispatcher) Execute(code byte) {
+	if code == 0x0A {
+		p.line++
+	}
+}
+func (p *dispatcher) DcsPut(code byte) {}
+func (p *dispatcher) DcsUnhook()       {}
+
+func (p *dispatcher) OscDispatch(params [][]byte, bellTerminated bool)      {}
+func (p *dispatcher) EscDispatch(intermediates []byte, r rune, ignore bool) {}
+func (p *dispatcher) DcsHook(prefix string, params [][]uint16, intermediates []byte, r rune, ignore bool) {
+}
+
+func (p *dispatcher) CsiDispatch(prefix string, params [][]uint16, intermediates []byte, r rune, ignore bool) {
+	span := etree.NewElement("tspan")
+	span.CreateAttr("xml:space", "preserve")
+	switch len(params) {
+	case 1:
+		if params[0][0] == 0 {
+			p.lines[p.line].AddChild(span)
+		} else {
+			span.CreateAttr("fill", lowANSI[params[0][0]])
+			p.lines[p.line].AddChild(span)
+		}
+	case 2:
+		fmt.Println(params[1][0])
+		span.CreateAttr("fill", lowANSI[params[1][0]])
+		p.lines[p.line].AddChild(span)
+	}
+}
+
+var lowANSI = map[uint16]string{
+	30: "#000000", // black
+	31: "#800000", // red
+	32: "#008000", // green
+	33: "#808000", // yellow
+	34: "#000080", // blue
+	35: "#800080", // magenta
+	36: "#008080", // cyan
+	37: "#c0c0c0", // white
+	90: "#808080", // bright black
+	91: "#ff0000", // bright red
+	92: "#00ff00", // bright green
+	93: "#ffff00", // bright yellow
+	94: "#0000ff", // bright blue
+	95: "#ff00ff", // bright magenta
+	96: "#00ffff", // bright cyan
+	97: "#ffffff", // bright white
 }
