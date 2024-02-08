@@ -24,6 +24,7 @@ import (
 	"github.com/charmbracelet/term/ansi/parser"
 	"github.com/kanrichan/resvg-go"
 	"github.com/mattn/go-isatty"
+	"github.com/mattn/go-runewidth"
 )
 
 const pngExportMultiplier = 2
@@ -237,8 +238,10 @@ func main() {
 	text := g.SelectElements("text")
 
 	d := dispatcher{
-		lines: text,
-		line:  0,
+		lines:  text,
+		row:    0,
+		svg:    g,
+		config: &config,
 	}
 
 	for i, line := range text {
@@ -258,7 +261,9 @@ func main() {
 		svg.Move(line, x, y)
 	}
 
-	parser.New(&d).Parse(strings.NewReader(input))
+	if isAnsi {
+		parser.New(&d).Parse(strings.NewReader(input))
+	}
 
 	istty := isatty.IsTerminal(os.Stdout.Fd())
 
@@ -354,23 +359,38 @@ func main() {
 }
 
 type dispatcher struct {
-	lines []*etree.Element
-	line  int
+	lines           []*etree.Element
+	row             int
+	col             int
+	svg             *etree.Element
+	background      *etree.Element
+	backgroundWidth int
+	config          *Config
 }
 
 func (p *dispatcher) Print(r rune) {
 	// insert the rune in the last tspan
-	children := p.lines[p.line].ChildElements()
+	children := p.lines[p.row].ChildElements()
+	var lastChild *etree.Element
 	if len(children) == 0 {
-		p.lines[p.line].SetText(string(r))
-		return
+		lastChild = etree.NewElement("tspan")
+		lastChild.CreateAttr("xml:space", "preserve")
+		p.lines[p.row].AddChild(lastChild)
+	} else {
+		lastChild = children[len(children)-1]
 	}
-	children[len(children)-1].SetText(children[len(children)-1].Text() + string(r))
+	lastChild.SetText(lastChild.Text() + string(r))
+	p.col += runewidth.RuneWidth(r)
+	if p.background != nil {
+		p.backgroundWidth += runewidth.RuneWidth(r)
+	}
 }
 
 func (p *dispatcher) Execute(code byte) {
 	if code == 0x0A {
-		p.line++
+		p.row++
+		p.col = 0
+		p.endBackground()
 	}
 }
 func (p *dispatcher) DcsPut(code byte) {}
@@ -381,39 +401,102 @@ func (p *dispatcher) EscDispatch(intermediates []byte, r rune, ignore bool) {}
 func (p *dispatcher) DcsHook(prefix string, params [][]uint16, intermediates []byte, r rune, ignore bool) {
 }
 
+func (p *dispatcher) beginBackground(fill string) {
+	rect := etree.NewElement("rect")
+	rect.CreateAttr("fill", fill)
+	rect.CreateAttr("x", fmt.Sprintf("%.2fpx", (float64(p.col)*p.config.Font.Size/1.658)+float64(p.config.Margin[left]+p.config.Padding[left])))
+	rect.CreateAttr("y", fmt.Sprintf("%.2fpx", float64(p.row)*p.config.Font.Size*p.config.LineHeight+float64(p.config.Margin[top]+p.config.Padding[top])))
+	rect.CreateAttr("height", fmt.Sprintf("%.2fpx", p.config.Font.Size*p.config.LineHeight+1))
+	p.background = rect
+}
+
+func (p *dispatcher) endBackground() {
+	if p.background == nil {
+		return
+	}
+
+	p.background.CreateAttr("width", fmt.Sprintf("%.2fpx", float64(p.backgroundWidth)*p.config.Font.Size/1.658+1))
+	p.svg.InsertChildAt(0, p.background)
+	p.background = nil
+	p.backgroundWidth = 0
+}
+
 func (p *dispatcher) CsiDispatch(prefix string, params [][]uint16, intermediates []byte, r rune, ignore bool) {
 	span := etree.NewElement("tspan")
 	span.CreateAttr("xml:space", "preserve")
-	switch len(params) {
-	case 1:
-		if params[0][0] == 0 {
-			p.lines[p.line].AddChild(span)
-		} else {
-			span.CreateAttr("fill", lowANSI[params[0][0]])
-			p.lines[p.line].AddChild(span)
+
+	var i int
+	for i < len(params) {
+		v := params[i][0]
+		switch v {
+		case 0:
+			// reset ANSI, this is done by creating a new empty tspan,
+			// which would reset all the styles such that when text is appended to the last
+			// child of this line there is no styling applied.
+			p.lines[p.row].AddChild(span)
+			p.endBackground()
+		case 1:
+			span.CreateAttr("font-weight", "bold")
+			p.lines[p.row].AddChild(span)
+		case 9:
+			span.CreateAttr("text-decoration", "line-through")
+			p.lines[p.row].AddChild(span)
+		case 3:
+			span.CreateAttr("font-style", "italic")
+			p.lines[p.row].AddChild(span)
+		case 4:
+			span.CreateAttr("text-decoration", "underline")
+			p.lines[p.row].AddChild(span)
+		case 30, 31, 32, 33, 34, 35, 36, 37, 90, 91, 92, 93, 94, 95, 96, 97:
+			span.CreateAttr("fill", ansi[v])
+			p.lines[p.row].AddChild(span)
+		case 38:
+			i++
+			switch params[i][0] {
+			case 5:
+				span.CreateAttr("fill", fmt.Sprintf("#%02x%02x%02x", params[i+1][0], params[i+1][0], params[i+1][0]))
+				p.lines[p.row].AddChild(span)
+				i++
+			case 2:
+				span.CreateAttr("fill", fmt.Sprintf("#%02x%02x%02x", params[i+1][0], params[i+2][0], params[i+3][0]))
+				p.lines[p.row].AddChild(span)
+				i += 3
+			}
+		case 48:
+			i++
+			switch params[i][0] {
+			case 5:
+				fill := fmt.Sprintf("#%02x%02x%02x", params[i+1][0], params[i+1][0], params[i+1][0])
+				p.beginBackground(fill)
+				i++
+			case 2:
+				fill := fmt.Sprintf("#%02x%02x%02x", params[i+1][0], params[i+2][0], params[i+3][0])
+				p.beginBackground(fill)
+				i += 3
+			}
+		case 100, 101, 102, 103, 104, 105, 106, 107:
+			p.beginBackground(ansi[v])
 		}
-	case 2:
-		fmt.Println(params[1][0])
-		span.CreateAttr("fill", lowANSI[params[1][0]])
-		p.lines[p.line].AddChild(span)
+		i++
 	}
 }
 
-var lowANSI = map[uint16]string{
-	30: "#000000", // black
-	31: "#800000", // red
-	32: "#008000", // green
-	33: "#808000", // yellow
-	34: "#000080", // blue
-	35: "#800080", // magenta
-	36: "#008080", // cyan
-	37: "#c0c0c0", // white
-	90: "#808080", // bright black
-	91: "#ff0000", // bright red
-	92: "#00ff00", // bright green
-	93: "#ffff00", // bright yellow
-	94: "#0000ff", // bright blue
-	95: "#ff00ff", // bright magenta
-	96: "#00ffff", // bright cyan
-	97: "#ffffff", // bright white
+var ansi = map[uint16]string{
+	30: "#676767", // black
+	31: "#ff5f87", // red
+	32: "#00dc7f", // green
+	33: "#e8e8a8", // yellow
+	34: "#00aaff", // blue
+	35: "#635adf", // magenta
+	36: "#ff7cdb", // cyan
+	37: "#C4C4C4", // white
+
+	90: "#676767", // bright black
+	91: "#ff5f87", // bright red
+	92: "#00dc7f", // bright green
+	93: "#e8e8a8", // bright yellow
+	94: "#00aaff", // bright blue
+	95: "#635adf", // bright magenta
+	96: "#ff7cdb", // bright cyan
+	97: "#C4C4C4", // bright white
 }
