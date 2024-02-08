@@ -438,7 +438,7 @@ func (p *dispatcher) CsiDispatch(prefix string, params [][]uint16, intermediates
 			p.lines[p.row].AddChild(span)
 			p.endBackground()
 		case 1:
-			span.CreateAttr("font-weight", "bold")
+			// span.CreateAttr("font-weight", "bold")
 			p.lines[p.row].AddChild(span)
 		case 9:
 			span.CreateAttr("text-decoration", "line-through")
@@ -484,21 +484,21 @@ func (p *dispatcher) CsiDispatch(prefix string, params [][]uint16, intermediates
 }
 
 var ansi = map[uint16]string{
-	30: "#676767", // black
-	31: "#ff5f87", // red
-	32: "#00dc7f", // green
-	33: "#e8e8a8", // yellow
-	34: "#00aaff", // blue
-	35: "#635adf", // magenta
-	36: "#ff7cdb", // cyan
-	37: "#C4C4C4", // white
+	30: "#282a2e", // black
+	31: "#D74E6F", // red
+	32: "#31BB71", // green
+	33: "#D3E561", // yellow
+	34: "#8056FF", // blue
+	35: "#ED61D7", // magenta
+	36: "#04D7D7", // cyan
+	37: "#C5C8C6", // white
 
-	90: "#676767", // bright black
-	91: "#ff5f87", // bright red
-	92: "#00dc7f", // bright green
-	93: "#e8e8a8", // bright yellow
-	94: "#00aaff", // bright blue
-	95: "#635adf", // bright magenta
-	96: "#ff7cdb", // bright cyan
-	97: "#C4C4C4", // bright white
+	90: "#4B4B4B", // bright black
+	91: "#FE5F86", // bright red
+	92: "#00D787", // bright green
+	93: "#EBFF71", // bright yellow
+	94: "#8F69FF", // bright blue
+	95: "#FF7AEA", // bright magenta
+	96: "#00FEFE", // bright cyan
+	97: "#FFFFFF", // bright white
 }
