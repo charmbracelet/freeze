@@ -20,6 +20,7 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/charmbracelet/term/ansi/parser"
 	"github.com/mattn/go-isatty"
+	"github.com/rivo/uniseg"
 )
 
 const pngExportMultiplier = 2
@@ -105,16 +106,16 @@ func main() {
 		lexer = lexers.Get(config.Language)
 	}
 
-	strippedInput := stripansi.Strip(input)
+	// adjust for 1-indexing
+	for i := range config.Lines {
+		config.Lines[i]--
+	}
+
+	strippedInput := stripansi.Strip(cut(input, config.Lines))
 	isAnsi := strings.ToLower(config.Language) == "ansi" || strippedInput != input
 
 	if !isAnsi && lexer == nil {
 		printErrorFatal("Language Unknown", errors.New("specify a language with the --language flag"))
-	}
-
-	// adjust for 1-indexing
-	for i := range config.Lines {
-		config.Lines[i]--
 	}
 
 	input = cut(input, config.Lines)
@@ -128,7 +129,6 @@ func main() {
 	}
 
 	// Create a token iterator.
-
 	var it chroma.Iterator
 	if isAnsi {
 		// For ANSI output, we'll inject our own SVG. For now, let's just strip the ANSI
@@ -255,6 +255,21 @@ func main() {
 		y := float64(i)*(config.Font.Size*config.LineHeight) + config.Font.Size + float64(config.Padding[top]) + float64(config.Margin[top])
 		svg.Move(line, x, y)
 	}
+
+	maxWidth := 0
+	for _, line := range strings.Split(strippedInput, "\n") {
+		stringWidth := uniseg.StringWidth(line)
+		if stringWidth > maxWidth {
+			maxWidth = stringWidth
+		}
+	}
+
+	textWidthPx := float64(maxWidth) * config.Font.Size / fontHeightToWidthRatio
+	hPadding := float64(config.Padding[left] + config.Padding[right])
+	hMargin := float64(config.Margin[left] + config.Margin[right])
+
+	image.CreateAttr("width", fmt.Sprintf("%.2fpx", textWidthPx+hMargin+hPadding))
+	rect.CreateAttr("width", fmt.Sprintf("%.2fpx", textWidthPx+hPadding))
 
 	if isAnsi {
 		parser.New(&d).Parse(strings.NewReader(input))

@@ -2,37 +2,46 @@ package main
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/beevik/etree"
 	"github.com/mattn/go-runewidth"
 )
 
 type dispatcher struct {
-	lines           []*etree.Element
-	row             int
-	col             int
-	svg             *etree.Element
-	background      *etree.Element
-	backgroundWidth int
-	config          *Config
+	lines   []*etree.Element
+	row     int
+	col     int
+	svg     *etree.Element
+	bg      *etree.Element
+	bgWidth int
+	config  *Config
 }
 
 func (p *dispatcher) Print(r rune) {
 	// insert the rune in the last tspan
 	children := p.lines[p.row].ChildElements()
 	var lastChild *etree.Element
-	if len(children) == 0 {
+	isFirstChild := len(children) == 0
+	if isFirstChild {
 		lastChild = etree.NewElement("tspan")
 		lastChild.CreateAttr("xml:space", "preserve")
 		p.lines[p.row].AddChild(lastChild)
 	} else {
 		lastChild = children[len(children)-1]
 	}
-	lastChild.SetText(lastChild.Text() + string(r) + strings.Repeat(" ", runewidth.RuneWidth(r)-1))
+
+	if runewidth.RuneWidth(r) > 1 {
+		newChild := lastChild.Copy()
+		newChild.SetText(string(r))
+		newChild.CreateAttr("dx", fmt.Sprintf("%.2fpx", p.config.Font.Size/5))
+		p.lines[p.row].AddChild(newChild)
+	} else {
+		lastChild.SetText(lastChild.Text() + string(r))
+	}
+
 	p.col += runewidth.RuneWidth(r)
-	if p.background != nil {
-		p.backgroundWidth += runewidth.RuneWidth(r)
+	if p.bg != nil {
+		p.bgWidth += runewidth.RuneWidth(r)
 	}
 }
 
@@ -43,13 +52,12 @@ func (p *dispatcher) Execute(code byte) {
 		p.endBackground()
 	}
 }
-func (p *dispatcher) DcsPut(code byte) {}
-func (p *dispatcher) DcsUnhook()       {}
-
 func (p *dispatcher) OscDispatch(params [][]byte, bellTerminated bool)      {}
 func (p *dispatcher) EscDispatch(intermediates []byte, r rune, ignore bool) {}
 func (p *dispatcher) DcsHook(prefix string, params [][]uint16, intermediates []byte, r rune, ignore bool) {
 }
+func (p *dispatcher) DcsPut(code byte) {}
+func (p *dispatcher) DcsUnhook()       {}
 
 const fontHeightToWidthRatio = 1.67
 
@@ -59,18 +67,18 @@ func (p *dispatcher) beginBackground(fill string) {
 	rect.CreateAttr("x", fmt.Sprintf("%.2fpx", (float64(p.col)*p.config.Font.Size/fontHeightToWidthRatio)+float64(p.config.Margin[left]+p.config.Padding[left])))
 	rect.CreateAttr("y", fmt.Sprintf("%.2fpx", float64(p.row)*p.config.Font.Size*p.config.LineHeight+float64(p.config.Margin[top]+p.config.Padding[top])))
 	rect.CreateAttr("height", fmt.Sprintf("%.2fpx", p.config.Font.Size*p.config.LineHeight+1))
-	p.background = rect
+	p.bg = rect
 }
 
 func (p *dispatcher) endBackground() {
-	if p.background == nil {
+	if p.bg == nil {
 		return
 	}
 
-	p.background.CreateAttr("width", fmt.Sprintf("%.2fpx", float64(p.backgroundWidth)*p.config.Font.Size/fontHeightToWidthRatio+1))
-	p.svg.InsertChildAt(0, p.background)
-	p.background = nil
-	p.backgroundWidth = 0
+	p.bg.CreateAttr("width", fmt.Sprintf("%.2fpx", float64(p.bgWidth)*p.config.Font.Size/fontHeightToWidthRatio+1))
+	p.svg.InsertChildAt(0, p.bg)
+	p.bg = nil
+	p.bgWidth = 0
 }
 
 func (p *dispatcher) CsiDispatch(prefix string, params [][]uint16, intermediates []byte, r rune, ignore bool) {
