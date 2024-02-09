@@ -8,7 +8,7 @@
 	font-weight: normal;
 	font-style: normal;
 }
-</style><rect width="316" height="520" fill="#222222" x="40.00px" y="40.00px" rx="8" ry="8" stroke="#515151" stroke-width="1" filter="url(#shadow)"/>
+</style><rect width="316" height="520" fill="#171717" x="40.00px" y="40.00px" rx="8" ry="8" stroke="#515151" stroke-width="1" filter="url(#shadow)"/>
 <g font-family="JetBrains Mono" font-size="14.00px" fill="#c4c4c4">
 <text x="60.00px" y="89.00px" xml:space="preserve"><tspan fill="#e8e8a8">{</tspan>
 </text><text x="60.00px" y="105.80px" xml:space="preserve">  <tspan fill="#b083ea">&quot;window&quot;</tspan><tspan fill="#e8e8a8">:</tspan> <tspan fill="#00aaff">true</tspan><tspan fill="#e8e8a8">,</tspan>
