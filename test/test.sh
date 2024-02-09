@@ -36,4 +36,9 @@ done
 
 rm freeze-test
 
-[ $FAILURES -ne 0 ] && echo "$FAILURES tests failed" && exit 1
+if [ $FAILURES -eq 0 ]; then
+  exit 0
+else
+  echo "$FAILURES tests failed"
+  exit 1
+fi
