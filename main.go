@@ -2,12 +2,9 @@ package main
 
 import (
 	"bytes"
-	"context"
 	"errors"
 	"fmt"
 	"os"
-	"os/exec"
-	"strconv"
 	"strings"
 
 	"github.com/acarl005/stripansi"
@@ -22,9 +19,7 @@ import (
 	"github.com/charmbracelet/freeze/svg"
 	"github.com/charmbracelet/log"
 	"github.com/charmbracelet/term/ansi/parser"
-	"github.com/kanrichan/resvg-go"
 	"github.com/mattn/go-isatty"
-	"github.com/mattn/go-runewidth"
 )
 
 const pngExportMultiplier = 2
@@ -269,81 +264,16 @@ func main() {
 
 	switch {
 	case strings.HasSuffix(config.Output, ".png"):
-		svg, err := doc.WriteToBytes()
-		if err != nil {
-			printErrorFatal("Unable to write output", err)
+		// use libsvg conversion.
+		err := libsvgConvert(doc, w, h, config.Output)
+		if err == nil {
+			break
 		}
 
-		if _, err := exec.LookPath("rsvg-convert"); err == nil {
-			// rsvg-convert is installed use that to convert the SVG to PNG,
-			// since it is faster.
-			rsvgConvert := exec.Command("rsvg-convert",
-				"--width", strconv.Itoa(w),
-				"--keep-aspect-ratio",
-				"-f", "png",
-				"-o", config.Output,
-			)
-			rsvgConvert.Stdin = bytes.NewReader(svg)
-			err = rsvgConvert.Run()
-			if err == nil {
-				break
-			}
-
-		}
-
-		worker, err := resvg.NewDefaultWorker(context.Background())
-		defer worker.Close()
+		// could not convert with libsvg, try resvg
+		err = resvgConvert(doc, w+config.Margin[left]+config.Margin[right], h+config.Margin[top]+config.Margin[bottom], config.Output)
 		if err != nil {
-			printErrorFatal("Unable to write output", err)
-		}
-
-		fontdb, err := worker.NewFontDBDefault()
-		defer fontdb.Close()
-		if err != nil {
-			printErrorFatal("Unable to write output", err)
-		}
-		fontdb.LoadFontData(font.JetBrainsMonoTTF)
-
-		pixmap, err := worker.NewPixmap(uint32((w + config.Margin[left] + config.Margin[right])), uint32(h+config.Margin[top]+config.Margin[bottom]))
-		defer pixmap.Close()
-		if err != nil {
-			printError("Unable to write output", err)
-			os.Exit(1)
-		}
-
-		tree, err := worker.NewTreeFromData(svg, &resvg.Options{
-			Dpi:                288.0,
-			ShapeRenderingMode: resvg.ShapeRenderingModeGeometricPrecision,
-			TextRenderingMode:  resvg.TextRenderingModeGeometricPrecision,
-			ImageRenderingMode: resvg.ImageRenderingModeOptimizeQuality,
-			FontSize:           float32(config.Font.Size),
-		})
-		defer tree.Close()
-		if err != nil {
-			printError("Unable to write output", err)
-			os.Exit(1)
-		}
-
-		err = tree.ConvertText(fontdb)
-		if err != nil {
-			printError("Unable to render text", err)
-			os.Exit(1)
-		}
-		err = tree.Render(resvg.TransformIdentity(), pixmap)
-		if err != nil {
-			printError("Unable to render PNG", err)
-			os.Exit(1)
-		}
-		png, err := pixmap.EncodePNG()
-		if err != nil {
-			printError("Unable to encode PNG", err)
-			os.Exit(1)
-		}
-
-		err = os.WriteFile(config.Output, png, 0644)
-		if err != nil {
-			printError("Unable to write output", err)
-			os.Exit(1)
+			printErrorFatal("Unable to convert PNG", err)
 		}
 
 	case strings.HasSuffix(config.Output, ".svg"):
@@ -356,149 +286,4 @@ func main() {
 			printErrorFatal("Unable to write output", err)
 		}
 	}
-}
-
-type dispatcher struct {
-	lines           []*etree.Element
-	row             int
-	col             int
-	svg             *etree.Element
-	background      *etree.Element
-	backgroundWidth int
-	config          *Config
-}
-
-func (p *dispatcher) Print(r rune) {
-	// insert the rune in the last tspan
-	children := p.lines[p.row].ChildElements()
-	var lastChild *etree.Element
-	if len(children) == 0 {
-		lastChild = etree.NewElement("tspan")
-		lastChild.CreateAttr("xml:space", "preserve")
-		p.lines[p.row].AddChild(lastChild)
-	} else {
-		lastChild = children[len(children)-1]
-	}
-	lastChild.SetText(lastChild.Text() + string(r) + strings.Repeat(" ", runewidth.RuneWidth(r)-1))
-	p.col += runewidth.RuneWidth(r)
-	if p.background != nil {
-		p.backgroundWidth += runewidth.RuneWidth(r)
-	}
-}
-
-func (p *dispatcher) Execute(code byte) {
-	if code == 0x0A {
-		p.row++
-		p.col = 0
-		p.endBackground()
-	}
-}
-func (p *dispatcher) DcsPut(code byte) {}
-func (p *dispatcher) DcsUnhook()       {}
-
-func (p *dispatcher) OscDispatch(params [][]byte, bellTerminated bool)      {}
-func (p *dispatcher) EscDispatch(intermediates []byte, r rune, ignore bool) {}
-func (p *dispatcher) DcsHook(prefix string, params [][]uint16, intermediates []byte, r rune, ignore bool) {
-}
-
-const fontHeightToWidthRatio = 1.67
-
-func (p *dispatcher) beginBackground(fill string) {
-	rect := etree.NewElement("rect")
-	rect.CreateAttr("fill", fill)
-	rect.CreateAttr("x", fmt.Sprintf("%.2fpx", (float64(p.col)*p.config.Font.Size/fontHeightToWidthRatio)+float64(p.config.Margin[left]+p.config.Padding[left])))
-	rect.CreateAttr("y", fmt.Sprintf("%.2fpx", float64(p.row)*p.config.Font.Size*p.config.LineHeight+float64(p.config.Margin[top]+p.config.Padding[top])))
-	rect.CreateAttr("height", fmt.Sprintf("%.2fpx", p.config.Font.Size*p.config.LineHeight+1))
-	p.background = rect
-}
-
-func (p *dispatcher) endBackground() {
-	if p.background == nil {
-		return
-	}
-
-	p.background.CreateAttr("width", fmt.Sprintf("%.2fpx", float64(p.backgroundWidth)*p.config.Font.Size/fontHeightToWidthRatio+1))
-	p.svg.InsertChildAt(0, p.background)
-	p.background = nil
-	p.backgroundWidth = 0
-}
-
-func (p *dispatcher) CsiDispatch(prefix string, params [][]uint16, intermediates []byte, r rune, ignore bool) {
-	span := etree.NewElement("tspan")
-	span.CreateAttr("xml:space", "preserve")
-
-	var i int
-	for i < len(params) {
-		v := params[i][0]
-		switch v {
-		case 0:
-			// reset ANSI, this is done by creating a new empty tspan,
-			// which would reset all the styles such that when text is appended to the last
-			// child of this line there is no styling applied.
-			p.lines[p.row].AddChild(span)
-			p.endBackground()
-		case 1:
-			// span.CreateAttr("font-weight", "bold")
-			p.lines[p.row].AddChild(span)
-		case 9:
-			span.CreateAttr("text-decoration", "line-through")
-			p.lines[p.row].AddChild(span)
-		case 3:
-			span.CreateAttr("font-style", "italic")
-			p.lines[p.row].AddChild(span)
-		case 4:
-			span.CreateAttr("text-decoration", "underline")
-			p.lines[p.row].AddChild(span)
-		case 30, 31, 32, 33, 34, 35, 36, 37, 90, 91, 92, 93, 94, 95, 96, 97:
-			span.CreateAttr("fill", ansi[v])
-			p.lines[p.row].AddChild(span)
-		case 38:
-			i++
-			switch params[i][0] {
-			case 5:
-				span.CreateAttr("fill", fmt.Sprintf("#%02x%02x%02x", params[i+1][0], params[i+1][0], params[i+1][0]))
-				p.lines[p.row].AddChild(span)
-				i++
-			case 2:
-				span.CreateAttr("fill", fmt.Sprintf("#%02x%02x%02x", params[i+1][0], params[i+2][0], params[i+3][0]))
-				p.lines[p.row].AddChild(span)
-				i += 3
-			}
-		case 48:
-			i++
-			switch params[i][0] {
-			case 5:
-				fill := fmt.Sprintf("#%02x%02x%02x", params[i+1][0], params[i+1][0], params[i+1][0])
-				p.beginBackground(fill)
-				i++
-			case 2:
-				fill := fmt.Sprintf("#%02x%02x%02x", params[i+1][0], params[i+2][0], params[i+3][0])
-				p.beginBackground(fill)
-				i += 3
-			}
-		case 100, 101, 102, 103, 104, 105, 106, 107:
-			p.beginBackground(ansi[v])
-		}
-		i++
-	}
-}
-
-var ansi = map[uint16]string{
-	30: "#282a2e", // black
-	31: "#D74E6F", // red
-	32: "#31BB71", // green
-	33: "#D3E561", // yellow
-	34: "#8056FF", // blue
-	35: "#ED61D7", // magenta
-	36: "#04D7D7", // cyan
-	37: "#C5C8C6", // white
-
-	90: "#4B4B4B", // bright black
-	91: "#FE5F86", // bright red
-	92: "#00D787", // bright green
-	93: "#EBFF71", // bright yellow
-	94: "#8F69FF", // bright blue
-	95: "#FF7AEA", // bright magenta
-	96: "#00FEFE", // bright cyan
-	97: "#FFFFFF", // bright white
 }
