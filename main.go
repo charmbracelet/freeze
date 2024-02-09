@@ -2,12 +2,9 @@ package main
 
 import (
 	"bytes"
-	"context"
 	"errors"
 	"fmt"
 	"os"
-	"os/exec"
-	"strconv"
 	"strings"
 
 	"github.com/acarl005/stripansi"
@@ -21,8 +18,9 @@ import (
 	in "github.com/charmbracelet/freeze/input"
 	"github.com/charmbracelet/freeze/svg"
 	"github.com/charmbracelet/log"
-	"github.com/kanrichan/resvg-go"
+	"github.com/charmbracelet/term/ansi/parser"
 	"github.com/mattn/go-isatty"
+	"github.com/rivo/uniseg"
 )
 
 const pngExportMultiplier = 2
@@ -108,16 +106,16 @@ func main() {
 		lexer = lexers.Get(config.Language)
 	}
 
-	strippedInput := stripansi.Strip(input)
+	// adjust for 1-indexing
+	for i := range config.Lines {
+		config.Lines[i]--
+	}
+
+	strippedInput := stripansi.Strip(cut(input, config.Lines))
 	isAnsi := strings.ToLower(config.Language) == "ansi" || strippedInput != input
 
 	if !isAnsi && lexer == nil {
 		printErrorFatal("Language Unknown", errors.New("specify a language with the --language flag"))
-	}
-
-	// adjust for 1-indexing
-	for i := range config.Lines {
-		config.Lines[i]--
 	}
 
 	input = cut(input, config.Lines)
@@ -131,7 +129,6 @@ func main() {
 	}
 
 	// Create a token iterator.
-
 	var it chroma.Iterator
 	if isAnsi {
 		// For ANSI output, we'll inject our own SVG. For now, let's just strip the ANSI
@@ -233,13 +230,19 @@ func main() {
 
 	g := image.SelectElement("g")
 	g.CreateAttr("font-size", fmt.Sprintf("%.2fpx", config.Font.Size))
-	lines := g.SelectElements("text")
+	text := g.SelectElements("text")
 
-	for i, line := range lines {
+	d := dispatcher{
+		lines:  text,
+		row:    0,
+		svg:    g,
+		config: &config,
+	}
+
+	for i, line := range text {
 		if isAnsi {
-			// line.SetText("")
+			line.SetText("")
 		}
-
 		// Offset the text by padding...
 		// (x, y) -> (x+p, y+p)
 		if config.ShowLineNumbers {
@@ -253,85 +256,39 @@ func main() {
 		svg.Move(line, x, y)
 	}
 
+	maxWidth := 0
+	for _, line := range strings.Split(strippedInput, "\n") {
+		stringWidth := uniseg.StringWidth(line)
+		if stringWidth > maxWidth {
+			maxWidth = stringWidth
+		}
+	}
+
+	textWidthPx := float64(maxWidth) * config.Font.Size / fontHeightToWidthRatio
+	hPadding := float64(config.Padding[left] + config.Padding[right])
+	hMargin := float64(config.Margin[left] + config.Margin[right])
+
+	image.CreateAttr("width", fmt.Sprintf("%.2fpx", textWidthPx+hMargin+hPadding))
+	rect.CreateAttr("width", fmt.Sprintf("%.2fpx", textWidthPx+hPadding))
+
+	if isAnsi {
+		parser.New(&d).Parse(strings.NewReader(input))
+	}
+
 	istty := isatty.IsTerminal(os.Stdout.Fd())
 
 	switch {
 	case strings.HasSuffix(config.Output, ".png"):
-		svg, err := doc.WriteToBytes()
-		if err != nil {
-			printErrorFatal("Unable to write output", err)
+		// use libsvg conversion.
+		err := libsvgConvert(doc, w, h, config.Output)
+		if err == nil {
+			break
 		}
 
-		if _, err := exec.LookPath("rsvg-convert"); err == nil {
-			// rsvg-convert is installed use that to convert the SVG to PNG,
-			// since it is faster.
-			rsvgConvert := exec.Command("rsvg-convert",
-				"--width", strconv.Itoa(w),
-				"--keep-aspect-ratio",
-				"-f", "png",
-				"-o", config.Output,
-			)
-			rsvgConvert.Stdin = bytes.NewReader(svg)
-			err = rsvgConvert.Run()
-			if err == nil {
-				break
-			}
-
-		}
-
-		worker, err := resvg.NewDefaultWorker(context.Background())
-		defer worker.Close()
+		// could not convert with libsvg, try resvg
+		err = resvgConvert(doc, w+config.Margin[left]+config.Margin[right], h+config.Margin[top]+config.Margin[bottom], config.Output)
 		if err != nil {
-			printErrorFatal("Unable to write output", err)
-		}
-
-		fontdb, err := worker.NewFontDBDefault()
-		defer fontdb.Close()
-		if err != nil {
-			printErrorFatal("Unable to write output", err)
-		}
-		fontdb.LoadFontData(font.JetBrainsMonoTTF)
-
-		pixmap, err := worker.NewPixmap(uint32((w + config.Margin[left] + config.Margin[right])), uint32(h+config.Margin[top]+config.Margin[bottom]))
-		defer pixmap.Close()
-		if err != nil {
-			printError("Unable to write output", err)
-			os.Exit(1)
-		}
-
-		tree, err := worker.NewTreeFromData(svg, &resvg.Options{
-			Dpi:                288.0,
-			ShapeRenderingMode: resvg.ShapeRenderingModeGeometricPrecision,
-			TextRenderingMode:  resvg.TextRenderingModeGeometricPrecision,
-			ImageRenderingMode: resvg.ImageRenderingModeOptimizeQuality,
-			FontSize:           float32(config.Font.Size),
-		})
-		defer tree.Close()
-		if err != nil {
-			printError("Unable to write output", err)
-			os.Exit(1)
-		}
-
-		err = tree.ConvertText(fontdb)
-		if err != nil {
-			printError("Unable to render text", err)
-			os.Exit(1)
-		}
-		err = tree.Render(resvg.TransformIdentity(), pixmap)
-		if err != nil {
-			printError("Unable to render PNG", err)
-			os.Exit(1)
-		}
-		png, err := pixmap.EncodePNG()
-		if err != nil {
-			printError("Unable to encode PNG", err)
-			os.Exit(1)
-		}
-
-		err = os.WriteFile(config.Output, png, 0644)
-		if err != nil {
-			printError("Unable to write output", err)
-			os.Exit(1)
+			printErrorFatal("Unable to convert PNG", err)
 		}
 
 	case strings.HasSuffix(config.Output, ".svg"):
