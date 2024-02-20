@@ -59,7 +59,7 @@ type Border struct {
 type Font struct {
 	Family    string  `json:"family" help:"Font family to use for code." placeholder:"monospace"`
 	Size      float64 `json:"size" help:"Font size to use for code." placeholder:"14"`
-	Ligatures bool    `json:"ligatures" help:"Use ligatures in the font." placeholder:"false"`
+	Ligatures bool    `json:"ligatures" help:"Use ligatures in the font." placeholder:"true" value:"true" negatable:""`
 }
 
 //go:embed configurations/*

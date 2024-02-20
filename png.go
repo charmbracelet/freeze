@@ -54,6 +54,7 @@ func resvgConvert(doc *etree.Document, w, h int, output string) error {
 		printErrorFatal("Unable to write output", err)
 	}
 	fontdb.LoadFontData(font.JetBrainsMonoTTF)
+	fontdb.LoadFontData(font.JetBrainsMonoNLTTF)
 
 	pixmap, err := worker.NewPixmap(uint32(w), uint32(h))
 	defer pixmap.Close()
