@@ -12,10 +12,10 @@ Capture and share your code on the command line.
 To generate an image of your code, run:
 
 ```sh
-freeze main.go -o out.svg
+freeze artichoke.hs -o artichoke.svg
 ```
 
-Your image file will live in `out.svg`.
+Your image file will live in `artichoke.svg`.
 
 <p align="center">
   <img alt="output of freeze command, haskell code block" src="./examples/shadow.svg" width="800" />
