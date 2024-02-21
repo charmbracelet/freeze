@@ -15,17 +15,8 @@ Capture and share your code on the command line.
 
 To generate an image of your code, run:
 
-<img alt="a terminal running: freeze -wsm 20 -r 8 artichoke.hs" src="https://vhs.charm.sh/vhs-3yL9rCVdQNUjYwVBqzW7Kc.gif" width="600" />
-
 ```sh
 freeze main.go -o out.svg
-```
-
-or pass data through `stdin`:
-
-```sh
-# capture lines 5 - 20.
-sed -n 5,20p main.go | freeze
 ```
 
 Your image file will live in `out.svg`.
