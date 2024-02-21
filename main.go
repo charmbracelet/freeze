@@ -272,6 +272,7 @@ func main() {
 	textWidthPx := float64(maxWidth) * config.Font.Size / fontHeightToWidthRatio
 	hPadding := float64(config.Padding[left] + config.Padding[right])
 	hMargin := float64(config.Margin[left] + config.Margin[right])
+	vMargin := float64(config.Margin[top] + config.Margin[bottom])
 
 	image.CreateAttr("width", fmt.Sprintf("%.2fpx", textWidthPx+hMargin+hPadding))
 	rect.CreateAttr("width", fmt.Sprintf("%.2fpx", textWidthPx+hPadding))
@@ -291,7 +292,7 @@ func main() {
 		}
 
 		// could not convert with libsvg, try resvg
-		err = resvgConvert(doc, w+config.Margin[left]+config.Margin[right], h+config.Margin[top]+config.Margin[bottom], config.Output)
+		err = resvgConvert(doc, int(textWidthPx+hMargin+hPadding), h+int(vMargin), config.Output)
 		if err != nil {
 			printErrorFatal("Unable to convert PNG", err)
 		}
