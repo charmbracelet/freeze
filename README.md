@@ -7,10 +7,6 @@
 
 Capture and share your code on the command line.
 
-<p align="center">
-  <img alt="output of freeze command, haskell code block" src="./examples/shadow.svg" width="800" />
-</p>
-
 ## Tutorial
 
 To generate an image of your code, run:
@@ -20,6 +16,10 @@ freeze main.go -o out.svg
 ```
 
 Your image file will live in `out.svg`.
+
+<p align="center">
+  <img alt="output of freeze command, haskell code block" src="./examples/shadow.svg" width="800" />
+</p>
 
 ## Installation
 
