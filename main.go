@@ -173,14 +173,18 @@ func main() {
 
 	rect := image.SelectElement("rect")
 
-	// apply multiplier
-	w *= multiplier
-	h *= multiplier
 	config.Font.Size *= float64(multiplier)
 
+	lineNumberAdjust := 0
+
+	// apply multiplier
 	if config.ShowLineNumbers {
-		w += int(config.Font.Size * 3)
+		lineNumberAdjust = int(config.Font.Size * 3)
 	}
+	w += lineNumberAdjust
+
+	w *= multiplier
+	h *= multiplier
 
 	for i := range config.Padding {
 		config.Padding[i] *= multiplier
@@ -270,7 +274,7 @@ func main() {
 		}
 	}
 
-	textWidthPx := float64(maxWidth) * config.Font.Size / fontHeightToWidthRatio
+	textWidthPx := float64(lineNumberAdjust) + (float64(maxWidth) * config.Font.Size / fontHeightToWidthRatio)
 	hPadding := float64(config.Padding[left] + config.Padding[right])
 	hMargin := float64(config.Margin[left] + config.Margin[right])
 	vMargin := float64(config.Margin[top] + config.Margin[bottom])
