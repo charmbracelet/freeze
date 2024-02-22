@@ -252,6 +252,7 @@ func main() {
 		// (x, y) -> (x+p, y+p)
 		if config.ShowLineNumbers {
 			ln := etree.NewElement("tspan")
+			ln.CreateAttr("xml:space", "preserve")
 			ln.CreateAttr("fill", s.Get(chroma.LineNumbers).Colour.String())
 			ln.SetText(fmt.Sprintf("%3d  ", i+1))
 			line.InsertChildAt(0, ln)
