@@ -121,8 +121,12 @@ func main() {
 	}
 
 	input = cut(input, config.Lines)
-	if err != nil || input == "" {
-		printErrorFatal("No input", err)
+	if input == "" {
+		if err != nil {
+			printErrorFatal("No input", err)
+		} else {
+			printErrorFatal("No input", errors.New("check --lines is within bounds"))
+		}
 	}
 
 	s, ok := styles.Registry[strings.ToLower(config.Theme)]
