@@ -111,8 +111,9 @@ func main() {
 		config.Lines[i]--
 	}
 
-	strippedInput := stripansi.Strip(cut(input, config.Lines))
+	strippedInput := stripansi.Strip(input)
 	isAnsi := strings.ToLower(config.Language) == "ansi" || strippedInput != input
+	strippedInput = cut(strippedInput, config.Lines)
 
 	if !isAnsi && lexer == nil {
 		printErrorFatal("Language Unknown", errors.New("specify a language with the --language flag"))
