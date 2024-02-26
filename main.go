@@ -5,6 +5,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 
 	"github.com/acarl005/stripansi"
@@ -303,7 +304,10 @@ func main() {
 			printErrorFatal("Unable to convert PNG", err)
 		}
 
-	case strings.HasSuffix(config.Output, ".svg"):
+	default:
+		if config.Output == "" && len(ctx.Args) > 0 {
+			config.Output = strings.TrimSuffix(filepath.Base(ctx.Args[0]), filepath.Ext(ctx.Args[0])) + ".svg"
+		}
 		if istty {
 			err = doc.WriteToFile(config.Output)
 		} else {
