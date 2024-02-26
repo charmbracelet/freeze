@@ -15,6 +15,7 @@ require (
 	github.com/kanrichan/resvg-go v0.0.2-0.20231001163256-63db194ca9f5
 	github.com/mattn/go-isatty v0.0.20
 	github.com/mattn/go-runewidth v0.0.15
+	github.com/rivo/uniseg v0.4.6
 )
 
 require (
@@ -34,7 +35,6 @@ require (
 	github.com/muesli/cancelreader v0.2.2 // indirect
 	github.com/muesli/reflow v0.3.0 // indirect
 	github.com/muesli/termenv v0.15.2 // indirect
-	github.com/rivo/uniseg v0.4.6 // indirect
 	github.com/tetratelabs/wazero v1.6.0 // indirect
 	golang.org/x/exp v0.0.0-20240205201215-2c58cdc269a3 // indirect
 	golang.org/x/sync v0.6.0 // indirect
