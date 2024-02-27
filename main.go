@@ -273,6 +273,7 @@ func main() {
 	}
 
 	maxWidth := 0
+	strippedInput = strings.ReplaceAll(strippedInput, "\t", "    ")
 	for _, line := range strings.Split(strippedInput, "\n") {
 		stringWidth := uniseg.StringWidth(line)
 		if stringWidth > maxWidth {
@@ -280,7 +281,7 @@ func main() {
 		}
 	}
 
-	textWidthPx := float64(lineNumberAdjust) + (float64(maxWidth) * config.Font.Size / fontHeightToWidthRatio)
+	textWidthPx := float64(lineNumberAdjust) + (float64(maxWidth+1) * (config.Font.Size / fontHeightToWidthRatio))
 	hPadding := float64(config.Padding[left] + config.Padding[right])
 	hMargin := float64(config.Margin[left] + config.Margin[right])
 	vMargin := float64(config.Margin[top] + config.Margin[bottom])

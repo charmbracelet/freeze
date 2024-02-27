@@ -59,7 +59,7 @@ func (p *dispatcher) DcsHook(prefix string, params [][]uint16, intermediates []b
 func (p *dispatcher) DcsPut(code byte) {}
 func (p *dispatcher) DcsUnhook()       {}
 
-const fontHeightToWidthRatio = 1.67
+const fontHeightToWidthRatio = 1.68
 
 func (p *dispatcher) beginBackground(fill string) {
 	rect := etree.NewElement("rect")
