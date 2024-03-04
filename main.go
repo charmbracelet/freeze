@@ -311,7 +311,7 @@ func main() {
 
 	default:
 		if config.Output == "" {
-			if len(ctx.Args) > 0 {
+			if len(ctx.Args) > 0 && ctx.Args[0] != "-" {
 				config.Output = strings.TrimSuffix(filepath.Base(ctx.Args[0]), filepath.Ext(ctx.Args[0])) + ".svg"
 			} else {
 				config.Output = "out.svg"
