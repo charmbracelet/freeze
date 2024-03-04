@@ -145,13 +145,18 @@ func main() {
 	}
 
 	// Format the code to an SVG.
-	fontFamily := font.JetBrainsMono
-	if !config.Font.Ligatures {
-		fontFamily = font.JetBrainsMonoNL
+	var options []formatter.Option
+	if config.Font.Family == "" {
+		config.Font.Family = "JetBrains Mono"
+		fontBase64 := font.JetBrainsMono
+		if !config.Font.Ligatures {
+			fontBase64 = font.JetBrainsMonoNL
+		}
+		options = append(options, formatter.EmbedFont(config.Font.Family, fontBase64, formatter.WOFF2))
 	}
+	options = append(options, formatter.FontFamily(config.Font.Family))
 
-	ff := formatter.EmbedFont("JetBrains Mono", fontFamily, formatter.WOFF2)
-	f := formatter.New(ff, formatter.FontFamily(config.Font.Family))
+	f := formatter.New(options...)
 	if err != nil {
 		printErrorFatal("Malformed text", err)
 	}
