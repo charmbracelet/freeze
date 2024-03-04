@@ -72,6 +72,7 @@ There are many different configuration options:
 * [`--shadow.y`](#shadow): Shadow offset y coordinate.
 * [`--font.family`](#font): Font family to use for code.
 * [`--font.size`](#font): Font size to use for code.
+* [`--font.file`](#font): File path to the font to use (will be embed in the SVG).
 * [`--line-height`](#font): Line height relative to font size.
 
 ### Language
@@ -122,6 +123,9 @@ freeze artichoke.hs \
   --font.size 16 \
   --line-height 1.4
 ```
+
+You can also embed a font file (in TTF, WOFF, or WOFF2 format) using the
+`--font.file` flag.
 
 ### Border Radius
 

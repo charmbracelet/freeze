@@ -15,7 +15,6 @@ import (
 	"github.com/alecthomas/chroma/styles"
 	"github.com/alecthomas/kong"
 	"github.com/beevik/etree"
-	"github.com/charmbracelet/freeze/font"
 	in "github.com/charmbracelet/freeze/input"
 	"github.com/charmbracelet/freeze/svg"
 	"github.com/charmbracelet/log"
@@ -145,16 +144,10 @@ func main() {
 	}
 
 	// Format the code to an SVG.
-	var options []formatter.Option
-	if config.Font.Family == "" {
-		config.Font.Family = "JetBrains Mono"
-		fontBase64 := font.JetBrainsMono
-		if !config.Font.Ligatures {
-			fontBase64 = font.JetBrainsMonoNL
-		}
-		options = append(options, formatter.EmbedFont(config.Font.Family, fontBase64, formatter.WOFF2))
+	options, err := fontOptions(&config)
+	if err != nil {
+		printErrorFatal("Invalid font options", err)
 	}
-	options = append(options, formatter.FontFamily(config.Font.Family))
 
 	f := formatter.New(options...)
 	if err != nil {

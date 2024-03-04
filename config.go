@@ -58,6 +58,7 @@ type Border struct {
 // Font is the configuration options for a font.
 type Font struct {
 	Family    string  `json:"family" help:"Font family to use for code." placeholder:"monospace"`
+	File      string  `json:"file" help:"Path to the font file" placeholder:"monospace.ttf"`
 	Size      float64 `json:"size" help:"Font size to use for code." placeholder:"14"`
 	Ligatures bool    `json:"ligatures" help:"Use ligatures in the font." placeholder:"true" value:"true" negatable:""`
 }
@@ -102,7 +103,6 @@ func saveUserConfig(config Config) error {
 	config.Interactive = false
 
 	err := os.MkdirAll(filepath.Dir(userConfigPath), os.ModePerm)
-
 	if err != nil {
 		return err
 	}
