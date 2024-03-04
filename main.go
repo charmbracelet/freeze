@@ -315,14 +315,14 @@ func main() {
 		}
 
 	default:
-		if config.Output == "" {
-			if len(ctx.Args) > 0 {
+		if config.Output == "" && istty {
+			if len(ctx.Args) > 0 && ctx.Args[0] != "-" {
 				config.Output = strings.TrimSuffix(filepath.Base(ctx.Args[0]), filepath.Ext(ctx.Args[0])) + ".svg"
 			} else {
 				config.Output = "out.svg"
 			}
 		}
-		if istty {
+		if config.Output != "" {
 			err = doc.WriteToFile(config.Output)
 		} else {
 			_, err = doc.WriteTo(os.Stdout)
