@@ -38,8 +38,8 @@ func fontOptions(config *Config) ([]svg.Option, error) {
 			format = svg.WOFF
 		default:
 			return nil, fmt.Errorf("%s is not a supported font extension", ext)
-
 		}
+
 		return []svg.Option{
 			svg.EmbedFont(
 				config.Font.Family,
