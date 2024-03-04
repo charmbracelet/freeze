@@ -10,7 +10,7 @@ require (
 	github.com/beevik/etree v1.3.0
 	github.com/charmbracelet/huh v0.3.1-0.20240304170129-62bda512dd1e
 	github.com/charmbracelet/lipgloss v0.9.2-0.20240302194857-652c37dd0748
-	github.com/charmbracelet/log v0.3.2-0.20240304161822-ac0e6b17de4d
+	github.com/charmbracelet/log v0.3.2-0.20240304184442-28193306e6f5
 	github.com/charmbracelet/term v0.0.0-20231102161446-1c87bc120d0b
 	github.com/kanrichan/resvg-go v0.0.2-0.20231001163256-63db194ca9f5
 	github.com/mattn/go-isatty v0.0.20
@@ -36,7 +36,7 @@ require (
 	github.com/muesli/reflow v0.3.0 // indirect
 	github.com/muesli/termenv v0.15.2 // indirect
 	github.com/tetratelabs/wazero v1.6.0 // indirect
-	golang.org/x/exp v0.0.0-20240222234643-814bf88cf225 // indirect
+	golang.org/x/exp v0.0.0-20231006140011-7918f672742d // indirect
 	golang.org/x/sync v0.6.0 // indirect
 	golang.org/x/sys v0.18.0 // indirect
 	golang.org/x/term v0.18.0 // indirect
