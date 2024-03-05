@@ -314,15 +314,31 @@ func main() {
 		}
 
 	default:
-		if config.Output == "" && istty {
-			if len(ctx.Args) > 0 && ctx.Args[0] != "-" {
-				config.Output = strings.TrimSuffix(filepath.Base(ctx.Args[0]), filepath.Ext(ctx.Args[0])) + ".svg"
-			} else {
-				config.Output = "out.svg"
-			}
-		}
+		// output file specified.
 		if config.Output != "" {
 			err = doc.WriteToFile(config.Output)
+			if err != nil {
+				printErrorFatal("Unable to write output", err)
+			}
+			return
+		}
+
+		// reading from stdin.
+		if config.Input == "" || config.Input == "-" {
+			if istty {
+				err = doc.WriteToFile(defaultOutputFilename)
+			} else {
+				_, err = doc.WriteTo(os.Stdout)
+			}
+			if err != nil {
+				printErrorFatal("Unable to write output", err)
+			}
+			return
+		}
+
+		// reading from file.
+		if istty {
+			err = doc.WriteToFile(strings.TrimSuffix(filepath.Base(config.Input), filepath.Ext(config.Input)) + ".svg")
 		} else {
 			_, err = doc.WriteTo(os.Stdout)
 		}
