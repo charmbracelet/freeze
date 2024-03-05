@@ -18,15 +18,15 @@ var (
 
 func runForm(config *Config) (*Config, error) {
 	var (
-		padding      string = strings.Trim(fmt.Sprintf("%v", config.Padding), "[]")
-		margin       string = strings.Trim(fmt.Sprintf("%v", config.Margin), "[]")
-		fontSize     string = fmt.Sprintf("%d", int(config.Font.Size))
-		lineHeight   string = fmt.Sprintf("%.1f", config.LineHeight)
-		borderRadius string = fmt.Sprintf("%d", config.Border.Radius)
-		borderWidth  string = fmt.Sprintf("%d", config.Border.Width)
-		shadowBlur   string = fmt.Sprintf("%d", config.Shadow.Blur)
-		shadowX      string = fmt.Sprintf("%d", config.Shadow.X)
-		shadowY      string = fmt.Sprintf("%d", config.Shadow.Y)
+		padding      = strings.Trim(fmt.Sprintf("%v", config.Padding), "[]")
+		margin       = strings.Trim(fmt.Sprintf("%v", config.Margin), "[]")
+		fontSize     = fmt.Sprintf("%d", int(config.Font.Size))
+		lineHeight   = fmt.Sprintf("%.1f", config.LineHeight)
+		borderRadius = fmt.Sprintf("%d", config.Border.Radius)
+		borderWidth  = fmt.Sprintf("%d", config.Border.Width)
+		shadowBlur   = fmt.Sprintf("%d", config.Shadow.Blur)
+		shadowX      = fmt.Sprintf("%d", config.Shadow.X)
+		shadowY      = fmt.Sprintf("%d", config.Shadow.Y)
 	)
 
 	theme := huh.ThemeCharm()
