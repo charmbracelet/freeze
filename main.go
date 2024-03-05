@@ -68,10 +68,10 @@ func main() {
 	}
 
 	if config.Interactive {
-		cfg, err := runForm(&config)
+		cfg, interativeErr := runForm(&config)
 		config = *cfg
-		if err != nil {
-			printErrorFatal("", err)
+		if interativeErr != nil {
+			printErrorFatal("", interativeErr)
 		}
 		if isDefaultConfig {
 			_ = saveUserConfig(*cfg)
@@ -302,15 +302,15 @@ func main() {
 	switch {
 	case strings.HasSuffix(config.Output, ".png"):
 		// use libsvg conversion.
-		err := libsvgConvert(doc, w, h, config.Output)
-		if err == nil {
+		svgConversionErr := libsvgConvert(doc, w, h, config.Output)
+		if svgConversionErr == nil {
 			break
 		}
 
 		// could not convert with libsvg, try resvg
-		err = resvgConvert(doc, int(textWidthPx+hMargin+hPadding), h+int(vMargin), config.Output)
-		if err != nil {
-			printErrorFatal("Unable to convert PNG", err)
+		svgConversionErr = resvgConvert(doc, int(textWidthPx+hMargin+hPadding), h+int(vMargin), config.Output)
+		if svgConversionErr != nil {
+			printErrorFatal("Unable to convert SVG to PNG", svgConversionErr)
 		}
 
 	default:
