@@ -38,6 +38,11 @@ func fontOptions(config *Config) ([]svg.Option, error) {
 			svg.FontFamily(config.Font.Family),
 		}, nil
 	}
+	if config.Font.Family != "JetBrains Mono" {
+		return []svg.Option{
+			svg.FontFamily(config.Font.Family),
+		}, nil
+	}
 	config.Font.Family = "JetBrains Mono"
 	fontBase64 := font.JetBrainsMono
 	if !config.Font.Ligatures {

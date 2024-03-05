@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg width="319.88px" height="520" xmlns="http://www.w3.org/2000/svg">
+<svg width="326.67px" height="520" xmlns="http://www.w3.org/2000/svg">
 <style>
 @font-face {
 	font-family: &apos;JetBrains Mono&apos;;
@@ -8,7 +8,7 @@
 	font-weight: normal;
 	font-style: normal;
 }
-</style><rect width="319.88px" height="520" fill="#171717" x="0.00px" y="0.00px"/>
+</style><rect width="326.67px" height="520" fill="#171717" x="0.00px" y="0.00px"/>
 <g font-family="JetBrains Mono" font-size="14.00px" fill="#c4c4c4">
 <text x="20.00px" y="34.00px" xml:space="preserve"><tspan fill="#e8e8a8">{</tspan>
 </text><text x="20.00px" y="50.80px" xml:space="preserve">  <tspan fill="#b083ea">&quot;window&quot;</tspan><tspan fill="#e8e8a8">:</tspan> <tspan fill="#00aaff">false</tspan><tspan fill="#e8e8a8">,</tspan>
