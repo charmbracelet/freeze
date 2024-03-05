@@ -68,10 +68,10 @@ func main() {
 	}
 
 	if config.Interactive {
-		cfg, err := runForm(&config)
+		cfg, interativeErr := runForm(&config)
 		config = *cfg
-		if err != nil {
-			printErrorFatal("", err)
+		if interativeErr != nil {
+			printErrorFatal("", interativeErr)
 		}
 		if isDefaultConfig {
 			_ = saveUserConfig(*cfg)
@@ -141,6 +141,9 @@ func main() {
 		it = chroma.Literator(chroma.Token{Type: chroma.Text, Value: strippedInput})
 	} else {
 		it, err = chroma.Coalesce(lexer).Tokenise(nil, input)
+		if err != nil {
+			printErrorFatal("Could not lex file", err)
+		}
 	}
 
 	// Format the code to an SVG.
@@ -288,7 +291,10 @@ func main() {
 	rect.CreateAttr("width", fmt.Sprintf("%.2fpx", textWidthPx+hPadding))
 
 	if isAnsi {
-		parser.New(&d).Parse(strings.NewReader(input))
+		ansiParseErr := parser.New(&d).Parse(strings.NewReader(input))
+		if ansiParseErr != nil {
+			printErrorFatal("Could not parse ANSI", ansiParseErr)
+		}
 	}
 
 	istty := isatty.IsTerminal(os.Stdout.Fd())
@@ -296,15 +302,15 @@ func main() {
 	switch {
 	case strings.HasSuffix(config.Output, ".png"):
 		// use libsvg conversion.
-		err := libsvgConvert(doc, w, h, config.Output)
-		if err == nil {
+		svgConversionErr := libsvgConvert(doc, w, h, config.Output)
+		if svgConversionErr == nil {
 			break
 		}
 
 		// could not convert with libsvg, try resvg
-		err = resvgConvert(doc, int(textWidthPx+hMargin+hPadding), h+int(vMargin), config.Output)
-		if err != nil {
-			printErrorFatal("Unable to convert PNG", err)
+		svgConversionErr = resvgConvert(doc, int(textWidthPx+hMargin+hPadding), h+int(vMargin), config.Output)
+		if svgConversionErr != nil {
+			printErrorFatal("Unable to convert SVG to PNG", svgConversionErr)
 		}
 
 	default:

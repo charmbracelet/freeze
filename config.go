@@ -11,6 +11,8 @@ import (
 	"github.com/adrg/xdg"
 )
 
+const defaultOutputFilename = "out.svg"
+
 // Config is the configuration options for a screenshot.
 type Config struct {
 	Input string `json:",omitempty" arg:"" help:"Code to screenshot." optional:""`
