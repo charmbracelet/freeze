@@ -18,7 +18,7 @@ import (
 	in "github.com/charmbracelet/freeze/input"
 	"github.com/charmbracelet/freeze/svg"
 	"github.com/charmbracelet/log"
-	"github.com/charmbracelet/term/ansi/parser"
+	parser "github.com/charmbracelet/x/exp/term/vtparser"
 	"github.com/mattn/go-isatty"
 	"github.com/rivo/uniseg"
 )
