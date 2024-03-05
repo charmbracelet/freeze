@@ -141,6 +141,9 @@ func main() {
 		it = chroma.Literator(chroma.Token{Type: chroma.Text, Value: strippedInput})
 	} else {
 		it, err = chroma.Coalesce(lexer).Tokenise(nil, input)
+		if err != nil {
+			printErrorFatal("Could not lex file", err)
+		}
 	}
 
 	// Format the code to an SVG.
