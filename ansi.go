@@ -75,7 +75,7 @@ func (p *dispatcher) endBackground() {
 		return
 	}
 
-	p.bg.CreateAttr("width", fmt.Sprintf("%.2fpx", float64(p.bgWidth)*p.config.Font.Size/fontHeightToWidthRatio+1))
+	p.bg.CreateAttr("width", fmt.Sprintf("%.5fpx", (float64(p.bgWidth)+0.5)*p.config.Font.Size/fontHeightToWidthRatio+1))
 	p.svg.InsertChildAt(0, p.bg)
 	p.bg = nil
 	p.bgWidth = 0
