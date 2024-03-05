@@ -11,17 +11,6 @@ import (
 )
 
 func fontOptions(config *Config) ([]svg.Option, error) {
-	if config.Font.Family == "" {
-		config.Font.Family = "JetBrains Mono"
-		fontBase64 := font.JetBrainsMono
-		if !config.Font.Ligatures {
-			fontBase64 = font.JetBrainsMonoNL
-		}
-		return []svg.Option{
-			svg.EmbedFont(config.Font.Family, fontBase64, svg.WOFF2),
-			svg.FontFamily(config.Font.Family),
-		}, nil
-	}
 	if config.Font.File != "" {
 		bts, err := os.ReadFile(config.Font.File)
 		if err != nil {
@@ -49,5 +38,13 @@ func fontOptions(config *Config) ([]svg.Option, error) {
 			svg.FontFamily(config.Font.Family),
 		}, nil
 	}
-	return []svg.Option{svg.FontFamily(config.Font.Family)}, nil
+	config.Font.Family = "JetBrains Mono"
+	fontBase64 := font.JetBrainsMono
+	if !config.Font.Ligatures {
+		fontBase64 = font.JetBrainsMonoNL
+	}
+	return []svg.Option{
+		svg.EmbedFont(config.Font.Family, fontBase64, svg.WOFF2),
+		svg.FontFamily(config.Font.Family),
+	}, nil
 }
