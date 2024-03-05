@@ -87,6 +87,20 @@ cat artichoke.hs | freeze --language haskell
 <br />
 <img alt="output of freeze command, haskell code block" src="./examples/language.svg" width="600" />
 
+> [!TIP]
+> You can screenshot terminal tools with `--language ANSI` (automatic when ANSI sequences are detected.)
+
+Simply pipe some ANSI text into `freeze`. Most terminal tools will strip ANSI
+sequences when being piped into a tool. To prevent this we'll need to use a tool
+such as [`faketty`](https://github.com/dtolnay/faketty).
+
+```bash
+faketty ./lipgloss-example | freeze --config full # auto-detects ANSI-sequences.
+```
+
+<img alt="output of freeze command, ANSI" src="./examples/ansi.svg" width="600" />
+
+
 ### Theme
 
 Change the theme of the screenshot.
