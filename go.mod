@@ -10,7 +10,7 @@ require (
 	github.com/beevik/etree v1.3.0
 	github.com/charmbracelet/huh v0.3.1-0.20240305191950-defa666668c9
 	github.com/charmbracelet/lipgloss v0.10.0
-	github.com/charmbracelet/log v0.3.2-0.20240304161822-ac0e6b17de4d
+	github.com/charmbracelet/log v0.3.2-0.20240304184442-28193306e6f5
 	github.com/charmbracelet/x/exp/term v0.0.0-20240304182535-218372c60851
 	github.com/kanrichan/resvg-go v0.0.2-0.20231001163256-63db194ca9f5
 	github.com/mattn/go-isatty v0.0.20
