@@ -40,8 +40,8 @@ func runForm(config *Config) (*Config, error) {
 	theme.Blurred.NoteTitle = theme.Blurred.NoteTitle.Copy().Margin(1, 0)
 	theme.Blurred.Description = theme.Blurred.Description.Copy().Foreground(lipgloss.Color("0"))
 	theme.Focused.Description = theme.Focused.Description.Copy().Foreground(lipgloss.Color("7"))
-	theme.Blurred.Title = theme.Blurred.Title.Copy().Width(14).Foreground(lipgloss.Color("7"))
-	theme.Focused.Title = theme.Focused.Title.Copy().Width(14).Foreground(green).Bold(true)
+	theme.Blurred.Title = theme.Blurred.Title.Copy().Width(18).Foreground(lipgloss.Color("7"))
+	theme.Focused.Title = theme.Focused.Title.Copy().Width(18).Foreground(green).Bold(true)
 	theme.Blurred.SelectedOption = theme.Blurred.SelectedOption.Copy().Foreground(lipgloss.Color("243"))
 	theme.Focused.SelectedOption = lipgloss.NewStyle().Foreground(green)
 	theme.Focused.Base.BorderForeground(green)
@@ -51,6 +51,8 @@ func runForm(config *Config) (*Config, error) {
 			huh.NewNote().Title("\nCapture file"),
 
 			huh.NewFilePicker().
+				Title("Screenshot File").
+				Picking(true).
 				Value(&config.Input),
 
 			huh.NewNote().Description("Choose a code file to screenshot."),

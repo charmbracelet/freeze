@@ -8,8 +8,8 @@ require (
 	github.com/alecthomas/chroma v0.10.0
 	github.com/alecthomas/kong v0.8.2-0.20240122082144-30e84613fe34
 	github.com/beevik/etree v1.3.0
-	github.com/charmbracelet/huh v0.3.1-0.20240304170129-62bda512dd1e
-	github.com/charmbracelet/lipgloss v0.9.2-0.20240302194857-652c37dd0748
+	github.com/charmbracelet/huh v0.3.1-0.20240305191950-defa666668c9
+	github.com/charmbracelet/lipgloss v0.10.0
 	github.com/charmbracelet/log v0.3.2-0.20240304161822-ac0e6b17de4d
 	github.com/charmbracelet/term v0.0.0-20231102161446-1c87bc120d0b
 	github.com/kanrichan/resvg-go v0.0.2-0.20231001163256-63db194ca9f5
@@ -24,7 +24,7 @@ require (
 	github.com/catppuccin/go v0.2.0 // indirect
 	github.com/charmbracelet/bubbles v0.18.0 // indirect
 	github.com/charmbracelet/bubbletea v0.25.0 // indirect
-	github.com/charmbracelet/x/exp/strings v0.0.0-20240304160204-3835fda67169 // indirect
+	github.com/charmbracelet/x/exp/strings v0.0.0-20240304182535-218372c60851 // indirect
 	github.com/containerd/console v1.0.4 // indirect
 	github.com/dlclark/regexp2 v1.11.0 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
