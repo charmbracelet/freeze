@@ -62,7 +62,7 @@ func runForm(config *Config) (*Config, error) {
 
 			huh.NewInput().
 				Title("Output").
-				Placeholder("out.svg").
+				Placeholder(defaultOutputFilename).
 				// Description("Output location for image.").
 				Inline(true).
 				Prompt("").
@@ -184,6 +184,10 @@ func runForm(config *Config) (*Config, error) {
 	).WithTheme(theme).WithHeight(33)
 
 	err := f.Run()
+
+	if config.Output == "" {
+		config.Output = defaultOutputFilename
+	}
 
 	config.Padding = parsePadding(padding)
 	config.Margin = parseMargin(margin)
