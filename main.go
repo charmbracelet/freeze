@@ -291,7 +291,10 @@ func main() {
 	rect.CreateAttr("width", fmt.Sprintf("%.2fpx", textWidthPx+hPadding))
 
 	if isAnsi {
-		parser.New(&d).Parse(strings.NewReader(input))
+		ansiParseErr := parser.New(&d).Parse(strings.NewReader(input))
+		if ansiParseErr != nil {
+			printErrorFatal("Could not parse ANSI", ansiParseErr)
+		}
 	}
 
 	istty := isatty.IsTerminal(os.Stdout.Fd())
