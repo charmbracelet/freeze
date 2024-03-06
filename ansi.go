@@ -2,10 +2,19 @@ package main
 
 import (
 	"fmt"
+	"regexp"
 
 	"github.com/beevik/etree"
 	"github.com/mattn/go-runewidth"
 )
+
+const ansiRegex = "[\u001B\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[a-zA-Z\\d]*)*)?\u0007)|(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PRZcf-ntqry=><~]))"
+
+var re = regexp.MustCompile(ansiRegex)
+
+func StripANSI(str string) string {
+	return re.ReplaceAllString(str, "")
+}
 
 type dispatcher struct {
 	lines   []*etree.Element

@@ -3,7 +3,6 @@ module github.com/charmbracelet/freeze
 go 1.21
 
 require (
-	github.com/acarl005/stripansi v0.0.0-20180116102854-5a71ef0e047d
 	github.com/adrg/xdg v0.4.0
 	github.com/alecthomas/chroma v0.10.0
 	github.com/alecthomas/kong v0.8.2-0.20240122082144-30e84613fe34

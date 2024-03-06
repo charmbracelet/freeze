@@ -10,7 +10,6 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/acarl005/stripansi"
 	"github.com/alecthomas/chroma"
 	formatter "github.com/alecthomas/chroma/formatters/svg"
 	"github.com/alecthomas/chroma/lexers"
@@ -140,7 +139,7 @@ func main() {
 		config.Lines[i]--
 	}
 
-	strippedInput := stripansi.Strip(input)
+	strippedInput := StripANSI(input)
 	isAnsi := strings.ToLower(config.Language) == "ansi" || strippedInput != input
 	strippedInput = cut(strippedInput, config.Lines)
 
