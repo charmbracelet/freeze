@@ -96,7 +96,7 @@ You can use `freeze` to capture ANSI output of a terminal program with the
 freeze --execute "eza -lah"
 ```
 
-<img alt="output of freeze command, ANSI" src="./examples/eza.svg" width="600" />
+<img alt="output of freeze command, ANSI" src="./examples/eza.svg" width="350" />
 
 ```bash
 freeze --config full -x ./lipgloss-example
