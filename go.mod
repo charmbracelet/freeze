@@ -8,10 +8,11 @@ require (
 	github.com/alecthomas/chroma v0.10.0
 	github.com/alecthomas/kong v0.8.2-0.20240122082144-30e84613fe34
 	github.com/beevik/etree v1.3.0
-	github.com/charmbracelet/huh v0.3.1-0.20240305191950-defa666668c9
+	github.com/charmbracelet/huh v0.3.1-0.20240306161957-71f31c155b08
 	github.com/charmbracelet/lipgloss v0.10.0
-	github.com/charmbracelet/log v0.3.2-0.20240304184442-28193306e6f5
+	github.com/charmbracelet/log v0.3.2-0.20240306155710-bcd47385a62a
 	github.com/charmbracelet/x/exp/term v0.0.0-20240304182535-218372c60851
+	github.com/creack/pty v1.1.21
 	github.com/kanrichan/resvg-go v0.0.2-0.20231001163256-63db194ca9f5
 	github.com/mattn/go-isatty v0.0.20
 	github.com/mattn/go-runewidth v0.0.15
