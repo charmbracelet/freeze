@@ -44,31 +44,30 @@ func main() {
 		printErrorFatal("Invalid Usage", err)
 	}
 
-	cmd := exec.Command(ctx.Args[0], ctx.Args[1:]...)
-	cmd.Env = os.Environ()
-	pty, err := runInPty(cmd)
-	if err != nil {
-		printErrorFatal("Something went wrong", err)
+	if config.Execute != "" {
+		args := strings.Split(config.Execute, " ")
+		cmd := exec.Command(args[0], args[1:]...)
+		cmd.Env = os.Environ()
+		pty, err := runInPty(cmd)
+		if err != nil {
+			printErrorFatal("Something went wrong", err)
+		}
+
+		defer pty.Close()
+
+		var out bytes.Buffer
+
+		// Copy the pty output to buffer
+		go func() {
+			io.Copy(&out, pty)
+		}()
+
+		if err := cmd.Wait(); err != nil {
+			printErrorFatal("Command failed", err)
+		}
+
+		input = out.String()
 	}
-
-	defer pty.Close()
-
-	var out bytes.Buffer
-
-	// Copy the pty output to buffer
-	go func() {
-		io.Copy(&out, pty)
-	}()
-
-	if err := cmd.Wait(); err != nil {
-		printErrorFatal("Command failed", err)
-	}
-
-	// Print the output
-
-	fmt.Println(out.String())
-
-	return
 
 	isDefaultConfig := config.Config == "default"
 
@@ -122,6 +121,8 @@ func main() {
 	if config.Input == "-" || in.IsPipe(os.Stdin) {
 		input, err = in.ReadInput(os.Stdin)
 		lexer = lexers.Analyse(input)
+	} else if config.Execute != "" {
+		config.Language = "ansi"
 	} else {
 		input, err = in.ReadFile(config.Input)
 		if err != nil {
