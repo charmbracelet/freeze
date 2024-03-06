@@ -4,7 +4,9 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"io"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 
@@ -41,6 +43,32 @@ func main() {
 	if err != nil || ctx.Error != nil {
 		printErrorFatal("Invalid Usage", err)
 	}
+
+	cmd := exec.Command(ctx.Args[0], ctx.Args[1:]...)
+	cmd.Env = os.Environ()
+	pty, err := runInPty(cmd)
+	if err != nil {
+		printErrorFatal("Something went wrong", err)
+	}
+
+	defer pty.Close()
+
+	var out bytes.Buffer
+
+	// Copy the pty output to buffer
+	go func() {
+		io.Copy(&out, pty)
+	}()
+
+	if err := cmd.Wait(); err != nil {
+		printErrorFatal("Command failed", err)
+	}
+
+	// Print the output
+
+	fmt.Println(out.String())
+
+	return
 
 	isDefaultConfig := config.Config == "default"
 

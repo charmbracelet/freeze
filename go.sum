@@ -26,8 +26,6 @@ github.com/charmbracelet/huh v0.3.1-0.20240305191950-defa666668c9 h1:zYziYkwJBGR
 github.com/charmbracelet/huh v0.3.1-0.20240305191950-defa666668c9/go.mod h1:3bNz/oITPP07NndDV0YFj7mxLytf16ZOHrvhpW2O7CI=
 github.com/charmbracelet/lipgloss v0.10.0 h1:KWeXFSexGcfahHX+54URiZGkBFazf70JNMtwg/AFW3s=
 github.com/charmbracelet/lipgloss v0.10.0/go.mod h1:Wig9DSfvANsxqkRsqj6x87irdy123SR4dOXlKa91ciE=
-github.com/charmbracelet/log v0.3.2-0.20240304161822-ac0e6b17de4d h1:vsP9ziieV0hI4Bmth85/oe1+2n09G4K+q82hlg56+QE=
-github.com/charmbracelet/log v0.3.2-0.20240304161822-ac0e6b17de4d/go.mod h1:pl7SJMuaRT1Mn7PvnDz07krrdg5tpVrMa84GfOuvJbs=
 github.com/charmbracelet/log v0.3.2-0.20240304184442-28193306e6f5 h1:kbXKrPJaI6wOp8PcAXeX2d9DJ1ay5wHZO3sVCE73wuQ=
 github.com/charmbracelet/log v0.3.2-0.20240304184442-28193306e6f5/go.mod h1:pl7SJMuaRT1Mn7PvnDz07krrdg5tpVrMa84GfOuvJbs=
 github.com/charmbracelet/x/exp/strings v0.0.0-20240304182535-218372c60851 h1:iQ+a0IzRJV/gvdo2sID6A8OkPrE93nw4UqlaeIzkeuY=
@@ -36,6 +34,8 @@ github.com/charmbracelet/x/exp/term v0.0.0-20240304182535-218372c60851 h1:fhTsXS
 github.com/charmbracelet/x/exp/term v0.0.0-20240304182535-218372c60851/go.mod h1:Ri5EXInI8O2cnLEFUibhQr65ESkyuitQuIzcHh7+aqU=
 github.com/containerd/console v1.0.4 h1:F2g4+oChYvBTsASRTz8NP6iIAi97J3TtSAsLbIFn4ro=
 github.com/containerd/console v1.0.4/go.mod h1:YynlIjWYF8myEu6sdkwKIvGQq+cOckRm6So2avqoYAk=
+github.com/creack/pty v1.1.21 h1:1/QdRyBaHHJP61QkWMXlOIBfsgdDeeKfK8SYVUWJKf0=
+github.com/creack/pty v1.1.21/go.mod h1:MOBLtS5ELjhRRrroQr9kyvTxUAFNvYEK993ew/Vr4O4=
 github.com/davecgh/go-spew v1.1.0/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
 github.com/davecgh/go-spew v1.1.1 h1:vj9j/u1bqnvCEfJOwUhtlOARqs3+rkHYY13jYWTU97c=
 github.com/davecgh/go-spew v1.1.1/go.mod h1:J7Y8YcW2NihsgmVo/mv3lAwl/skON4iLHjSsI+c5H38=
