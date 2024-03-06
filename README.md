@@ -99,7 +99,7 @@ freeze --execute "eza -lah"
 <img alt="output of freeze command, ANSI" src="./examples/eza.svg" width="600" />
 
 ```bash
-freeze -x ./lipgloss-example
+freeze --config full -x ./lipgloss-example
 ```
 
 <img alt="output of freeze command, ANSI" src="./examples/ansi.svg" width="600" />
