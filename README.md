@@ -49,7 +49,7 @@ go install github.com/charmbracelet/freeze@latest
 
 ## Customization
 
-Screenshots can be customized with `--flags`.
+Screenshots can be customized with `--flags` or [Configuration](#configuration) files.
 
 > [!NOTE]
 > You can view all freeze customization with `freeze --help`.
@@ -218,13 +218,19 @@ freeze artichoke.hs --shadow.blur 20 --shadow.x 0 --shadow.y 10
 
 ### Configuration
 
-Instead of passing arguments and customization as `--flags`. Freeze supports
+Instead of passing arguments and customization as `--flags`, freeze supports
 configuration files that can be pass with the `--config` / `-c` flag.
+
+In general, all `--flag` options directly map to configuration options.
 
 There are also some default configurations embedded into `freeze` which can be passed by name.
 
 * `base`: Simple screenshot of code.
-* `full`: MacOS-like screenshot.
+* `full`: Mac OS-like screenshot.
+
+If you use `--interactive` mode, a configuration file will be created for you
+at `~/.config/freeze/default.json`. This will be the default configuration file
+used in your screenshots.
 
 ```bash
 freeze -c base main.go
