@@ -5,21 +5,31 @@
   <a href="https://pkg.go.dev/github.com/charmbracelet/freeze?tab=doc"><img src="https://godoc.org/github.com/golang/gddo?status.svg" alt="Go Docs"></a>
 </p>
 
-Capture and share your code on the command line.
+Generate images of code and terminal output.
 
-## Tutorial
+(Composite image showing both code and ansi output)
 
-To generate an image of your code, run:
+## Examples
+
+Freeze generates PNGs, SVGs, and WebPs of code and terminal output alike.
+
+### Generate an image of code
 
 ```sh
-freeze artichoke.hs -o artichoke.svg
+freeze artichoke.hs -o artichoke.png
 ```
-
-Your image file will live in `artichoke.svg`.
 
 <p align="center">
   <img alt="output of freeze command, haskell code block" src="./test/golden/shadow.svg" width="800" />
 </p>
+
+### Generate an image of terminal output
+
+```sh
+freeze --execute "ls -la" -o ls.svg
+```
+
+Freeze is also [super customizable](#customization) and ships with an [interactive TUI](#interactive-mode).
 
 ## Installation
 
@@ -36,8 +46,8 @@ nix-env -iA nixpkgs.freeze
 
 Or, download it:
 
-* [Packages][releases] are available in Debian and RPM formats
-* [Binaries][releases] are available for Linux, macOS, and Windows
+- [Packages][releases] are available in Debian and RPM formats
+- [Binaries][releases] are available for Linux, macOS, and Windows
 
 Or, just install it with `go`:
 
@@ -49,31 +59,41 @@ go install github.com/charmbracelet/freeze@latest
 
 ## Customization
 
+### Interactive mode
+
+Freeze features a fully interactive mode for easy cusomization. Settings are persisted across sessions making for easy adjustments.
+
+```bash
+freeze --interactive
+```
+
+(GIF of interactive mode)
+
+### Flags
+
 Screenshots can be customized with `--flags` or [Configuration](#configuration) files.
 
 > [!NOTE]
 > You can view all freeze customization with `freeze --help`.
 
-There are many different configuration options:
-
-* [`-b`](#background), [`--background`](#background): Apply a background fill.
-* [`-m`](#margin), [`--margin`](#margin): Apply margin to the window.
-* [`-p`](#padding), [`--padding`](#padding): Apply padding to the code.
-* [`-w`](#window), [`--window`](#window): Display window controls.
-* [`-c`](#configuration), [`--config`](#configuration): Base configuration file or template.
-* [`-l`](#language), [`--language`](#language): Language of code file.
-* [`-o`](#output), [`--output`](#output): Output location for .svg, .png, .jpg.
-* [`-t`](#theme), [`--theme`](#theme): Theme to use for syntax highlighting.
-* [`-r`](#border-radius), [`--border.radius`](#border-radius): Corner radius of window.
-* [`--border.width`](#border-width): Border width thickness.
-* [`--border.color`](#border-width): Border color.
-* [`--shadow.blur`](#shadow): Shadow Gaussian Blur.
-* [`--shadow.x`](#shadow): Shadow offset x coordinate.
-* [`--shadow.y`](#shadow): Shadow offset y coordinate.
-* [`--font.family`](#font): Font family to use for code.
-* [`--font.size`](#font): Font size to use for code.
-* [`--font.file`](#font): File path to the font to use (will be embed in the SVG).
-* [`--line-height`](#font): Line height relative to font size.
+- [`-o`](#output), [`--output`](#output): Output location for .svg, .png, .jpg.
+- [`-c`](#configuration), [`--config`](#configuration): Base configuration file or template.
+- [`-t`](#theme), [`--theme`](#theme): Theme to use for syntax highlighting.
+- [`-l`](#language), [`--language`](#language): Language to apply to code
+- [`-w`](#window), [`--window`](#window): Display window controls.
+- [`-b`](#background), [`--background`](#background): Apply a background fill.
+- [`-m`](#margin), [`--margin`](#margin): Apply margin to the window.
+- [`-p`](#padding), [`--padding`](#padding): Apply padding to the code.
+- [`-r`](#border-radius), [`--border.radius`](#border-radius): Corner radius of window.
+- [`--border.width`](#border-width): Border width thickness.
+- [`--border.color`](#border-width): Border color.
+- [`--shadow.blur`](#shadow): Shadow Gaussian Blur.
+- [`--shadow.x`](#shadow): Shadow offset x coordinate.
+- [`--shadow.y`](#shadow): Shadow offset y coordinate.
+- [`--font.family`](#font): Font family to use for code.
+- [`--font.size`](#font): Font size to use for code.
+- [`--font.file`](#font): File path to the font to use (will be embed in the SVG).
+- [`--line-height`](#font): Line height relative to font size.
 
 ### Language
 
@@ -89,7 +109,7 @@ cat artichoke.hs | freeze --language haskell
 
 ### Execute
 
-You can use `freeze` to capture ANSI output of a terminal program with the
+You can use `freeze` to capture ANSI output of a terminal command with the
 `--execute` flag.
 
 ```bash
@@ -104,15 +124,13 @@ freeze --config full -x ./lipgloss-example
 
 <img alt="output of freeze command, ANSI" src="./test/golden/ansi.svg" width="600" />
 
-
 ### Theme
 
-Change the theme of the screenshot.
+Change the color theme.
 
 ```bash
 freeze artichoke.hs --theme dracula
 ```
-
 
 <br /><img alt="output of freeze command, haskell code block" src="./test/golden/dracula.svg" width="600" />
 
@@ -191,7 +209,6 @@ freeze main.go --padding 20,60,20,40 # top, right, bottom, left
 <br />
 <img alt="output of freeze command, haskell code block with padding applied" src="./test/golden/padding.svg" width="600" />
 
-
 ### Margin
 
 Add margin to the terminal window. You can provide 1, 2, or 4 values.
@@ -216,17 +233,16 @@ freeze artichoke.hs --shadow.blur 20 --shadow.x 0 --shadow.y 10
 <br />
 <img alt="output of freeze command, haskell code block with a shadow" src="./test/golden/shadow.svg" width="720" />
 
-### Configuration
+## Configuration
 
-Instead of passing arguments and customization as `--flags`, freeze supports
-configuration files that can be pass with the `--config` / `-c` flag.
+Freeze also supports configuration via a JSON file wich can be passed with the
+`--config` / `-c` flag. In general, all `--flag` options map directly to keys
+and values in the config file
 
-In general, all `--flag` options directly map to configuration options.
+There are also some default configurations built into `freeze` which can be passed by name.
 
-There are also some default configurations embedded into `freeze` which can be passed by name.
-
-* `base`: Simple screenshot of code.
-* `full`: Mac OS-like screenshot.
+- `base`: Simple screenshot of code.
+- `full`: macOS-like screenshot.
 
 If you use `--interactive` mode, a configuration file will be created for you
 at `~/.config/freeze/default.json`. This will be the default configuration file
@@ -249,12 +265,7 @@ Here's what an example configuration looks like:
     "color": "#515151"
   },
   "shadow": false,
-  "padding": [
-    20,
-    40,
-    20,
-    20
-  ],
+  "padding": [20, 40, 20, 20],
   "margin": "0",
   "background": "#FFFFFF",
   "font": {
@@ -269,15 +280,15 @@ Here's what an example configuration looks like:
 
 We’d love to hear your thoughts on this project. Feel free to drop us a note!
 
-* [Twitter](https://twitter.com/charmcli)
-* [The Fediverse](https://mastodon.social/@charmcli)
-* [Discord](https://charm.sh/chat)
+- [Twitter](https://twitter.com/charmcli)
+- [The Fediverse](https://mastodon.social/@charmcli)
+- [Discord](https://charm.sh/chat)
 
 ## License
 
 [MIT](https://github.com/charmbracelet/freeze/raw/main/LICENSE)
 
-***
+---
 
 Part of [Charm](https://charm.sh).
 
