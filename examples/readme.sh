@@ -1,5 +1,6 @@
 #!/bin/bash
 
+freeze artichoke.hs --execute "eza -l" --output eza.svg
 freeze artichoke.hs --language haskell --output language.svg
 freeze artichoke.hs --theme dracula --output theme.svg
 freeze artichoke.hs --border.radius 8 --output corner-radius.svg
