@@ -205,7 +205,14 @@ func main() {
 	}
 
 	image := elements[0]
+
 	w, h := svg.GetDimensions(image)
+	if config.Width != 0 {
+		w = config.Width
+	}
+	if config.Height != 0 {
+		h = config.Height
+	}
 
 	rect := image.SelectElement("rect")
 
@@ -312,12 +319,20 @@ func main() {
 	}
 
 	textWidthPx := float64(lineNumberAdjust) + (float64(maxWidth+1) * (config.Font.Size / fontHeightToWidthRatio))
+
+	if config.Width != 0 {
+		textWidthPx = float64(config.Width)
+	}
+
 	hPadding := float64(config.Padding[left] + config.Padding[right])
 	hMargin := float64(config.Margin[left] + config.Margin[right])
+	vPadding := float64(config.Padding[top] + config.Padding[bottom])
 	vMargin := float64(config.Margin[top] + config.Margin[bottom])
 
 	image.CreateAttr("width", fmt.Sprintf("%.2fpx", textWidthPx+hMargin+hPadding))
 	rect.CreateAttr("width", fmt.Sprintf("%.2fpx", textWidthPx+hPadding))
+	image.CreateAttr("height", fmt.Sprintf("%.2fpx", float64(h)+vPadding+vMargin))
+	rect.CreateAttr("height", fmt.Sprintf("%.2fpx", float64(h)+vPadding))
 
 	if isAnsi {
 		ansiParseErr := parser.New(&d).Parse(strings.NewReader(input))

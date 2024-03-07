@@ -21,7 +21,9 @@ type Config struct {
 	Background string `json:"background" help:"Apply a background fill." short:"b" placeholder:"#FFF" group:"Window"`
 	Margin     []int  `json:"margin" help:"Apply margin to the window." short:"m" placeholder:"0" group:"Window"`
 	Padding    []int  `json:"padding" help:"Apply padding to the code." short:"p" placeholder:"0" group:"Window"`
-	Window     bool   `json:"window" help:"Display window controls." short:"w" group:"Window"`
+	Window     bool   `json:"window" help:"Display window controls." group:"Window"`
+	Width      int    `json:"width" help:"Window width" short:"W" group:"Window"`
+	Height     int    `json:"height" help:"Window height" short:"H" group:"Window"`
 
 	// Settings
 	Config      string `json:"config,omitempty" help:"Base configuration file or template." short:"c" group:"Settings" default:"default" placeholder:"base"`
