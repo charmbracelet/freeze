@@ -56,7 +56,7 @@ func runForm(config *Config) (*Config, error) {
 				Value(&config.Input),
 
 			huh.NewNote().Description("Choose a code file to screenshot."),
-		).WithHide(config.Input != ""),
+		).WithHide(config.Input != "" || config.Execute != ""),
 		huh.NewGroup(
 			huh.NewNote().Title("Settings"),
 
