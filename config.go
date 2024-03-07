@@ -11,7 +11,7 @@ import (
 	"github.com/adrg/xdg"
 )
 
-const defaultOutputFilename = "out.svg"
+const defaultOutputFilename = "freeze.svg"
 
 // Config is the configuration options for a screenshot.
 type Config struct {
