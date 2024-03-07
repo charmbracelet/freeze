@@ -18,6 +18,7 @@ import (
 	"github.com/beevik/etree"
 	in "github.com/charmbracelet/freeze/input"
 	"github.com/charmbracelet/freeze/svg"
+	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/log"
 	parser "github.com/charmbracelet/x/exp/term/vtparser"
 	"github.com/mattn/go-isatty"
@@ -348,6 +349,7 @@ func main() {
 			if err != nil {
 				printErrorFatal("Unable to write output", err)
 			}
+			printFilenameOutput(config.Output)
 			return
 		}
 
@@ -355,6 +357,7 @@ func main() {
 		if config.Input == "" || config.Input == "-" {
 			if istty {
 				err = doc.WriteToFile(defaultOutputFilename)
+				printFilenameOutput(defaultOutputFilename)
 			} else {
 				_, err = doc.WriteTo(os.Stdout)
 			}
@@ -366,7 +369,9 @@ func main() {
 
 		// reading from file.
 		if istty {
-			err = doc.WriteToFile(strings.TrimSuffix(filepath.Base(config.Input), filepath.Ext(config.Input)) + ".svg")
+			config.Output = strings.TrimSuffix(filepath.Base(config.Input), filepath.Ext(config.Input)) + ".svg"
+			err = doc.WriteToFile(config.Output)
+			printFilenameOutput(config.Output)
 		} else {
 			_, err = doc.WriteTo(os.Stdout)
 		}
@@ -374,4 +379,10 @@ func main() {
 			printErrorFatal("Unable to write output", err)
 		}
 	}
+}
+
+var outputHeader = lipgloss.NewStyle().Foreground(lipgloss.Color("#F1F1F1")).Background(lipgloss.Color("#875fff")).Bold(true).Padding(0, 1).Margin(1).MarginLeft(2).SetString("WROTE")
+
+func printFilenameOutput(filename string) {
+	fmt.Println(lipgloss.JoinHorizontal(lipgloss.Center, outputHeader.String(), filename))
 }
