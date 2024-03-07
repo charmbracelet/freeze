@@ -8,12 +8,16 @@ import (
 	"github.com/mattn/go-runewidth"
 )
 
-const ansiRegex = "[\u001B\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[a-zA-Z\\d]*)*)?\u0007)|(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PRZcf-ntqry=><~]))"
+const csiRegex = "[\u001B\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[a-zA-Z\\d]*)*)?\u0007)|(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PRZcf-ntqry=><~]))"
+const oscRegex = "[\u001B\u009B\u009D]"
 
-var re = regexp.MustCompile(ansiRegex)
+var ansiRe = regexp.MustCompile(csiRegex)
+var oscRe = regexp.MustCompile(oscRegex)
 
 func StripANSI(str string) string {
-	return re.ReplaceAllString(str, "")
+	str = ansiRe.ReplaceAllString(str, "")
+	str = oscRe.ReplaceAllString(str, "")
+	return str
 }
 
 type dispatcher struct {
