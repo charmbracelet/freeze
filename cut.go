@@ -31,7 +31,7 @@ func cut(input string, window []int) string {
 	}
 
 	start = clamp(start, 0, len(lines))
-	end = clamp(end, start, len(lines))
+	end = clamp(end+1, start, len(lines))
 
 	if start == end && start < len(lines) {
 		return lines[start]
