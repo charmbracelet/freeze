@@ -35,7 +35,7 @@ func TestFreeze(t *testing.T) {
 	}
 }
 
-func TestFreezeFlags(t *testing.T) {
+func TestFreezeOutput(t *testing.T) {
 	output := "artichoke-test.svg"
 	defer os.Remove(output)
 
@@ -106,21 +106,66 @@ func TestFreezeErrorFileMissing(t *testing.T) {
 	}
 }
 
-func TestFreezeOutput(t *testing.T) {
+func TestFreezeConfigurations(t *testing.T) {
 	tests := []struct {
 		input  string
-		config string
+		flags  []string
 		output string
 	}{
 		{
 			input:  "examples/artichoke.hs",
-			config: "test/configurations/base.json",
+			flags:  []string{"--config", "test/configurations/base.json"},
 			output: "artichoke-base.svg",
 		},
 		{
 			input:  "examples/artichoke.hs",
-			config: "test/configurations/full.json",
+			flags:  []string{"--config", "test/configurations/full.json"},
 			output: "artichoke-full.svg",
+		},
+		{
+			input:  "",
+			flags:  []string{"--execute", "eza -l"},
+			output: "eza.svg",
+		},
+		{
+			input:  "examples/artichoke.hs",
+			flags:  []string{"--language", "haskell"},
+			output: "haskell.svg",
+		},
+		{
+			input:  "examples/artichoke.hs",
+			flags:  []string{"--theme", "dracula"},
+			output: "dracula.svg",
+		},
+		{
+			input:  "examples/artichoke.hs",
+			flags:  []string{"--border.radius", "8"},
+			output: "border-radius.svg",
+		},
+		{
+			input:  "examples/artichoke.hs",
+			flags:  []string{"--border.radius", "8", "--window"},
+			output: "window.svg",
+		},
+		{
+			input:  "examples/artichoke.hs",
+			flags:  []string{"--border.radius", "8", "--window", "--border.width", "1"},
+			output: "border-width.svg",
+		},
+		{
+			input:  "examples/artichoke.hs",
+			flags:  []string{"--border.radius", "8", "--window", "--border.width", "1", "--padding", "30,50,30,30"},
+			output: "padding.svg",
+		},
+		{
+			input:  "examples/artichoke.hs",
+			flags:  []string{"--border.radius", "8", "--window", "--border.width", "1", "--padding", "30,50,30,30", "--margin", "50,60,100,60"},
+			output: "margin.svg",
+		},
+		{
+			input:  "examples/artichoke.hs",
+			flags:  []string{"--config", "full"},
+			output: "shadow.svg",
 		},
 	}
 
@@ -136,7 +181,9 @@ func TestFreezeOutput(t *testing.T) {
 	for _, tc := range tests {
 		t.Run(tc.input, func(t *testing.T) {
 			out := bytes.Buffer{}
-			cmd := exec.Command(binary, tc.input, "--config", tc.config, "--output", "test/output/"+tc.output)
+			args := append([]string{tc.input}, tc.flags...)
+			args = append(args, "--output", "test/output/"+tc.output)
+			cmd := exec.Command(binary, args...)
 			cmd.Stdout = &out
 			err := cmd.Run()
 			if err != nil {
