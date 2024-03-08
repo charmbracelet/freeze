@@ -18,7 +18,7 @@ freeze artichoke.hs -o artichoke.svg
 Your image file will live in `artichoke.svg`.
 
 <p align="center">
-  <img alt="output of freeze command, haskell code block" src="./examples/shadow.svg" width="800" />
+  <img alt="output of freeze command, haskell code block" src="./test/golden/shadow.svg" width="800" />
 </p>
 
 ## Installation
@@ -85,7 +85,7 @@ cat artichoke.hs | freeze --language haskell
 ```
 
 <br />
-<img alt="output of freeze command, haskell code block" src="./examples/language.svg" width="600" />
+<img alt="output of freeze command, haskell code block" src="./test/golden/language.svg" width="600" />
 
 ### Execute
 
@@ -96,13 +96,13 @@ You can use `freeze` to capture ANSI output of a terminal program with the
 freeze --execute "eza -lah"
 ```
 
-<img alt="output of freeze command, ANSI" src="./examples/eza.svg" width="350" />
+<img alt="output of freeze command, ANSI" src="./test/golden/eza.svg" width="350" />
 
 ```bash
 freeze --config full -x ./lipgloss-example
 ```
 
-<img alt="output of freeze command, ANSI" src="./examples/ansi.svg" width="600" />
+<img alt="output of freeze command, ANSI" src="./test/golden/ansi.svg" width="600" />
 
 
 ### Theme
@@ -114,7 +114,7 @@ freeze artichoke.hs --theme dracula
 ```
 
 
-<br /><img alt="output of freeze command, haskell code block" src="./examples/theme.svg" width="600" />
+<br /><img alt="output of freeze command, haskell code block" src="./test/golden/theme.svg" width="600" />
 
 ### Output
 
@@ -154,7 +154,7 @@ freeze artichoke.hs --border.radius 8
 ```
 
 <br />
-<img alt="code screenshot with corner radius of 8px" src="./examples/corner-radius.svg" width="600" />
+<img alt="code screenshot with corner radius of 8px" src="./test/golden/border-radius.svg" width="600" />
 
 ### Window
 
@@ -165,7 +165,7 @@ freeze artichoke.hs --window
 ```
 
 <br />
-<img alt="output of freeze command, haskell code block with window controls applied" src="./examples/window.svg" width="600" />
+<img alt="output of freeze command, haskell code block with window controls applied" src="./test/golden/window.svg" width="600" />
 
 ### Border Width
 
@@ -176,7 +176,7 @@ freeze artichoke.hs --border.width 1 --border.color "#515151" --border.radius 8
 ```
 
 <br />
-<img alt="output of freeze command, haskell code block with border applied" src="./examples/border.svg" width="600" />
+<img alt="output of freeze command, haskell code block with border applied" src="./test/golden/border.svg" width="600" />
 
 ### Padding
 
@@ -189,7 +189,7 @@ freeze main.go --padding 20,60,20,40 # top, right, bottom, left
 ```
 
 <br />
-<img alt="output of freeze command, haskell code block with padding applied" src="./examples/padding.svg" width="600" />
+<img alt="output of freeze command, haskell code block with padding applied" src="./test/golden/padding.svg" width="600" />
 
 
 ### Margin
@@ -203,7 +203,7 @@ freeze main.go --margin 20,60,20,40 # top, right, bottom, left
 ```
 
 <br />
-<img alt="output of freeze command, haskell code block with margin applied" src="./examples/margin.svg" width="720" />
+<img alt="output of freeze command, haskell code block with margin applied" src="./test/golden/margin.svg" width="720" />
 
 ### Shadow
 
@@ -214,7 +214,7 @@ freeze artichoke.hs --shadow.blur 20 --shadow.x 0 --shadow.y 10
 ```
 
 <br />
-<img alt="output of freeze command, haskell code block with a shadow" src="./examples/shadow.svg" width="720" />
+<img alt="output of freeze command, haskell code block with a shadow" src="./test/golden/shadow.svg" width="720" />
 
 ### Configuration
 
