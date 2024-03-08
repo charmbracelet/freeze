@@ -111,12 +111,12 @@ func TestFreezeConfigurations(t *testing.T) {
 		output string
 	}{
 		{
-			input:  "examples/artichoke.hs",
+			input:  "test/input/artichoke.hs",
 			flags:  []string{"--config", "test/configurations/base.json"},
 			output: "artichoke-base.svg",
 		},
 		{
-			input:  "examples/artichoke.hs",
+			input:  "test/input/artichoke.hs",
 			flags:  []string{"--config", "test/configurations/full.json"},
 			output: "artichoke-full.svg",
 		},
@@ -129,47 +129,47 @@ func TestFreezeConfigurations(t *testing.T) {
 		// 	output: "ansi.svg",
 		// },
 		{
-			input:  "examples/artichoke.hs",
+			input:  "test/input/artichoke.hs",
 			flags:  []string{"--language", "haskell"},
 			output: "haskell.svg",
 		},
 		{
-			input:  "examples/artichoke.hs",
+			input:  "test/input/artichoke.hs",
 			flags:  []string{"--theme", "dracula"},
 			output: "dracula.svg",
 		},
 		{
-			input:  "examples/artichoke.hs",
+			input:  "test/input/artichoke.hs",
 			flags:  []string{"--border.radius", "8"},
 			output: "border-radius.svg",
 		},
 		{
-			input:  "examples/artichoke.hs",
+			input:  "test/input/artichoke.hs",
 			flags:  []string{"--border.radius", "8", "--window"},
 			output: "window.svg",
 		},
 		{
-			input:  "examples/artichoke.hs",
+			input:  "test/input/artichoke.hs",
 			flags:  []string{"--border.radius", "8", "--window", "--border.width", "1"},
 			output: "border-width.svg",
 		},
 		{
-			input:  "examples/artichoke.hs",
+			input:  "test/input/artichoke.hs",
 			flags:  []string{"--border.radius", "8", "--window", "--border.width", "1", "--padding", "30,50,30,30"},
 			output: "padding.svg",
 		},
 		{
-			input:  "examples/artichoke.hs",
+			input:  "test/input/artichoke.hs",
 			flags:  []string{"--border.radius", "8", "--window", "--border.width", "1", "--padding", "30,50,30,30", "--margin", "50,60,100,60"},
 			output: "margin.svg",
 		},
 		{
-			input:  "examples/artichoke.hs",
+			input:  "test/input/artichoke.hs",
 			flags:  []string{"--config", "full"},
 			output: "shadow.svg",
 		},
 		{
-			input:  "examples/artichoke.hs",
+			input:  "test/input/artichoke.hs",
 			flags:  []string{"--lines", "4,8", "--show-line-numbers"},
 			output: "lines.svg",
 		},
