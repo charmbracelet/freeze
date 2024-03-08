@@ -13,7 +13,7 @@ const space = 18
 
 var highlighter = regexp.MustCompile("{{(.+?)}}")
 
-func helpPrinter(options kong.HelpOptions, ctx *kong.Context) error {
+func helpPrinter(_ kong.HelpOptions, ctx *kong.Context) error {
 	codeBlockStyle := lipgloss.NewStyle().Background(lipgloss.Color("0")).Padding(1, 0)
 	programStyle := codeBlockStyle.Copy().Foreground(lipgloss.Color("12")).PaddingLeft(3).MarginLeft(2)
 	argumentStyle := codeBlockStyle.Copy().Foreground(lipgloss.Color("7")).Padding(1, 1)
