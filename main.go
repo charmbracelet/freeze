@@ -47,7 +47,7 @@ func main() {
 
 	if config.Execute != "" {
 		args := strings.Split(config.Execute, " ")
-		ctx, _ := context.WithTimeout(context.Background(), config.Timeout)
+		ctx, _ := context.WithTimeout(context.Background(), config.ExecuteTimeout)
 		cmd := exec.CommandContext(ctx, args[0], args[1:]...)
 		pty, err := runInPty(cmd)
 		if err != nil {

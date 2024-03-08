@@ -31,6 +31,9 @@ func helpPrinter(_ kong.HelpOptions, ctx *kong.Context) error {
 	lastGroup := ""
 
 	for _, f := range flags {
+		if f.Hidden {
+			continue
+		}
 		if f.Name == "help" {
 			continue
 		}
