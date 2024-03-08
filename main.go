@@ -61,8 +61,9 @@ func main() {
 			io.Copy(&out, pty)
 		}()
 
-		if err := cmd.Wait(); err != nil {
-			printErrorFatal("Command failed", err)
+		err = cmd.Wait()
+		if err != nil {
+			printError("Command failed", err)
 		}
 
 		input = out.String()
