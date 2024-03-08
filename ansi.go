@@ -60,9 +60,9 @@ func (p *dispatcher) Print(r rune) {
 
 func (p *dispatcher) Execute(code byte) {
 	if code == 0x0A {
+		p.endBackground()
 		p.row++
 		p.col = 0
-		p.endBackground()
 	}
 }
 func (p *dispatcher) OscDispatch(params [][]byte, bellTerminated bool)      {}
@@ -75,6 +75,10 @@ func (p *dispatcher) DcsUnhook()       {}
 const fontHeightToWidthRatio = 1.68
 
 func (p *dispatcher) beginBackground(fill string) {
+	if p.col == 0 {
+		return
+	}
+
 	rect := etree.NewElement("rect")
 	rect.CreateAttr("fill", fill)
 	y := fmt.Sprintf("%.2fpx", float64(p.row)*p.config.Font.Size*p.config.LineHeight+float64(p.config.Margin[top]+p.config.Padding[top]))
