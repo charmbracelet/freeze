@@ -6,6 +6,7 @@ require (
 	github.com/adrg/xdg v0.4.0
 	github.com/alecthomas/chroma v0.10.0
 	github.com/alecthomas/kong v0.8.2-0.20240122082144-30e84613fe34
+	github.com/aymanbagabas/go-udiff v0.2.0
 	github.com/beevik/etree v1.3.0
 	github.com/charmbracelet/huh v0.3.1-0.20240306161957-71f31c155b08
 	github.com/charmbracelet/lipgloss v0.10.0

@@ -7,6 +7,8 @@ import (
 	"os/exec"
 	"strings"
 	"testing"
+
+	"github.com/aymanbagabas/go-udiff"
 )
 
 const binary = "./freeze-test"
@@ -101,5 +103,41 @@ func TestFreezeErrorFileMissing(t *testing.T) {
 		if !strings.Contains(got, c) {
 			t.Fatalf("expected %s to contain \"%s\"", got, c)
 		}
+	}
+}
+
+func TestFreezeOutput(t *testing.T) {
+	tests := []struct {
+		input  string
+		config string
+		output string
+	}{{
+		input:  "examples/artichoke.hs",
+		config: "test/configurations/base.json",
+		output: "artichoke.svg",
+	}}
+
+	for _, tc := range tests {
+		t.Run(tc.input, func(t *testing.T) {
+			out := bytes.Buffer{}
+			cmd := exec.Command(binary, tc.input, "--config", tc.config, "--output", "test/output/"+tc.output)
+			cmd.Stdout = &out
+			err := cmd.Run()
+			if err != nil {
+				t.Fatal("unexpected error")
+			}
+			want, err := os.ReadFile("test/golden/" + tc.output)
+			if err != nil {
+				t.Fatal("no golden file for:", "test/golden/"+tc.output)
+			}
+			got, err := os.ReadFile("test/output/" + tc.output)
+			if err != nil {
+				t.Fatal("no output file for:", "test/output/"+tc.output)
+			}
+			if string(want) != string(got) {
+				t.Log(udiff.Unified("want", "got", string(want), string(got)))
+				t.Fatalf("test/golden/%s != test/output/%s", tc.output, tc.output)
+			}
+		})
 	}
 }
