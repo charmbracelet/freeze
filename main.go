@@ -269,6 +269,7 @@ func main() {
 	}
 
 	svg.SetDimensions(image, w+config.Margin[left]+config.Margin[right], h+config.Margin[top]+config.Margin[bottom])
+	svg.SetDimensions(rect, w+config.Margin[left]+config.Margin[right], h+config.Margin[top]+config.Margin[bottom])
 
 	if config.Shadow.Blur > 0 || config.Shadow.X > 0 || config.Shadow.Y > 0 {
 		id := "shadow"
@@ -325,10 +326,12 @@ func main() {
 
 	hPadding := float64(config.Padding[left] + config.Padding[right])
 	hMargin := float64(config.Margin[left] + config.Margin[right])
+	vPadding := float64(config.Padding[top] + config.Padding[bottom])
 	vMargin := float64(config.Margin[top] + config.Margin[bottom])
 
 	image.CreateAttr("width", fmt.Sprintf("%.2fpx", textWidthPx+hMargin+hPadding))
 	rect.CreateAttr("width", fmt.Sprintf("%.2fpx", textWidthPx+hPadding))
+	image.CreateAttr("height", fmt.Sprintf("%.2fpx", float64(h)+vMargin+vPadding))
 	rect.CreateAttr("height", fmt.Sprintf("%.2fpx", float64(h)))
 
 	if isAnsi {
