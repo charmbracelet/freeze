@@ -85,7 +85,7 @@ cat artichoke.hs | freeze --language haskell
 ```
 
 <br />
-<img alt="output of freeze command, haskell code block" src="./test/golden/language.svg" width="600" />
+<img alt="output of freeze command, haskell code block" src="./test/golden/haskell.svg" width="600" />
 
 ### Execute
 
@@ -114,7 +114,7 @@ freeze artichoke.hs --theme dracula
 ```
 
 
-<br /><img alt="output of freeze command, haskell code block" src="./test/golden/theme.svg" width="600" />
+<br /><img alt="output of freeze command, haskell code block" src="./test/golden/dracula.svg" width="600" />
 
 ### Output
 
@@ -176,7 +176,7 @@ freeze artichoke.hs --border.width 1 --border.color "#515151" --border.radius 8
 ```
 
 <br />
-<img alt="output of freeze command, haskell code block with border applied" src="./test/golden/border.svg" width="600" />
+<img alt="output of freeze command, haskell code block with border applied" src="./test/golden/border-width.svg" width="600" />
 
 ### Padding
 
