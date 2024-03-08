@@ -123,10 +123,13 @@ func TestFreezeConfigurations(t *testing.T) {
 			output: "artichoke-full.svg",
 		},
 		{
-			input:  "",
-			flags:  []string{"--execute", "eza -l"},
+			flags:  []string{"--execute", "eza --no-time -l"},
 			output: "eza.svg",
 		},
+		// {
+		// 	flags:  []string{"--execute", "layout", "--width", "820", "--config", "full"},
+		// 	output: "ansi.svg",
+		// },
 		{
 			input:  "examples/artichoke.hs",
 			flags:  []string{"--language", "haskell"},
@@ -179,7 +182,7 @@ func TestFreezeConfigurations(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		t.Run(tc.input, func(t *testing.T) {
+		t.Run(strings.Join(tc.flags, " "), func(t *testing.T) {
 			out := bytes.Buffer{}
 			args := append([]string{tc.input}, tc.flags...)
 			args = append(args, "--output", "test/output/"+tc.output)
@@ -187,6 +190,8 @@ func TestFreezeConfigurations(t *testing.T) {
 			cmd.Stdout = &out
 			err := cmd.Run()
 			if err != nil {
+				t.Log(err)
+				t.Log(out.String())
 				t.Fatal("unexpected error")
 			}
 			want, err := os.ReadFile("test/golden/" + tc.output)

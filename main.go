@@ -47,7 +47,6 @@ func main() {
 	if config.Execute != "" {
 		args := strings.Split(config.Execute, " ")
 		cmd := exec.Command(args[0], args[1:]...)
-		cmd.Env = os.Environ()
 		pty, err := runInPty(cmd)
 		if err != nil {
 			printErrorFatal("Something went wrong", err)
