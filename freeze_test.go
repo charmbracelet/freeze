@@ -7,8 +7,6 @@ import (
 	"os/exec"
 	"strings"
 	"testing"
-
-	"github.com/aymanbagabas/go-udiff"
 )
 
 const binary = "./freeze-test"
@@ -123,7 +121,7 @@ func TestFreezeConfigurations(t *testing.T) {
 			output: "artichoke-full.svg",
 		},
 		{
-			flags:  []string{"--execute", "eza --no-time -l"},
+			flags:  []string{"--execute", "eza --no-time --no-filesize --no-user -l"},
 			output: "eza.svg",
 		},
 		// {
@@ -170,6 +168,11 @@ func TestFreezeConfigurations(t *testing.T) {
 			flags:  []string{"--config", "full"},
 			output: "shadow.svg",
 		},
+		{
+			input:  "examples/artichoke.hs",
+			flags:  []string{"--lines", "4,8", "--show-line-numbers"},
+			output: "lines.svg",
+		},
 	}
 
 	err := os.RemoveAll("test/output")
@@ -203,7 +206,7 @@ func TestFreezeConfigurations(t *testing.T) {
 				t.Fatal("no output file for:", "test/output/"+tc.output)
 			}
 			if string(want) != string(got) {
-				t.Log(udiff.Unified("want", "got", string(want), string(got)))
+				// t.Log(udiff.Unified("want", "got", string(want), string(got)))
 				t.Fatalf("test/golden/%s != test/output/%s", tc.output, tc.output)
 			}
 		})

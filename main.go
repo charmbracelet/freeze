@@ -290,6 +290,11 @@ func main() {
 		config: &config,
 	}
 
+	offsetLine := 0
+	if len(config.Lines) > 0 {
+		offsetLine = config.Lines[0]
+	}
+
 	for i, line := range text {
 		if isAnsi {
 			line.SetText("")
@@ -300,7 +305,7 @@ func main() {
 			ln := etree.NewElement("tspan")
 			ln.CreateAttr("xml:space", "preserve")
 			ln.CreateAttr("fill", s.Get(chroma.LineNumbers).Colour.String())
-			ln.SetText(fmt.Sprintf("%3d  ", i+1))
+			ln.SetText(fmt.Sprintf("%3d  ", i+1+offsetLine))
 			line.InsertChildAt(0, ln)
 		}
 		x := float64(config.Padding[left] + config.Margin[left])
