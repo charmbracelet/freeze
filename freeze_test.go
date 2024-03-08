@@ -37,7 +37,7 @@ func TestFreezeOutput(t *testing.T) {
 	output := "artichoke-test.svg"
 	defer os.Remove(output)
 
-	cmd := exec.Command(binary, "examples/artichoke.hs", "-o", output)
+	cmd := exec.Command(binary, "test/input/artichoke.hs", "-o", output)
 	err := cmd.Run()
 	if err != nil {
 		t.Fatal(err)
