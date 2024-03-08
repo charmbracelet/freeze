@@ -23,8 +23,8 @@ type Config struct {
 	Margin     []int  `json:"margin" help:"Apply margin to the window." short:"m" placeholder:"0" group:"Window"`
 	Padding    []int  `json:"padding" help:"Apply padding to the code." short:"p" placeholder:"0" group:"Window"`
 	Window     bool   `json:"window" help:"Display window controls." group:"Window"`
-	Width      int    `json:"width" help:"Window width" short:"W" group:"Window"`
-	Height     int    `json:"height" help:"Window height" short:"H" group:"Window"`
+	Width      int    `json:"width" help:"Width of terminal window." short:"W" group:"Window"`
+	Height     int    `json:"height" help:"Height of terminal window." short:"H" group:"Window"`
 
 	// Settings
 	Config      string `json:"config,omitempty" help:"Base configuration file or template." short:"c" group:"Settings" default:"default" placeholder:"base"`
