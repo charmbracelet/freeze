@@ -7,6 +7,7 @@ import (
 	"io/fs"
 	"os"
 	"path/filepath"
+	"time"
 
 	"github.com/adrg/xdg"
 )
@@ -31,8 +32,9 @@ type Config struct {
 	Language    string `json:"language,omitempty" help:"Language of code file." short:"l" group:"Settings" placeholder:"go"`
 	Theme       string `json:"theme" help:"Theme to use for syntax highlighting." short:"t" group:"Settings" placeholder:"charm"`
 
-	Output  string `json:"output,omitempty" help:"Output location for {{.svg}}, {{.png}}, or {{.webp}}." short:"o" group:"Settings" default:"" placeholder:"out.svg"`
-	Execute string `json:"-" help:"Capture output of command" short:"x" group:"Settings" default:""`
+	Output  string        `json:"output,omitempty" help:"Output location for {{.svg}}, {{.png}}, or {{.webp}}." short:"o" group:"Settings" default:"" placeholder:"out.svg"`
+	Execute string        `json:"-" help:"Capture output of command execution." short:"x" group:"Settings" default:""`
+	Timeout time.Duration `json:"-" help:"Execution timeout." group:"Settings" default:"5s" prefix:"execute."`
 
 	// Decoration
 	Border Border `json:"border" embed:"" prefix:"border." group:"Border"`
