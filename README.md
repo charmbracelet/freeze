@@ -67,7 +67,7 @@ Freeze features a fully interactive mode for easy cusomization. Settings are per
 freeze --interactive
 ```
 
-(GIF of interactive mode)
+<img alt="freeze interactive mode" src="./tapes/interactive.gif" width="600" />
 
 ### Flags
 
