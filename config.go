@@ -31,7 +31,7 @@ type Config struct {
 	Language    string `json:"language,omitempty" help:"Language of code file." short:"l" group:"Settings" placeholder:"go"`
 	Theme       string `json:"theme" help:"Theme to use for syntax highlighting." short:"t" group:"Settings" placeholder:"charm"`
 
-	Output  string `json:"output,omitempty" help:"Output location for {{.svg}}, {{.png}}, or {{.jpeg}}." short:"o" group:"Settings" default:"" placeholder:"out.svg"`
+	Output  string `json:"output,omitempty" help:"Output location for {{.svg}}, {{.png}}, or {{.webp}}." short:"o" group:"Settings" default:"" placeholder:"out.svg"`
 	Execute string `json:"-" help:"Capture output of command" short:"x" group:"Settings" default:""`
 
 	// Decoration
