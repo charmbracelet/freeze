@@ -23,7 +23,7 @@ func helpPrinter(options kong.HelpOptions, ctx *kong.Context) error {
 	keywordStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("1"))
 
 	fmt.Println()
-	fmt.Println("  Screenshot code on the command line. 📸")
+	fmt.Println("  Generate images of code and terminal output. 📸")
 	fmt.Println()
 	fmt.Println(lipgloss.JoinHorizontal(lipgloss.Center, programStyle.Render("freeze"), argumentStyle.Render("main.go"), flagStyle.Render("[-o code.svg] [--flags]")))
 

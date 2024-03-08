@@ -50,8 +50,8 @@ type Config struct {
 // Shadow is the configuration options for a drop shadow.
 type Shadow struct {
 	Blur int `json:"blur" help:"Shadow Gaussian Blur." placeholder:"0"`
-	X    int `json:"x" help:"Shadow offset {{x}} coordinate" placeholder:"0"`
-	Y    int `json:"y" help:"Shadow offset {{y}} coordinate" placeholder:"0"`
+	X    int `json:"x" help:"Shadow offset {{x}} coordinate." placeholder:"0"`
+	Y    int `json:"y" help:"Shadow offset {{y}} coordinate." placeholder:"0"`
 }
 
 // Border is the configuration options for a window border.
@@ -64,7 +64,7 @@ type Border struct {
 // Font is the configuration options for a font.
 type Font struct {
 	Family    string  `json:"family" help:"Font family to use for code." placeholder:"monospace"`
-	File      string  `json:"file" help:"Path to the font file" placeholder:"monospace.ttf"`
+	File      string  `json:"file" help:"Font file to embed." placeholder:"monospace.ttf"`
 	Size      float64 `json:"size" help:"Font size to use for code." placeholder:"14"`
 	Ligatures bool    `json:"ligatures" help:"Use ligatures in the font." placeholder:"true" value:"true" negatable:""`
 }
