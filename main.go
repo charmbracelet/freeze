@@ -218,13 +218,10 @@ func main() {
 
 	config.Font.Size *= float64(multiplier)
 
-	lineNumberAdjust := 0
-
 	// apply multiplier
 	if config.ShowLineNumbers {
-		lineNumberAdjust = int(config.Font.Size * 3)
+		w += int(config.Font.Size * 3)
 	}
-	w += lineNumberAdjust
 
 	w *= multiplier
 	h *= multiplier
@@ -318,7 +315,10 @@ func main() {
 		}
 	}
 
-	textWidthPx := float64(lineNumberAdjust) + (float64(maxWidth+1) * (config.Font.Size / fontHeightToWidthRatio))
+	textWidthPx := (float64(maxWidth+1) * (config.Font.Size / fontHeightToWidthRatio))
+	if config.ShowLineNumbers {
+		textWidthPx += (config.Font.Size * 3)
+	}
 
 	if config.Width != 0 {
 		textWidthPx = float64(config.Width)

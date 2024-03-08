@@ -77,8 +77,14 @@ const fontHeightToWidthRatio = 1.68
 func (p *dispatcher) beginBackground(fill string) {
 	rect := etree.NewElement("rect")
 	rect.CreateAttr("fill", fill)
-	rect.CreateAttr("x", fmt.Sprintf("%.2fpx", (float64(p.col)*p.config.Font.Size/fontHeightToWidthRatio)+float64(p.config.Margin[left]+p.config.Padding[left])))
-	rect.CreateAttr("y", fmt.Sprintf("%.2fpx", float64(p.row)*p.config.Font.Size*p.config.LineHeight+float64(p.config.Margin[top]+p.config.Padding[top])))
+	y := fmt.Sprintf("%.2fpx", float64(p.row)*p.config.Font.Size*p.config.LineHeight+float64(p.config.Margin[top]+p.config.Padding[top]))
+	x := float64(p.col) * (p.config.Font.Size / fontHeightToWidthRatio)
+	x += float64(p.config.Margin[left] + p.config.Padding[left])
+	if p.config.ShowLineNumbers {
+		x += float64(p.config.Font.Size) * 3
+	}
+	rect.CreateAttr("x", fmt.Sprintf("%.2fpx", x))
+	rect.CreateAttr("y", y)
 	rect.CreateAttr("height", fmt.Sprintf("%.2fpx", p.config.Font.Size*p.config.LineHeight+1))
 	p.bg = rect
 }
@@ -88,7 +94,7 @@ func (p *dispatcher) endBackground() {
 		return
 	}
 
-	p.bg.CreateAttr("width", fmt.Sprintf("%.5fpx", (float64(p.bgWidth)+0.5)*p.config.Font.Size/fontHeightToWidthRatio+1))
+	p.bg.CreateAttr("width", fmt.Sprintf("%.5fpx", (float64(p.bgWidth)+0.5)*(p.config.Font.Size/fontHeightToWidthRatio)))
 	p.svg.InsertChildAt(0, p.bg)
 	p.bg = nil
 	p.bgWidth = 0
