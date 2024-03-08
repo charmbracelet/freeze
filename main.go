@@ -264,8 +264,10 @@ func main() {
 		}
 
 		// NOTE: necessary so that we don't clip the outline.
-		w += config.Border.Width
-		h += config.Border.Width
+		config.Margin[left] += config.Border.Width
+		config.Margin[right] += config.Border.Width
+		config.Margin[top] += config.Border.Width
+		config.Margin[bottom] += config.Border.Width
 	}
 
 	svg.SetDimensions(image, w+config.Margin[left]+config.Margin[right], h+config.Margin[top]+config.Margin[bottom])
@@ -326,12 +328,11 @@ func main() {
 
 	hPadding := float64(config.Padding[left] + config.Padding[right])
 	hMargin := float64(config.Margin[left] + config.Margin[right])
-	vPadding := float64(config.Padding[top] + config.Padding[bottom])
 	vMargin := float64(config.Margin[top] + config.Margin[bottom])
 
 	image.CreateAttr("width", fmt.Sprintf("%.2fpx", textWidthPx+hMargin+hPadding))
 	rect.CreateAttr("width", fmt.Sprintf("%.2fpx", textWidthPx+hPadding))
-	image.CreateAttr("height", fmt.Sprintf("%.2fpx", float64(h)+vMargin+vPadding))
+	image.CreateAttr("height", fmt.Sprintf("%.2fpx", float64(h)+vMargin))
 	rect.CreateAttr("height", fmt.Sprintf("%.2fpx", float64(h)))
 
 	if isAnsi {

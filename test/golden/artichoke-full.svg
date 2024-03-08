@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg width="751.67px" height="478.00px" xmlns="http://www.w3.org/2000/svg">
+<svg width="753.67px" height="424.00px" xmlns="http://www.w3.org/2000/svg">
 <style>
 @font-face {
 	font-family: &apos;JetBrains Mono&apos;;
@@ -8,22 +8,22 @@
 	font-weight: normal;
 	font-style: normal;
 }
-</style><rect width="631.67px" height="303.00px" fill="#171717" x="60.00px" y="60.00px" rx="8" ry="8" stroke="#515151" stroke-width="1" filter="url(#shadow)"/>
+</style><rect width="631.67px" height="302.00px" fill="#171717" x="60.00px" y="60.00px" rx="8" ry="8" stroke="#515151" stroke-width="1" filter="url(#shadow)"/>
 <g font-family="JetBrains Mono" font-size="14.00px" fill="#c4c4c4">
-<text x="80.00px" y="109.00px" xml:space="preserve"><tspan fill="#ff48dd">module</tspan> Main <tspan fill="#ff48dd">where</tspan>
-</text><text x="80.00px" y="125.80px" xml:space="preserve">
-</text><text x="80.00px" y="142.60px" xml:space="preserve"><tspan fill="#ff48dd">import</tspan> Data.Function <tspan fill="#e8e8a8">(</tspan> <tspan fill="#e8e8a8">(</tspan><tspan fill="#ff7f83">&amp;</tspan><tspan fill="#e8e8a8">)</tspan> <tspan fill="#e8e8a8">)</tspan>
-</text><text x="80.00px" y="159.40px" xml:space="preserve"><tspan fill="#ff48dd">import</tspan> Data.List <tspan fill="#e8e8a8">(</tspan> <tspan fill="#00dc7f">intercalate</tspan> <tspan fill="#e8e8a8">)</tspan>
-</text><text x="80.00px" y="176.20px" xml:space="preserve">
-</text><text x="80.00px" y="193.00px" xml:space="preserve"><tspan fill="#00dc7f">hello</tspan> <tspan fill="#ff7f83">::</tspan> <tspan fill="#635adf">String</tspan> <tspan fill="#ff7f83">-&gt;</tspan> <tspan fill="#635adf">String</tspan>
-</text><text x="80.00px" y="209.80px" xml:space="preserve"><tspan fill="#00dc7f">hello</tspan> s <tspan fill="#ff7f83">=</tspan>
-</text><text x="80.00px" y="226.60px" xml:space="preserve">  <tspan fill="#e38356">&quot;Hello, &quot;</tspan> <tspan fill="#ff7f83">++</tspan> s <tspan fill="#ff7f83">++</tspan> <tspan fill="#e38356">&quot;.&quot;</tspan>
-</text><text x="80.00px" y="243.40px" xml:space="preserve">
-</text><text x="80.00px" y="260.20px" xml:space="preserve"><tspan fill="#00dc7f">main</tspan> <tspan fill="#ff7f83">::</tspan> <tspan fill="#635adf">IO</tspan> <tspan fill="#ff7cdb">()</tspan>
-</text><text x="80.00px" y="277.00px" xml:space="preserve"><tspan fill="#00dc7f">main</tspan> <tspan fill="#ff7f83">=</tspan>
-</text><text x="80.00px" y="293.80px" xml:space="preserve">  map hello <tspan fill="#e8e8a8">[</tspan> <tspan fill="#e38356">&quot;artichoke&quot;</tspan><tspan fill="#e8e8a8">,</tspan> <tspan fill="#e38356">&quot;alcachofa&quot;</tspan> <tspan fill="#e8e8a8">]</tspan> <tspan fill="#ff7f83">&amp;</tspan> intercalate <tspan fill="#e38356">&quot;</tspan><tspan fill="#afffd7">\n</tspan><tspan fill="#e38356">&quot;</tspan> <tspan fill="#ff7f83">&amp;</tspan> putStrLn
-</text><text x="80.00px" y="310.60px" xml:space="preserve">
-</text><text x="80.00px" y="327.40px" xml:space="preserve"><tspan fill="#676767">-- Alcachofa, if you were wondering, is artichoke in Spanish.</tspan>
+<text x="81.00px" y="110.00px" xml:space="preserve"><tspan fill="#ff48dd">module</tspan> Main <tspan fill="#ff48dd">where</tspan>
+</text><text x="81.00px" y="126.80px" xml:space="preserve">
+</text><text x="81.00px" y="143.60px" xml:space="preserve"><tspan fill="#ff48dd">import</tspan> Data.Function <tspan fill="#e8e8a8">(</tspan> <tspan fill="#e8e8a8">(</tspan><tspan fill="#ff7f83">&amp;</tspan><tspan fill="#e8e8a8">)</tspan> <tspan fill="#e8e8a8">)</tspan>
+</text><text x="81.00px" y="160.40px" xml:space="preserve"><tspan fill="#ff48dd">import</tspan> Data.List <tspan fill="#e8e8a8">(</tspan> <tspan fill="#00dc7f">intercalate</tspan> <tspan fill="#e8e8a8">)</tspan>
+</text><text x="81.00px" y="177.20px" xml:space="preserve">
+</text><text x="81.00px" y="194.00px" xml:space="preserve"><tspan fill="#00dc7f">hello</tspan> <tspan fill="#ff7f83">::</tspan> <tspan fill="#635adf">String</tspan> <tspan fill="#ff7f83">-&gt;</tspan> <tspan fill="#635adf">String</tspan>
+</text><text x="81.00px" y="210.80px" xml:space="preserve"><tspan fill="#00dc7f">hello</tspan> s <tspan fill="#ff7f83">=</tspan>
+</text><text x="81.00px" y="227.60px" xml:space="preserve">  <tspan fill="#e38356">&quot;Hello, &quot;</tspan> <tspan fill="#ff7f83">++</tspan> s <tspan fill="#ff7f83">++</tspan> <tspan fill="#e38356">&quot;.&quot;</tspan>
+</text><text x="81.00px" y="244.40px" xml:space="preserve">
+</text><text x="81.00px" y="261.20px" xml:space="preserve"><tspan fill="#00dc7f">main</tspan> <tspan fill="#ff7f83">::</tspan> <tspan fill="#635adf">IO</tspan> <tspan fill="#ff7cdb">()</tspan>
+</text><text x="81.00px" y="278.00px" xml:space="preserve"><tspan fill="#00dc7f">main</tspan> <tspan fill="#ff7f83">=</tspan>
+</text><text x="81.00px" y="294.80px" xml:space="preserve">  map hello <tspan fill="#e8e8a8">[</tspan> <tspan fill="#e38356">&quot;artichoke&quot;</tspan><tspan fill="#e8e8a8">,</tspan> <tspan fill="#e38356">&quot;alcachofa&quot;</tspan> <tspan fill="#e8e8a8">]</tspan> <tspan fill="#ff7f83">&amp;</tspan> intercalate <tspan fill="#e38356">&quot;</tspan><tspan fill="#afffd7">\n</tspan><tspan fill="#e38356">&quot;</tspan> <tspan fill="#ff7f83">&amp;</tspan> putStrLn
+</text><text x="81.00px" y="311.60px" xml:space="preserve">
+</text><text x="81.00px" y="328.40px" xml:space="preserve"><tspan fill="#676767">-- Alcachofa, if you were wondering, is artichoke in Spanish.</tspan>
 </text>
 </g>
 <svg x="60.00px" y="60.00px"><circle cx="13.50" cy="12" r="5.50" fill="#FF5A54"/><circle cx="32.50" cy="12" r="5.50" fill="#E6BF29"/><circle cx="51.50" cy="12" r="5.50" fill="#52C12B"/></svg><defs><filter id="shadow" filterUnits="userSpaceOnUse"><feGaussianBlur in="SourceAlpha" stdDeviation="20"/><feOffset result="offsetblur" dx="0" dy="10"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs></svg>
