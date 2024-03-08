@@ -23,6 +23,7 @@ import (
 	parser "github.com/charmbracelet/x/exp/term/vtparser"
 	"github.com/mattn/go-isatty"
 	"github.com/rivo/uniseg"
+	"golang.org/x/net/context"
 )
 
 const pngExportMultiplier = 2
@@ -46,7 +47,8 @@ func main() {
 
 	if config.Execute != "" {
 		args := strings.Split(config.Execute, " ")
-		cmd := exec.Command(args[0], args[1:]...)
+		ctx, _ := context.WithTimeout(context.Background(), config.Timeout)
+		cmd := exec.CommandContext(ctx, args[0], args[1:]...)
 		pty, err := runInPty(cmd)
 		if err != nil {
 			printErrorFatal("Something went wrong", err)
