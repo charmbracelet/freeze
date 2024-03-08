@@ -111,11 +111,27 @@ func TestFreezeOutput(t *testing.T) {
 		input  string
 		config string
 		output string
-	}{{
-		input:  "examples/artichoke.hs",
-		config: "test/configurations/base.json",
-		output: "artichoke.svg",
-	}}
+	}{
+		{
+			input:  "examples/artichoke.hs",
+			config: "test/configurations/base.json",
+			output: "artichoke-base.svg",
+		},
+		{
+			input:  "examples/artichoke.hs",
+			config: "test/configurations/full.json",
+			output: "artichoke-full.svg",
+		},
+	}
+
+	err := os.RemoveAll("test/output")
+	if err != nil {
+		t.Fatal("unable to remove output files")
+	}
+	err = os.Mkdir("test/output", 0755)
+	if err != nil {
+		t.Fatal("unable to create output directory")
+	}
 
 	for _, tc := range tests {
 		t.Run(tc.input, func(t *testing.T) {

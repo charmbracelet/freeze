@@ -235,7 +235,6 @@ func main() {
 
 	w += config.Padding[left] + config.Padding[right]
 	h += config.Padding[top] + config.Padding[bottom]
-	h += config.Margin[top] + config.Margin[bottom]
 
 	config.Shadow.Blur *= multiplier
 	config.Shadow.X *= multiplier
@@ -331,7 +330,6 @@ func main() {
 
 	image.CreateAttr("width", fmt.Sprintf("%.2fpx", textWidthPx+hMargin+hPadding))
 	rect.CreateAttr("width", fmt.Sprintf("%.2fpx", textWidthPx+hPadding))
-	image.CreateAttr("height", fmt.Sprintf("%.2fpx", float64(h)))
 	rect.CreateAttr("height", fmt.Sprintf("%.2fpx", float64(h)))
 
 	if isAnsi {

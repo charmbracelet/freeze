@@ -12,12 +12,12 @@
     "y": 10
   },
   "padding": [
-    40,
-    40,
-    40,
-    40
+    20,
+    20,
+    20,
+    20
   ],
-  "margin": "40",
+  "margin": "60",
   "background": "#FFFFFF",
   "font": {
     "family": "JetBrains Mono",
