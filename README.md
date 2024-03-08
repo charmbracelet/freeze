@@ -61,13 +61,13 @@ go install github.com/charmbracelet/freeze@latest
 
 ### Interactive mode
 
-Freeze features a fully interactive mode for easy cusomization. Settings are persisted across sessions making for easy adjustments.
+Freeze features a fully interactive mode for easy customization. Settings are persisted across sessions making for easy adjustments.
 
 ```bash
 freeze --interactive
 ```
 
-<img alt="freeze interactive mode" src="./tapes/interactive.gif" width="600" />
+<img alt="freeze interactive mode" src="./tapes/interactive.gif" width="400" />
 
 ### Flags
 
@@ -92,7 +92,7 @@ Screenshots can be customized with `--flags` or [Configuration](#configuration) 
 - [`--shadow.y`](#shadow): Shadow offset y coordinate.
 - [`--font.family`](#font): Font family to use for code.
 - [`--font.size`](#font): Font size to use for code.
-- [`--font.file`](#font): File path to the font to use (will be embed in the SVG).
+- [`--font.file`](#font): File path to the font to use (embedded in the SVG).
 - [`--line-height`](#font): Line height relative to font size.
 
 ### Language
@@ -235,7 +235,7 @@ freeze artichoke.hs --shadow.blur 20 --shadow.x 0 --shadow.y 10
 
 ## Configuration
 
-Freeze also supports configuration via a JSON file wich can be passed with the
+Freeze also supports configuration via a JSON file which can be passed with the
 `--config` / `-c` flag. In general, all `--flag` options map directly to keys
 and values in the config file
 
