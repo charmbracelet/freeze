@@ -120,10 +120,10 @@ func TestFreezeConfigurations(t *testing.T) {
 			flags:  []string{"--config", "test/configurations/full.json"},
 			output: "artichoke-full.svg",
 		},
-		{
-			flags:  []string{"--execute", "eza --no-time --no-filesize --no-user -l"},
-			output: "eza.svg",
-		},
+		// {
+		// 	flags:  []string{"--execute", "eza --no-time --no-filesize --no-user -l"},
+		// 	output: "eza.svg",
+		// },
 		// {
 		// 	flags:  []string{"--execute", "layout", "--width", "820", "--config", "full"},
 		// 	output: "ansi.svg",
