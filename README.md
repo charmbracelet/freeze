@@ -251,7 +251,7 @@ used in your screenshots.
 ```bash
 freeze -c base main.go
 freeze -c full main.go
-freeze -c custom.json main.go
+freeze -c ./custom.json main.go
 ```
 
 Here's what an example configuration looks like:
