@@ -66,9 +66,9 @@ func (p *dispatcher) Execute(code byte) {
 		p.col = 0
 	}
 }
-func (p *dispatcher) OscDispatch(params [][]byte, bellTerminated bool)      {}
-func (p *dispatcher) EscDispatch(intermediates []byte, r rune, ignore bool) {}
-func (p *dispatcher) DcsHook(prefix string, params [][]uint16, intermediates []byte, r rune, ignore bool) {
+func (p *dispatcher) OscDispatch(params [][]byte, bellTerminated bool) {}
+func (p *dispatcher) EscDispatch(inter byte, r byte, ignore bool)      {}
+func (p *dispatcher) DcsHook(prefix string, params [][]uint, intermediates []byte, r rune, ignore bool) {
 }
 func (p *dispatcher) DcsPut(code byte) {}
 func (p *dispatcher) DcsUnhook()       {}
@@ -105,7 +105,7 @@ func (p *dispatcher) endBackground() {
 	p.bgWidth = 0
 }
 
-func (p *dispatcher) CsiDispatch(prefix string, params [][]uint16, intermediates []byte, r rune, ignore bool) {
+func (p *dispatcher) CsiDispatch(marker byte, params [][]uint, inter byte, final byte, ignore bool) {
 	if ignore {
 		return
 	}
@@ -174,7 +174,7 @@ func (p *dispatcher) CsiDispatch(prefix string, params [][]uint16, intermediates
 	}
 }
 
-var ansiPalette = map[uint16]string{
+var ansiPalette = map[uint]string{
 	30: "#282a2e", // black
 	31: "#D74E6F", // red
 	32: "#31BB71", // green
