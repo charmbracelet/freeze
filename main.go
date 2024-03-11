@@ -142,7 +142,10 @@ func main() {
 		config.Lines[i]--
 	}
 
-	strippedInput := ansi.Strip(input)
+	var strippedInput string
+	for _, line := range strings.Split(input, "\n") {
+		strippedInput += ansi.Strip(line) + "\n"
+	}
 	isAnsi := strings.ToLower(config.Language) == "ansi" || strippedInput != input
 	strippedInput = cut(strippedInput, config.Lines)
 
@@ -348,7 +351,10 @@ func main() {
 			Execute:     d.Execute,
 			CsiDispatch: d.CsiDispatch,
 		}
-		parser.Parse([]byte(input))
+		for _, line := range strings.Split(input, "\n") {
+			parser.Parse([]byte(line))
+			d.Execute(ansi.LF) // simulate a newline
+		}
 	}
 
 	istty := isatty.IsTerminal(os.Stdout.Fd())
