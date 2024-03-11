@@ -136,7 +136,7 @@ func (p *dispatcher) CsiDispatch(prefix string, params [][]uint16, intermediates
 			span.CreateAttr("text-decoration", "underline")
 			p.lines[p.row].AddChild(span)
 		case 30, 31, 32, 33, 34, 35, 36, 37, 90, 91, 92, 93, 94, 95, 96, 97:
-			span.CreateAttr("fill", ansi[v])
+			span.CreateAttr("fill", ansiPalette[v])
 			p.lines[p.row].AddChild(span)
 		case 38:
 			i++
@@ -168,13 +168,13 @@ func (p *dispatcher) CsiDispatch(prefix string, params [][]uint16, intermediates
 				i += 3
 			}
 		case 100, 101, 102, 103, 104, 105, 106, 107:
-			p.beginBackground(ansi[v])
+			p.beginBackground(ansiPalette[v])
 		}
 		i++
 	}
 }
 
-var ansi = map[uint16]string{
+var ansiPalette = map[uint16]string{
 	30: "#282a2e", // black
 	31: "#D74E6F", // red
 	32: "#31BB71", // green
