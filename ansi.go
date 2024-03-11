@@ -31,6 +31,7 @@ type dispatcher struct {
 }
 
 func (p *dispatcher) Print(r rune) {
+	p.row = clamp(p.row, 0, len(p.lines)-1)
 	// insert the rune in the last tspan
 	children := p.lines[p.row].ChildElements()
 	var lastChild *etree.Element
@@ -65,9 +66,9 @@ func (p *dispatcher) Execute(code byte) {
 		p.col = 0
 	}
 }
-func (p *dispatcher) OscDispatch(params [][]byte, bellTerminated bool) {}
-func (p *dispatcher) EscDispatch(inter byte, final byte, ignore bool)  {}
-func (p *dispatcher) DcsHook(prefix string, params [][]uint, intermediates []byte, r rune, ignore bool) {
+func (p *dispatcher) OscDispatch(params [][]byte, bellTerminated bool)      {}
+func (p *dispatcher) EscDispatch(intermediates []byte, r rune, ignore bool) {}
+func (p *dispatcher) DcsHook(prefix string, params [][]uint16, intermediates []byte, r rune, ignore bool) {
 }
 func (p *dispatcher) DcsPut(code byte) {}
 func (p *dispatcher) DcsUnhook()       {}
@@ -104,7 +105,11 @@ func (p *dispatcher) endBackground() {
 	p.bgWidth = 0
 }
 
-func (p *dispatcher) CsiDispatch(marker byte, params [][]uint, inter byte, final byte, ignore bool) {
+func (p *dispatcher) CsiDispatch(prefix string, params [][]uint16, intermediates []byte, r rune, ignore bool) {
+	if ignore {
+		return
+	}
+
 	span := etree.NewElement("tspan")
 	span.CreateAttr("xml:space", "preserve")
 
@@ -131,7 +136,7 @@ func (p *dispatcher) CsiDispatch(marker byte, params [][]uint, inter byte, final
 			span.CreateAttr("text-decoration", "underline")
 			p.lines[p.row].AddChild(span)
 		case 30, 31, 32, 33, 34, 35, 36, 37, 90, 91, 92, 93, 94, 95, 96, 97:
-			span.CreateAttr("fill", ansiPalette[v])
+			span.CreateAttr("fill", ansi[v])
 			p.lines[p.row].AddChild(span)
 		case 38:
 			i++
@@ -163,13 +168,13 @@ func (p *dispatcher) CsiDispatch(marker byte, params [][]uint, inter byte, final
 				i += 3
 			}
 		case 100, 101, 102, 103, 104, 105, 106, 107:
-			p.beginBackground(ansiPalette[v])
+			p.beginBackground(ansi[v])
 		}
 		i++
 	}
 }
 
-var ansiPalette = map[uint]string{
+var ansi = map[uint16]string{
 	30: "#282a2e", // black
 	31: "#D74E6F", // red
 	32: "#31BB71", // green
