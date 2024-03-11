@@ -2,32 +2,19 @@ package main
 
 import (
 	"fmt"
-	"regexp"
 
 	"github.com/beevik/etree"
 	"github.com/mattn/go-runewidth"
 )
 
-const csiRegex = "[\u001B\u009B][[\\]()#;?]*(?:(?:(?:[a-zA-Z\\d]*(?:;[a-zA-Z\\d]*)*)?\u0007)|(?:(?:\\d{1,4}(?:;\\d{0,4})*)?[\\dA-PRZcf-ntqry=><~]))"
-const oscRegex = "[\u001B\u009B\u009D]"
-
-var ansiRe = regexp.MustCompile(csiRegex)
-var oscRe = regexp.MustCompile(oscRegex)
-
-func StripANSI(str string) string {
-	str = ansiRe.ReplaceAllString(str, "")
-	str = oscRe.ReplaceAllString(str, "")
-	return str
-}
-
 type dispatcher struct {
+	svg     *etree.Element
+	bg      *etree.Element
+	config  *Config
 	lines   []*etree.Element
 	row     int
 	col     int
-	svg     *etree.Element
-	bg      *etree.Element
 	bgWidth int
-	config  *Config
 }
 
 func (p *dispatcher) Print(r rune) {
@@ -66,12 +53,6 @@ func (p *dispatcher) Execute(code byte) {
 		p.col = 0
 	}
 }
-func (p *dispatcher) OscDispatch(params [][]byte, bellTerminated bool) {}
-func (p *dispatcher) EscDispatch(inter byte, r byte, ignore bool)      {}
-func (p *dispatcher) DcsHook(prefix string, params [][]uint, intermediates []byte, r rune, ignore bool) {
-}
-func (p *dispatcher) DcsPut(code byte) {}
-func (p *dispatcher) DcsUnhook()       {}
 
 const fontHeightToWidthRatio = 1.68
 
@@ -106,23 +87,33 @@ func (p *dispatcher) endBackground() {
 }
 
 func (p *dispatcher) CsiDispatch(marker byte, params [][]uint, inter byte, final byte, ignore bool) {
-	if ignore {
+	if ignore || final != 'm' || marker != 0 {
+		// ignore incomplete or non Style (SGR) sequences
 		return
 	}
 
 	span := etree.NewElement("tspan")
 	span.CreateAttr("xml:space", "preserve")
+	reset := func() {
+		// reset ANSI, this is done by creating a new empty tspan,
+		// which would reset all the styles such that when text is appended to the last
+		// child of this line there is no styling applied.
+		p.lines[p.row].AddChild(span)
+		p.endBackground()
+	}
+
+	if len(params) == 0 {
+		// zero params means reset
+		reset()
+		return
+	}
 
 	var i int
 	for i < len(params) {
 		v := params[i][0]
 		switch v {
 		case 0:
-			// reset ANSI, this is done by creating a new empty tspan,
-			// which would reset all the styles such that when text is appended to the last
-			// child of this line there is no styling applied.
-			p.lines[p.row].AddChild(span)
-			p.endBackground()
+			reset()
 		case 1:
 			// span.CreateAttr("font-weight", "bold")
 			p.lines[p.row].AddChild(span)

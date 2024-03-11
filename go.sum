@@ -28,10 +28,8 @@ github.com/charmbracelet/log v0.3.2-0.20240306155710-bcd47385a62a h1:LK5PJjyOCCy
 github.com/charmbracelet/log v0.3.2-0.20240306155710-bcd47385a62a/go.mod h1:63bXt/djrizTec0l11H20t8FDSvA4CRZJ1KH22MdptM=
 github.com/charmbracelet/x/exp/strings v0.0.0-20240304182535-218372c60851 h1:iQ+a0IzRJV/gvdo2sID6A8OkPrE93nw4UqlaeIzkeuY=
 github.com/charmbracelet/x/exp/strings v0.0.0-20240304182535-218372c60851/go.mod h1:pBhA0ybfXv6hDjQUZ7hk1lVxBiUbupdw5R31yPUViVQ=
-github.com/charmbracelet/x/exp/term v0.0.0-20240304182535-218372c60851 h1:fhTsXSnIpzbj3J9RcDEZxQtFvXHmzaVT0FFtdjdjzJY=
-github.com/charmbracelet/x/exp/term v0.0.0-20240304182535-218372c60851/go.mod h1:Ri5EXInI8O2cnLEFUibhQr65ESkyuitQuIzcHh7+aqU=
-github.com/charmbracelet/x/exp/term v0.0.0-20240311152917-162d71608f74 h1:tgA8E1VjvxJsCN6JKcX39cS1OmSnnqyi2+vhXe6gdv8=
-github.com/charmbracelet/x/exp/term v0.0.0-20240311152917-162d71608f74/go.mod h1:madZtB2OVDOG+ZnLruGITVZceYy047W+BLQ1MNQzbWg=
+github.com/charmbracelet/x/exp/term v0.0.0-20240311154108-eb70e1993199 h1:cWAbCPCUA7Fea2U49nas6kaJ4WgITyTUJqghbHGvO1Q=
+github.com/charmbracelet/x/exp/term v0.0.0-20240311154108-eb70e1993199/go.mod h1:madZtB2OVDOG+ZnLruGITVZceYy047W+BLQ1MNQzbWg=
 github.com/containerd/console v1.0.4 h1:F2g4+oChYvBTsASRTz8NP6iIAi97J3TtSAsLbIFn4ro=
 github.com/containerd/console v1.0.4/go.mod h1:YynlIjWYF8myEu6sdkwKIvGQq+cOckRm6So2avqoYAk=
 github.com/creack/pty v1.1.21 h1:1/QdRyBaHHJP61QkWMXlOIBfsgdDeeKfK8SYVUWJKf0=
