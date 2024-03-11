@@ -286,9 +286,8 @@ func main() {
 	g.CreateAttr("font-size", fmt.Sprintf("%.2fpx", config.Font.Size))
 	text := g.SelectElements("text")
 
-	d := &dispatcher{
+	d := dispatcher{
 		lines:  text,
-		row:    0,
 		svg:    g,
 		config: &config,
 	}
@@ -345,13 +344,9 @@ func main() {
 
 	if isAnsi {
 		parser := ansi.Parser{
-			Print:            d.Print,
-			Execute:          d.Execute,
-			EscDispatch:      d.EscDispatch,
-			CsiDispatch:      d.CsiDispatch,
-			OscDispatch:      d.OscDispatch,
-			DcsDispatch:      func(marker byte, params [][]uint, inter byte, final byte, data []byte, ignore bool) {},
-			SosPmApcDispatch: func(kind byte, data []byte) {},
+			Print:       d.Print,
+			Execute:     d.Execute,
+			CsiDispatch: d.CsiDispatch,
 		}
 		parser.Parse([]byte(input))
 	}
