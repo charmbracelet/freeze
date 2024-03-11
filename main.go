@@ -20,7 +20,7 @@ import (
 	"github.com/charmbracelet/freeze/svg"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/log"
-	parser "github.com/charmbracelet/x/exp/term/vtparser"
+	"github.com/charmbracelet/x/exp/term/ansi"
 	"github.com/mattn/go-isatty"
 	"github.com/rivo/uniseg"
 	"golang.org/x/net/context"
@@ -142,7 +142,7 @@ func main() {
 		config.Lines[i]--
 	}
 
-	strippedInput := StripANSI(input)
+	strippedInput := ansi.Strip(input)
 	isAnsi := strings.ToLower(config.Language) == "ansi" || strippedInput != input
 	strippedInput = cut(strippedInput, config.Lines)
 
@@ -286,7 +286,7 @@ func main() {
 	g.CreateAttr("font-size", fmt.Sprintf("%.2fpx", config.Font.Size))
 	text := g.SelectElements("text")
 
-	d := dispatcher{
+	d := &dispatcher{
 		lines:  text,
 		row:    0,
 		svg:    g,
@@ -344,10 +344,16 @@ func main() {
 	rect.CreateAttr("height", fmt.Sprintf("%.2fpx", float64(h)))
 
 	if isAnsi {
-		ansiParseErr := parser.New(&d).Parse(strings.NewReader(input))
-		if ansiParseErr != nil {
-			printErrorFatal("Could not parse ANSI", ansiParseErr)
+		parser := ansi.Parser{
+			Print:            d.Print,
+			Execute:          d.Execute,
+			EscDispatch:      d.EscDispatch,
+			CsiDispatch:      d.CsiDispatch,
+			OscDispatch:      d.OscDispatch,
+			DcsDispatch:      func(marker byte, params [][]uint, inter byte, final byte, data []byte, ignore bool) {},
+			SosPmApcDispatch: func(kind byte, data []byte) {},
 		}
+		parser.Parse([]byte(input))
 	}
 
 	istty := isatty.IsTerminal(os.Stdout.Fd())
