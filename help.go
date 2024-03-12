@@ -14,48 +14,85 @@ const space = 18
 var highlighter = regexp.MustCompile("{{(.+?)}}")
 
 func helpPrinter(_ kong.HelpOptions, ctx *kong.Context) error {
-	codeBlockStyle := lipgloss.NewStyle().Background(lipgloss.Color("0")).Padding(1, 0)
-	programStyle := codeBlockStyle.Copy().Foreground(lipgloss.Color("12")).PaddingLeft(3).MarginLeft(2)
-	argumentStyle := codeBlockStyle.Copy().Foreground(lipgloss.Color("7")).Padding(1, 1)
-	flagStyle := codeBlockStyle.Copy().Foreground(lipgloss.Color("244")).PaddingRight(3)
+	codeBlockStyle := lipgloss.NewStyle().Background(lipgloss.Color("0")).MarginLeft(2).Padding(1, 2)
+	programStyle := lipgloss.NewStyle().Background(codeBlockStyle.GetBackground()).Foreground(lipgloss.Color("12")).PaddingLeft(1)
+	stringStyle := lipgloss.NewStyle().Background(codeBlockStyle.GetBackground()).Foreground(lipgloss.Color("3")).PaddingLeft(1)
+	argumentStyle := lipgloss.NewStyle().Background(codeBlockStyle.GetBackground()).Foreground(lipgloss.Color("7")).PaddingLeft(1)
+	flagStyle := lipgloss.NewStyle().Background(codeBlockStyle.GetBackground()).Foreground(lipgloss.Color("244")).PaddingLeft(1)
 	titleStyle := lipgloss.NewStyle().Bold(true).Margin(1, 0, 0, 2).Foreground(lipgloss.Color("#875FFF"))
-	dashStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("240")).MarginLeft(2)
-	keywordStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("1"))
+	// subtitleStyle := lipgloss.NewStyle().Bold(true).Margin(1, 0, 0, 4).Foreground(lipgloss.Color("7"))
 
 	fmt.Println()
 	fmt.Println("  Generate images of code and terminal output. 📸")
+
+	fmt.Println(titleStyle.Render(strings.ToUpper("Usage")))
 	fmt.Println()
-	fmt.Println(lipgloss.JoinHorizontal(lipgloss.Center, programStyle.Render("freeze"), argumentStyle.Render("main.go"), flagStyle.Render("[-o code.svg] [--flags]")))
+	fmt.Println(
+		codeBlockStyle.Render(
+			lipgloss.JoinVertical(
+				lipgloss.Top,
+				lipgloss.JoinHorizontal(lipgloss.Left, programStyle.Render("freeze"), argumentStyle.Render("main.go"), flagStyle.Render("[-o code.svg] [--flags]")),
+				lipgloss.JoinHorizontal(lipgloss.Left, programStyle.Render("freeze"), argumentStyle.Render("--execute"), stringStyle.Render("\"ls -la\""), flagStyle.Render("[--flags]   ")),
+			),
+		),
+	)
 
 	flags := ctx.Flags()
 	lastGroup := ""
 
+	fmt.Println()
 	for _, f := range flags {
-		if f.Hidden {
-			continue
+		if f.Name == "interactive" {
+			printFlag(f)
 		}
-		if f.Name == "help" {
+	}
+
+	fmt.Println(titleStyle.Render(strings.ToUpper("Settings")))
+
+	for _, f := range flags {
+		if f.Group != nil && f.Group.Title == "Settings" {
+			if f.Hidden || f.Name == "help" {
+				continue
+			}
+			printFlag(f)
+		}
+	}
+
+	fmt.Println(titleStyle.Render(strings.ToUpper("Customization")))
+
+	for _, f := range flags {
+		if f.Hidden || f.Name == "help" || f.Group.Title == "Settings" {
 			continue
 		}
 
 		if f.Group != nil && lastGroup != f.Group.Title {
 			lastGroup = f.Group.Title
-			fmt.Println(titleStyle.Render(strings.ToUpper(f.Group.Title)))
+			fmt.Println()
 		}
 
-		if f.Short > 0 {
-			fmt.Print("  ", dashStyle.Render("-"), string(f.Short))
-			fmt.Print(dashStyle.Render("--"), f.Name)
-			fmt.Print(strings.Repeat(" ", space-len(f.Name)))
-		} else {
-			fmt.Print("  ", dashStyle.Render(" "), " ")
-			fmt.Print(dashStyle.Render("--"), f.Name)
-			fmt.Print(strings.Repeat(" ", space-len(f.Name)))
-
-		}
-		help := highlighter.ReplaceAllString(f.Help, keywordStyle.Render("$1"))
-		fmt.Println(help)
+		printFlag(f)
 	}
 	fmt.Println()
 	return nil
+}
+
+const helpForeground = "243"
+
+func printFlag(f *kong.Flag) {
+	dashStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("240")).MarginLeft(1)
+	helpStyle := lipgloss.NewStyle().Foreground(lipgloss.Color(helpForeground))
+	keywordStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("1"))
+
+	if f.Short > 0 {
+		fmt.Print("    ", dashStyle.Render("-"), string(f.Short))
+		fmt.Print(dashStyle.Render("--"), f.Name)
+		fmt.Print(strings.Repeat(" ", space-len(f.Name)))
+	} else {
+		fmt.Print("    ", dashStyle.Render(" "), " ")
+		fmt.Print(dashStyle.Render("--"), f.Name)
+		fmt.Print(strings.Repeat(" ", space-len(f.Name)))
+
+	}
+	help := highlighter.ReplaceAllString(f.Help, keywordStyle.Render("$1")+"\x1b[38;5;"+helpForeground+"m")
+	fmt.Println(helpStyle.Render(help))
 }
