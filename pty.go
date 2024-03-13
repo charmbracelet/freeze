@@ -10,6 +10,9 @@ import (
 // runInPty opens a new pty and runs the given command in it.
 // The returned file is the pty's file descriptor and must be closed by the
 // caller.
-func runInPty(c *exec.Cmd) (*os.File, error) {
-	return pty.Start(c)
+func (cfg Config) runInPty(c *exec.Cmd) (*os.File, error) {
+	return pty.StartWithSize(c, &pty.Winsize{
+		Cols: 100,
+		X:    uint16(cfg.Width),
+	})
 }
