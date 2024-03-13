@@ -51,8 +51,9 @@ func runForm(config *Config) (*Config, error) {
 			huh.NewNote().Title("\nCapture file"),
 
 			huh.NewFilePicker().
-				Title("Screenshot File").
+				Title("").
 				Picking(true).
+				Height(10).
 				Value(&config.Input),
 
 			huh.NewNote().Description("Choose a code file to screenshot."),
@@ -180,8 +181,8 @@ func runForm(config *Config) (*Config, error) {
 				Prompt("").
 				Value(&shadowY).
 				Validate(validateInteger),
-		),
-	).WithTheme(theme).WithHeight(33)
+		).WithHeight(33),
+	).WithTheme(theme).WithWidth(40)
 
 	err := f.Run()
 

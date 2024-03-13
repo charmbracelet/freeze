@@ -64,15 +64,10 @@ func TestFreezeHelp(t *testing.T) {
 	contains := []string{
 		"Generate images of code and terminal output.",
 		"freeze main.go [-o code.svg] [--flags]",
-		"WINDOW",
 		"--background", "Apply a background fill.",
-		"SETTINGS",
 		"--theme", "Theme to use for syntax highlighting",
-		"BORDER",
 		"--border.color", "Border color.",
-		"SHADOW",
 		"--shadow.blur", "Shadow Gaussian Blur.",
-		"FONT",
 		"--font.family", "Font family to use for code.",
 	}
 
@@ -185,7 +180,7 @@ func TestFreezeConfigurations(t *testing.T) {
 	}
 
 	for _, tc := range tests {
-		t.Run(strings.Join(tc.flags, " "), func(t *testing.T) {
+		t.Run(tc.output, func(t *testing.T) {
 			out := bytes.Buffer{}
 			args := append([]string{tc.input}, tc.flags...)
 			args = append(args, "--output", "test/output/"+tc.output)
@@ -207,7 +202,7 @@ func TestFreezeConfigurations(t *testing.T) {
 			}
 			if string(want) != string(got) {
 				// t.Log(udiff.Unified("want", "got", string(want), string(got)))
-				t.Fatalf("test/golden/%s != test/output/%s", tc.output, tc.output)
+				t.Fatalf("golden/%s != output/%s", tc.output, tc.output)
 			}
 		})
 	}

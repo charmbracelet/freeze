@@ -142,10 +142,7 @@ func main() {
 		config.Lines[i]--
 	}
 
-	var strippedInput string
-	for _, line := range strings.Split(input, "\n") {
-		strippedInput += ansi.Strip(line) + "\n"
-	}
+	var strippedInput string = ansi.Strip(input)
 	isAnsi := strings.ToLower(config.Language) == "ansi" || strippedInput != input
 	strippedInput = cut(strippedInput, config.Lines)
 

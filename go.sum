@@ -6,6 +6,8 @@ github.com/alecthomas/chroma v0.10.0 h1:7XDcGkCQopCNKjZHfYrNLraA+M7e0fMiJ/Mfikbf
 github.com/alecthomas/chroma v0.10.0/go.mod h1:jtJATyUxlIORhUOFNA9NZDWGAQ8wpxQQqNSB4rjA/1s=
 github.com/alecthomas/kong v0.8.2-0.20240122082144-30e84613fe34 h1:MZ1jCBGe0gB9Mpj4+GLN1ohMXAKZ2Imuxkg9uV1DFMc=
 github.com/alecthomas/kong v0.8.2-0.20240122082144-30e84613fe34/go.mod h1:XIZQXUCiO9Hui46kGEPUfYgYFw+qmG8MKpXQvyVr8OA=
+github.com/alecthomas/kong v0.9.0 h1:G5diXxc85KvoV2f0ZRVuMsi45IrBgx9zDNGNj165aPA=
+github.com/alecthomas/kong v0.9.0/go.mod h1:Y47y5gKfHp1hDc7CH7OeXgLIpp+Q2m1Ni0L5s3bI8Os=
 github.com/alecthomas/repr v0.3.0 h1:NeYzUPfjjlqHY4KtzgKJiWd6sVq2eNUPTi34PiFGjY8=
 github.com/alecthomas/repr v0.3.0/go.mod h1:Fr0507jx4eOXV7AlPV6AVZLYrLIuIeSOWtW57eE/O/4=
 github.com/atotto/clipboard v0.1.4 h1:EH0zSVneZPSuFR11BlR9YppQTVDbh5+16AmcJi4g1z4=
@@ -28,8 +30,12 @@ github.com/charmbracelet/log v0.3.2-0.20240306155710-bcd47385a62a h1:LK5PJjyOCCy
 github.com/charmbracelet/log v0.3.2-0.20240306155710-bcd47385a62a/go.mod h1:63bXt/djrizTec0l11H20t8FDSvA4CRZJ1KH22MdptM=
 github.com/charmbracelet/x/exp/strings v0.0.0-20240304182535-218372c60851 h1:iQ+a0IzRJV/gvdo2sID6A8OkPrE93nw4UqlaeIzkeuY=
 github.com/charmbracelet/x/exp/strings v0.0.0-20240304182535-218372c60851/go.mod h1:pBhA0ybfXv6hDjQUZ7hk1lVxBiUbupdw5R31yPUViVQ=
+github.com/charmbracelet/x/exp/strings v0.0.0-20240313015534-8cc69f8a3217 h1:AJkTXKz6WT2z2d9rN7MNYWC4kpBWZqRymUD18XSBgIM=
+github.com/charmbracelet/x/exp/strings v0.0.0-20240313015534-8cc69f8a3217/go.mod h1:pBhA0ybfXv6hDjQUZ7hk1lVxBiUbupdw5R31yPUViVQ=
 github.com/charmbracelet/x/exp/term v0.0.0-20240311154108-eb70e1993199 h1:cWAbCPCUA7Fea2U49nas6kaJ4WgITyTUJqghbHGvO1Q=
 github.com/charmbracelet/x/exp/term v0.0.0-20240311154108-eb70e1993199/go.mod h1:madZtB2OVDOG+ZnLruGITVZceYy047W+BLQ1MNQzbWg=
+github.com/charmbracelet/x/exp/term v0.0.0-20240313015534-8cc69f8a3217 h1:9VNgyGZL+1zMvFOVMtgZdvNprmkLZuoVbY5vmGf/URU=
+github.com/charmbracelet/x/exp/term v0.0.0-20240313015534-8cc69f8a3217/go.mod h1:madZtB2OVDOG+ZnLruGITVZceYy047W+BLQ1MNQzbWg=
 github.com/containerd/console v1.0.4 h1:F2g4+oChYvBTsASRTz8NP6iIAi97J3TtSAsLbIFn4ro=
 github.com/containerd/console v1.0.4/go.mod h1:YynlIjWYF8myEu6sdkwKIvGQq+cOckRm6So2avqoYAk=
 github.com/creack/pty v1.1.21 h1:1/QdRyBaHHJP61QkWMXlOIBfsgdDeeKfK8SYVUWJKf0=
