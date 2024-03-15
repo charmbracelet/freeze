@@ -8,7 +8,7 @@
 	font-weight: normal;
 	font-style: normal;
 }
-</style><rect width="631" height="300" fill="#171717" rx="8" ry="8" stroke="#515151" stroke-width="1" x="60.00px" y="60.00px" filter="url(#shadow)"/>
+</style><rect width="629" height="300" fill="#171717" rx="8" ry="8" filter="url(#shadow)" stroke="#515151" stroke-width="1" x="60.00px" y="60.00px"/>
 <g font-family="JetBrains Mono" font-size="14.00px" fill="#c4c4c4" clip-path="url(#terminalMask)">
 <text x="80.00px" y="109.00px" xml:space="preserve"><tspan fill="#ff48dd">module</tspan> Main <tspan fill="#ff48dd">where</tspan>
 </text><text x="80.00px" y="125.80px" xml:space="preserve">

@@ -216,19 +216,6 @@ func main() {
 		svg.AddCornerRadius(terminal, config.Border.Radius)
 	}
 
-	if config.Border.Width > 0 {
-		svg.AddOutline(terminal, config.Border.Width, config.Border.Color)
-
-		// NOTE: necessary so that we don't clip the outline.
-		terminalHeight -= (config.Border.Width * 2)
-		terminalWidth -= (config.Border.Width * 2)
-	}
-
-	svg.Move(terminal, float64(max(config.Margin[left], config.Border.Width)), float64(max(config.Margin[top], config.Border.Width)))
-
-	svg.SetDimensions(image, imageWidth, imageHeight)
-	svg.SetDimensions(terminal, terminalWidth, terminalHeight)
-
 	if config.Shadow.Blur > 0 || config.Shadow.X > 0 || config.Shadow.Y > 0 {
 		id := "shadow"
 		svg.AddShadow(image, id, config.Shadow.X, config.Shadow.Y, config.Shadow.Blur)
@@ -278,8 +265,18 @@ func main() {
 		imageWidth = terminalWidth + hMargin
 	}
 
+	if config.Border.Width > 0 {
+		svg.AddOutline(terminal, config.Border.Width, config.Border.Color)
+
+		// NOTE: necessary so that we don't clip the outline.
+		terminalHeight -= (config.Border.Width * 2)
+		terminalWidth -= (config.Border.Width * 2)
+	}
+
+	svg.Move(terminal, max(float64(config.Margin[left]), float64(config.Border.Width)/2), max(float64(config.Margin[top]), float64(config.Border.Width)/2))
 	svg.SetDimensions(image, imageWidth, imageHeight)
 	svg.SetDimensions(terminal, terminalWidth, terminalHeight)
+
 	if config.Height != 0 || config.Width != 0 {
 		svg.AddClipPath(image, "terminalMask", config.Margin[left], config.Margin[top], terminalWidth, terminalHeight-config.Padding[bottom])
 	}
