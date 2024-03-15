@@ -120,12 +120,12 @@ func TestFreezeConfigurations(t *testing.T) {
 		// 	output: "eza.svg",
 		// },
 		{
-			input:  "test/input/bubbletea.go",
-			flags:  []string{"--height", "800", "--width", "750", "--config", "full"},
+			input:  "test/input/bubbletea.model",
+			flags:  []string{"--language", "go", "--height", "800", "--width", "750", "--config", "full", "--margin", "50,10"},
 			output: "composite-1.svg",
 		},
 		// {
-		// 	flags:  []string{"--execute", "layout", "--height", "800", "--config", "full"},
+		// 	flags:  []string{"--execute", "layout", "--height", "800", "--config", "full", "--margin", "50,10"},
 		// 	output: "composite-2.svg",
 		// },
 		{
