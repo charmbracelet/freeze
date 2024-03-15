@@ -39,6 +39,24 @@ func AddShadow(element *etree.Element, id string, x, y, blur int) {
 	element.AddChild(defs)
 }
 
+// AddClipPath adds a definition of a clip path to the <defs> with the given id.
+func AddClipPath(element *etree.Element, id string, x, y, w, h int) {
+	p := etree.NewElement("clipPath")
+	p.CreateAttr("id", id)
+
+	rect := etree.NewElement("rect")
+	rect.CreateAttr("x", fmt.Sprintf("%d", x))
+	rect.CreateAttr("y", fmt.Sprintf("%d", y))
+	rect.CreateAttr("width", fmt.Sprintf("%d", w))
+	rect.CreateAttr("height", fmt.Sprintf("%d", h))
+
+	p.AddChild(rect)
+
+	defs := etree.NewElement("defs")
+	defs.AddChild(p)
+	element.AddChild(defs)
+}
+
 // AddCornerRadius adds corner radius to an element.
 func AddCornerRadius(e *etree.Element, radius int) {
 	e.CreateAttr("rx", fmt.Sprintf("%d", radius))
