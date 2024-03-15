@@ -123,12 +123,6 @@ freeze --execute "eza -lah"
 
 <img alt="output of freeze command, ANSI" src="./test/golden/eza.svg" width="350" />
 
-```bash
-freeze --config full -x ./lipgloss-example
-```
-
-<img alt="output of freeze command, ANSI" src="./test/golden/ansi.svg" width="600" />
-
 ### Theme
 
 Change the color theme.
