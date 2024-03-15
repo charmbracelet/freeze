@@ -1,6 +1,6 @@
 # Freeze
 
-<img src="https://github.com/charmbracelet/freeze/assets/42545625/fb5cbf04-32df-4e44-9c0e-22ad5612ca12" width="500" />
+<a href="https://stuff.charm.sh/freeze/freeze-4k.png"><img src="https://github.com/charmbracelet/freeze/assets/25087/de76b799-fa67-4b5b-8da2-d990ca5b4e06" width="500" /></a>
 
 <p>
   <a href="https://github.com/charmbracelet/freeze/releases"><img src="https://img.shields.io/github/release/charmbracelet/freeze.svg" alt="Latest Release"></a>
