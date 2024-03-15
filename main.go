@@ -184,20 +184,24 @@ func main() {
 	vMargin := config.Margin[top] + config.Margin[bottom]
 	vPadding := config.Padding[top] + config.Padding[bottom]
 
+	autoHeight := config.Height == 0
+	autoWidth := config.Width == 0
+
 	terminal := image.SelectElement("rect")
 
 	imageWidth, imageHeight := svg.GetDimensions(image)
 	terminalWidth := imageWidth
 	terminalHeight := imageHeight
 
-	if config.Width != 0 {
+	if !autoWidth {
 		imageWidth = config.Width
 		terminalWidth = config.Width - hMargin
 	} else {
 		imageWidth += hMargin + hPadding
 		terminalWidth += hPadding
 	}
-	if config.Height != 0 {
+
+	if !autoHeight {
 		imageHeight = config.Height
 		terminalHeight = config.Height - vMargin
 	} else {
@@ -244,7 +248,7 @@ func main() {
 			ln := etree.NewElement("tspan")
 			ln.CreateAttr("xml:space", "preserve")
 			ln.CreateAttr("fill", s.Get(chroma.LineNumbers).Colour.String())
-			ln.SetText(fmt.Sprintf("%3d  ", i+1+offsetLine))
+			ln.SetText(fmt.Sprintf("%2d  ", i+1+offsetLine))
 			line.InsertChildAt(0, ln)
 		}
 		x := float64(config.Padding[left] + config.Margin[left])
@@ -258,8 +262,7 @@ func main() {
 		}
 	}
 
-	// User did not specify width, fit all characters
-	if config.Width == 0 {
+	if autoWidth {
 		longestLine := lipgloss.Width(strippedInput)
 		terminalWidth = int(float64(longestLine+1)*(config.Font.Size/fontHeightToWidthRatio)) + hPadding
 		imageWidth = terminalWidth + hMargin
@@ -273,13 +276,24 @@ func main() {
 		terminalWidth -= (config.Border.Width * 2)
 	}
 
+	if config.ShowLineNumbers {
+		if autoWidth {
+			terminalWidth += int(config.Font.Size * 2)
+			imageWidth += int(config.Font.Size * 2)
+		} else {
+			terminalWidth -= int(config.Font.Size * 2)
+		}
+	}
+
+	if !autoHeight || !autoWidth {
+		svg.AddClipPath(image, "terminalMask",
+			config.Margin[left], config.Margin[top],
+			terminalWidth, terminalHeight-config.Padding[bottom])
+	}
+
 	svg.Move(terminal, max(float64(config.Margin[left]), float64(config.Border.Width)/2), max(float64(config.Margin[top]), float64(config.Border.Width)/2))
 	svg.SetDimensions(image, imageWidth, imageHeight)
 	svg.SetDimensions(terminal, terminalWidth, terminalHeight)
-
-	if config.Height != 0 || config.Width != 0 {
-		svg.AddClipPath(image, "terminalMask", config.Margin[left], config.Margin[top], terminalWidth, terminalHeight-config.Padding[bottom])
-	}
 
 	if isAnsi {
 		parser := ansi.Parser{

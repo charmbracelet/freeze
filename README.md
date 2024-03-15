@@ -29,9 +29,14 @@ freeze artichoke.hs -o artichoke.png
 
 ### Generate an image of terminal output
 
-```sh
-freeze --execute "ls -la" -o ls.svg
+You can use `freeze` to capture ANSI output of a terminal command with the
+`--execute` flag.
+
+```bash
+freeze --execute "eza -lah"
 ```
+
+<img alt="output of freeze command, ANSI" src="./test/golden/eza.svg" width="350" />
 
 Freeze is also [super customizable](#customization) and ships with an [interactive TUI](#interactive-mode).
 
@@ -110,17 +115,6 @@ cat artichoke.hs | freeze --language haskell
 
 <br />
 <img alt="output of freeze command, haskell code block" src="./test/golden/haskell.svg" width="600" />
-
-### Execute
-
-You can use `freeze` to capture ANSI output of a terminal command with the
-`--execute` flag.
-
-```bash
-freeze --execute "eza -lah"
-```
-
-<img alt="output of freeze command, ANSI" src="./test/golden/eza.svg" width="350" />
 
 ### Theme
 

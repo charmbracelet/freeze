@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg width="335" height="150" xmlns="http://www.w3.org/2000/svg">
+<svg width="483" height="320" xmlns="http://www.w3.org/2000/svg">
 <style>
 @font-face {
 	font-family: &apos;JetBrains Mono&apos;;
@@ -8,12 +8,12 @@
 	font-weight: normal;
 	font-style: normal;
 }
-</style><rect width="335" height="150" fill="#171717" x="0.00px" y="0.00px"/>
+</style><rect width="361" height="148" fill="#171717" rx="8" ry="8" filter="url(#shadow)" stroke="#515151" stroke-width="1" x="60.00px" y="50.00px"/>
 <g font-family="JetBrains Mono" font-size="14.00px" fill="#c4c4c4" clip-path="url(#terminalMask)">
-<text x="20.00px" y="34.00px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f">  4  </tspan><tspan fill="#ff48dd">import</tspan> Data.List <tspan fill="#e8e8a8">(</tspan> <tspan fill="#00dc7f">intercalate</tspan> <tspan fill="#e8e8a8">)</tspan>
-</text><text x="20.00px" y="50.80px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f">  5  </tspan>
-</text><text x="20.00px" y="67.60px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f">  6  </tspan><tspan fill="#00dc7f">hello</tspan> <tspan fill="#ff7f83">::</tspan> <tspan fill="#635adf">String</tspan> <tspan fill="#ff7f83">-&gt;</tspan> <tspan fill="#635adf">String</tspan>
-</text><text x="20.00px" y="84.40px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f">  7  </tspan><tspan fill="#00dc7f">hello</tspan> s <tspan fill="#ff7f83">=</tspan>
-</text><text x="20.00px" y="101.20px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f">  8  </tspan>  <tspan fill="#e38356">&quot;Hello, &quot;</tspan> <tspan fill="#ff7f83">++</tspan> s <tspan fill="#ff7f83">++</tspan> <tspan fill="#e38356">&quot;.&quot;</tspan></text>
+<text x="80.00px" y="99.00px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 4  </tspan><tspan fill="#ff48dd">import</tspan> Data.List <tspan fill="#e8e8a8">(</tspan> <tspan fill="#00dc7f">intercalate</tspan> <tspan fill="#e8e8a8">)</tspan>
+</text><text x="80.00px" y="115.80px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 5  </tspan>
+</text><text x="80.00px" y="132.60px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 6  </tspan><tspan fill="#00dc7f">hello</tspan> <tspan fill="#ff7f83">::</tspan> <tspan fill="#635adf">String</tspan> <tspan fill="#ff7f83">-&gt;</tspan> <tspan fill="#635adf">String</tspan>
+</text><text x="80.00px" y="149.40px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 7  </tspan><tspan fill="#00dc7f">hello</tspan> s <tspan fill="#ff7f83">=</tspan>
+</text><text x="80.00px" y="166.20px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 8  </tspan>  <tspan fill="#e38356">&quot;Hello, &quot;</tspan> <tspan fill="#ff7f83">++</tspan> s <tspan fill="#ff7f83">++</tspan> <tspan fill="#e38356">&quot;.&quot;</tspan></text>
 </g>
-</svg>
+<svg x="60.00px" y="50.00px"><circle cx="13.50" cy="12" r="5.50" fill="#FF5A54"/><circle cx="32.50" cy="12" r="5.50" fill="#E6BF29"/><circle cx="51.50" cy="12" r="5.50" fill="#52C12B"/></svg><defs><filter id="shadow" filterUnits="userSpaceOnUse"><feGaussianBlur in="SourceAlpha" stdDeviation="24"/><feOffset result="offsetblur" dx="0" dy="12"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs></svg>

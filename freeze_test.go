@@ -115,14 +115,14 @@ func TestFreezeConfigurations(t *testing.T) {
 			flags:  []string{"--config", "test/configurations/full.json"},
 			output: "artichoke-full.svg",
 		},
-		// {
-		// 	flags:  []string{"--execute", "eza --no-time --no-filesize --no-user -l", "--config", "full"},
-		// 	output: "eza.svg",
-		// },
+		{
+			flags:  []string{"--execute", "eza --no-time --no-filesize --no-user -l", "--config", "full", "--window=false"},
+			output: "eza.svg",
+		},
 		{
 			input:  "test/input/bubbletea.model",
-			flags:  []string{"--language", "go", "--height", "800", "--width", "750", "--config", "full"},
-			output: "composite-1.svg",
+			flags:  []string{"--language", "go", "--height", "800", "--width", "750", "--config", "full", "--window=false", "--show-line-numbers"},
+			output: "bubbletea.svg",
 		},
 		// {
 		// 	flags:  []string{"--execute", "layout", "--height", "800", "--config", "full", "--margin", "50,10"},
@@ -170,7 +170,7 @@ func TestFreezeConfigurations(t *testing.T) {
 		},
 		{
 			input:  "test/input/artichoke.hs",
-			flags:  []string{"--lines", "4,8", "--show-line-numbers"},
+			flags:  []string{"--config", "full", "--lines", "4,8", "--show-line-numbers"},
 			output: "lines.svg",
 		},
 	}
