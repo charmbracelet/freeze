@@ -11,8 +11,9 @@
 Generate images of code and terminal output.
 
 <p align="center">
-  <a><img width="1200" src="https://github.com/charmbracelet/freeze/assets/42545625/32cacb25-496f-4576-b97b-9c0dc093db02" alt="Freeze code screenshot"></a>
+  <a><img width="1200" src="https://github.com/charmbracelet/freeze/assets/42545625/311ec907-2b49-4539-b12a-587b823c18cf" alt="Freeze code screenshot"></a>
 </p>
+
 ## Examples
 
 Freeze generates PNGs, SVGs, and WebPs of code and terminal output alike.
