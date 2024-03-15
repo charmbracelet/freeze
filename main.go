@@ -22,11 +22,8 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/charmbracelet/x/exp/term/ansi"
 	"github.com/mattn/go-isatty"
-	"github.com/rivo/uniseg"
 	"golang.org/x/net/context"
 )
-
-const pngExportMultiplier = 2
 
 func main() {
 	var (
@@ -45,30 +42,9 @@ func main() {
 		printErrorFatal("Invalid Usage", err)
 	}
 
+	// Copy the pty output to buffer
 	if config.Execute != "" {
-		args := strings.Split(config.Execute, " ")
-		ctx, _ := context.WithTimeout(context.Background(), config.ExecuteTimeout)
-		cmd := exec.CommandContext(ctx, args[0], args[1:]...)
-		pty, err := config.runInPty(cmd)
-		if err != nil {
-			printErrorFatal("Something went wrong", err)
-		}
-
-		defer pty.Close()
-
-		var out bytes.Buffer
-
-		// Copy the pty output to buffer
-		go func() {
-			io.Copy(&out, pty)
-		}()
-
-		err = cmd.Wait()
-		if err != nil {
-			printError("Command failed", err)
-		}
-
-		input = out.String()
+		input = executeCommand(config)
 	}
 
 	isDefaultConfig := config.Config == "default"
@@ -105,11 +81,6 @@ func main() {
 		if isDefaultConfig {
 			_ = saveUserConfig(*cfg)
 		}
-	}
-
-	multiplier := 1
-	if strings.HasSuffix(config.Output, ".png") {
-		multiplier = pngExportMultiplier
 	}
 
 	config.Margin = expandMargin(config.Margin)
@@ -208,62 +179,52 @@ func main() {
 
 	image := elements[0]
 
-	w, h := svg.GetDimensions(image)
+	hPadding := config.Padding[left] + config.Padding[right]
+	hMargin := config.Margin[left] + config.Margin[right]
+	vMargin := config.Margin[top] + config.Margin[bottom]
+	vPadding := config.Padding[top] + config.Padding[bottom]
+
+	terminal := image.SelectElement("rect")
+
+	imageWidth, imageHeight := svg.GetDimensions(image)
+	terminalWidth := imageWidth
+	terminalHeight := imageHeight
+
 	if config.Width != 0 {
-		w = config.Width
+		imageWidth = config.Width
+		terminalWidth = config.Width - hMargin
 	}
 	if config.Height != 0 {
-		h = config.Height
+		imageHeight = config.Height
+		terminalHeight = config.Height - vMargin
+	} else {
+		imageHeight += vMargin + vPadding
+		terminalHeight += vPadding
 	}
 
-	rect := image.SelectElement("rect")
+	svg.SetDimensions(terminal, terminalWidth, terminalHeight)
+	svg.Move(terminal, float64(config.Margin[left]), float64(config.Margin[top]))
 
-	config.Font.Size *= float64(multiplier)
-
-	// apply multiplier
-	if config.ShowLineNumbers {
-		w += int(config.Font.Size * 3)
+	if config.Height != 0 || config.Width != 0 {
+		svg.AddClipPath(image, "terminalMask", config.Margin[left], config.Margin[top], terminalWidth, terminalHeight-config.Padding[bottom])
 	}
-
-	w *= multiplier
-	h *= multiplier
-
-	for i := range config.Padding {
-		config.Padding[i] *= multiplier
-	}
-	for i := range config.Margin {
-		config.Margin[i] *= multiplier
-	}
-
-	w += config.Padding[left] + config.Padding[right]
-	h += config.Padding[top] + config.Padding[bottom]
-
-	config.Shadow.Blur *= multiplier
-	config.Shadow.X *= multiplier
-	config.Shadow.Y *= multiplier
-
-	config.Border.Radius *= multiplier
-	config.Border.Width *= multiplier
-
-	svg.SetDimensions(rect, w, h)
-	svg.Move(rect, float64(config.Margin[left]), float64(config.Margin[top]))
 
 	if config.Window {
-		windowControls := svg.NewWindowControls(5.5*float64(multiplier), 19*multiplier, 12*multiplier)
+		windowControls := svg.NewWindowControls(5.5, 19, 12)
 		svg.Move(windowControls, float64(config.Margin[left]), float64(config.Margin[top]))
 		image.AddChild(windowControls)
-		config.Padding[top] += (15 * multiplier)
+		config.Padding[top] += (15)
 	}
 
 	if config.Border.Radius > 0 {
-		svg.AddCornerRadius(rect, config.Border.Radius)
+		svg.AddCornerRadius(terminal, config.Border.Radius)
 	}
 
 	if config.Border.Width > 0 {
-		svg.AddOutline(rect, config.Border.Width, config.Border.Color)
+		svg.AddOutline(terminal, config.Border.Width, config.Border.Color)
 
 		if config.Margin[left] <= 0 && config.Margin[top] <= 0 {
-			svg.Move(rect, float64(config.Border.Width)/2, float64(config.Border.Width)/2)
+			svg.Move(terminal, float64(config.Border.Width)/2, float64(config.Border.Width)/2)
 		}
 
 		// NOTE: necessary so that we don't clip the outline.
@@ -273,24 +234,21 @@ func main() {
 		config.Margin[bottom] += config.Border.Width
 	}
 
-	svg.SetDimensions(image, w+config.Margin[left]+config.Margin[right], h+config.Margin[top]+config.Margin[bottom])
-	svg.SetDimensions(rect, w+config.Margin[left]+config.Margin[right], h+config.Margin[top]+config.Margin[bottom])
+	svg.SetDimensions(image, imageWidth, imageHeight)
+	svg.SetDimensions(terminal, terminalWidth, terminalHeight)
 
 	if config.Shadow.Blur > 0 || config.Shadow.X > 0 || config.Shadow.Y > 0 {
 		id := "shadow"
 		svg.AddShadow(image, id, config.Shadow.X, config.Shadow.Y, config.Shadow.Blur)
-		rect.CreateAttr("filter", fmt.Sprintf("url(#%s)", id))
+		terminal.CreateAttr("filter", fmt.Sprintf("url(#%s)", id))
 	}
 
-	g := image.SelectElement("g")
-	g.CreateAttr("font-size", fmt.Sprintf("%.2fpx", config.Font.Size))
-	text := g.SelectElements("text")
+	textGroup := image.SelectElement("g")
+	textGroup.CreateAttr("font-size", fmt.Sprintf("%.2fpx", config.Font.Size))
+	textGroup.CreateAttr("clip-path", "url(#terminalMask)")
+	text := textGroup.SelectElements("text")
 
-	d := dispatcher{
-		lines:  text,
-		svg:    g,
-		config: &config,
-	}
+	d := dispatcher{lines: text, svg: textGroup, config: &config}
 
 	offsetLine := 0
 	if len(config.Lines) > 0 {
@@ -311,36 +269,25 @@ func main() {
 			line.InsertChildAt(0, ln)
 		}
 		x := float64(config.Padding[left] + config.Margin[left])
-		y := float64(i)*(config.Font.Size*config.LineHeight) + config.Font.Size + float64(config.Padding[top]) + float64(config.Margin[top])
-		svg.Move(line, x, y)
-	}
+		y := (float64(i))*(config.Font.Size*config.LineHeight) + (config.Font.Size) + float64(config.Padding[top]) + float64(config.Margin[top])
 
-	maxWidth := 0
-	strippedInput = strings.ReplaceAll(strippedInput, "\t", "    ")
-	for _, line := range strings.Split(strippedInput, "\n") {
-		stringWidth := uniseg.StringWidth(line)
-		if stringWidth > maxWidth {
-			maxWidth = stringWidth
+		svg.Move(line, x, y)
+
+		// We are passed visible lines, remove the rest.
+		if y > float64(imageHeight-config.Margin[bottom]-config.Padding[bottom]) {
+			textGroup.RemoveChild(line)
 		}
 	}
 
-	textWidthPx := (float64(maxWidth+1) * (config.Font.Size / fontHeightToWidthRatio))
-	if config.ShowLineNumbers {
-		textWidthPx += (config.Font.Size * 3)
+	// User did not specify width, fit all characters
+	if config.Width == 0 {
+		longestLine := lipgloss.Width(strippedInput)
+		terminalWidth = int(float64(longestLine+1)*(config.Font.Size/fontHeightToWidthRatio)) + hPadding
+		imageWidth = terminalWidth + hMargin
 	}
 
-	if config.Width != 0 {
-		textWidthPx = float64(config.Width)
-	}
-
-	hPadding := float64(config.Padding[left] + config.Padding[right])
-	hMargin := float64(config.Margin[left] + config.Margin[right])
-	vMargin := float64(config.Margin[top] + config.Margin[bottom])
-
-	image.CreateAttr("width", fmt.Sprintf("%.2fpx", textWidthPx+hMargin+hPadding))
-	rect.CreateAttr("width", fmt.Sprintf("%.2fpx", textWidthPx+hPadding))
-	image.CreateAttr("height", fmt.Sprintf("%.2fpx", float64(h)+vMargin))
-	rect.CreateAttr("height", fmt.Sprintf("%.2fpx", float64(h)))
+	svg.SetDimensions(image, imageWidth, imageHeight)
+	svg.SetDimensions(terminal, terminalWidth, terminalHeight)
 
 	if isAnsi {
 		parser := ansi.Parser{
@@ -359,13 +306,13 @@ func main() {
 	switch {
 	case strings.HasSuffix(config.Output, ".png"):
 		// use libsvg conversion.
-		svgConversionErr := libsvgConvert(doc, w, h, config.Output)
+		svgConversionErr := libsvgConvert(doc, imageWidth, imageHeight, config.Output)
 		if svgConversionErr == nil {
 			break
 		}
 
 		// could not convert with libsvg, try resvg
-		svgConversionErr = resvgConvert(doc, int(textWidthPx+hMargin+hPadding), h+int(vMargin), config.Output)
+		svgConversionErr = resvgConvert(doc, imageWidth, imageHeight, config.Output)
 		if svgConversionErr != nil {
 			printErrorFatal("Unable to convert SVG to PNG", svgConversionErr)
 		}
@@ -407,6 +354,24 @@ func main() {
 			printErrorFatal("Unable to write output", err)
 		}
 	}
+}
+
+func executeCommand(config Config) string {
+	args := strings.Split(config.Execute, " ")
+	ctx, _ := context.WithTimeout(context.Background(), config.ExecuteTimeout)
+	cmd := exec.CommandContext(ctx, args[0], args[1:]...)
+	pty, err := config.runInPty(cmd)
+	if err != nil {
+		printErrorFatal("Something went wrong", err)
+	}
+	defer pty.Close()
+	var out bytes.Buffer
+	go func() { io.Copy(&out, pty) }()
+	err = cmd.Wait()
+	if err != nil {
+		printError("Command failed", err)
+	}
+	return out.String()
 }
 
 var outputHeader = lipgloss.NewStyle().Foreground(lipgloss.Color("#F1F1F1")).Background(lipgloss.Color("#875fff")).Bold(true).Padding(0, 1).MarginRight(1).SetString("WROTE")
