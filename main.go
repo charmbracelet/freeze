@@ -314,12 +314,14 @@ func main() {
 		// use libsvg conversion.
 		svgConversionErr := libsvgConvert(doc, imageWidth, imageHeight, config.Output)
 		if svgConversionErr == nil {
+			printFilenameOutput(config.Output)
 			break
 		}
 
 		// could not convert with libsvg, try resvg
 		svgConversionErr = resvgConvert(doc, imageWidth, imageHeight, config.Output)
 		if svgConversionErr != nil {
+			printFilenameOutput(config.Output)
 			printErrorFatal("Unable to convert SVG to PNG", svgConversionErr)
 		}
 
