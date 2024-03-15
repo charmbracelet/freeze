@@ -10,8 +10,8 @@
 
 Generate images of code and terminal output.
 
-<p align="center">
-  <a><img width="1200" src="https://github.com/charmbracelet/freeze/assets/42545625/311ec907-2b49-4539-b12a-587b823c18cf" alt="Freeze code screenshot"></a>
+<p align="left">
+  <a><img width="800" src="https://github.com/charmbracelet/freeze/assets/42545625/874a73a2-c01f-4b51-b32c-576a784f3cc0" alt="Freeze code screenshot"></a>
 </p>
 
 ## Examples
