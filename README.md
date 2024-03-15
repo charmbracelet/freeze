@@ -35,8 +35,10 @@ You can use `freeze` to capture ANSI output of a terminal command with the
 ```bash
 freeze --execute "eza -lah"
 ```
+<p align="center">
+  <img alt="output of freeze command, ANSI" src="./test/golden/eza.svg" width="800" />
+</p>
 
-<img alt="output of freeze command, ANSI" src="./test/golden/eza.svg" width="350" />
 
 Freeze is also [super customizable](#customization) and ships with an [interactive TUI](#interactive-mode).
 
