@@ -116,12 +116,12 @@ func TestFreezeConfigurations(t *testing.T) {
 			output: "artichoke-full.svg",
 		},
 		// {
-		// 	flags:  []string{"--execute", "eza --no-time --no-filesize --no-user -l"},
+		// 	flags:  []string{"--execute", "eza --no-time --no-filesize --no-user -l", "--config", "full"},
 		// 	output: "eza.svg",
 		// },
 		{
 			input:  "test/input/bubbletea.model",
-			flags:  []string{"--language", "go", "--height", "800", "--width", "750", "--config", "full", "--margin", "50,10"},
+			flags:  []string{"--language", "go", "--height", "800", "--width", "750", "--config", "full"},
 			output: "composite-1.svg",
 		},
 		// {
