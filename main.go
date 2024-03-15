@@ -321,9 +321,9 @@ func main() {
 		// could not convert with libsvg, try resvg
 		svgConversionErr = resvgConvert(doc, imageWidth, imageHeight, config.Output)
 		if svgConversionErr != nil {
-			printFilenameOutput(config.Output)
 			printErrorFatal("Unable to convert SVG to PNG", svgConversionErr)
 		}
+		printFilenameOutput(config.Output)
 
 	default:
 		// output file specified.
