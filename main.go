@@ -248,7 +248,7 @@ func main() {
 			ln := etree.NewElement("tspan")
 			ln.CreateAttr("xml:space", "preserve")
 			ln.CreateAttr("fill", s.Get(chroma.LineNumbers).Colour.String())
-			ln.SetText(fmt.Sprintf("%2d  ", i+1+offsetLine))
+			ln.SetText(fmt.Sprintf("%3d  ", i+1+offsetLine))
 			line.InsertChildAt(0, ln)
 		}
 		x := float64(config.Padding[left] + config.Margin[left])
@@ -278,10 +278,10 @@ func main() {
 
 	if config.ShowLineNumbers {
 		if autoWidth {
-			terminalWidth += int(config.Font.Size * 2)
-			imageWidth += int(config.Font.Size * 2)
+			terminalWidth += int(config.Font.Size * 3)
+			imageWidth += int(config.Font.Size * 3)
 		} else {
-			terminalWidth -= int(config.Font.Size * 2)
+			terminalWidth -= int(config.Font.Size * 3)
 		}
 	}
 
