@@ -252,7 +252,7 @@ func main() {
 			line.InsertChildAt(0, ln)
 		}
 		x := float64(config.Padding[left] + config.Margin[left])
-		y := (float64(i))*(config.Font.Size*config.LineHeight) + (config.Font.Size) + float64(config.Padding[top]) + float64(config.Margin[top])
+		y := (float64(i+1))*(config.Font.Size*config.LineHeight) + float64(config.Padding[top]) + float64(config.Margin[top])
 
 		svg.Move(line, x, y)
 
