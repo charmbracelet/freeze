@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg width="377.00px" height="150.00px" xmlns="http://www.w3.org/2000/svg">
+<svg width="335" height="150" xmlns="http://www.w3.org/2000/svg">
 <style>
 @font-face {
 	font-family: &apos;JetBrains Mono&apos;;
@@ -8,8 +8,8 @@
 	font-weight: normal;
 	font-style: normal;
 }
-</style><rect width="377.00px" height="150.00px" fill="#171717" x="0.00px" y="0.00px"/>
-<g font-family="JetBrains Mono" font-size="14.00px" fill="#c4c4c4">
+</style><rect width="335" height="150" fill="#171717" x="0.00px" y="0.00px"/>
+<g font-family="JetBrains Mono" font-size="14.00px" fill="#c4c4c4" clip-path="url(#terminalMask)">
 <text x="20.00px" y="34.00px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f">  4  </tspan><tspan fill="#ff48dd">import</tspan> Data.List <tspan fill="#e8e8a8">(</tspan> <tspan fill="#00dc7f">intercalate</tspan> <tspan fill="#e8e8a8">)</tspan>
 </text><text x="20.00px" y="50.80px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f">  5  </tspan>
 </text><text x="20.00px" y="67.60px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f">  6  </tspan><tspan fill="#00dc7f">hello</tspan> <tspan fill="#ff7f83">::</tspan> <tspan fill="#635adf">String</tspan> <tspan fill="#ff7f83">-&gt;</tspan> <tspan fill="#635adf">String</tspan>

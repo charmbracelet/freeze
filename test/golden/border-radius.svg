@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg width="651.67px" height="302.00px" xmlns="http://www.w3.org/2000/svg">
+<svg width="651" height="302" xmlns="http://www.w3.org/2000/svg">
 <style>
 @font-face {
 	font-family: &apos;JetBrains Mono&apos;;
@@ -8,8 +8,8 @@
 	font-weight: normal;
 	font-style: normal;
 }
-</style><rect width="651.67px" height="302.00px" fill="#171717" x="0.00px" y="0.00px" rx="8" ry="8"/>
-<g font-family="JetBrains Mono" font-size="14.00px" fill="#c4c4c4">
+</style><rect width="651" height="302" fill="#171717" x="0.00px" y="0.00px" rx="8" ry="8"/>
+<g font-family="JetBrains Mono" font-size="14.00px" fill="#c4c4c4" clip-path="url(#terminalMask)">
 <text x="20.00px" y="34.00px" xml:space="preserve"><tspan fill="#ff48dd">module</tspan> Main <tspan fill="#ff48dd">where</tspan>
 </text><text x="20.00px" y="50.80px" xml:space="preserve">
 </text><text x="20.00px" y="67.60px" xml:space="preserve"><tspan fill="#ff48dd">import</tspan> Data.Function <tspan fill="#e8e8a8">(</tspan> <tspan fill="#e8e8a8">(</tspan><tspan fill="#ff7f83">&amp;</tspan><tspan fill="#e8e8a8">)</tspan> <tspan fill="#e8e8a8">)</tspan>
