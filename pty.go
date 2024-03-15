@@ -12,7 +12,8 @@ import (
 // caller.
 func (cfg Config) runInPty(c *exec.Cmd) (*os.File, error) {
 	return pty.StartWithSize(c, &pty.Winsize{
-		Cols: 100,
+		Cols: 80,
+		Rows: 10,
 		X:    uint16(cfg.Width),
 	})
 }

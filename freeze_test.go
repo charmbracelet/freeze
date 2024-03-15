@@ -9,7 +9,7 @@ import (
 	"testing"
 )
 
-const binary = "./freeze-test"
+const binary = "./test/freeze-test"
 
 func TestMain(m *testing.M) {
 	cmd := exec.Command("go", "build", "-o", binary)
@@ -116,7 +116,7 @@ func TestFreezeConfigurations(t *testing.T) {
 			output: "artichoke-full.svg",
 		},
 		{
-			flags:  []string{"--execute", "eza --no-time --no-filesize --no-user -l", "--config", "full", "--window=false"},
+			flags:  []string{"--execute", "eza", "--config", "full", "--width", "800"},
 			output: "eza.svg",
 		},
 		{
