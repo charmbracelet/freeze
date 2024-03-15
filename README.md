@@ -1,11 +1,12 @@
 # Freeze
 
-<img src="https://github.com/charmbracelet/freeze/assets/42545625/29ebe9a7-8efd-4bcd-b030-494398bed148" width="500" />
+<img src="https://github.com/charmbracelet/freeze/assets/42545625/fb5cbf04-32df-4e44-9c0e-22ad5612ca12" width="500" />
 
 <p>
   <a href="https://github.com/charmbracelet/freeze/releases"><img src="https://img.shields.io/github/release/charmbracelet/freeze.svg" alt="Latest Release"></a>
   <a href="https://pkg.go.dev/github.com/charmbracelet/freeze?tab=doc"><img src="https://godoc.org/github.com/golang/gddo?status.svg" alt="Go Docs"></a>
 </p>
+
 
 Generate images of code and terminal output.
 
