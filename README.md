@@ -11,8 +11,8 @@
 Generate images of code and terminal output.
 
 <p>
-  <a><img width="400" src="./test/golden/composite-1.svg" alt="Freeze code screenshot"></a>
-  <a><img width="400" src="./test/golden/composite-2.svg" alt="Freeze ANSI output"></a>
+  <a><img width="375" src="./test/golden/composite-1.svg" alt="Freeze code screenshot"></a>
+  <a><img width="510" src="./test/golden/composite-2.svg" alt="Freeze ANSI output"></a>
 </p>
 
 ## Examples
