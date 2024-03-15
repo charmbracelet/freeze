@@ -1,13 +1,19 @@
 # Freeze
 
+
 <p>
   <a href="https://github.com/charmbracelet/freeze/releases"><img src="https://img.shields.io/github/release/charmbracelet/freeze.svg" alt="Latest Release"></a>
   <a href="https://pkg.go.dev/github.com/charmbracelet/freeze?tab=doc"><img src="https://godoc.org/github.com/golang/gddo?status.svg" alt="Go Docs"></a>
 </p>
 
+<img src="https://github.com/charmbracelet/freeze/assets/42545625/29ebe9a7-8efd-4bcd-b030-494398bed148" width="350" />
+
 Generate images of code and terminal output.
 
-(Composite image showing both code and ansi output)
+<p>
+  <a><img width="400" src="./test/golden/composite-1.svg" alt="Freeze code screenshot"></a>
+  <a><img width="400" src="./test/golden/composite-2.svg" alt="Freeze ANSI output"></a>
+</p>
 
 ## Examples
 
