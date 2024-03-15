@@ -175,23 +175,23 @@ func TestFreezeConfigurations(t *testing.T) {
 		},
 		{
 			input:  "test/input/artichoke.hs",
-			flags:  []string{"--margin", "100", "--width", "1920", "--height", "1080"},
-			output: "dimensions-with-margin.svg",
+			flags:  []string{"--margin", "50", "--width", "600", "--height", "300"},
+			output: "dimensions-margin.svg",
 		},
 		{
 			input:  "test/input/artichoke.hs",
-			flags:  []string{"--padding", "100", "--width", "1920", "--height", "1080"},
-			output: "dimensions-with-padding.svg",
+			flags:  []string{"--padding", "50", "--width", "600", "--height", "300"},
+			output: "dimensions-padding.svg",
 		},
 		{
 			input:  "test/input/artichoke.hs",
-			flags:  []string{"--config", "full", "--width", "1920", "--height", "1080"},
-			output: "dimensions-with-config.svg",
+			flags:  []string{"--config", "full", "--width", "600", "--height", "300"},
+			output: "dimensions-config.svg",
 		},
 		{
 			input:  "test/input/goreleaser-full.yml",
-			flags:  []string{"--config", "full", "--width", "1920", "--height", "1080"},
-			output: "dimensions-with-overflow.svg",
+			flags:  []string{"--config", "full", "--width", "600", "--height", "900"},
+			output: "overflow.svg",
 		},
 		{
 			input:  "test/input/artichoke.hs",
