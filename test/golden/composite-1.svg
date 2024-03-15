@@ -8,42 +8,42 @@
 	font-weight: normal;
 	font-style: normal;
 }
-</style><rect width="630" height="630" fill="#171717" x="60.00px" y="50.00px" rx="8" ry="8" stroke="#515151" stroke-width="1" filter="url(#shadow)"/>
+</style><rect width="628" height="628" fill="#171717" rx="8" ry="8" stroke="#515151" stroke-width="1" x="60.00px" y="50.00px" filter="url(#shadow)"/>
 <g font-family="JetBrains Mono" font-size="14.00px" fill="#c4c4c4" clip-path="url(#terminalMask)">
-<text x="81.00px" y="100.00px" xml:space="preserve"><tspan fill="#00aaff">func</tspan> <tspan fill="#e8e8a8">(</tspan>m model<tspan fill="#e8e8a8">)</tspan> <tspan fill="#00dc7f">Init</tspan><tspan fill="#e8e8a8">()</tspan> tea<tspan fill="#e8e8a8">.</tspan>Cmd <tspan fill="#e8e8a8">{</tspan>
-</text><text x="81.00px" y="116.80px" xml:space="preserve">    <tspan fill="#00aaff">return</tspan> <tspan fill="#00aaff">nil</tspan>
-</text><text x="81.00px" y="133.60px" xml:space="preserve"><tspan fill="#e8e8a8">}</tspan>
-</text><text x="81.00px" y="150.40px" xml:space="preserve">
-</text><text x="81.00px" y="167.20px" xml:space="preserve"><tspan fill="#00aaff">func</tspan> <tspan fill="#e8e8a8">(</tspan>m model<tspan fill="#e8e8a8">)</tspan> <tspan fill="#00dc7f">Update</tspan><tspan fill="#e8e8a8">(</tspan>msg tea<tspan fill="#e8e8a8">.</tspan>Msg<tspan fill="#e8e8a8">)</tspan> <tspan fill="#e8e8a8">(</tspan>tea<tspan fill="#e8e8a8">.</tspan>Model<tspan fill="#e8e8a8">,</tspan> tea<tspan fill="#e8e8a8">.</tspan>Cmd<tspan fill="#e8e8a8">)</tspan> <tspan fill="#e8e8a8">{</tspan>
-</text><text x="81.00px" y="184.00px" xml:space="preserve">    <tspan fill="#00aaff">switch</tspan> msg <tspan fill="#ff7f83">:=</tspan> msg<tspan fill="#e8e8a8">.(</tspan><tspan fill="#00aaff">type</tspan><tspan fill="#e8e8a8">)</tspan> <tspan fill="#e8e8a8">{</tspan>
-</text><text x="81.00px" y="200.80px" xml:space="preserve">
-</text><text x="81.00px" y="217.60px" xml:space="preserve">    <tspan fill="#00aaff">case</tspan> tea<tspan fill="#e8e8a8">.</tspan>KeyMsg<tspan fill="#e8e8a8">:</tspan>
-</text><text x="81.00px" y="234.40px" xml:space="preserve">        <tspan fill="#00aaff">switch</tspan> msg<tspan fill="#e8e8a8">.</tspan><tspan fill="#00dc7f">String</tspan><tspan fill="#e8e8a8">()</tspan> <tspan fill="#e8e8a8">{</tspan>
-</text><text x="81.00px" y="251.20px" xml:space="preserve">        <tspan fill="#00aaff">case</tspan> <tspan fill="#e38356">&quot;ctrl+c&quot;</tspan><tspan fill="#e8e8a8">,</tspan> <tspan fill="#e38356">&quot;q&quot;</tspan><tspan fill="#e8e8a8">:</tspan>
-</text><text x="81.00px" y="268.00px" xml:space="preserve">            <tspan fill="#00aaff">return</tspan> m<tspan fill="#e8e8a8">,</tspan> tea<tspan fill="#e8e8a8">.</tspan>Quit
-</text><text x="81.00px" y="284.80px" xml:space="preserve">        <tspan fill="#00aaff">case</tspan> <tspan fill="#e38356">&quot;up&quot;</tspan><tspan fill="#e8e8a8">,</tspan> <tspan fill="#e38356">&quot;k&quot;</tspan><tspan fill="#e8e8a8">:</tspan>
-</text><text x="81.00px" y="301.60px" xml:space="preserve">            <tspan fill="#00aaff">if</tspan> m<tspan fill="#e8e8a8">.</tspan>cursor <tspan fill="#e8e8a8">&gt;</tspan> <tspan fill="#6eefc0">0</tspan> <tspan fill="#e8e8a8">{</tspan>
-</text><text x="81.00px" y="318.40px" xml:space="preserve">                m<tspan fill="#e8e8a8">.</tspan>cursor<tspan fill="#ff7f83">--</tspan>
-</text><text x="81.00px" y="335.20px" xml:space="preserve">            <tspan fill="#e8e8a8">}</tspan>
-</text><text x="81.00px" y="352.00px" xml:space="preserve">        <tspan fill="#00aaff">case</tspan> <tspan fill="#e38356">&quot;down&quot;</tspan><tspan fill="#e8e8a8">,</tspan> <tspan fill="#e38356">&quot;j&quot;</tspan><tspan fill="#e8e8a8">:</tspan>
-</text><text x="81.00px" y="368.80px" xml:space="preserve">            <tspan fill="#00aaff">if</tspan> m<tspan fill="#e8e8a8">.</tspan>cursor <tspan fill="#e8e8a8">&lt;</tspan> <tspan fill="#ff7cdb">len</tspan><tspan fill="#e8e8a8">(</tspan>m<tspan fill="#e8e8a8">.</tspan>choices<tspan fill="#e8e8a8">)</tspan><tspan fill="#ff7f83">-</tspan><tspan fill="#6eefc0">1</tspan> <tspan fill="#e8e8a8">{</tspan>
-</text><text x="81.00px" y="385.60px" xml:space="preserve">                m<tspan fill="#e8e8a8">.</tspan>cursor<tspan fill="#ff7f83">++</tspan>
-</text><text x="81.00px" y="402.40px" xml:space="preserve">            <tspan fill="#e8e8a8">}</tspan>
-</text><text x="81.00px" y="419.20px" xml:space="preserve">        <tspan fill="#00aaff">case</tspan> <tspan fill="#e38356">&quot;enter&quot;</tspan><tspan fill="#e8e8a8">,</tspan> <tspan fill="#e38356">&quot; &quot;</tspan><tspan fill="#e8e8a8">:</tspan>
-</text><text x="81.00px" y="436.00px" xml:space="preserve">            _<tspan fill="#e8e8a8">,</tspan> ok <tspan fill="#ff7f83">:=</tspan> m<tspan fill="#e8e8a8">.</tspan>selected<tspan fill="#e8e8a8">[</tspan>m<tspan fill="#e8e8a8">.</tspan>cursor<tspan fill="#e8e8a8">]</tspan>
-</text><text x="81.00px" y="452.80px" xml:space="preserve">            <tspan fill="#00aaff">if</tspan> ok <tspan fill="#e8e8a8">{</tspan>
-</text><text x="81.00px" y="469.60px" xml:space="preserve">                <tspan fill="#ff7cdb">delete</tspan><tspan fill="#e8e8a8">(</tspan>m<tspan fill="#e8e8a8">.</tspan>selected<tspan fill="#e8e8a8">,</tspan> m<tspan fill="#e8e8a8">.</tspan>cursor<tspan fill="#e8e8a8">)</tspan>
-</text><text x="81.00px" y="486.40px" xml:space="preserve">            <tspan fill="#e8e8a8">}</tspan> <tspan fill="#00aaff">else</tspan> <tspan fill="#e8e8a8">{</tspan>
-</text><text x="81.00px" y="503.20px" xml:space="preserve">                m<tspan fill="#e8e8a8">.</tspan>selected<tspan fill="#e8e8a8">[</tspan>m<tspan fill="#e8e8a8">.</tspan>cursor<tspan fill="#e8e8a8">]</tspan> <tspan fill="#e8e8a8">=</tspan> <tspan fill="#00aaff">struct</tspan><tspan fill="#e8e8a8">{}{}</tspan>
-</text><text x="81.00px" y="520.00px" xml:space="preserve">            <tspan fill="#e8e8a8">}</tspan>
-</text><text x="81.00px" y="536.80px" xml:space="preserve">        <tspan fill="#e8e8a8">}</tspan>
-</text><text x="81.00px" y="553.60px" xml:space="preserve">    <tspan fill="#e8e8a8">}</tspan>
-</text><text x="81.00px" y="570.40px" xml:space="preserve">    <tspan fill="#00aaff">return</tspan> m<tspan fill="#e8e8a8">,</tspan> <tspan fill="#00aaff">nil</tspan>
-</text><text x="81.00px" y="587.20px" xml:space="preserve"><tspan fill="#e8e8a8">}</tspan>
-</text><text x="81.00px" y="604.00px" xml:space="preserve">
-</text><text x="81.00px" y="620.80px" xml:space="preserve"><tspan fill="#00aaff">func</tspan> <tspan fill="#e8e8a8">(</tspan>m model<tspan fill="#e8e8a8">)</tspan> <tspan fill="#00dc7f">View</tspan><tspan fill="#e8e8a8">()</tspan> <tspan fill="#635adf">string</tspan> <tspan fill="#e8e8a8">{</tspan>
-</text><text x="81.00px" y="637.60px" xml:space="preserve">    <tspan fill="#00aaff">return</tspan> <tspan fill="#676767">// ...
-</tspan></text><text x="81.00px" y="654.40px" xml:space="preserve"><tspan fill="#676767"/><tspan fill="#e8e8a8">}</tspan>
+<text x="80.00px" y="99.00px" xml:space="preserve"><tspan fill="#00aaff">func</tspan> <tspan fill="#e8e8a8">(</tspan>m model<tspan fill="#e8e8a8">)</tspan> <tspan fill="#00dc7f">Init</tspan><tspan fill="#e8e8a8">()</tspan> tea<tspan fill="#e8e8a8">.</tspan>Cmd <tspan fill="#e8e8a8">{</tspan>
+</text><text x="80.00px" y="115.80px" xml:space="preserve">    <tspan fill="#00aaff">return</tspan> <tspan fill="#00aaff">nil</tspan>
+</text><text x="80.00px" y="132.60px" xml:space="preserve"><tspan fill="#e8e8a8">}</tspan>
+</text><text x="80.00px" y="149.40px" xml:space="preserve">
+</text><text x="80.00px" y="166.20px" xml:space="preserve"><tspan fill="#00aaff">func</tspan> <tspan fill="#e8e8a8">(</tspan>m model<tspan fill="#e8e8a8">)</tspan> <tspan fill="#00dc7f">Update</tspan><tspan fill="#e8e8a8">(</tspan>msg tea<tspan fill="#e8e8a8">.</tspan>Msg<tspan fill="#e8e8a8">)</tspan> <tspan fill="#e8e8a8">(</tspan>tea<tspan fill="#e8e8a8">.</tspan>Model<tspan fill="#e8e8a8">,</tspan> tea<tspan fill="#e8e8a8">.</tspan>Cmd<tspan fill="#e8e8a8">)</tspan> <tspan fill="#e8e8a8">{</tspan>
+</text><text x="80.00px" y="183.00px" xml:space="preserve">    <tspan fill="#00aaff">switch</tspan> msg <tspan fill="#ff7f83">:=</tspan> msg<tspan fill="#e8e8a8">.(</tspan><tspan fill="#00aaff">type</tspan><tspan fill="#e8e8a8">)</tspan> <tspan fill="#e8e8a8">{</tspan>
+</text><text x="80.00px" y="199.80px" xml:space="preserve">
+</text><text x="80.00px" y="216.60px" xml:space="preserve">    <tspan fill="#00aaff">case</tspan> tea<tspan fill="#e8e8a8">.</tspan>KeyMsg<tspan fill="#e8e8a8">:</tspan>
+</text><text x="80.00px" y="233.40px" xml:space="preserve">        <tspan fill="#00aaff">switch</tspan> msg<tspan fill="#e8e8a8">.</tspan><tspan fill="#00dc7f">String</tspan><tspan fill="#e8e8a8">()</tspan> <tspan fill="#e8e8a8">{</tspan>
+</text><text x="80.00px" y="250.20px" xml:space="preserve">        <tspan fill="#00aaff">case</tspan> <tspan fill="#e38356">&quot;ctrl+c&quot;</tspan><tspan fill="#e8e8a8">,</tspan> <tspan fill="#e38356">&quot;q&quot;</tspan><tspan fill="#e8e8a8">:</tspan>
+</text><text x="80.00px" y="267.00px" xml:space="preserve">            <tspan fill="#00aaff">return</tspan> m<tspan fill="#e8e8a8">,</tspan> tea<tspan fill="#e8e8a8">.</tspan>Quit
+</text><text x="80.00px" y="283.80px" xml:space="preserve">        <tspan fill="#00aaff">case</tspan> <tspan fill="#e38356">&quot;up&quot;</tspan><tspan fill="#e8e8a8">,</tspan> <tspan fill="#e38356">&quot;k&quot;</tspan><tspan fill="#e8e8a8">:</tspan>
+</text><text x="80.00px" y="300.60px" xml:space="preserve">            <tspan fill="#00aaff">if</tspan> m<tspan fill="#e8e8a8">.</tspan>cursor <tspan fill="#e8e8a8">&gt;</tspan> <tspan fill="#6eefc0">0</tspan> <tspan fill="#e8e8a8">{</tspan>
+</text><text x="80.00px" y="317.40px" xml:space="preserve">                m<tspan fill="#e8e8a8">.</tspan>cursor<tspan fill="#ff7f83">--</tspan>
+</text><text x="80.00px" y="334.20px" xml:space="preserve">            <tspan fill="#e8e8a8">}</tspan>
+</text><text x="80.00px" y="351.00px" xml:space="preserve">        <tspan fill="#00aaff">case</tspan> <tspan fill="#e38356">&quot;down&quot;</tspan><tspan fill="#e8e8a8">,</tspan> <tspan fill="#e38356">&quot;j&quot;</tspan><tspan fill="#e8e8a8">:</tspan>
+</text><text x="80.00px" y="367.80px" xml:space="preserve">            <tspan fill="#00aaff">if</tspan> m<tspan fill="#e8e8a8">.</tspan>cursor <tspan fill="#e8e8a8">&lt;</tspan> <tspan fill="#ff7cdb">len</tspan><tspan fill="#e8e8a8">(</tspan>m<tspan fill="#e8e8a8">.</tspan>choices<tspan fill="#e8e8a8">)</tspan><tspan fill="#ff7f83">-</tspan><tspan fill="#6eefc0">1</tspan> <tspan fill="#e8e8a8">{</tspan>
+</text><text x="80.00px" y="384.60px" xml:space="preserve">                m<tspan fill="#e8e8a8">.</tspan>cursor<tspan fill="#ff7f83">++</tspan>
+</text><text x="80.00px" y="401.40px" xml:space="preserve">            <tspan fill="#e8e8a8">}</tspan>
+</text><text x="80.00px" y="418.20px" xml:space="preserve">        <tspan fill="#00aaff">case</tspan> <tspan fill="#e38356">&quot;enter&quot;</tspan><tspan fill="#e8e8a8">,</tspan> <tspan fill="#e38356">&quot; &quot;</tspan><tspan fill="#e8e8a8">:</tspan>
+</text><text x="80.00px" y="435.00px" xml:space="preserve">            _<tspan fill="#e8e8a8">,</tspan> ok <tspan fill="#ff7f83">:=</tspan> m<tspan fill="#e8e8a8">.</tspan>selected<tspan fill="#e8e8a8">[</tspan>m<tspan fill="#e8e8a8">.</tspan>cursor<tspan fill="#e8e8a8">]</tspan>
+</text><text x="80.00px" y="451.80px" xml:space="preserve">            <tspan fill="#00aaff">if</tspan> ok <tspan fill="#e8e8a8">{</tspan>
+</text><text x="80.00px" y="468.60px" xml:space="preserve">                <tspan fill="#ff7cdb">delete</tspan><tspan fill="#e8e8a8">(</tspan>m<tspan fill="#e8e8a8">.</tspan>selected<tspan fill="#e8e8a8">,</tspan> m<tspan fill="#e8e8a8">.</tspan>cursor<tspan fill="#e8e8a8">)</tspan>
+</text><text x="80.00px" y="485.40px" xml:space="preserve">            <tspan fill="#e8e8a8">}</tspan> <tspan fill="#00aaff">else</tspan> <tspan fill="#e8e8a8">{</tspan>
+</text><text x="80.00px" y="502.20px" xml:space="preserve">                m<tspan fill="#e8e8a8">.</tspan>selected<tspan fill="#e8e8a8">[</tspan>m<tspan fill="#e8e8a8">.</tspan>cursor<tspan fill="#e8e8a8">]</tspan> <tspan fill="#e8e8a8">=</tspan> <tspan fill="#00aaff">struct</tspan><tspan fill="#e8e8a8">{}{}</tspan>
+</text><text x="80.00px" y="519.00px" xml:space="preserve">            <tspan fill="#e8e8a8">}</tspan>
+</text><text x="80.00px" y="535.80px" xml:space="preserve">        <tspan fill="#e8e8a8">}</tspan>
+</text><text x="80.00px" y="552.60px" xml:space="preserve">    <tspan fill="#e8e8a8">}</tspan>
+</text><text x="80.00px" y="569.40px" xml:space="preserve">    <tspan fill="#00aaff">return</tspan> m<tspan fill="#e8e8a8">,</tspan> <tspan fill="#00aaff">nil</tspan>
+</text><text x="80.00px" y="586.20px" xml:space="preserve"><tspan fill="#e8e8a8">}</tspan>
+</text><text x="80.00px" y="603.00px" xml:space="preserve">
+</text><text x="80.00px" y="619.80px" xml:space="preserve"><tspan fill="#00aaff">func</tspan> <tspan fill="#e8e8a8">(</tspan>m model<tspan fill="#e8e8a8">)</tspan> <tspan fill="#00dc7f">View</tspan><tspan fill="#e8e8a8">()</tspan> <tspan fill="#635adf">string</tspan> <tspan fill="#e8e8a8">{</tspan>
+</text><text x="80.00px" y="636.60px" xml:space="preserve">    <tspan fill="#00aaff">return</tspan> <tspan fill="#676767">// ...
+</tspan></text><text x="80.00px" y="653.40px" xml:space="preserve"><tspan fill="#676767"/><tspan fill="#e8e8a8">}</tspan>
 </text>
 </g>
-<svg x="60.00px" y="50.00px"><circle cx="13.50" cy="12" r="5.50" fill="#FF5A54"/><circle cx="32.50" cy="12" r="5.50" fill="#E6BF29"/><circle cx="51.50" cy="12" r="5.50" fill="#52C12B"/></svg><defs><filter id="shadow" filterUnits="userSpaceOnUse"><feGaussianBlur in="SourceAlpha" stdDeviation="24"/><feOffset result="offsetblur" dx="0" dy="12"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><defs><clipPath id="terminalMask"><rect x="61" y="51" width="630" height="610"/></clipPath></defs></svg>
+<svg x="60.00px" y="50.00px"><circle cx="13.50" cy="12" r="5.50" fill="#FF5A54"/><circle cx="32.50" cy="12" r="5.50" fill="#E6BF29"/><circle cx="51.50" cy="12" r="5.50" fill="#52C12B"/></svg><defs><filter id="shadow" filterUnits="userSpaceOnUse"><feGaussianBlur in="SourceAlpha" stdDeviation="24"/><feOffset result="offsetblur" dx="0" dy="12"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><defs><clipPath id="terminalMask"><rect x="60" y="50" width="628" height="608"/></clipPath></defs></svg>

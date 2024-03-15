@@ -205,9 +205,6 @@ func main() {
 		terminalHeight += vPadding
 	}
 
-	svg.SetDimensions(terminal, terminalWidth, terminalHeight)
-	svg.Move(terminal, float64(config.Margin[left]), float64(config.Margin[top]))
-
 	if config.Window {
 		windowControls := svg.NewWindowControls(5.5, 19, 12)
 		svg.Move(windowControls, float64(config.Margin[left]), float64(config.Margin[top]))
@@ -222,16 +219,12 @@ func main() {
 	if config.Border.Width > 0 {
 		svg.AddOutline(terminal, config.Border.Width, config.Border.Color)
 
-		if config.Margin[left] <= 0 && config.Margin[top] <= 0 {
-			svg.Move(terminal, float64(config.Border.Width)/2, float64(config.Border.Width)/2)
-		}
-
 		// NOTE: necessary so that we don't clip the outline.
-		config.Margin[left] += config.Border.Width
-		config.Margin[right] += config.Border.Width
-		config.Margin[top] += config.Border.Width
-		config.Margin[bottom] += config.Border.Width
+		terminalHeight -= (config.Border.Width * 2)
+		terminalWidth -= (config.Border.Width * 2)
 	}
+
+	svg.Move(terminal, float64(max(config.Margin[left], config.Border.Width)), float64(max(config.Margin[top], config.Border.Width)))
 
 	svg.SetDimensions(image, imageWidth, imageHeight)
 	svg.SetDimensions(terminal, terminalWidth, terminalHeight)
