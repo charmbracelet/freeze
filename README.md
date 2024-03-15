@@ -1,8 +1,7 @@
 # Freeze
 
-<a href="https://stuff.charm.sh/freeze/freeze-4k.png"><img src="https://github.com/charmbracelet/freeze/assets/25087/de76b799-fa67-4b5b-8da2-d990ca5b4e06" width="500" /></a>
-
 <p>
+  <a href="https://stuff.charm.sh/freeze/freeze-4k.png"><img src="https://github.com/charmbracelet/freeze/assets/25087/de76b799-fa67-4b5b-8da2-d990ca5b4e06" width="500" /></a><br>
   <a href="https://github.com/charmbracelet/freeze/releases"><img src="https://img.shields.io/github/release/charmbracelet/freeze.svg" alt="Latest Release"></a>
   <a href="https://pkg.go.dev/github.com/charmbracelet/freeze?tab=doc"><img src="https://godoc.org/github.com/golang/gddo?status.svg" alt="Go Docs"></a>
 </p>
