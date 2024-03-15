@@ -193,6 +193,9 @@ func main() {
 	if config.Width != 0 {
 		imageWidth = config.Width
 		terminalWidth = config.Width - hMargin
+	} else {
+		imageWidth += hMargin + hPadding
+		terminalWidth += hPadding
 	}
 	if config.Height != 0 {
 		imageHeight = config.Height
@@ -204,10 +207,6 @@ func main() {
 
 	svg.SetDimensions(terminal, terminalWidth, terminalHeight)
 	svg.Move(terminal, float64(config.Margin[left]), float64(config.Margin[top]))
-
-	if config.Height != 0 || config.Width != 0 {
-		svg.AddClipPath(image, "terminalMask", config.Margin[left], config.Margin[top], terminalWidth, terminalHeight-config.Padding[bottom])
-	}
 
 	if config.Window {
 		windowControls := svg.NewWindowControls(5.5, 19, 12)
@@ -288,6 +287,9 @@ func main() {
 
 	svg.SetDimensions(image, imageWidth, imageHeight)
 	svg.SetDimensions(terminal, terminalWidth, terminalHeight)
+	if config.Height != 0 || config.Width != 0 {
+		svg.AddClipPath(image, "terminalMask", config.Margin[left], config.Margin[top], terminalWidth, terminalHeight-config.Padding[bottom])
+	}
 
 	if isAnsi {
 		parser := ansi.Parser{
