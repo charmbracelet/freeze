@@ -10,9 +10,9 @@
 
 Generate images of code and terminal output.
 
-<p>
-  <a><img width="375" src="./test/golden/composite-1.svg" alt="Freeze code screenshot"></a>
-  <a><img width="510" src="./test/golden/composite-2.svg" alt="Freeze ANSI output"></a>
+<p align="center">
+  <a><img width="320" src="./test/golden/composite-1.svg" alt="Freeze code screenshot"></a>
+  <a><img width="435" src="./test/golden/composite-2.svg" alt="Freeze ANSI output"></a>
 </p>
 
 ## Examples
