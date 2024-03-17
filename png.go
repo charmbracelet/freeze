@@ -12,7 +12,7 @@ import (
 	"github.com/kanrichan/resvg-go"
 )
 
-func libsvgConvert(doc *etree.Document, w, _ int, output string) error {
+func libsvgConvert(doc *etree.Document, w, _ float64, output string) error {
 	_, err := exec.LookPath("rsvg-convert")
 	if err != nil {
 		return err
@@ -26,7 +26,7 @@ func libsvgConvert(doc *etree.Document, w, _ int, output string) error {
 	// rsvg-convert is installed use that to convert the SVG to PNG,
 	// since it is faster.
 	rsvgConvert := exec.Command("rsvg-convert",
-		"--width", strconv.Itoa(w),
+		"--width", strconv.Itoa(int(w)),
 		"--keep-aspect-ratio",
 		"-f", "png",
 		"-o", output,
@@ -36,7 +36,7 @@ func libsvgConvert(doc *etree.Document, w, _ int, output string) error {
 	return err
 }
 
-func resvgConvert(doc *etree.Document, w, h int, output string) error {
+func resvgConvert(doc *etree.Document, w, h float64, output string) error {
 	svg, err := doc.WriteToBytes()
 	if err != nil {
 		return err

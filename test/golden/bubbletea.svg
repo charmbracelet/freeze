@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg width="750" height="800" xmlns="http://www.w3.org/2000/svg">
+<svg width="750.00" height="800.00" xmlns="http://www.w3.org/2000/svg">
 <style>
 @font-face {
 	font-family: &apos;JetBrains Mono&apos;;
@@ -8,7 +8,7 @@
 	font-weight: normal;
 	font-style: normal;
 }
-</style><rect width="586" height="628" fill="#171717" rx="8" ry="8" filter="url(#shadow)" stroke="#515151" stroke-width="1" x="60.00px" y="50.00px"/>
+</style><rect width="586.00" height="628.00" fill="#171717" rx="8.00" ry="8.00" filter="url(#shadow)" stroke="#515151" stroke-width="1.00" x="60.00px" y="50.00px"/>
 <g font-family="JetBrains Mono" font-size="14.00px" fill="#c4c4c4" clip-path="url(#terminalMask)">
 <text x="80.00px" y="86.80px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f">  1  </tspan><tspan fill="#00aaff">func</tspan> <tspan fill="#e8e8a8">(</tspan>m model<tspan fill="#e8e8a8">)</tspan> <tspan fill="#00dc7f">Init</tspan><tspan fill="#e8e8a8">()</tspan> tea<tspan fill="#e8e8a8">.</tspan>Cmd <tspan fill="#e8e8a8">{</tspan>
 </text><text x="80.00px" y="103.60px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f">  2  </tspan>    <tspan fill="#00aaff">return</tspan> <tspan fill="#00aaff">nil</tspan>
@@ -46,4 +46,4 @@
 </tspan></text><text x="80.00px" y="641.20px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 34  </tspan><tspan fill="#676767"/><tspan fill="#e8e8a8">}</tspan>
 </text>
 </g>
-<defs><filter id="shadow" filterUnits="userSpaceOnUse"><feGaussianBlur in="SourceAlpha" stdDeviation="24"/><feOffset result="offsetblur" dx="0" dy="12"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><defs><clipPath id="terminalMask"><rect x="60" y="50" width="586" height="608"/></clipPath></defs></svg>
+<defs><filter id="shadow" filterUnits="userSpaceOnUse"><feGaussianBlur in="SourceAlpha" stdDeviation="24.00"/><feOffset result="offsetblur" dx="0.00" dy="12.00"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><defs><clipPath id="terminalMask"><rect x="60.00" y="50.00" width="586.00" height="608.00"/></clipPath></defs></svg>

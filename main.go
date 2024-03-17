@@ -25,13 +25,15 @@ import (
 	"golang.org/x/net/context"
 )
 
+const defaultFontSize = 14.0
+
 func main() {
 	var (
 		input  string
 		err    error
 		lexer  chroma.Lexer
 		config Config
-		scale  int
+		scale  float64
 	)
 
 	k, err := kong.New(&config, kong.Help(helpPrinter))
@@ -195,10 +197,16 @@ func main() {
 
 	terminal := image.SelectElement("rect")
 
-	imageWidth, imageHeight := svg.GetDimensions(image)
+	w, h := svg.GetDimensions(image)
+
+	imageWidth := float64(w)
+	imageHeight := float64(h)
 
 	imageWidth *= scale
 	imageHeight *= scale
+
+	// chroma automatically calculates the height based on a font size of 14
+	imageHeight *= (config.Font.Size / defaultFontSize)
 
 	terminalWidth := imageWidth
 	terminalHeight := imageHeight
@@ -220,7 +228,7 @@ func main() {
 	}
 
 	if config.Window {
-		windowControls := svg.NewWindowControls(5.5*float64(scale), 19*scale, 12*scale)
+		windowControls := svg.NewWindowControls(5.5*float64(scale), 19.0*scale, 12.0*scale)
 		svg.Move(windowControls, float64(config.Margin[left]), float64(config.Margin[top]))
 		image.AddChild(windowControls)
 		config.Padding[top] += (15 * scale)
@@ -276,7 +284,7 @@ func main() {
 
 	if autoWidth {
 		longestLine := lipgloss.Width(strippedInput)
-		terminalWidth = int(float64(longestLine+1)*(config.Font.Size/fontHeightToWidthRatio)) + hPadding
+		terminalWidth = float64(longestLine+1)*(config.Font.Size/fontHeightToWidthRatio) + hPadding
 		terminalWidth *= scale
 		imageWidth = terminalWidth + hMargin
 	}
@@ -291,10 +299,10 @@ func main() {
 
 	if config.ShowLineNumbers {
 		if autoWidth {
-			terminalWidth += int(config.Font.Size * 3)
-			imageWidth += int(config.Font.Size * 3)
+			terminalWidth += config.Font.Size * 3
+			imageWidth += config.Font.Size * 3
 		} else {
-			terminalWidth -= int(config.Font.Size * 3)
+			terminalWidth -= config.Font.Size * 3
 		}
 	}
 

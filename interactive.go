@@ -22,11 +22,11 @@ func runForm(config *Config) (*Config, error) {
 		margin       = strings.Trim(fmt.Sprintf("%v", config.Margin), "[]")
 		fontSize     = fmt.Sprintf("%d", int(config.Font.Size))
 		lineHeight   = fmt.Sprintf("%.1f", config.LineHeight)
-		borderRadius = fmt.Sprintf("%d", config.Border.Radius)
-		borderWidth  = fmt.Sprintf("%d", config.Border.Width)
-		shadowBlur   = fmt.Sprintf("%d", config.Shadow.Blur)
-		shadowX      = fmt.Sprintf("%d", config.Shadow.X)
-		shadowY      = fmt.Sprintf("%d", config.Shadow.Y)
+		borderRadius = fmt.Sprintf("%.2f", config.Border.Radius)
+		borderWidth  = fmt.Sprintf("%.2f", config.Border.Width)
+		shadowBlur   = fmt.Sprintf("%.2f", config.Shadow.Blur)
+		shadowX      = fmt.Sprintf("%.2f", config.Shadow.X)
+		shadowY      = fmt.Sprintf("%.2f", config.Shadow.Y)
 	)
 
 	theme := huh.ThemeCharm()
@@ -194,11 +194,11 @@ func runForm(config *Config) (*Config, error) {
 	config.Margin = parseMargin(margin)
 	config.Font.Size, _ = strconv.ParseFloat(fontSize, 64)
 	config.LineHeight, _ = strconv.ParseFloat(lineHeight, 64)
-	config.Border.Radius, _ = strconv.Atoi(borderRadius)
-	config.Border.Width, _ = strconv.Atoi(borderWidth)
-	config.Shadow.Blur, _ = strconv.Atoi(shadowBlur)
-	config.Shadow.X, _ = strconv.Atoi(shadowX)
-	config.Shadow.Y, _ = strconv.Atoi(shadowY)
+	config.Border.Radius, _ = strconv.ParseFloat(borderRadius, 64)
+	config.Border.Width, _ = strconv.ParseFloat(borderWidth, 64)
+	config.Shadow.Blur, _ = strconv.ParseFloat(shadowBlur, 64)
+	config.Shadow.X, _ = strconv.ParseFloat(shadowX, 64)
+	config.Shadow.Y, _ = strconv.ParseFloat(shadowY, 64)
 	return config, err
 }
 
@@ -257,10 +257,10 @@ func validateColor(s string) error {
 	return nil
 }
 
-func parsePadding(v string) []int {
-	var values []int
+func parsePadding(v string) []float64 {
+	var values []float64
 	for _, p := range strings.Fields(v) {
-		pi, _ := strconv.Atoi(p) // already validated
+		pi, _ := strconv.ParseFloat(p, 64) // already validated
 		values = append(values, pi)
 	}
 	return expandPadding(values, 1)

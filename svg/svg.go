@@ -9,19 +9,19 @@ import (
 )
 
 // AddShadow adds a definition of a shadow to the <defs> with the given id.
-func AddShadow(element *etree.Element, id string, x, y, blur int) {
+func AddShadow(element *etree.Element, id string, x, y, blur float64) {
 	f := etree.NewElement("filter")
 	f.CreateAttr("id", id)
 	f.CreateAttr("filterUnits", "userSpaceOnUse")
 
 	b := etree.NewElement("feGaussianBlur")
 	b.CreateAttr("in", "SourceAlpha")
-	b.CreateAttr("stdDeviation", fmt.Sprintf("%d", blur))
+	b.CreateAttr("stdDeviation", fmt.Sprintf("%.2f", blur))
 
 	o := etree.NewElement("feOffset")
 	o.CreateAttr("result", "offsetblur")
-	o.CreateAttr("dx", fmt.Sprintf("%d", x))
-	o.CreateAttr("dy", fmt.Sprintf("%d", y))
+	o.CreateAttr("dx", fmt.Sprintf("%.2f", x))
+	o.CreateAttr("dy", fmt.Sprintf("%.2f", y))
 
 	m := etree.NewElement("feMerge")
 	mn1 := etree.NewElement("feMergeNode")
@@ -40,15 +40,15 @@ func AddShadow(element *etree.Element, id string, x, y, blur int) {
 }
 
 // AddClipPath adds a definition of a clip path to the <defs> with the given id.
-func AddClipPath(element *etree.Element, id string, x, y, w, h int) {
+func AddClipPath(element *etree.Element, id string, x, y, w, h float64) {
 	p := etree.NewElement("clipPath")
 	p.CreateAttr("id", id)
 
 	rect := etree.NewElement("rect")
-	rect.CreateAttr("x", fmt.Sprintf("%d", x))
-	rect.CreateAttr("y", fmt.Sprintf("%d", y))
-	rect.CreateAttr("width", fmt.Sprintf("%d", w))
-	rect.CreateAttr("height", fmt.Sprintf("%d", h))
+	rect.CreateAttr("x", fmt.Sprintf("%.2f", x))
+	rect.CreateAttr("y", fmt.Sprintf("%.2f", y))
+	rect.CreateAttr("width", fmt.Sprintf("%.2f", w))
+	rect.CreateAttr("height", fmt.Sprintf("%.2f", h))
 
 	p.AddChild(rect)
 
@@ -58,9 +58,9 @@ func AddClipPath(element *etree.Element, id string, x, y, w, h int) {
 }
 
 // AddCornerRadius adds corner radius to an element.
-func AddCornerRadius(e *etree.Element, radius int) {
-	e.CreateAttr("rx", fmt.Sprintf("%d", radius))
-	e.CreateAttr("ry", fmt.Sprintf("%d", radius))
+func AddCornerRadius(e *etree.Element, radius float64) {
+	e.CreateAttr("rx", fmt.Sprintf("%.2f", radius))
+	e.CreateAttr("ry", fmt.Sprintf("%.2f", radius))
 }
 
 // Move moves the given element to the (x, y) position
@@ -70,9 +70,9 @@ func Move(e *etree.Element, x, y float64) {
 }
 
 // AddOutline adds an outline to the given element.
-func AddOutline(e *etree.Element, width int, color string) {
+func AddOutline(e *etree.Element, width float64, color string) {
 	e.CreateAttr("stroke", color)
-	e.CreateAttr("stroke-width", fmt.Sprintf("%d", width))
+	e.CreateAttr("stroke-width", fmt.Sprintf("%.2f", width))
 }
 
 const (
@@ -82,12 +82,12 @@ const (
 )
 
 // NewWindowControls returns a colorful window bar element.
-func NewWindowControls(r float64, x, y int) *etree.Element {
+func NewWindowControls(r float64, x, y float64) *etree.Element {
 	bar := etree.NewElement("svg")
 	for i, color := range []string{red, yellow, green} {
 		circle := etree.NewElement("circle")
 		circle.CreateAttr("cx", fmt.Sprintf("%.2f", float64(i+1)*float64(x)-float64(r)))
-		circle.CreateAttr("cy", fmt.Sprintf("%d", y))
+		circle.CreateAttr("cy", fmt.Sprintf("%.2f", y))
 		circle.CreateAttr("r", fmt.Sprintf("%.2f", r))
 		circle.CreateAttr("fill", color)
 		bar.AddChild(circle)
@@ -96,11 +96,11 @@ func NewWindowControls(r float64, x, y int) *etree.Element {
 }
 
 // SetDimensions sets the width and height of the given element.
-func SetDimensions(element *etree.Element, width, height int) {
+func SetDimensions(element *etree.Element, width, height float64) {
 	widthAttr := element.SelectAttr("width")
 	heightAttr := element.SelectAttr("height")
-	heightAttr.Value = fmt.Sprintf("%d", height)
-	widthAttr.Value = fmt.Sprintf("%d", width)
+	heightAttr.Value = fmt.Sprintf("%.2f", height)
+	widthAttr.Value = fmt.Sprintf("%.2f", width)
 }
 
 // GetDimensions returns the width and height of the element.

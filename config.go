@@ -19,12 +19,12 @@ type Config struct {
 	Input string `json:",omitempty" arg:"" help:"Code to screenshot." optional:""`
 
 	// Window
-	Background string `json:"background" help:"Apply a background fill." short:"b" placeholder:"#FFF" group:"Window"`
-	Margin     []int  `json:"margin" help:"Apply margin to the window." short:"m" placeholder:"0" group:"Window"`
-	Padding    []int  `json:"padding" help:"Apply padding to the code." short:"p" placeholder:"0" group:"Window"`
-	Window     bool   `json:"window" help:"Display window controls." group:"Window"`
-	Width      int    `json:"width" help:"Width of terminal window." short:"W" group:"Window"`
-	Height     int    `json:"height" help:"Height of terminal window." short:"H" group:"Window"`
+	Background string    `json:"background" help:"Apply a background fill." short:"b" placeholder:"#FFF" group:"Window"`
+	Margin     []float64 `json:"margin" help:"Apply margin to the window." short:"m" placeholder:"0" group:"Window"`
+	Padding    []float64 `json:"padding" help:"Apply padding to the code." short:"p" placeholder:"0" group:"Window"`
+	Window     bool      `json:"window" help:"Display window controls." group:"Window"`
+	Width      float64   `json:"width" help:"Width of terminal window." short:"W" group:"Window"`
+	Height     float64   `json:"height" help:"Height of terminal window." short:"H" group:"Window"`
 
 	// Settings
 	Config      string `json:"config,omitempty" help:"Base configuration file or template." short:"c" group:"Settings" default:"default" placeholder:"base"`
@@ -51,16 +51,16 @@ type Config struct {
 
 // Shadow is the configuration options for a drop shadow.
 type Shadow struct {
-	Blur int `json:"blur" help:"Shadow Gaussian Blur." placeholder:"0"`
-	X    int `json:"x" help:"Shadow offset {{x}} coordinate." placeholder:"0"`
-	Y    int `json:"y" help:"Shadow offset {{y}} coordinate." placeholder:"0"`
+	Blur float64 `json:"blur" help:"Shadow Gaussian Blur." placeholder:"0"`
+	X    float64 `json:"x" help:"Shadow offset {{x}} coordinate." placeholder:"0"`
+	Y    float64 `json:"y" help:"Shadow offset {{y}} coordinate." placeholder:"0"`
 }
 
 // Border is the configuration options for a window border.
 type Border struct {
-	Radius int    `json:"radius" help:"Corner radius of window." short:"r" placeholder:"0"`
-	Width  int    `json:"width" help:"Border width thickness." placeholder:"1"`
-	Color  string `json:"color" help:"Border color." placeholder:"#000"`
+	Radius float64 `json:"radius" help:"Corner radius of window." short:"r" placeholder:"0"`
+	Width  float64 `json:"width" help:"Border width thickness." placeholder:"1"`
+	Color  string  `json:"color" help:"Border color." placeholder:"#000"`
 }
 
 // Font is the configuration options for a font.
@@ -74,16 +74,16 @@ type Font struct {
 //go:embed configurations/*
 var configs embed.FS
 
-func expandPadding(p []int, scale int) []int {
+func expandPadding(p []float64, scale float64) []float64 {
 	switch len(p) {
 	case 1:
-		return []int{p[top] * scale, p[top] * scale, p[top] * scale, p[top] * scale}
+		return []float64{p[top] * scale, p[top] * scale, p[top] * scale, p[top] * scale}
 	case 2:
-		return []int{p[top] * scale, p[right] * scale, p[top] * scale, p[right] * scale}
+		return []float64{p[top] * scale, p[right] * scale, p[top] * scale, p[right] * scale}
 	case 4:
-		return []int{p[top] * scale, p[right] * scale, p[bottom] * scale, p[left] * scale}
+		return []float64{p[top] * scale, p[right] * scale, p[bottom] * scale, p[left] * scale}
 	default:
-		return []int{0, 0, 0, 0}
+		return []float64{0, 0, 0, 0}
 
 	}
 }

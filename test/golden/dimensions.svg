@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg width="1920" height="1080" xmlns="http://www.w3.org/2000/svg">
+<svg width="1920.00" height="1080.00" xmlns="http://www.w3.org/2000/svg">
 <style>
 @font-face {
 	font-family: &apos;JetBrains Mono&apos;;
@@ -8,7 +8,7 @@
 	font-weight: normal;
 	font-style: normal;
 }
-</style><rect width="1920" height="1080" fill="#171717" x="0.00px" y="0.00px"/>
+</style><rect width="1920.00" height="1080.00" fill="#171717" x="0.00px" y="0.00px"/>
 <g font-family="JetBrains Mono" font-size="14.00px" fill="#c4c4c4" clip-path="url(#terminalMask)">
 <text x="20.00px" y="36.80px" xml:space="preserve"><tspan fill="#ff48dd">module</tspan> Main <tspan fill="#ff48dd">where</tspan>
 </text><text x="20.00px" y="53.60px" xml:space="preserve">
@@ -26,4 +26,4 @@
 </text><text x="20.00px" y="255.20px" xml:space="preserve"><tspan fill="#676767">-- Alcachofa, if you were wondering, is artichoke in Spanish.</tspan>
 </text>
 </g>
-<defs><clipPath id="terminalMask"><rect x="0" y="0" width="1920" height="1060"/></clipPath></defs></svg>
+<defs><clipPath id="terminalMask"><rect x="0.00" y="0.00" width="1920.00" height="1060.00"/></clipPath></defs></svg>
