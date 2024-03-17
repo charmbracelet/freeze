@@ -26,6 +26,7 @@ import (
 )
 
 const defaultFontSize = 14.0
+const defaultLineHeight = 1.2
 
 func main() {
 	var (
@@ -206,7 +207,9 @@ func main() {
 	imageHeight *= scale
 
 	// chroma automatically calculates the height based on a font size of 14
+	// and a line height of 1.2
 	imageHeight *= (config.Font.Size / defaultFontSize)
+	imageHeight *= (config.LineHeight / defaultLineHeight)
 
 	terminalWidth := imageWidth
 	terminalHeight := imageHeight

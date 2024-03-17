@@ -214,6 +214,11 @@ func TestFreezeConfigurations(t *testing.T) {
 			output: "font-size-14.svg",
 		},
 		{
+			input:  "test/input/artichoke.hs",
+			flags:  []string{"--line-height", "2"},
+			output: "line-height-2.svg",
+		},
+		{
 			input:  "test/input/goreleaser-full.yml",
 			flags:  []string{"--config", "full", "--height", "2000", "--show-line-numbers"},
 			output: "overflow-line-numbers.svg",
