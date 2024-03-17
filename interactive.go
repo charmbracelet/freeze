@@ -263,7 +263,7 @@ func parsePadding(v string) []int {
 		pi, _ := strconv.Atoi(p) // already validated
 		values = append(values, pi)
 	}
-	return expandPadding(values)
+	return expandPadding(values, 1)
 }
 
 var parseMargin = parsePadding

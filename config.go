@@ -74,14 +74,14 @@ type Font struct {
 //go:embed configurations/*
 var configs embed.FS
 
-func expandPadding(p []int) []int {
+func expandPadding(p []int, scale int) []int {
 	switch len(p) {
 	case 1:
-		return []int{p[top], p[top], p[top], p[top]}
+		return []int{p[top] * scale, p[top] * scale, p[top] * scale, p[top] * scale}
 	case 2:
-		return []int{p[top], p[right], p[top], p[right]}
+		return []int{p[top] * scale, p[right] * scale, p[top] * scale, p[right] * scale}
 	case 4:
-		return []int{p[top], p[right], p[bottom], p[left]}
+		return []int{p[top] * scale, p[right] * scale, p[bottom] * scale, p[left] * scale}
 	default:
 		return []int{0, 0, 0, 0}
 

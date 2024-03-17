@@ -31,6 +31,7 @@ func main() {
 		err    error
 		lexer  chroma.Lexer
 		config Config
+		scale  int
 	)
 
 	k, err := kong.New(&config, kong.Help(helpPrinter))
@@ -83,8 +84,16 @@ func main() {
 		}
 	}
 
-	config.Margin = expandMargin(config.Margin)
-	config.Padding = expandPadding(config.Padding)
+	autoHeight := config.Height == 0
+	autoWidth := config.Width == 0
+
+	scale = 1
+	if autoHeight && autoWidth && strings.HasSuffix(config.Output, ".png") {
+		scale = 2
+	}
+
+	config.Margin = expandMargin(config.Margin, scale)
+	config.Padding = expandPadding(config.Padding, scale)
 
 	if config.Input == "" && !in.IsPipe(os.Stdin) && len(ctx.Args) <= 0 {
 		_ = helpPrinter(kong.HelpOptions{}, ctx)
@@ -184,12 +193,13 @@ func main() {
 	vMargin := config.Margin[top] + config.Margin[bottom]
 	vPadding := config.Padding[top] + config.Padding[bottom]
 
-	autoHeight := config.Height == 0
-	autoWidth := config.Width == 0
-
 	terminal := image.SelectElement("rect")
 
 	imageWidth, imageHeight := svg.GetDimensions(image)
+
+	imageWidth *= scale
+	imageHeight *= scale
+
 	terminalWidth := imageWidth
 	terminalHeight := imageHeight
 
@@ -210,24 +220,24 @@ func main() {
 	}
 
 	if config.Window {
-		windowControls := svg.NewWindowControls(5.5, 19, 12)
+		windowControls := svg.NewWindowControls(5.5*float64(scale), 19*scale, 12*scale)
 		svg.Move(windowControls, float64(config.Margin[left]), float64(config.Margin[top]))
 		image.AddChild(windowControls)
-		config.Padding[top] += (15)
+		config.Padding[top] += (15 * scale)
 	}
 
 	if config.Border.Radius > 0 {
-		svg.AddCornerRadius(terminal, config.Border.Radius)
+		svg.AddCornerRadius(terminal, config.Border.Radius*scale)
 	}
 
 	if config.Shadow.Blur > 0 || config.Shadow.X > 0 || config.Shadow.Y > 0 {
 		id := "shadow"
-		svg.AddShadow(image, id, config.Shadow.X, config.Shadow.Y, config.Shadow.Blur)
+		svg.AddShadow(image, id, config.Shadow.X*scale, config.Shadow.Y*scale, config.Shadow.Blur*scale)
 		terminal.CreateAttr("filter", fmt.Sprintf("url(#%s)", id))
 	}
 
 	textGroup := image.SelectElement("g")
-	textGroup.CreateAttr("font-size", fmt.Sprintf("%.2fpx", config.Font.Size))
+	textGroup.CreateAttr("font-size", fmt.Sprintf("%.2fpx", config.Font.Size*float64(scale)))
 	textGroup.CreateAttr("clip-path", "url(#terminalMask)")
 	text := textGroup.SelectElements("text")
 
@@ -237,6 +247,8 @@ func main() {
 	if len(config.Lines) > 0 {
 		offsetLine = config.Lines[0]
 	}
+
+	config.LineHeight *= float64(scale)
 
 	for i, line := range text {
 		if isAnsi {
@@ -265,6 +277,7 @@ func main() {
 	if autoWidth {
 		longestLine := lipgloss.Width(strippedInput)
 		terminalWidth = int(float64(longestLine+1)*(config.Font.Size/fontHeightToWidthRatio)) + hPadding
+		terminalWidth *= scale
 		imageWidth = terminalWidth + hMargin
 	}
 
