@@ -64,10 +64,12 @@ func resvgConvert(doc *etree.Document, w, h int, output string) error {
 	}
 
 	tree, err := worker.NewTreeFromData(svg, &resvg.Options{
-		Dpi:                288.0,
+		Dpi:                96,
 		ShapeRenderingMode: resvg.ShapeRenderingModeGeometricPrecision,
-		TextRenderingMode:  resvg.TextRenderingModeGeometricPrecision,
+		TextRenderingMode:  resvg.TextRenderingModeOptimizeLegibility,
 		ImageRenderingMode: resvg.ImageRenderingModeOptimizeQuality,
+		DefaultSizeWidth:   float32(w),
+		DefaultSizeHeight:  float32(h),
 	})
 	defer tree.Close()
 	if err != nil {
