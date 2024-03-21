@@ -8,7 +8,7 @@
 	font-weight: normal;
 	font-style: normal;
 }
-</style><rect width="1308.33" height="1828.00" fill="#171717" rx="8.00" ry="8.00" filter="url(#shadow)" stroke="#515151" stroke-width="1.00" x="60.00px" y="50.00px"/>
+</style><rect width="1308.33" height="1878.00" fill="#171717" rx="8.00" ry="8.00" filter="url(#shadow)" stroke="#515151" stroke-width="1.00" x="60.00px" y="50.00px"/>
 <g font-family="JetBrains Mono" font-size="14.00px" fill="#c4c4c4" clip-path="url(#terminalMask)">
 <text x="80.00px" y="101.80px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f">  1  </tspan><tspan fill="#b083ea">variables</tspan><tspan fill="#e8e8a8">:</tspan>
 </text><text x="80.00px" y="118.60px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f">  2  </tspan>  <tspan fill="#b083ea">main</tspan><tspan fill="#e8e8a8">:</tspan> <tspan fill="#e38356">&quot;&quot;</tspan>
@@ -115,6 +115,9 @@
 </text><text x="80.00px" y="1815.40px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f">103  </tspan>      <tspan fill="#b083ea">signature</tspan><tspan fill="#e8e8a8">:</tspan>
 </text><text x="80.00px" y="1832.20px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f">104  </tspan>        <tspan fill="#b083ea">key_file</tspan><tspan fill="#e8e8a8">:</tspan> <tspan fill="#e38356">&apos;{{ if ne (index .Env &quot;GPG_KEY_PATH&quot;) &quot;&quot; }}{{ .Env.GPG_KEY_PATH }}{{ else }}{{ end }}&apos;</tspan>
 </text><text x="80.00px" y="1849.00px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f">105  </tspan>
+</text><text x="80.00px" y="1865.80px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f">106  </tspan><tspan fill="#b083ea">furies</tspan><tspan fill="#e8e8a8">:</tspan>
+</text><text x="80.00px" y="1882.60px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f">107  </tspan>  - <tspan fill="#b083ea">account</tspan><tspan fill="#e8e8a8">:</tspan> <tspan fill="#e38356">&quot;{{ with .Env.FURY_TOKEN }}charmcli{{ else }}{{ end }}&quot;</tspan>
+</text><text x="80.00px" y="1899.40px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f">108  </tspan>    <tspan fill="#b083ea">secret_name</tspan><tspan fill="#e8e8a8">:</tspan> FURY_TOKEN
 </text>
 </g>
-<svg x="60.00px" y="50.00px"><circle cx="13.50" cy="12.00" r="5.50" fill="#FF5A54"/><circle cx="32.50" cy="12.00" r="5.50" fill="#E6BF29"/><circle cx="51.50" cy="12.00" r="5.50" fill="#52C12B"/></svg><defs><filter id="shadow" filterUnits="userSpaceOnUse"><feGaussianBlur in="SourceAlpha" stdDeviation="24.00"/><feOffset result="offsetblur" dx="0.00" dy="12.00"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><defs><clipPath id="terminalMask"><rect x="60.00" y="50.00" width="1308.33" height="1808.00"/></clipPath></defs></svg>
+<svg x="60.00px" y="50.00px"><circle cx="13.50" cy="12.00" r="5.50" fill="#FF5A54"/><circle cx="32.50" cy="12.00" r="5.50" fill="#E6BF29"/><circle cx="51.50" cy="12.00" r="5.50" fill="#52C12B"/></svg><defs><filter id="shadow" filterUnits="userSpaceOnUse"><feGaussianBlur in="SourceAlpha" stdDeviation="24.00"/><feOffset result="offsetblur" dx="0.00" dy="12.00"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><defs><clipPath id="terminalMask"><rect x="60.00" y="50.00" width="1308.33" height="1858.00"/></clipPath></defs></svg>
