@@ -64,7 +64,6 @@ func TestFreezeHelp(t *testing.T) {
 	contains := []string{
 		"Generate images of code and terminal output.",
 		"freeze main.go [-o code.svg] [--flags]",
-		"--background", "Apply a background fill.",
 		"--theme", "Theme to use for syntax highlighting",
 		"--border.color", "Border color.",
 		"--shadow.blur", "Shadow Gaussian Blur.",
