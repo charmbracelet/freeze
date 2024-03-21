@@ -19,12 +19,12 @@ type Config struct {
 	Input string `json:",omitempty" arg:"" help:"Code to screenshot." optional:""`
 
 	// Window
-	Background string    `json:"background" help:"Apply a background fill." short:"b" placeholder:"#FFF" group:"Window"`
-	Margin     []float64 `json:"margin" help:"Apply margin to the window." short:"m" placeholder:"0" group:"Window"`
-	Padding    []float64 `json:"padding" help:"Apply padding to the code." short:"p" placeholder:"0" group:"Window"`
-	Window     bool      `json:"window" help:"Display window controls." group:"Window"`
-	Width      float64   `json:"width" help:"Width of terminal window." short:"W" group:"Window"`
-	Height     float64   `json:"height" help:"Height of terminal window." short:"H" group:"Window"`
+	// Background string    `json:"background" help:"Apply a background fill." short:"b" placeholder:"#FFF" group:"Window"`
+	Margin  []float64 `json:"margin" help:"Apply margin to the window." short:"m" placeholder:"0" group:"Window"`
+	Padding []float64 `json:"padding" help:"Apply padding to the code." short:"p" placeholder:"0" group:"Window"`
+	Window  bool      `json:"window" help:"Display window controls." group:"Window"`
+	Width   float64   `json:"width" help:"Width of terminal window." short:"W" group:"Window"`
+	Height  float64   `json:"height" help:"Height of terminal window." short:"H" group:"Window"`
 
 	// Settings
 	Config      string `json:"config,omitempty" help:"Base configuration file or template." short:"c" group:"Settings" default:"default" placeholder:"base"`

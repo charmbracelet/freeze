@@ -72,13 +72,16 @@ go install github.com/charmbracelet/freeze@latest
 
 ### Interactive mode
 
-Freeze features a fully interactive mode for easy customization. Settings are persisted across sessions making for easy adjustments.
+Freeze features a fully interactive mode for easy customization.
 
 ```bash
 freeze --interactive
 ```
 
 <img alt="freeze interactive mode" src="./tapes/interactive.gif" width="400" />
+
+Settings are written to `$XDG_CONFIG/freeze/user.json` and can be accessed with
+`freeze --config user`.
 
 ### Flags
 
@@ -92,7 +95,6 @@ Screenshots can be customized with `--flags` or [Configuration](#configuration) 
 - [`-t`](#theme), [`--theme`](#theme): Theme to use for syntax highlighting.
 - [`-l`](#language), [`--language`](#language): Language to apply to code
 - [`-w`](#window), [`--window`](#window): Display window controls.
-- [`-b`](#background), [`--background`](#background): Apply a background fill.
 - [`-m`](#margin), [`--margin`](#margin): Apply margin to the window.
 - [`-p`](#padding), [`--padding`](#padding): Apply padding to the code.
 - [`-r`](#border-radius), [`--border.radius`](#border-radius): Corner radius of window.
@@ -237,14 +239,16 @@ There are also some default configurations built into `freeze` which can be pass
 
 - `base`: Simple screenshot of code.
 - `full`: macOS-like screenshot.
+- `user`: Uses `~/.config/freeze/user.json`.
 
-If you use `--interactive` mode, a configuration file will be created for you
-at `~/.config/freeze/default.json`. This will be the default configuration file
-used in your screenshots.
+If you use `--interactive` mode, a configuration file will be created for you at
+`~/.config/freeze/user.json`. This will be the default configuration file used
+in your screenshots.
 
 ```bash
 freeze -c base main.go
 freeze -c full main.go
+freeze -c user main.go # alias for ~/.config/freeze/user.json
 freeze -c ./custom.json main.go
 ```
 
@@ -261,7 +265,6 @@ Here's what an example configuration looks like:
   "shadow": false,
   "padding": [20, 40, 20, 20],
   "margin": "0",
-  "background": "#FFFFFF",
   "font": {
     "family": "JetBrains Mono",
     "size": 14
