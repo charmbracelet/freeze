@@ -52,10 +52,9 @@ func main() {
 	}
 
 	isDefaultConfig := config.Config == "default"
-
-	configFile, err := loadUserConfig()
-	if err != nil || !isDefaultConfig {
-		configFile, err = configs.Open("configurations/" + config.Config + ".json")
+	configFile, err := configs.Open("configurations/" + config.Config + ".json")
+	if config.Config == "user" {
+		configFile, err = loadUserConfig()
 	}
 	if err != nil {
 		configFile, err = os.Open(config.Config)

@@ -99,7 +99,7 @@ const (
 	left   side = 3
 )
 
-var userConfigPath = filepath.Join(xdg.ConfigHome, "freeze", "default.json")
+var userConfigPath = filepath.Join(xdg.ConfigHome, "freeze", "user.json")
 
 func loadUserConfig() (fs.File, error) {
 	return os.Open(userConfigPath)
@@ -120,5 +120,8 @@ func saveUserConfig(config Config) error {
 		return err
 	}
 	_, err = f.Write(b)
+
+	printFilenameOutput(userConfigPath)
+
 	return err
 }
