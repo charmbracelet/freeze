@@ -75,13 +75,13 @@ func runForm(config *Config) (*Config, error) {
 				Options(huh.NewOptions(styles.Names()...)...).
 				Value(&config.Theme),
 
-			huh.NewInput().Title("Background ").
-				// Description("Apply a background fill.").
-				Placeholder("#FFF").
-				Value(&config.Background).
-				Inline(true).
-				Prompt("").
-				Validate(validateColor),
+			// huh.NewInput().Title("Background ").
+			// 	// Description("Apply a background fill.").
+			// 	Placeholder("#FFF").
+			// 	Value(&config.Background).
+			// 	Inline(true).
+			// 	Prompt("").
+			// 	Validate(validateColor),
 
 			huh.NewNote().Title("Window"),
 

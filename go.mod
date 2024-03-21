@@ -7,7 +7,7 @@ require (
 	github.com/alecthomas/chroma v0.10.0
 	github.com/alecthomas/kong v0.9.0
 	github.com/beevik/etree v1.3.0
-	github.com/charmbracelet/huh v0.3.1-0.20240306161957-71f31c155b08
+	github.com/charmbracelet/huh v0.3.1-0.20240321154321-0d406ca61af1
 	github.com/charmbracelet/lipgloss v0.10.0
 	github.com/charmbracelet/log v0.3.2-0.20240306155710-bcd47385a62a
 	github.com/charmbracelet/x/exp/term v0.0.0-20240313015534-8cc69f8a3217
@@ -25,7 +25,7 @@ require (
 	github.com/catppuccin/go v0.2.0 // indirect
 	github.com/charmbracelet/bubbles v0.18.0 // indirect
 	github.com/charmbracelet/bubbletea v0.25.0 // indirect
-	github.com/charmbracelet/x/exp/strings v0.0.0-20240313015534-8cc69f8a3217 // indirect
+	github.com/charmbracelet/x/exp/strings v0.0.0-20240321133156-7faadd06c281 // indirect
 	github.com/containerd/console v1.0.4 // indirect
 	github.com/dlclark/regexp2 v1.11.0 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
