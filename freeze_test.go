@@ -128,6 +128,11 @@ func TestFreezeConfigurations(t *testing.T) {
 		// 	output: "composite-2.svg",
 		// },
 		{
+			input:  "test/input/layout.ansi",
+			flags:  []string{},
+			output: "layout.svg",
+		},
+		{
 			input:  "test/input/artichoke.hs",
 			flags:  []string{"--language", "haskell"},
 			output: "haskell.svg",

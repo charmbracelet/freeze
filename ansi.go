@@ -63,7 +63,11 @@ func (p *dispatcher) beginBackground(fill string) {
 
 	rect := etree.NewElement("rect")
 	rect.CreateAttr("fill", fill)
-	y := fmt.Sprintf("%.2fpx", float64(p.row)*p.config.Font.Size*p.config.LineHeight+float64(p.config.Margin[top]+p.config.Padding[top]))
+
+	topOffset := p.config.Padding[top] + p.config.Margin[top] + ((p.config.Font.Size + p.config.LineHeight) / 5)
+	rowMultiplier := p.config.Font.Size * p.config.LineHeight
+
+	y := fmt.Sprintf("%.2fpx", float64(p.row)*rowMultiplier+topOffset)
 	x := float64(p.col) * (p.config.Font.Size / fontHeightToWidthRatio)
 	x += float64(p.config.Margin[left] + p.config.Padding[left])
 	if p.config.ShowLineNumbers {
