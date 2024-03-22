@@ -43,25 +43,31 @@ func resvgConvert(doc *etree.Document, w, h float64, output string) error {
 	}
 
 	worker, err := resvg.NewDefaultWorker(context.Background())
-	defer worker.Close()
 	if err != nil {
 		printErrorFatal("Unable to write output", err)
 	}
+	defer worker.Close()
 
 	fontdb, err := worker.NewFontDBDefault()
-	defer fontdb.Close()
 	if err != nil {
 		printErrorFatal("Unable to write output", err)
 	}
-	fontdb.LoadFontData(font.JetBrainsMonoTTF)
-	fontdb.LoadFontData(font.JetBrainsMonoNLTTF)
+	defer fontdb.Close()
+	err = fontdb.LoadFontData(font.JetBrainsMonoTTF)
+	if err != nil {
+		printErrorFatal("Unable to load font", err)
+	}
+	err = fontdb.LoadFontData(font.JetBrainsMonoNLTTF)
+	if err != nil {
+		printErrorFatal("Unable to load font", err)
+	}
 
 	pixmap, err := worker.NewPixmap(uint32(w), uint32(h))
-	defer pixmap.Close()
 	if err != nil {
 		printError("Unable to write output", err)
 		os.Exit(1)
 	}
+	defer pixmap.Close()
 
 	tree, err := worker.NewTreeFromData(svg, &resvg.Options{
 		Dpi:                96,
@@ -71,11 +77,11 @@ func resvgConvert(doc *etree.Document, w, h float64, output string) error {
 		DefaultSizeWidth:   float32(w),
 		DefaultSizeHeight:  float32(h),
 	})
-	defer tree.Close()
 	if err != nil {
 		printError("Unable to write output", err)
 		os.Exit(1)
 	}
+	defer tree.Close()
 
 	err = tree.ConvertText(fontdb)
 	if err != nil {

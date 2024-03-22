@@ -397,7 +397,9 @@ func executeCommand(config Config) string {
 	}
 	defer pty.Close()
 	var out bytes.Buffer
-	go func() { io.Copy(&out, pty) }()
+	go func() {
+		_, _ = io.Copy(&out, pty)
+	}()
 	err = cmd.Wait()
 	if err != nil {
 		printError("Command failed", err)

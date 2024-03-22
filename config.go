@@ -115,6 +115,9 @@ func saveUserConfig(config Config) error {
 		return err
 	}
 	f, err := os.Create(userConfigPath)
+	if err != nil {
+		return err
+	}
 	b, err := json.Marshal(config)
 	if err != nil {
 		return err
