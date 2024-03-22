@@ -8,6 +8,7 @@ import (
 )
 
 type dispatcher struct {
+	scale   float64
 	svg     *etree.Element
 	bg      *etree.Element
 	config  *Config
@@ -68,7 +69,7 @@ func (p *dispatcher) beginBackground(fill string) {
 	rowMultiplier := p.config.Font.Size * p.config.LineHeight
 
 	y := fmt.Sprintf("%.2fpx", float64(p.row)*rowMultiplier+topOffset)
-	x := float64(p.col) * (p.config.Font.Size / fontHeightToWidthRatio)
+	x := p.scale * float64(p.col) * (p.config.Font.Size / fontHeightToWidthRatio)
 	x += float64(p.config.Margin[left] + p.config.Padding[left])
 	if p.config.ShowLineNumbers {
 		x += float64(p.config.Font.Size) * 3
@@ -84,7 +85,9 @@ func (p *dispatcher) endBackground() {
 		return
 	}
 
-	p.bg.CreateAttr("width", fmt.Sprintf("%.5fpx", (float64(p.bgWidth)+0.5)*(p.config.Font.Size/fontHeightToWidthRatio)))
+	width := (float64(p.bgWidth) + 0.5) * p.scale
+
+	p.bg.CreateAttr("width", fmt.Sprintf("%.5fpx", width*(p.config.Font.Size/fontHeightToWidthRatio)))
 	p.svg.InsertChildAt(0, p.bg)
 	p.bg = nil
 	p.bgWidth = 0

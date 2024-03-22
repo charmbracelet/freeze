@@ -89,6 +89,10 @@ func main() {
 	autoHeight := config.Height == 0
 	autoWidth := config.Width == 0
 
+	if config.Output == "" {
+		config.Output = defaultOutputFilename
+	}
+
 	scale = 1
 	if autoHeight && autoWidth && strings.HasSuffix(config.Output, ".png") {
 		scale = 2
@@ -251,7 +255,7 @@ func main() {
 	textGroup.CreateAttr("clip-path", "url(#terminalMask)")
 	text := textGroup.SelectElements("text")
 
-	d := dispatcher{lines: text, svg: textGroup, config: &config}
+	d := dispatcher{lines: text, svg: textGroup, config: &config, scale: scale}
 
 	offsetLine := 0
 	if len(config.Lines) > 0 {
