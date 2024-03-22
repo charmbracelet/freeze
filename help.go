@@ -19,7 +19,7 @@ func helpPrinter(_ kong.HelpOptions, ctx *kong.Context) error {
 	stringStyle := lipgloss.NewStyle().Background(codeBlockStyle.GetBackground()).Foreground(lipgloss.Color("3")).PaddingLeft(1)
 	argumentStyle := lipgloss.NewStyle().Background(codeBlockStyle.GetBackground()).Foreground(lipgloss.Color("7")).PaddingLeft(1)
 	flagStyle := lipgloss.NewStyle().Background(codeBlockStyle.GetBackground()).Foreground(lipgloss.Color("244")).PaddingLeft(1)
-	titleStyle := lipgloss.NewStyle().Bold(true).Margin(1, 0, 0, 2).Foreground(lipgloss.Color("#875FFF"))
+	titleStyle := lipgloss.NewStyle().Bold(true).Transform(strings.ToUpper).Margin(1, 0, 0, 2).Foreground(lipgloss.Color("#875FFF"))
 	// subtitleStyle := lipgloss.NewStyle().Bold(true).Margin(1, 0, 0, 4).Foreground(lipgloss.Color("7"))
 
 	fmt.Println()
@@ -47,7 +47,7 @@ func helpPrinter(_ kong.HelpOptions, ctx *kong.Context) error {
 		}
 	}
 
-	fmt.Println(titleStyle.Render(strings.ToUpper("Settings")))
+	fmt.Println(titleStyle.Render("Settings"))
 
 	for _, f := range flags {
 		if f.Group != nil && f.Group.Title == "Settings" {
@@ -58,7 +58,7 @@ func helpPrinter(_ kong.HelpOptions, ctx *kong.Context) error {
 		}
 	}
 
-	fmt.Println(titleStyle.Render(strings.ToUpper("Customization")))
+	fmt.Println(titleStyle.Render("Customization"))
 
 	for _, f := range flags {
 		if f.Hidden || f.Name == "help" || f.Group.Title == "Settings" {
