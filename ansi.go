@@ -137,10 +137,9 @@ func (p *dispatcher) CsiDispatch(marker byte, params [][]uint, inter byte, final
 			i++
 			switch params[i][0] {
 			case 5:
-				fill := fmt.Sprintf("#%02x%02x%02x", params[i+1][0], params[i+1][0], params[i+1][0])
 				n := params[i+1][0]
 				i++
-				fill = palette[n]
+				fill := palette[n]
 				span.CreateAttr("fill", fill)
 				p.lines[p.row].AddChild(span)
 			case 2:
@@ -152,10 +151,9 @@ func (p *dispatcher) CsiDispatch(marker byte, params [][]uint, inter byte, final
 			i++
 			switch params[i][0] {
 			case 5:
-				fill := fmt.Sprintf("#%02x%02x%02x", params[i+1][0], params[i+1][0], params[i+1][0])
 				n := params[i+1][0]
 				i++
-				fill = palette[n]
+				fill := palette[n]
 				p.beginBackground(fill)
 			case 2:
 				fill := fmt.Sprintf("#%02x%02x%02x", params[i+1][0], params[i+2][0], params[i+3][0])
