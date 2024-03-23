@@ -7,6 +7,8 @@ import (
 	"os/exec"
 	"strings"
 	"testing"
+
+	"github.com/aymanbagabas/go-udiff"
 )
 
 const binary = "./test/freeze-test"
@@ -260,7 +262,7 @@ func TestFreezeConfigurations(t *testing.T) {
 				t.Fatal("no output file for:", "test/output/"+tc.output)
 			}
 			if string(want) != string(got) {
-				// t.Log(udiff.Unified("want", "got", string(want), string(got)))
+				t.Log(udiff.Unified("want", "got", string(want), string(got)))
 				t.Fatalf("golden/%s != output/%s", tc.output, tc.output)
 			}
 		})
