@@ -1,0 +1,5 @@
+[1;33mansi.go[0m         [1;33mcut_test.go[0m     go.mod          [1;33mmain.go[0m    [1;33mstyle.go[0m
+[1;33mconfig.go[0m       [1;33merror.go[0m        go.sum          [1;4;33mMakefile[0m   [1;34msvg[0m
+[1;33mconfig_test.go[0m  [1;34mfont[0m            [1;33mhelp.go[0m         [1;33mpng.go[0m     [1;34mtapes[0m
+[1;34mconfigurations[0m  [1;33mfont.go[0m         [1;34minput[0m           [1;33mpty.go[0m     [1;34mtest[0m
+[1;33mcut.go[0m          [1;33mfreeze_test.go[0m  [1;33minteractive.go[0m  [1;4;33mREADME.md[0m  

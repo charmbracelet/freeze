@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg width="746.67" height="270.00" xmlns="http://www.w3.org/2000/svg">
+<svg width="193.33" height="83.00" xmlns="http://www.w3.org/2000/svg">
 <style>
 @font-face {
 	font-family: &apos;JetBrains Mono&apos;;
@@ -8,8 +8,8 @@
 	font-weight: normal;
 	font-style: normal;
 }
-</style><rect width="624.67" height="148.00" fill="#171717" rx="8.00" ry="8.00" filter="url(#shadow)" stroke="#515151" stroke-width="1.00" x="60.00px" y="50.00px"/>
+</style><rect width="193.33" height="83.00" fill="#171717" x="0.00px" y="0.00px"/>
 <g font-family="JetBrains Mono" font-size="14.00px" fill="#c4c4c4" clip-path="url(#terminalMask)">
-<text x="80.00px" y="101.80px" xml:space="preserve"><tspan xml:space="preserve" fill="#D3E561">ansi.go</tspan><tspan xml:space="preserve">         </tspan><tspan xml:space="preserve" fill="#D3E561">cut_test.go</tspan><tspan xml:space="preserve">     go.mod          </tspan><tspan xml:space="preserve" fill="#D3E561">main.go</tspan><tspan xml:space="preserve">    </tspan><tspan xml:space="preserve" fill="#D3E561">style.go</tspan><tspan xml:space="preserve"/></text><text x="80.00px" y="118.60px" xml:space="preserve"><tspan xml:space="preserve" fill="#D3E561">config.go</tspan><tspan xml:space="preserve">       </tspan><tspan xml:space="preserve" fill="#D3E561">error.go</tspan><tspan xml:space="preserve">        go.sum          </tspan><tspan xml:space="preserve" text-decoration="underline" fill="#D3E561">Makefile</tspan><tspan xml:space="preserve">   </tspan><tspan xml:space="preserve" fill="#8056FF">svg</tspan><tspan xml:space="preserve"/></text><text x="80.00px" y="135.40px" xml:space="preserve"><tspan xml:space="preserve" fill="#D3E561">config_test.go</tspan><tspan xml:space="preserve">  </tspan><tspan xml:space="preserve" fill="#8056FF">font</tspan><tspan xml:space="preserve">            </tspan><tspan xml:space="preserve" fill="#D3E561">help.go</tspan><tspan xml:space="preserve">         </tspan><tspan xml:space="preserve" fill="#D3E561">png.go</tspan><tspan xml:space="preserve">     </tspan><tspan xml:space="preserve" fill="#8056FF">tapes</tspan><tspan xml:space="preserve"/></text><text x="80.00px" y="152.20px" xml:space="preserve"><tspan xml:space="preserve" fill="#8056FF">configurations</tspan><tspan xml:space="preserve">  </tspan><tspan xml:space="preserve" fill="#D3E561">font.go</tspan><tspan xml:space="preserve">         </tspan><tspan xml:space="preserve" fill="#8056FF">input</tspan><tspan xml:space="preserve">           </tspan><tspan xml:space="preserve" fill="#D3E561">pty.go</tspan><tspan xml:space="preserve">     </tspan><tspan xml:space="preserve" fill="#8056FF">test</tspan><tspan xml:space="preserve"/></text><text x="80.00px" y="169.00px" xml:space="preserve"><tspan xml:space="preserve" fill="#D3E561">cut.go</tspan><tspan xml:space="preserve">          </tspan><tspan xml:space="preserve" fill="#D3E561">freeze_test.go</tspan><tspan xml:space="preserve">  </tspan><tspan xml:space="preserve" fill="#D3E561">interactive.go</tspan><tspan xml:space="preserve">  </tspan><tspan xml:space="preserve" text-decoration="underline" fill="#D3E561">README.md</tspan><tspan xml:space="preserve">  </tspan></text>
+<text x="20.00px" y="36.80px" xml:space="preserve"><tspan xml:space="preserve">&quot;Hello, world!&quot;</tspan></text>
 </g>
-<svg x="60.00px" y="50.00px"><circle cx="13.50" cy="12.00" r="5.50" fill="#FF5A54"/><circle cx="32.50" cy="12.00" r="5.50" fill="#E6BF29"/><circle cx="51.50" cy="12.00" r="5.50" fill="#52C12B"/></svg><defs><filter id="shadow" filterUnits="userSpaceOnUse"><feGaussianBlur in="SourceAlpha" stdDeviation="24.00"/><feOffset result="offsetblur" dx="0.00" dy="12.00"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs></svg>
+</svg>
