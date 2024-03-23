@@ -109,130 +109,130 @@ func TestFreezeConfigurations(t *testing.T) {
 		{
 			input:  "test/input/artichoke.hs",
 			flags:  []string{"--config", "test/configurations/base.json"},
-			output: "artichoke-base.svg",
+			output: "artichoke-base",
 		},
 		{
 			input:  "test/input/artichoke.hs",
 			flags:  []string{"--config", "test/configurations/full.json"},
-			output: "artichoke-full.svg",
+			output: "artichoke-full",
 		},
 		{
 			input:  "test/input/eza.ansi",
 			flags:  []string{"--config", "full"},
-			output: "eza.svg",
+			output: "eza",
 		},
 		{
 			flags:  []string{"--execute", `echo "Hello, world!"`},
-			output: "execute.svg",
+			output: "execute",
 		},
 		{
 			input:  "test/input/bubbletea.model",
 			flags:  []string{"--language", "go", "--height", "800", "--width", "750", "--config", "full", "--window=false", "--show-line-numbers"},
-			output: "bubbletea.svg",
+			output: "bubbletea",
 		},
 		// {
 		// 	flags:  []string{"--execute", "layout", "--height", "800", "--config", "full", "--margin", "50,10"},
-		// 	output: "composite-2.svg",
+		// 	output: "composite-2",
 		// },
 		{
 			input:  "test/input/layout.ansi",
 			flags:  []string{},
-			output: "layout.svg",
+			output: "layout",
 		},
 		{
 			input:  "test/input/artichoke.hs",
 			flags:  []string{"--language", "haskell"},
-			output: "haskell.svg",
+			output: "haskell",
 		},
 		{
 			input:  "test/input/artichoke.hs",
 			flags:  []string{"--theme", "dracula"},
-			output: "dracula.svg",
+			output: "dracula",
 		},
 		{
 			input:  "test/input/artichoke.hs",
 			flags:  []string{"--border.radius", "8"},
-			output: "border-radius.svg",
+			output: "border-radius",
 		},
 		{
 			input:  "test/input/artichoke.hs",
 			flags:  []string{"--border.radius", "8", "--window"},
-			output: "window.svg",
+			output: "window",
 		},
 		{
 			input:  "test/input/artichoke.hs",
 			flags:  []string{"--border.radius", "8", "--window", "--border.width", "1"},
-			output: "border-width.svg",
+			output: "border-width",
 		},
 		{
 			input:  "test/input/artichoke.hs",
 			flags:  []string{"--border.radius", "8", "--window", "--border.width", "1", "--padding", "30,50,30,30"},
-			output: "padding.svg",
+			output: "padding",
 		},
 		{
 			input:  "test/input/artichoke.hs",
 			flags:  []string{"--border.radius", "8", "--window", "--border.width", "1", "--padding", "30,50,30,30", "--margin", "50,60,100,60"},
-			output: "margin.svg",
+			output: "margin",
 		},
 		{
 			input:  "test/input/artichoke.hs",
 			flags:  []string{"--config", "full"},
-			output: "shadow.svg",
+			output: "shadow",
 		},
 		{
 			input:  "test/input/artichoke.hs",
 			flags:  []string{"--width", "1920", "--height", "1080"},
-			output: "dimensions.svg",
+			output: "dimensions",
 		},
 		{
 			input:  "test/input/artichoke.hs",
 			flags:  []string{"--margin", "50", "--width", "600", "--height", "300"},
-			output: "dimensions-margin.svg",
+			output: "dimensions-margin",
 		},
 		{
 			input:  "test/input/artichoke.hs",
 			flags:  []string{"--margin", "50", "--width", "600", "--height", "300", "--show-line-numbers"},
-			output: "dimensions-margin-line-numbers.svg",
+			output: "dimensions-margin-line-numbers",
 		},
 		{
 			input:  "test/input/artichoke.hs",
 			flags:  []string{"--padding", "50", "--width", "600", "--height", "300"},
-			output: "dimensions-padding.svg",
+			output: "dimensions-padding",
 		},
 		{
 			input:  "test/input/artichoke.hs",
 			flags:  []string{"--config", "full", "--width", "600", "--height", "300"},
-			output: "dimensions-config.svg",
+			output: "dimensions-config",
 		},
 		{
 			input:  "test/input/goreleaser-full.yml",
 			flags:  []string{"--config", "full", "--width", "600", "--height", "900"},
-			output: "overflow.svg",
+			output: "overflow",
 		},
 		{
 			input:  "test/input/artichoke.hs",
 			flags:  []string{"--config", "full", "--lines", "4,8", "--show-line-numbers"},
-			output: "lines.svg",
+			output: "lines",
 		},
 		{
 			input:  "test/input/artichoke.hs",
 			flags:  []string{"--font.size", "28"},
-			output: "font-size-28.svg",
+			output: "font-size-28",
 		},
 		{
 			input:  "test/input/artichoke.hs",
 			flags:  []string{"--font.size", "14"},
-			output: "font-size-14.svg",
+			output: "font-size-14",
 		},
 		{
 			input:  "test/input/artichoke.hs",
 			flags:  []string{"--line-height", "2"},
-			output: "line-height-2.svg",
+			output: "line-height-2",
 		},
 		{
 			input:  "test/input/goreleaser-full.yml",
 			flags:  []string{"--config", "full", "--height", "2000", "--show-line-numbers"},
-			output: "overflow-line-numbers.svg",
+			output: "overflow-line-numbers",
 		},
 	}
 
@@ -247,9 +247,11 @@ func TestFreezeConfigurations(t *testing.T) {
 
 	for _, tc := range tests {
 		t.Run(tc.output, func(t *testing.T) {
+			// output SVG
 			out := bytes.Buffer{}
-			args := append([]string{tc.input}, tc.flags...)
-			args = append(args, "--output", "test/output/"+tc.output)
+			args := []string{tc.input}
+			args = append(args, tc.flags...)
+			args = append(args, "--output", "test/output/"+tc.output+".svg")
 			cmd := exec.Command(binary, args...)
 			cmd.Stdout = &out
 			err := cmd.Run()
@@ -258,17 +260,31 @@ func TestFreezeConfigurations(t *testing.T) {
 				t.Log(out.String())
 				t.Fatal("unexpected error")
 			}
-			want, err := os.ReadFile("test/golden/" + tc.output)
+			want, err := os.ReadFile("test/golden/" + tc.output + ".svg")
 			if err != nil {
-				t.Fatal("no golden file for:", "test/golden/"+tc.output)
+				t.Fatal("no golden file for:", "test/golden/"+tc.output+".svg")
 			}
-			got, err := os.ReadFile("test/output/" + tc.output)
+			got, err := os.ReadFile("test/output/" + tc.output + ".svg")
 			if err != nil {
-				t.Fatal("no output file for:", "test/output/"+tc.output)
+				t.Fatal("no output file for:", "test/output/"+tc.output+".svg")
 			}
 			if string(want) != string(got) {
 				t.Log(udiff.Unified("want", "got", string(want), string(got)))
-				t.Fatalf("golden/%s != output/%s", tc.output, tc.output)
+				t.Fatalf("golden/%s.svg != output/%s.svg", tc.output, tc.output)
+			}
+
+			// output PNG
+			out = bytes.Buffer{}
+			args = []string{tc.input}
+			args = append(args, tc.flags...)
+			args = append(args, "--output", "test/output/"+tc.output+".png")
+			cmd = exec.Command(binary, args...)
+			cmd.Stdout = &out
+			err = cmd.Run()
+			if err != nil {
+				t.Log(err)
+				t.Log(out.String())
+				t.Fatal("unexpected error")
 			}
 		})
 	}

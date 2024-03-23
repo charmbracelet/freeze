@@ -24,7 +24,9 @@ freeze artichoke.hs -o artichoke.png
 ```
 
 <p align="center">
-  <img alt="output of freeze command, haskell code block" src="./test/golden/shadow.svg" width="800" />
+  <a href="https://github.com/charmbracelet/freeze/assets/42545625/f15efdda-8e9b-4cb1-9e87-3d32b692eb7c">
+    <img alt="output of freeze command, haskell code block" src="./test/golden/shadow.svg" width="800" />
+  </a>
 </p>
 
 ### Generate an image of terminal output

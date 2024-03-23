@@ -95,7 +95,7 @@ func main() {
 
 	scale = 1
 	if autoHeight && autoWidth && strings.HasSuffix(config.Output, ".png") {
-		scale = 2
+		scale = 4
 	}
 
 	config.Margin = expandMargin(config.Margin, scale)
