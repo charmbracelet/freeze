@@ -12,7 +12,7 @@ import (
 	"github.com/kanrichan/resvg-go"
 )
 
-func libsvgConvert(doc *etree.Document, w, _ float64, output string) error {
+func libsvgConvert(doc *etree.Document, w, h float64, output string) error {
 	_, err := exec.LookPath("rsvg-convert")
 	if err != nil {
 		return err
@@ -27,7 +27,9 @@ func libsvgConvert(doc *etree.Document, w, _ float64, output string) error {
 	// since it is faster.
 	rsvgConvert := exec.Command("rsvg-convert",
 		"--width", strconv.Itoa(int(w)),
-		"--keep-aspect-ratio",
+		"--height", strconv.Itoa(int(h)),
+		"--dpi-x", "192",
+		"--dpi-y", "192",
 		"-f", "png",
 		"-o", output,
 	)
@@ -70,7 +72,7 @@ func resvgConvert(doc *etree.Document, w, h float64, output string) error {
 	defer pixmap.Close()
 
 	tree, err := worker.NewTreeFromData(svg, &resvg.Options{
-		Dpi:                96,
+		Dpi:                192,
 		ShapeRenderingMode: resvg.ShapeRenderingModeGeometricPrecision,
 		TextRenderingMode:  resvg.TextRenderingModeOptimizeLegibility,
 		ImageRenderingMode: resvg.ImageRenderingModeOptimizeQuality,
