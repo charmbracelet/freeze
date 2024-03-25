@@ -1,3 +1,4 @@
 examples/*.svg filter=lfs diff=lfs merge=lfs -text
-taps/*.gif filter=lfs diff=lfs merge=lfs -text
+tapes/*.gif filter=lfs diff=lfs merge=lfs -text
 test/output/*.png filter=lfs diff=lfs merge=lfs -text
+test/golden/*.png filter=lfs diff=lfs merge=lfs -text
