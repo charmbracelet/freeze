@@ -5,7 +5,6 @@ import (
 	"context"
 	"os"
 	"os/exec"
-	"strconv"
 
 	"github.com/beevik/etree"
 	"github.com/charmbracelet/freeze/font"
@@ -25,14 +24,7 @@ func libsvgConvert(doc *etree.Document, w, h float64, output string) error {
 
 	// rsvg-convert is installed use that to convert the SVG to PNG,
 	// since it is faster.
-	rsvgConvert := exec.Command("rsvg-convert",
-		"--width", strconv.Itoa(int(w)),
-		"--height", strconv.Itoa(int(h)),
-		"--dpi-x", "192",
-		"--dpi-y", "192",
-		"-f", "png",
-		"-o", output,
-	)
+	rsvgConvert := exec.Command("rsvg-convert", "-o", output)
 	rsvgConvert.Stdin = bytes.NewReader(svg)
 	err = rsvgConvert.Run()
 	return err

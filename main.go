@@ -290,8 +290,9 @@ func main() {
 
 	if autoWidth {
 		longestLine := lipgloss.Width(strippedInput)
-		terminalWidth = float64(longestLine+1)*(config.Font.Size/fontHeightToWidthRatio) + hPadding
+		terminalWidth = float64(longestLine+1) * (config.Font.Size / fontHeightToWidthRatio)
 		terminalWidth *= scale
+		terminalWidth += hPadding
 		imageWidth = terminalWidth + hMargin
 	}
 
