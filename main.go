@@ -306,8 +306,8 @@ func main() {
 
 	if config.ShowLineNumbers {
 		if autoWidth {
-			terminalWidth += config.Font.Size * 3
-			imageWidth += config.Font.Size * 3
+			terminalWidth += config.Font.Size * 3 * scale
+			imageWidth += config.Font.Size * 3 * scale
 		} else {
 			terminalWidth -= config.Font.Size * 3
 		}
