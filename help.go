@@ -15,12 +15,11 @@ var highlighter = regexp.MustCompile("{{(.+?)}}")
 
 func helpPrinter(_ kong.HelpOptions, ctx *kong.Context) error {
 	codeBlockStyle := lipgloss.NewStyle().Background(lipgloss.Color("0")).MarginLeft(2).Padding(1, 2)
-	programStyle := lipgloss.NewStyle().Background(codeBlockStyle.GetBackground()).Foreground(lipgloss.Color("12")).PaddingLeft(1)
-	stringStyle := lipgloss.NewStyle().Background(codeBlockStyle.GetBackground()).Foreground(lipgloss.Color("3")).PaddingLeft(1)
-	argumentStyle := lipgloss.NewStyle().Background(codeBlockStyle.GetBackground()).Foreground(lipgloss.Color("7")).PaddingLeft(1)
+	programStyle := lipgloss.NewStyle().Background(codeBlockStyle.GetBackground()).Foreground(lipgloss.Color("#7E65FF")).PaddingLeft(1)
+	stringStyle := lipgloss.NewStyle().Background(codeBlockStyle.GetBackground()).Foreground(lipgloss.Color("#46CB8B")).PaddingLeft(1)
+	argumentStyle := lipgloss.NewStyle().Background(codeBlockStyle.GetBackground()).Foreground(lipgloss.Color("248")).PaddingLeft(1)
 	flagStyle := lipgloss.NewStyle().Background(codeBlockStyle.GetBackground()).Foreground(lipgloss.Color("244")).PaddingLeft(1)
-	titleStyle := lipgloss.NewStyle().Bold(true).Transform(strings.ToUpper).Margin(1, 0, 0, 2).Foreground(lipgloss.Color("#875FFF"))
-	// subtitleStyle := lipgloss.NewStyle().Bold(true).Margin(1, 0, 0, 4).Foreground(lipgloss.Color("7"))
+	titleStyle := lipgloss.NewStyle().Bold(true).Transform(strings.ToUpper).Margin(1, 0, 0, 2).Foreground(lipgloss.Color("#6C50FF"))
 
 	fmt.Println()
 	fmt.Println("  Generate images of code and terminal output. 📸")
