@@ -58,7 +58,7 @@ func helpPrinter(_ kong.HelpOptions, ctx *kong.Context) error {
 		}
 	}
 
-	fmt.Println(titleStyle.Render("Customization"))
+	fmt.Print(titleStyle.Render("Customization"))
 
 	for _, f := range flags {
 		if f.Hidden || f.Name == "help" || f.Group.Title == "Settings" {
