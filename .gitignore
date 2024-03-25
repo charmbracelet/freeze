@@ -1,3 +1,4 @@
 *.svg
+*.png
 !test/golden/*.svg
 !examples/*.svg

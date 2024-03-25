@@ -35,7 +35,7 @@ func (p *dispatcher) Print(r rune) {
 	if runewidth.RuneWidth(r) > 1 {
 		newChild := lastChild.Copy()
 		newChild.SetText(string(r))
-		newChild.CreateAttr("dx", fmt.Sprintf("%.2fpx", p.config.Font.Size/5))
+		newChild.CreateAttr("dx", fmt.Sprintf("%.2fpx", (p.config.Font.Size/5)*p.scale))
 		p.lines[p.row].AddChild(newChild)
 	} else {
 		lastChild.SetText(lastChild.Text() + string(r))
@@ -65,7 +65,7 @@ func (p *dispatcher) beginBackground(fill string) {
 	rect := etree.NewElement("rect")
 	rect.CreateAttr("fill", fill)
 
-	topOffset := p.config.Padding[top] + p.config.Margin[top] + ((p.config.Font.Size + p.config.LineHeight) / 5)
+	topOffset := p.config.Padding[top] + p.config.Margin[top] + (((p.config.Font.Size + p.config.LineHeight) / 5) * p.scale)
 	rowMultiplier := p.config.Font.Size * p.config.LineHeight
 
 	y := fmt.Sprintf("%.2fpx", float64(p.row)*rowMultiplier+topOffset)
