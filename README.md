@@ -3,8 +3,8 @@
 <p>
   <a href="https://stuff.charm.sh/freeze/freeze-4k.png"><img src="https://github.com/charmbracelet/freeze/assets/25087/de76b799-fa67-4b5b-8da2-d990ca5b4e06" width="500" /></a><br>
   <a href="https://github.com/charmbracelet/freeze/releases"><img src="https://img.shields.io/github/release/charmbracelet/freeze.svg" alt="Latest Release"></a>
+  <a href="https://github.com/charmbracelet/freeze/actions"><img src="https://github.com/charmbracelet/freeze/workflows/build/badge.svg" alt="Build Status"></a>
 </p>
-
 
 Generate images of code and terminal output.
 
@@ -36,6 +36,7 @@ You can use `freeze` to capture ANSI output of a terminal command with the
 ```bash
 freeze --execute "eza -lah"
 ```
+
 <p align="center">
   <a href="https://github.com/charmbracelet/freeze/assets/42545625/aa5447ed-999a-4809-909d-67093d758f5a">
     <img alt="output of freeze command, ANSI" src="./test/golden/eza.svg" width="800" />
@@ -189,7 +190,6 @@ Add window controls to the terminal, macOS-style.
 ```bash
 freeze artichoke.hs --window
 ```
-
 
 <a href="https://github.com/charmbracelet/freeze/assets/42545625/ba46bc4a-fb36-4718-88d4-f63b93343615">
   <img alt="output of freeze command, haskell code block with window controls applied" src="./test/golden/window.svg" width="600" />
