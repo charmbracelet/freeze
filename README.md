@@ -54,7 +54,7 @@ brew install charmbracelet/tap/freeze
 pacman -S freeze
 
 # Nix
-nix-env -iA nixpkgs.freeze
+nix-env -iA nixpkgs.charm-freeze
 ```
 
 Or, download it:
