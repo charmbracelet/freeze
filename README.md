@@ -48,7 +48,7 @@ Freeze is also [super customizable](#customization) and ships with an [interacti
 
 ```sh
 # macOS or Linux
-brew install freeze
+brew install charmbracelet/tap/freeze
 
 # Arch Linux (btw)
 pacman -S freeze
