@@ -80,7 +80,7 @@ Freeze features a fully interactive mode for easy customization.
 freeze --interactive
 ```
 
-<img alt="freeze interactive mode" src="./tapes/interactive.gif" width="400" />
+<img alt="freeze interactive mode" src="https://vhs.charm.sh/vhs-1AGhIlc2Mtn9Ltc8vPtaAP.gif" width="400" />
 
 Settings are written to `$XDG_CONFIG/freeze/user.json` and can be accessed with
 `freeze --config user`.
