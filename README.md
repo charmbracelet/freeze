@@ -256,6 +256,20 @@ freeze artichoke.hs --shadow.blur 20 --shadow.x 0 --shadow.y 10
   <img alt="output of freeze command, haskell code block with a shadow" src="./test/golden/shadow.svg" width="720" />
 </a>
 
+## Screenshot TUIs
+
+Use `tmux capture-pane` to generate screenshots of TUIs.
+
+Run your TUI in `tmux` and get it to the state you want to capture.
+Next, use `capture-pane` to capture the pane and pipe that to freeze.
+
+```bash
+hx # in a separate pane
+tmux capture-pane -pet 1 | freeze -c full
+```
+
+<img width="650px" src="https://github.com/charmbracelet/freeze/assets/42545625/28e30056-25d9-4dcc-a773-bdc385e00a6d" alt="helix captured with freeze">
+
 ## Configuration
 
 Freeze also supports configuration via a JSON file which can be passed with the
