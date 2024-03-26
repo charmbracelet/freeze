@@ -7,14 +7,12 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/alecthomas/chroma/styles"
+	"github.com/alecthomas/chroma/v2/styles"
 	"github.com/charmbracelet/huh"
 	"github.com/charmbracelet/lipgloss"
 )
 
-var (
-	green = lipgloss.Color("#03BF87")
-)
+var green = lipgloss.Color("#03BF87")
 
 func runForm(config *Config) (*Config, error) {
 	var (

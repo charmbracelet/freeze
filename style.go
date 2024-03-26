@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/alecthomas/chroma"
-	"github.com/alecthomas/chroma/styles"
+	"github.com/alecthomas/chroma/v2"
+	"github.com/alecthomas/chroma/v2/styles"
 )
 
 var charmStyle = styles.Register(chroma.MustNewStyle("charm", chroma.StyleEntries{

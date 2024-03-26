@@ -10,10 +10,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/alecthomas/chroma"
-	formatter "github.com/alecthomas/chroma/formatters/svg"
-	"github.com/alecthomas/chroma/lexers"
-	"github.com/alecthomas/chroma/styles"
+	"github.com/alecthomas/chroma/v2"
+	formatter "github.com/alecthomas/chroma/v2/formatters/svg"
+	"github.com/alecthomas/chroma/v2/lexers"
+	"github.com/alecthomas/chroma/v2/styles"
 	"github.com/alecthomas/kong"
 	"github.com/beevik/etree"
 	in "github.com/charmbracelet/freeze/input"
@@ -25,8 +25,10 @@ import (
 	"golang.org/x/net/context"
 )
 
-const defaultFontSize = 14.0
-const defaultLineHeight = 1.2
+const (
+	defaultFontSize   = 14.0
+	defaultLineHeight = 1.2
+)
 
 func main() {
 	var (
