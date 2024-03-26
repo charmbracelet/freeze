@@ -6,7 +6,7 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/alecthomas/chroma/formatters/svg"
+	"github.com/alecthomas/chroma/v2/formatters/svg"
 	"github.com/charmbracelet/freeze/font"
 )
 
