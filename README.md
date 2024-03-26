@@ -38,9 +38,10 @@ You can use `freeze` to capture ANSI output of a terminal command with the
 freeze --execute "eza -lah"
 ```
 <p align="center">
-  <img alt="output of freeze command, ANSI" src="./test/golden/eza.svg" width="800" />
+  <a href="https://github.com/charmbracelet/freeze/assets/42545625/aa5447ed-999a-4809-909d-67093d758f5a">
+    <img alt="output of freeze command, ANSI" src="./test/golden/eza.svg" width="800" />
+  </a>
 </p>
-
 
 Freeze is also [super customizable](#customization) and ships with an [interactive TUI](#interactive-mode).
 
@@ -120,7 +121,10 @@ cat artichoke.hs | freeze --language haskell
 ```
 
 <br />
-<img alt="output of freeze command, haskell code block" src="./test/golden/haskell.svg" width="600" />
+
+<a href="https://github.com/charmbracelet/freeze/assets/42545625/d746f028-3d51-4bfd-ba81-94bbc47b3587">
+  <img alt="output of freeze command, haskell code block" src="./test/golden/haskell.svg" width="600" />
+</a>
 
 ### Theme
 
@@ -130,7 +134,11 @@ Change the color theme.
 freeze artichoke.hs --theme dracula
 ```
 
-<br /><img alt="output of freeze command, haskell code block" src="./test/golden/dracula.svg" width="600" />
+<br />
+
+<a href="https://github.com/charmbracelet/freeze/assets/42545625/c693dc80-89b8-43c6-a34e-2d49a332d0c7">
+  <img alt="output of freeze command, haskell code block" src="./test/golden/dracula.svg" width="600" />
+</a>
 
 ### Output
 
@@ -170,7 +178,10 @@ freeze artichoke.hs --border.radius 8
 ```
 
 <br />
-<img alt="code screenshot with corner radius of 8px" src="./test/golden/border-radius.svg" width="600" />
+
+<a href="https://github.com/charmbracelet/freeze/assets/42545625/50932b10-56fd-4312-adbd-f64b36a15441">
+  <img alt="code screenshot with corner radius of 8px" src="./test/golden/border-radius.svg" width="600" />
+</a>
 
 ### Window
 
@@ -180,8 +191,10 @@ Add window controls to the terminal, macOS-style.
 freeze artichoke.hs --window
 ```
 
-<br />
-<img alt="output of freeze command, haskell code block with window controls applied" src="./test/golden/window.svg" width="600" />
+
+<a href="https://github.com/charmbracelet/freeze/assets/42545625/ba46bc4a-fb36-4718-88d4-f63b93343615">
+  <img alt="output of freeze command, haskell code block with window controls applied" src="./test/golden/window.svg" width="600" />
+</a>
 
 ### Border Width
 
@@ -192,7 +205,10 @@ freeze artichoke.hs --border.width 1 --border.color "#515151" --border.radius 8
 ```
 
 <br />
-<img alt="output of freeze command, haskell code block with border applied" src="./test/golden/border-width.svg" width="600" />
+
+<a href="https://github.com/charmbracelet/freeze/assets/42545625/b9207976-50fe-479b-974b-e1bf2ad1684c">
+  <img alt="output of freeze command, haskell code block with border applied" src="./test/golden/border-width.svg" width="600" />
+</a>
 
 ### Padding
 
@@ -205,7 +221,10 @@ freeze main.go --padding 20,60,20,40 # top, right, bottom, left
 ```
 
 <br />
-<img alt="output of freeze command, haskell code block with padding applied" src="./test/golden/padding.svg" width="600" />
+
+<a href="https://github.com/charmbracelet/freeze/assets/42545625/41da80bb-a6d8-402b-9f14-c73050720c0f">
+  <img alt="output of freeze command, haskell code block with padding applied" src="./test/golden/padding.svg" width="600" />
+</a>
 
 ### Margin
 
@@ -218,7 +237,10 @@ freeze main.go --margin 20,60,20,40 # top, right, bottom, left
 ```
 
 <br />
-<img alt="output of freeze command, haskell code block with margin applied" src="./test/golden/margin.svg" width="720" />
+
+<a href="https://github.com/charmbracelet/freeze/assets/42545625/eca78a8e-2dbc-4cfa-81da-6c2194925238">
+  <img alt="output of freeze command, haskell code block with margin applied" src="./test/golden/margin.svg" width="720" />
+</a>
 
 ### Shadow
 
@@ -229,7 +251,10 @@ freeze artichoke.hs --shadow.blur 20 --shadow.x 0 --shadow.y 10
 ```
 
 <br />
-<img alt="output of freeze command, haskell code block with a shadow" src="./test/golden/shadow.svg" width="720" />
+
+<a href="https://github.com/charmbracelet/freeze/assets/42545625/b9a8cc17-5ec6-4004-941b-5ae1b65d2b18">
+  <img alt="output of freeze command, haskell code block with a shadow" src="./test/golden/shadow.svg" width="720" />
+</a>
 
 ## Configuration
 
