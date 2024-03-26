@@ -3,6 +3,7 @@ package main
 import (
 	"os"
 	"os/exec"
+	"syscall"
 
 	"github.com/creack/pty"
 )
@@ -11,9 +12,9 @@ import (
 // The returned file is the pty's file descriptor and must be closed by the
 // caller.
 func (cfg Config) runInPty(c *exec.Cmd) (*os.File, error) {
-	return pty.StartWithSize(c, &pty.Winsize{
+	return pty.StartWithAttrs(c, &pty.Winsize{
 		Cols: 80,
 		Rows: 10,
 		X:    uint16(cfg.Width),
-	})
+	}, &syscall.SysProcAttr{})
 }
