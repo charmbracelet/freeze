@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"flag"
 	"fmt"
 	"os"
 	"os/exec"
@@ -13,7 +14,10 @@ import (
 
 const binary = "./test/freeze-test"
 
+var update = flag.Bool("update", false, "update golden files")
+
 func TestMain(m *testing.M) {
+	flag.Parse()
 	cmd := exec.Command("go", "build", "-o", binary)
 	err := cmd.Run()
 	if err != nil {
@@ -56,7 +60,6 @@ func TestFreezeHelp(t *testing.T) {
 	cmd := exec.Command(binary)
 	cmd.Stdout = &out
 	err := cmd.Run()
-
 	if err != nil {
 		t.Fatal("unexpected error")
 	}
@@ -260,17 +263,25 @@ func TestFreezeConfigurations(t *testing.T) {
 				t.Log(out.String())
 				t.Fatal("unexpected error")
 			}
-			want, err := os.ReadFile("test/golden/" + tc.output + ".svg")
+			gotfile := "test/output/" + tc.output + ".svg"
+			got, err := os.ReadFile(gotfile)
 			if err != nil {
-				t.Fatal("no golden file for:", "test/golden/"+tc.output+".svg")
+				t.Fatal("no output file for:", gotfile)
 			}
-			got, err := os.ReadFile("test/output/" + tc.output + ".svg")
+			goldenfile := "test/golden/" + tc.output + ".svg"
+			if *update {
+				if err := os.WriteFile(goldenfile, got, 0644); err != nil {
+					t.Log(err)
+					t.Fatal("unexpected error")
+				}
+			}
+			want, err := os.ReadFile(goldenfile)
 			if err != nil {
-				t.Fatal("no output file for:", "test/output/"+tc.output+".svg")
+				t.Fatal("no golden file for:", goldenfile)
 			}
 			if string(want) != string(got) {
 				t.Log(udiff.Unified("want", "got", string(want), string(got)))
-				t.Fatalf("golden/%s.svg != output/%s.svg", tc.output, tc.output)
+				t.Fatalf("%s != %s", goldenfile, gotfile)
 			}
 
 			// output PNG
