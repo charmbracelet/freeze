@@ -8,6 +8,7 @@ require (
 	github.com/alecthomas/kong v0.9.0
 	github.com/aymanbagabas/go-udiff v0.2.0
 	github.com/beevik/etree v1.3.0
+	github.com/caarlos0/go-shellwords v1.0.12
 	github.com/charmbracelet/huh v0.3.1-0.20240321161533-278656239a9d
 	github.com/charmbracelet/lipgloss v0.10.1-0.20240322201939-b71dd1266410
 	github.com/charmbracelet/log v0.4.0

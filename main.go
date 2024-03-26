@@ -16,6 +16,7 @@ import (
 	"github.com/alecthomas/chroma/v2/styles"
 	"github.com/alecthomas/kong"
 	"github.com/beevik/etree"
+	"github.com/caarlos0/go-shellwords"
 	in "github.com/charmbracelet/freeze/input"
 	"github.com/charmbracelet/freeze/svg"
 	"github.com/charmbracelet/lipgloss"
@@ -395,7 +396,10 @@ func main() {
 }
 
 func executeCommand(config Config) string {
-	args := strings.Split(config.Execute, " ")
+	args, err := shellwords.Parse(config.Execute)
+	if err != nil {
+		printErrorFatal("Something went wrong", err)
+	}
 	ctx, _ := context.WithTimeout(context.Background(), config.ExecuteTimeout)
 	cmd := exec.CommandContext(ctx, args[0], args[1:]...)
 	pty, err := config.runInPty(cmd)
