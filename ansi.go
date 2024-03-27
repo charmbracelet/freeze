@@ -82,6 +82,9 @@ func (p *dispatcher) endBackground() {
 	}
 
 	width := (float64(p.bgWidth) + 0.5) * p.scale
+	if p.bgWidth == 0 {
+		width = 0
+	}
 
 	p.bg.CreateAttr("width", fmt.Sprintf("%.5fpx", width*(p.config.Font.Size/fontHeightToWidthRatio)))
 	p.svg.InsertChildAt(0, p.bg)
