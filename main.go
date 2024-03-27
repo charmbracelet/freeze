@@ -79,10 +79,10 @@ func main() {
 	}
 
 	if config.Interactive {
-		cfg, interativeErr := runForm(&config)
+		cfg, interactiveErr := runForm(&config)
 		config = *cfg
-		if interativeErr != nil {
-			printErrorFatal("", interativeErr)
+		if interactiveErr != nil {
+			printErrorFatal("", interactiveErr)
 		}
 		if isDefaultConfig {
 			_ = saveUserConfig(*cfg)
