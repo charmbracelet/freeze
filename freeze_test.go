@@ -240,7 +240,7 @@ func TestFreezeConfigurations(t *testing.T) {
 		},
 		{
 			input:  "test/input/helix.ansi",
-			flags:  []string{},
+			flags:  []string{"--background", "#0d1116"},
 			output: "helix",
 		},
 		{
