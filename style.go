@@ -31,5 +31,5 @@ var charmStyle = styles.Register(chroma.MustNewStyle("charm", chroma.StyleEntrie
 	chroma.GenericInserted:     "#00D787",
 	chroma.GenericStrong:       "bold",
 	chroma.GenericSubheading:   "#777777",
-	chroma.Background:          "bg:#171717",
+	// chroma.Background:          "bg:#171717",
 }))

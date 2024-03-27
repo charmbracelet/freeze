@@ -152,6 +152,9 @@ func main() {
 	if s == nil || !ok {
 		s = charmStyle
 	}
+	if !s.Has(chroma.Background) {
+		s, err = s.Builder().Add(chroma.Background, "bg:"+config.Background).Build()
+	}
 
 	// Create a token iterator.
 	var it chroma.Iterator
