@@ -15,6 +15,7 @@ import (
 const binary = "./test/freeze-test"
 
 var update = flag.Bool("update", false, "update golden files")
+var png = flag.Bool("png", false, "update pngs")
 
 func TestMain(m *testing.M) {
 	flag.Parse()
@@ -237,13 +238,31 @@ func TestFreezeConfigurations(t *testing.T) {
 			flags:  []string{"--config", "full", "--height", "2000", "--show-line-numbers"},
 			output: "overflow-line-numbers",
 		},
+		{
+			input:  "test/input/helix.ansi",
+			flags:  []string{},
+			output: "helix",
+		},
+		{
+			input:  "test/input/glow.ansi",
+			flags:  []string{},
+			output: "glow",
+		},
 	}
 
-	err := os.RemoveAll("test/output")
+	err := os.RemoveAll("test/output/svg")
 	if err != nil {
 		t.Fatal("unable to remove output files")
 	}
-	err = os.Mkdir("test/output", 0755)
+	err = os.MkdirAll("test/output/svg", 0755)
+	if err != nil {
+		t.Fatal("unable to create output directory")
+	}
+	err = os.MkdirAll("test/golden/svg", 0755)
+	if err != nil {
+		t.Fatal("unable to create output directory")
+	}
+	err = os.MkdirAll("test/output/png", 0755)
 	if err != nil {
 		t.Fatal("unable to create output directory")
 	}
@@ -254,7 +273,7 @@ func TestFreezeConfigurations(t *testing.T) {
 			out := bytes.Buffer{}
 			args := []string{tc.input}
 			args = append(args, tc.flags...)
-			args = append(args, "--output", "test/output/"+tc.output+".svg")
+			args = append(args, "--output", "test/output/svg/"+tc.output+".svg")
 			cmd := exec.Command(binary, args...)
 			cmd.Stdout = &out
 			err := cmd.Run()
@@ -263,12 +282,12 @@ func TestFreezeConfigurations(t *testing.T) {
 				t.Log(out.String())
 				t.Fatal("unexpected error")
 			}
-			gotfile := "test/output/" + tc.output + ".svg"
+			gotfile := "test/output/svg/" + tc.output + ".svg"
 			got, err := os.ReadFile(gotfile)
 			if err != nil {
 				t.Fatal("no output file for:", gotfile)
 			}
-			goldenfile := "test/golden/" + tc.output + ".svg"
+			goldenfile := "test/golden/svg/" + tc.output + ".svg"
 			if *update {
 				if err := os.WriteFile(goldenfile, got, 0644); err != nil {
 					t.Log(err)
@@ -285,17 +304,19 @@ func TestFreezeConfigurations(t *testing.T) {
 			}
 
 			// output PNG
-			out = bytes.Buffer{}
-			args = []string{tc.input}
-			args = append(args, tc.flags...)
-			args = append(args, "--output", "test/output/"+tc.output+".png")
-			cmd = exec.Command(binary, args...)
-			cmd.Stdout = &out
-			err = cmd.Run()
-			if err != nil {
-				t.Log(err)
-				t.Log(out.String())
-				t.Fatal("unexpected error")
+			if png != nil && *png {
+				out = bytes.Buffer{}
+				args = []string{tc.input}
+				args = append(args, tc.flags...)
+				args = append(args, "--output", "test/output/png/"+tc.output+".png")
+				cmd = exec.Command(binary, args...)
+				cmd.Stdout = &out
+				err = cmd.Run()
+				if err != nil {
+					t.Log(err)
+					t.Log(out.String())
+					t.Fatal("unexpected error")
+				}
 			}
 		})
 	}

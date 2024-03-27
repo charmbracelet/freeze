@@ -4,4 +4,4 @@ test:
 	go test ./...
 
 golden:
-	cp test/output/* test/golden
+	cp -r test/output/* test/golden

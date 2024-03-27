@@ -58,10 +58,6 @@ func (p *dispatcher) Execute(code byte) {
 const fontHeightToWidthRatio = 1.68
 
 func (p *dispatcher) beginBackground(fill string) {
-	if p.col == 0 {
-		return
-	}
-
 	rect := etree.NewElement("rect")
 	rect.CreateAttr("fill", fill)
 
@@ -151,6 +147,7 @@ func (p *dispatcher) CsiDispatch(marker byte, params [][]uint, inter byte, final
 				i += 3
 			}
 		case 48:
+			p.endBackground()
 			i++
 			switch params[i][0] {
 			case 5:
