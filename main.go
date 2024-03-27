@@ -406,7 +406,9 @@ func executeCommand(config Config) string {
 	if err != nil {
 		printErrorFatal("Something went wrong", err)
 	}
-	ctx, _ := context.WithTimeout(context.Background(), config.ExecuteTimeout)
+	ctx, cancel := context.WithTimeout(context.Background(), config.ExecuteTimeout)
+	defer cancel()
+
 	cmd := exec.CommandContext(ctx, args[0], args[1:]...)
 	pty, err := config.runInPty(cmd)
 	if err != nil {
