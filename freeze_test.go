@@ -248,6 +248,11 @@ func TestFreezeConfigurations(t *testing.T) {
 			flags:  []string{},
 			output: "glow",
 		},
+		{
+			input:  "test/input/tab.go",
+			flags:  []string{},
+			output: "tab",
+		},
 	}
 
 	err := os.RemoveAll("test/output/svg")
