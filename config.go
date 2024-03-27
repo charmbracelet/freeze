@@ -2,7 +2,6 @@ package main
 
 import (
 	"embed"
-	_ "embed"
 	"encoding/json"
 	"io/fs"
 	"os"

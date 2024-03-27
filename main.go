@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"errors"
 	"fmt"
 	"io"
@@ -23,7 +24,6 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/charmbracelet/x/exp/term/ansi"
 	"github.com/mattn/go-isatty"
-	"golang.org/x/net/context"
 )
 
 const (
