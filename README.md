@@ -267,7 +267,7 @@ hx # in a separate pane
 tmux capture-pane -pet 1 | freeze -c full
 ```
 
-<img width="650px" src="https://github.com/charmbracelet/freeze/assets/42545625/28e30056-25d9-4dcc-a773-bdc385e00a6d" alt="helix captured with freeze">
+<img width="650px" src="./test/golden/svg/helix.svg" alt="helix captured with freeze">
 
 ## Configuration
 
