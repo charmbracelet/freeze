@@ -154,6 +154,9 @@ func main() {
 	}
 	if !s.Has(chroma.Background) {
 		s, err = s.Builder().Add(chroma.Background, "bg:"+config.Background).Build()
+		if err != nil {
+			printErrorFatal("Could not add background", err)
+		}
 	}
 
 	// Create a token iterator.
