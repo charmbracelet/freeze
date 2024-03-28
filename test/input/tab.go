@@ -22,9 +22,6 @@ type Config struct {
 
 func Load() (*Config, error) {
 	var c Config
-	err := parseStruct(&c, "")
-	if err != nil {
-		return nil, err
-	}
-	return &c, nil
+	var err error
+	return &c, err
 }
