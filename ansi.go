@@ -48,7 +48,12 @@ func (p *dispatcher) Print(r rune) {
 }
 
 func (p *dispatcher) Execute(code byte) {
-	if code == 0x0A {
+	if code == '\t' {
+		for p.col%16 != 0 {
+			p.Print(' ')
+		}
+	}
+	if code == '\n' {
 		p.endBackground()
 		p.row++
 		p.col = 0
