@@ -298,7 +298,11 @@ func main() {
 	}
 
 	if autoWidth {
-		longestLine := lipgloss.Width(strings.ReplaceAll(strippedInput, "\t", "      "))
+		tabWidth := 4
+		if isAnsi {
+			tabWidth = 6
+		}
+		longestLine := lipgloss.Width(strings.ReplaceAll(strippedInput, "\t", strings.Repeat(" ", tabWidth)))
 		terminalWidth = float64(longestLine+1) * (config.Font.Size / fontHeightToWidthRatio)
 		terminalWidth *= scale
 		terminalWidth += hPadding
