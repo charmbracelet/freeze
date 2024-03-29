@@ -48,11 +48,11 @@ func main() {
 	// Copy the pty output to buffer
 	if config.Execute != "" {
 		input, err = executeCommand(config)
-		if input == "" {
-			printErrorFatal("Something went wrong", errors.New("no command output"))
-		}
 		if err != nil {
 			printErrorFatal("Something went wrong", err)
+		}
+		if input == "" {
+			printErrorFatal("Something went wrong", errors.New("no command output"))
 		}
 	}
 
