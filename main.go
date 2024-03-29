@@ -2,12 +2,9 @@ package main
 
 import (
 	"bytes"
-	"context"
 	"errors"
 	"fmt"
-	"io"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"strings"
 
@@ -17,7 +14,6 @@ import (
 	"github.com/alecthomas/chroma/v2/styles"
 	"github.com/alecthomas/kong"
 	"github.com/beevik/etree"
-	"github.com/caarlos0/go-shellwords"
 	in "github.com/charmbracelet/freeze/input"
 	"github.com/charmbracelet/freeze/svg"
 	"github.com/charmbracelet/lipgloss"
@@ -51,7 +47,13 @@ func main() {
 
 	// Copy the pty output to buffer
 	if config.Execute != "" {
-		input = executeCommand(config)
+		input, err = executeCommand(config)
+		if err != nil {
+			printErrorFatal("Something went wrong", err)
+		}
+		if input == "" {
+			printErrorFatal("Something went wrong", errors.New("no command output"))
+		}
 	}
 
 	isDefaultConfig := config.Config == "default"
@@ -403,31 +405,6 @@ func main() {
 			printErrorFatal("Unable to write output", err)
 		}
 	}
-}
-
-func executeCommand(config Config) string {
-	args, err := shellwords.Parse(config.Execute)
-	if err != nil {
-		printErrorFatal("Something went wrong", err)
-	}
-	ctx, cancel := context.WithTimeout(context.Background(), config.ExecuteTimeout)
-	defer cancel()
-
-	cmd := exec.CommandContext(ctx, args[0], args[1:]...)
-	pty, err := config.runInPty(cmd)
-	if err != nil {
-		printErrorFatal("Something went wrong", err)
-	}
-	defer pty.Close()
-	var out bytes.Buffer
-	go func() {
-		_, _ = io.Copy(&out, pty)
-	}()
-	err = cmd.Wait()
-	if err != nil {
-		printError("Command failed", err)
-	}
-	return out.String()
 }
 
 var outputHeader = lipgloss.NewStyle().Foreground(lipgloss.Color("#F1F1F1")).Background(lipgloss.Color("#6C50FF")).Bold(true).Padding(0, 1).MarginRight(1).SetString("WROTE")
