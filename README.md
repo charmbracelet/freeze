@@ -56,6 +56,9 @@ pacman -S freeze
 
 # Nix
 nix-env -iA nixpkgs.charm-freeze
+
+# Nix (using flake)
+nix profile install github:charmbracelet/freeze
 ```
 
 Or, download it:
