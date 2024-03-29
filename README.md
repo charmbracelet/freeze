@@ -279,7 +279,8 @@ There are also some default configurations built into `freeze` which can be pass
 
 - `base`: Simple screenshot of code.
 - `full`: macOS-like screenshot.
-- `user`: Uses `~/.config/freeze/user.json`.
+- `user`: Uses `~/.config/freeze/user.json`. On macOS, config file is available under
+  `~/Library/Application\ Support/freeze/user.json`
 
 If you use `--interactive` mode, a configuration file will be created for you at
 `~/.config/freeze/user.json`. This will be the default configuration file used
@@ -289,6 +290,7 @@ in your screenshots.
 freeze -c base main.go
 freeze -c full main.go
 freeze -c user main.go # alias for ~/.config/freeze/user.json
+freeze -c user main.go # alias for ~/Library/Application\ Support/freeze/user.json on macOS
 freeze -c ./custom.json main.go
 ```
 
