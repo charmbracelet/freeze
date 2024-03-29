@@ -27,8 +27,3 @@ jobs:
 
       #- name: Test
       #  run: go test -v -cover -timeout=30s ./...
-
-  snapshot:
-    uses: charmbracelet/meta/.github/workflows/snapshot.yml@main
-    secrets:
-      goreleaser_key: ${{ secrets.GORELEASER_KEY }}
