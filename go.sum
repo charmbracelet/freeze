@@ -30,6 +30,8 @@ github.com/charmbracelet/lipgloss v0.10.1-0.20240325130315-f16ea2bdcb88 h1:mgadl
 github.com/charmbracelet/lipgloss v0.10.1-0.20240325130315-f16ea2bdcb88/go.mod h1:7V+J+a41Lz/77Nsya9Srb7WFRj02LvdMcAXZtc4zroQ=
 github.com/charmbracelet/log v0.4.0 h1:G9bQAcx8rWA2T3pWvx7YtPTPwgqpk7D68BX21IRW8ZM=
 github.com/charmbracelet/log v0.4.0/go.mod h1:63bXt/djrizTec0l11H20t8FDSvA4CRZJ1KH22MdptM=
+github.com/charmbracelet/x/errors v0.0.0-20240117030013-d31dba354651 h1:3RXpZWGWTOeVXCTv0Dnzxdv/MhNUkBfEcbaTY0zrTQI=
+github.com/charmbracelet/x/errors v0.0.0-20240117030013-d31dba354651/go.mod h1:2P0UgXMEa6TsToMSuFqKFQR+fZTO9CNGUNokkPatT/0=
 github.com/charmbracelet/x/exp/strings v0.0.0-20240327191656-1e1cd98f30d4 h1:E3qdydPjQJIGnT6t6lY0P70sou+Vmh+VcQHAYR4qTtA=
 github.com/charmbracelet/x/exp/strings v0.0.0-20240327191656-1e1cd98f30d4/go.mod h1:pBhA0ybfXv6hDjQUZ7hk1lVxBiUbupdw5R31yPUViVQ=
 github.com/charmbracelet/x/exp/term v0.0.0-20240327191656-1e1cd98f30d4 h1:WckoQq/mT+RkBq1JaCWNp65snXleZzQEEu/c3AL0TTU=

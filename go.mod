@@ -17,6 +17,7 @@ require (
 	github.com/kanrichan/resvg-go v0.0.2-0.20231001163256-63db194ca9f5
 	github.com/mattn/go-isatty v0.0.20
 	github.com/mattn/go-runewidth v0.0.15
+	golang.org/x/sys v0.18.0
 )
 
 require (
@@ -25,6 +26,7 @@ require (
 	github.com/catppuccin/go v0.2.0 // indirect
 	github.com/charmbracelet/bubbles v0.18.0 // indirect
 	github.com/charmbracelet/bubbletea v0.25.0 // indirect
+	github.com/charmbracelet/x/errors v0.0.0-20240117030013-d31dba354651 // indirect
 	github.com/charmbracelet/x/exp/strings v0.0.0-20240327191656-1e1cd98f30d4 // indirect
 	github.com/containerd/console v1.0.4 // indirect
 	github.com/dlclark/regexp2 v1.11.0 // indirect
@@ -40,7 +42,6 @@ require (
 	github.com/tetratelabs/wazero v1.7.0 // indirect
 	golang.org/x/exp v0.0.0-20240325151524-a685a6edb6d8 // indirect
 	golang.org/x/sync v0.6.0 // indirect
-	golang.org/x/sys v0.18.0 // indirect
 	golang.org/x/term v0.18.0 // indirect
 	golang.org/x/text v0.14.0 // indirect
 )
