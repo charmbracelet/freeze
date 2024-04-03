@@ -4,6 +4,7 @@ import (
 	"fmt"
 
 	"github.com/beevik/etree"
+	"github.com/charmbracelet/x/exp/term/ansi"
 	"github.com/mattn/go-runewidth"
 )
 
@@ -16,6 +17,17 @@ type dispatcher struct {
 	row     int
 	col     int
 	bgWidth int
+}
+
+func (p *dispatcher) dispatch(s ansi.Sequence) {
+	switch s := s.(type) {
+	case ansi.Rune:
+		p.Print(rune(s))
+	case ansi.ControlCode:
+		p.Execute(byte(s))
+	case ansi.CsiSequence:
+		p.CsiDispatch(s)
+	}
 }
 
 func (p *dispatcher) Print(r rune) {
@@ -97,8 +109,8 @@ func (p *dispatcher) endBackground() {
 	p.bgWidth = 0
 }
 
-func (p *dispatcher) CsiDispatch(marker byte, params [][]uint, inter byte, final byte, ignore bool) {
-	if ignore || final != 'm' || marker != 0 {
+func (p *dispatcher) CsiDispatch(s ansi.CsiSequence) {
+	if s.Cmd != 'm' {
 		// ignore incomplete or non Style (SGR) sequences
 		return
 	}
@@ -113,15 +125,15 @@ func (p *dispatcher) CsiDispatch(marker byte, params [][]uint, inter byte, final
 		p.endBackground()
 	}
 
-	if len(params) == 0 {
+	if len(s.Params) == 0 {
 		// zero params means reset
 		reset()
 		return
 	}
 
 	var i int
-	for i < len(params) {
-		v := params[i][0]
+	for i < len(s.Params) {
+		v := s.Param(i)
 		switch v {
 		case 0:
 			reset()
@@ -142,29 +154,29 @@ func (p *dispatcher) CsiDispatch(marker byte, params [][]uint, inter byte, final
 			p.lines[p.row].AddChild(span)
 		case 38:
 			i++
-			switch params[i][0] {
+			switch s.Param(i) {
 			case 5:
-				n := params[i+1][0]
+				n := s.Param(i + 1)
 				i++
 				fill := palette[n]
 				span.CreateAttr("fill", fill)
 				p.lines[p.row].AddChild(span)
 			case 2:
-				span.CreateAttr("fill", fmt.Sprintf("#%02x%02x%02x", params[i+1][0], params[i+2][0], params[i+3][0]))
+				span.CreateAttr("fill", fmt.Sprintf("#%02x%02x%02x", s.Param(i+1), s.Param(i+2), s.Param(i+3)))
 				p.lines[p.row].AddChild(span)
 				i += 3
 			}
 		case 48:
 			p.endBackground()
 			i++
-			switch params[i][0] {
+			switch s.Param(i) {
 			case 5:
-				n := params[i+1][0]
+				n := s.Param(i + 1)
 				i++
 				fill := palette[n]
 				p.beginBackground(fill)
 			case 2:
-				fill := fmt.Sprintf("#%02x%02x%02x", params[i+1][0], params[i+2][0], params[i+3][0])
+				fill := fmt.Sprintf("#%02x%02x%02x", s.Param(i+1), s.Param(i+2), s.Param(i+3))
 				p.beginBackground(fill)
 				i += 3
 			}
@@ -175,7 +187,7 @@ func (p *dispatcher) CsiDispatch(marker byte, params [][]uint, inter byte, final
 	}
 }
 
-var ansiPalette = map[uint]string{
+var ansiPalette = map[int]string{
 	30: "#282a2e", // black
 	31: "#D74E6F", // red
 	32: "#31BB71", // green
