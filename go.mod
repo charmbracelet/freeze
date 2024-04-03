@@ -12,7 +12,7 @@ require (
 	github.com/charmbracelet/huh v0.3.1-0.20240327025511-ec643317aa10
 	github.com/charmbracelet/lipgloss v0.10.1-0.20240325130315-f16ea2bdcb88
 	github.com/charmbracelet/log v0.4.0
-	github.com/charmbracelet/x/exp/term v0.0.0-20240327191656-1e1cd98f30d4
+	github.com/charmbracelet/x/exp/term v0.0.0-20240403043919-dea9035a27d4
 	github.com/creack/pty v1.1.21
 	github.com/kanrichan/resvg-go v0.0.2-0.20231001163256-63db194ca9f5
 	github.com/mattn/go-isatty v0.0.20

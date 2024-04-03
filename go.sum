@@ -34,8 +34,8 @@ github.com/charmbracelet/x/errors v0.0.0-20240117030013-d31dba354651 h1:3RXpZWGW
 github.com/charmbracelet/x/errors v0.0.0-20240117030013-d31dba354651/go.mod h1:2P0UgXMEa6TsToMSuFqKFQR+fZTO9CNGUNokkPatT/0=
 github.com/charmbracelet/x/exp/strings v0.0.0-20240327191656-1e1cd98f30d4 h1:E3qdydPjQJIGnT6t6lY0P70sou+Vmh+VcQHAYR4qTtA=
 github.com/charmbracelet/x/exp/strings v0.0.0-20240327191656-1e1cd98f30d4/go.mod h1:pBhA0ybfXv6hDjQUZ7hk1lVxBiUbupdw5R31yPUViVQ=
-github.com/charmbracelet/x/exp/term v0.0.0-20240327191656-1e1cd98f30d4 h1:WckoQq/mT+RkBq1JaCWNp65snXleZzQEEu/c3AL0TTU=
-github.com/charmbracelet/x/exp/term v0.0.0-20240327191656-1e1cd98f30d4/go.mod h1:madZtB2OVDOG+ZnLruGITVZceYy047W+BLQ1MNQzbWg=
+github.com/charmbracelet/x/exp/term v0.0.0-20240403043919-dea9035a27d4 h1:LewLBFkff+bCxgMZn1m8xNYQbUksWaY71d1QARHA11s=
+github.com/charmbracelet/x/exp/term v0.0.0-20240403043919-dea9035a27d4/go.mod h1:6GZ13FjIP6eOCqWU4lqgveGnYxQo9c3qBzHPeFu4HBE=
 github.com/containerd/console v1.0.4 h1:F2g4+oChYvBTsASRTz8NP6iIAi97J3TtSAsLbIFn4ro=
 github.com/containerd/console v1.0.4/go.mod h1:YynlIjWYF8myEu6sdkwKIvGQq+cOckRm6So2avqoYAk=
 github.com/creack/pty v1.1.21 h1:1/QdRyBaHHJP61QkWMXlOIBfsgdDeeKfK8SYVUWJKf0=
