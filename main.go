@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"runtime/debug"
 	"strings"
 
 	"github.com/alecthomas/chroma/v2"
@@ -28,7 +29,19 @@ const (
 	defaultLineHeight = 1.2
 )
 
+var (
+	// Version contains the application version number. It's set via ldflags
+	// when building.
+	Version = ""
+
+	// CommitSHA contains the SHA of the commit that this application was built
+	// against. It's set via ldflags when building.
+	CommitSHA = ""
+)
+
 func main() {
+	const shaLen = 7
+
 	var (
 		input  string
 		err    error
@@ -44,6 +57,27 @@ func main() {
 	ctx, err := k.Parse(os.Args[1:])
 	if err != nil || ctx.Error != nil {
 		printErrorFatal("Invalid Usage", err)
+	}
+
+	if len(ctx.Args) > 0 {
+		switch ctx.Args[0] {
+
+		case "version":
+			if Version == "" {
+				if info, ok := debug.ReadBuildInfo(); ok && info.Main.Sum != "" {
+					Version = info.Main.Version
+				} else {
+					Version = "unknown (built from source)"
+				}
+			}
+			version := fmt.Sprintf("freeze version %s", Version)
+			if len(CommitSHA) >= shaLen {
+				version += " (" + CommitSHA[:shaLen] + ")"
+			}
+
+			fmt.Println(version)
+			os.Exit(0)
+		}
 	}
 
 	// Copy the pty output to buffer
