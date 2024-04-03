@@ -45,7 +45,7 @@ type Config struct {
 	// Line
 	LineHeight      float64 `json:"line_height" help:"Line height relative to font size." group:"Line" placeholder:"1.2"`
 	Lines           []int   `json:"-" help:"Lines to capture (start,end)." group:"Line" placeholder:"0,-1" value:"0,-1"`
-	ShowLineNumbers bool    `json:"line_numbers" help:"" group:"Line" placeholder:"false"`
+	ShowLineNumbers bool    `json:"show_line_numbers" help:"" group:"Line" placeholder:"false"`
 }
 
 // Shadow is the configuration options for a drop shadow.
