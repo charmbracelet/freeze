@@ -3,3 +3,4 @@
 !test/golden/**/*.svg
 !test/golden/**/*.png
 !examples/*.svg
+/result
