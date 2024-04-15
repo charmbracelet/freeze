@@ -150,7 +150,7 @@ func main() {
 		input, err = in.ReadInput(os.Stdin)
 		lexer = lexers.Analyse(input)
 	} else if config.Execute != "" {
-		config.Language = "ansi"
+		config.Language[0] = "ansi"
 	} else {
 		input, err = in.ReadFile(config.Input)
 		if err != nil {
@@ -159,8 +159,12 @@ func main() {
 		lexer = lexers.Get(config.Input)
 	}
 
-	if config.Language != "" {
-		lexer = lexers.Get(config.Language)
+	if config.Language[0] != "" && len(config.Language) == 1 {
+		lexer = lexers.Get(config.Language[0])
+	} else if len(config.Language) == 2 {
+		language := lexers.Get(config.Language[0])
+		root := lexers.Get(config.Language[1])
+		lexer = chroma.DelegatingLexer(root, language)
 	}
 
 	// adjust for 1-indexing
@@ -169,7 +173,7 @@ func main() {
 	}
 
 	var strippedInput string = ansi.Strip(input)
-	isAnsi := strings.ToLower(config.Language) == "ansi" || strippedInput != input
+	isAnsi := strings.ToLower(config.Language[0]) == "ansi" || strippedInput != input
 	strippedInput = cut(strippedInput, config.Lines)
 
 	if !isAnsi && lexer == nil {
