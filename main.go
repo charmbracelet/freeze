@@ -159,16 +159,16 @@ func main() {
 		lexer = lexers.Get(config.Input)
 	}
 
+	if len(config.Language) > 2 {
+		printErrorFatal("languages can only be two", errors.New("--language can have only two inputs"))
+	}
+
 	if config.Language[0] != "" && len(config.Language) == 1 {
 		lexer = lexers.Get(config.Language[0])
-	} else if len(config.Language) == 2 {
+	} else {
 		language := lexers.Get(config.Language[0])
 		root := lexers.Get(config.Language[1])
 		lexer = chroma.DelegatingLexer(root, language)
-	}
-
-	if len(config.Language) > 2 {
-		printErrorFatal("languages can only be two", errors.New("--language can have only two inputs"))
 	}
 
 	// adjust for 1-indexing
