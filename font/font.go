@@ -97,6 +97,9 @@ package font
 import (
 	_ "embed"
 	"encoding/base64"
+	"os"
+	"path/filepath"
+	"runtime"
 )
 
 //go:embed JetBrainsMono-Regular.ttf
@@ -107,3 +110,36 @@ var JetBrainsMonoNLTTF []byte
 
 var JetBrainsMono string = base64.StdEncoding.EncodeToString(JetBrainsMonoTTF)
 var JetBrainsMonoNL string = base64.StdEncoding.EncodeToString(JetBrainsMonoNLTTF)
+
+var DefaultFontsDirectories []string
+
+func init() {
+	switch runtime.GOOS {
+	case "windows":
+		DefaultFontsDirectories = []string{filepath.Join(os.Getenv("windir"), "Fonts")}
+	case "linux":
+		for _, d := range []string{
+			"/usr/share/fonts",
+			"/usr/local/share/fonts",
+		} {
+			entries, err := os.ReadDir(d)
+			if os.IsNotExist(err) || os.IsPermission(err) {
+				continue
+			}
+
+			for _, e := range entries {
+				if e.IsDir() {
+					DefaultFontsDirectories = append(DefaultFontsDirectories, filepath.Join(d, e.Name()))
+				}
+			}
+		}
+
+		DefaultFontsDirectories = []string{
+			"/usr/share/X11/fonts/Type1",
+			"/usr/share/X11/fonts/TTF",
+			filepath.Join(os.Getenv("HOME"), ".fonts"),
+		}
+	case "darwin":
+		DefaultFontsDirectories = []string{"/System/Library/Fonts/", "/Library/Fonts/"}
+	}
+}

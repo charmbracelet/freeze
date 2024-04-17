@@ -30,7 +30,7 @@ func libsvgConvert(doc *etree.Document, w, h float64, output string) error {
 	return err
 }
 
-func resvgConvert(doc *etree.Document, w, h float64, output string) error {
+func resvgConvert(doc *etree.Document, w, h float64, output, fontFile string) error {
 	svg, err := doc.WriteToBytes()
 	if err != nil {
 		return err
@@ -47,13 +47,31 @@ func resvgConvert(doc *etree.Document, w, h float64, output string) error {
 		printErrorFatal("Unable to write output", err)
 	}
 	defer fontdb.Close()
-	err = fontdb.LoadFontData(font.JetBrainsMonoTTF)
-	if err != nil {
-		printErrorFatal("Unable to load font", err)
-	}
-	err = fontdb.LoadFontData(font.JetBrainsMonoNLTTF)
-	if err != nil {
-		printErrorFatal("Unable to load font", err)
+
+	if fontFile == "" {
+		err = fontdb.LoadFontData(font.JetBrainsMonoTTF)
+		if err != nil {
+			printErrorFatal("Unable to load font", err)
+		}
+		err = fontdb.LoadFontData(font.JetBrainsMonoNLTTF)
+		if err != nil {
+			printErrorFatal("Unable to load font", err)
+		}
+
+		for _, d := range font.DefaultFontsDirectories {
+			err = fontdb.LoadFontsDir(d)
+			if err != nil {
+				if os.IsNotExist(err) || os.IsPermission(err) {
+					continue
+				}
+				printErrorFatal("Unable to load font dir", err)
+			}
+		}
+	} else {
+		err = fontdb.LoadFontFile(fontFile)
+		if err != nil {
+			printErrorFatal("Unable to load font", err)
+		}
 	}
 
 	pixmap, err := worker.NewPixmap(uint32(w), uint32(h))
