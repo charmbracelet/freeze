@@ -4,3 +4,4 @@
 !test/golden/**/*.png
 !examples/*.svg
 /result
+freeze

@@ -96,7 +96,7 @@ Screenshots can be customized with `--flags` or [Configuration](#configuration) 
 - [`-o`](#output), [`--output`](#output): Output location for .svg, .png, .jpg.
 - [`-c`](#configuration), [`--config`](#configuration): Base configuration file or template.
 - [`-t`](#theme), [`--theme`](#theme): Theme to use for syntax highlighting.
-- [`-l`](#language), [`--language`](#language): Language to apply to code
+- [`-l`](#language), [`--language`](#language): Languages to apply to code
 - [`-w`](#window), [`--window`](#window): Display window controls.
 - [`-m`](#margin), [`--margin`](#margin): Apply margin to the window.
 - [`-p`](#padding), [`--padding`](#padding): Apply padding to the code.
@@ -125,6 +125,12 @@ cat artichoke.hs | freeze --language haskell
 <a href="https://github.com/charmbracelet/freeze/assets/42545625/d746f028-3d51-4bfd-ba81-94bbc47b3587">
   <img alt="output of freeze command, Haskell code block" src="./test/golden/svg/haskell.svg" width="600" />
 </a>
+
+`freeze` also allows multi-language highlighting. Only two languages are supported.
+
+```bash
+freeze main.go --language go,c
+```
 
 ### Theme
 
