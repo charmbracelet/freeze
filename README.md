@@ -333,20 +333,20 @@ Here's what an example configuration looks like:
 
 ```json
 {
-	"window": false,
-	"border": {
-		"radius": 0,
-		"width": 0,
-		"color": "#515151"
-	},
-	"shadow": false,
-	"padding": [20, 40, 20, 20],
-	"margin": "0",
-	"font": {
-		"family": "JetBrains Mono",
-		"size": 14
-	},
-	"line_height": 1.2
+  "window": false,
+  "border": {
+    "radius": 0,
+    "width": 0,
+    "color": "#515151"
+  },
+  "shadow": false,
+  "padding": [20, 40, 20, 20],
+  "margin": "0",
+  "font": {
+    "family": "JetBrains Mono",
+    "size": 14
+  },
+  "line_height": 1.2
 }
 ```
 
@@ -374,4 +374,4 @@ Part of [Charm](https://charm.sh).
   />
 </a>
 
-Charm 热爱开源 • Charm loves open source
+Charm热爱开源 • Charm loves open source
