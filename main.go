@@ -88,8 +88,8 @@ func main() {
 		if input == "" {
 			printErrorFatal("Something went wrong", errors.New("no command output"))
 		}
-		if config.IncludeCmd {
-			input = "$ " + config.Execute + "\n" + input
+		if config.Command {
+			input = "> " + config.Execute + "\n" + input
 		}
 	}
 
