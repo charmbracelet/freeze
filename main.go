@@ -17,6 +17,7 @@ import (
 	"github.com/beevik/etree"
 	in "github.com/charmbracelet/freeze/input"
 	"github.com/charmbracelet/freeze/svg"
+	"github.com/charmbracelet/huh"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/log"
 	"github.com/charmbracelet/x/ansi"
@@ -132,6 +133,45 @@ func main() {
 
 	if config.Output == "" {
 		config.Output = defaultOutputFilename
+	}
+
+	istty := isatty.IsTerminal(os.Stdout.Fd())
+
+	// Check if file already exists
+	if _, err := os.Stat(config.Output); err == nil && istty {
+		var confirm bool
+		var newOutputFilename string
+
+		confirmOverwriteForm :=
+			huh.NewConfirm().
+				Title(fmt.Sprintf("'%s' already exists. Would you like to overwrite this file?", config.Output)).
+				Value(&confirm)
+
+		newOutputFileNameForm := huh.NewInput().
+			Title("Enter new output filename to use").
+			Value(&newOutputFilename)
+
+		err = confirmOverwriteForm.Run()
+		if err != nil {
+			printErrorFatal("could not retrive overwrite confirmation", err)
+		}
+
+		if !confirm {
+			err := newOutputFileNameForm.Run()
+			if err != nil {
+				printErrorFatal("could not retrieve new output filename to use", err)
+			}
+
+			fileInfo, err := os.Stat(newOutputFilename)
+			if err != nil {
+				printErrorFatal("could not retrieve new output filename info", err)
+			}
+
+			if fileInfo.IsDir() {
+				printErrorFatal(fmt.Sprintf("'%s' is a directory. Hence cannot overwrite to the given filename", newOutputFilename), errors.New("could not overwrite to filename"))
+			}
+			config.Output = newOutputFilename
+		}
 	}
 
 	scale = 1
@@ -392,8 +432,6 @@ func main() {
 			d.Execute(ansi.LF) // simulate a newline
 		}
 	}
-
-	istty := isatty.IsTerminal(os.Stdout.Fd())
 
 	switch {
 	case strings.HasSuffix(config.Output, ".png"):
