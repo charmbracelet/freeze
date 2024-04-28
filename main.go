@@ -388,8 +388,17 @@ func main() {
 
 	istty := isatty.IsTerminal(os.Stdout.Fd())
 
-	switch {
-	case strings.HasSuffix(config.Output, ".png"):
+	var format string
+
+	if config.Format != "" {
+		format = config.Format
+	} else {
+		parts := strings.Split(config.Output, ".")
+		format = parts[len(parts)-1]
+	}
+
+	switch format {
+	case "png":
 		// use libsvg conversion.
 		svgConversionErr := libsvgConvert(doc, imageWidth, imageHeight, config.Output)
 		if svgConversionErr == nil {

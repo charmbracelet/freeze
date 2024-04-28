@@ -32,6 +32,7 @@ type Config struct {
 	Theme       string `json:"theme" help:"Theme to use for syntax highlighting." short:"t" group:"Settings" placeholder:"charm"`
 
 	Output         string        `json:"output,omitempty" help:"Output location for {{.svg}}, {{.png}}, or {{.webp}}." short:"o" group:"Settings" default:"" placeholder:"freeze.svg"`
+	Format         string        `json:"format,omitempty" help:"Output format for file, {{.svg}}, {{.png}} or {{.webp}}." short:"f" group:"Settings" default:"svg" placeholder:"svc"`
 	Execute        string        `json:"-" help:"Capture output of command execution." short:"x" group:"Settings" default:""`
 	ExecuteTimeout time.Duration `json:"-" help:"Execution timeout." group:"Settings" default:"10s" prefix:"execute." name:"timeout" hidden:""`
 
