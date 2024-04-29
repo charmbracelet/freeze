@@ -452,11 +452,11 @@ func getFormat(config *Config) (string, error) {
 
 func getOutputFilename(config *Config, format string) string {
 	// always write to file if specified
-	if config.Output != "" {
+	if config.Output != "" && config.Output != "-" {
 		return config.Output
 	}
 
-	if !istty {
+	if !istty || config.Output == "-" {
 		return os.Stdout.Name()
 	}
 
