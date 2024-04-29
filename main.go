@@ -39,6 +39,8 @@ var (
 	CommitSHA = ""
 )
 
+var istty = isatty.IsTerminal(os.Stdout.Fd())
+
 func main() {
 	const shaLen = 7
 
@@ -386,24 +388,19 @@ func main() {
 		}
 	}
 
-	istty := isatty.IsTerminal(os.Stdout.Fd())
-
-	var format string
-
-	if config.Format != "" {
-		format = config.Format
-	} else {
-		parts := strings.Split(config.Output, ".")
-		format = parts[len(parts)-1]
+	format, err := getFormat(&config)
+	if err != nil {
+		printErrorFatal("Invalid output format", err)
 	}
 
-	switch format {
-	case "png":
+	output := getOutputFilename(&config, format)
+
+	if format == "png" {
 		// use libsvg conversion.
-		svgConversionErr := libsvgConvert(doc, imageWidth, imageHeight, config.Output)
+		svgConversionErr := libsvgConvert(doc, imageWidth, imageHeight, output)
 		if svgConversionErr == nil {
-			printFilenameOutput(config.Output)
-			break
+			printFilenameOutput(output)
+			return
 		}
 
 		// could not convert with libsvg, try resvg
@@ -411,49 +408,66 @@ func main() {
 		if svgConversionErr != nil {
 			printErrorFatal("Unable to convert SVG to PNG", svgConversionErr)
 		}
-		printFilenameOutput(config.Output)
 
-	default:
-		// output file specified.
-		if config.Output != "" {
-			err = doc.WriteToFile(config.Output)
-			if err != nil {
-				printErrorFatal("Unable to write output", err)
-			}
-			printFilenameOutput(config.Output)
-			return
-		}
+		printFilenameOutput(output)
 
-		// reading from stdin.
-		if config.Input == "" || config.Input == "-" {
-			if istty {
-				err = doc.WriteToFile(defaultOutputFilename)
-				printFilenameOutput(defaultOutputFilename)
-			} else {
-				_, err = doc.WriteTo(os.Stdout)
-			}
-			if err != nil {
-				printErrorFatal("Unable to write output", err)
-			}
-			return
-		}
-
-		// reading from file.
-		if istty {
-			config.Output = strings.TrimSuffix(filepath.Base(config.Input), filepath.Ext(config.Input)) + ".svg"
-			err = doc.WriteToFile(config.Output)
-			printFilenameOutput(config.Output)
-		} else {
-			_, err = doc.WriteTo(os.Stdout)
-		}
-		if err != nil {
-			printErrorFatal("Unable to write output", err)
-		}
+		return
 	}
+
+	err = doc.WriteToFile(output)
+	if err != nil {
+		printErrorFatal("Unable to write output", err)
+	}
+
+	printFilenameOutput(output)
 }
 
 var outputHeader = lipgloss.NewStyle().Foreground(lipgloss.Color("#F1F1F1")).Background(lipgloss.Color("#6C50FF")).Bold(true).Padding(0, 1).MarginRight(1).SetString("WROTE")
 
 func printFilenameOutput(filename string) {
+	if !istty {
+		return
+	}
+
 	fmt.Println(lipgloss.JoinHorizontal(lipgloss.Center, outputHeader.String(), filename))
+}
+
+func isAllowedFormat(format string) error {
+	if format == "svg" || format == "png" || format == "webp" {
+		return nil
+	}
+
+	return fmt.Errorf("%s is not a supported output file format, choose among png, svg and webp", format)
+}
+
+func getFormat(config *Config) (string, error) {
+	if config.Format != "" {
+		return config.Format, isAllowedFormat(config.Format)
+	}
+
+	ext := filepath.Ext(config.Output)
+
+	return ext, isAllowedFormat(ext)
+}
+
+func getOutputFilename(config *Config, format string) string {
+	// always write to file if specified
+	if config.Output != "" {
+		return config.Output
+	}
+
+	if !istty {
+		return os.Stdout.Name()
+	}
+
+	// no input filename AND no output filename
+	// no way to "deduce" the name
+	if config.Input == "" || config.Input == "-" {
+		return defaultOutputFilename
+	}
+
+	// no output filename, but some input filename
+	// now we need the format
+	// remove existing extension for the format of output
+	return strings.TrimSuffix(filepath.Base(config.Input), filepath.Ext(config.Input)) + "." + format
 }
