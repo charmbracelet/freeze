@@ -81,16 +81,16 @@ func TestFreezeOutput(t *testing.T) {
 }
 
 // read file from stdin
-func TestFreezeOutputInputStdin(t *testing.T) {
+func TestFreezeOutputWhenInputStdin(t *testing.T) {
 	output := "tab.svg"
 	defer os.Remove(output)
 
-	f, err := os.Open("test/input/tab.go")
+	inputMock, err := os.Open("test/input/tab.go")
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if err := freeze("-", output, f, nil); err != nil {
+	if err := freeze("-", output, inputMock, nil); err != nil {
 		t.Fatal(err)
 	}
 
@@ -101,7 +101,7 @@ func TestFreezeOutputInputStdin(t *testing.T) {
 }
 
 // fall back to default filename
-func TestFreezeOutputNoFilename(t *testing.T) {
+func TestFreezeOutputWhenNoOutputFilename(t *testing.T) {
 	defer os.Remove(defaultOutputFilename)
 
 	if err := freeze("test/input/tab.go", "", nil, nil); err != nil {
@@ -114,21 +114,21 @@ func TestFreezeOutputNoFilename(t *testing.T) {
 	}
 }
 
-func TestFreezeOutputToStdout(t *testing.T) {
-	output := "free_stdout.svg"
+func TestFreezeOutputWhenOutputStdout(t *testing.T) {
+	stdoutMock := "free_stdout.svg"
 
-	f, err := os.OpenFile(output, os.O_CREATE|os.O_WRONLY, 0750)
+	f, err := os.OpenFile(stdoutMock, os.O_CREATE|os.O_WRONLY, 0750)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	defer os.Remove(output)
+	defer os.Remove(stdoutMock)
 
 	if err := freeze("test/input/tab.go", "-", nil, f); err != nil {
 		t.Fatal(err)
 	}
 
-	i, err := os.Stat(output)
+	i, err := os.Stat(stdoutMock)
 	if err != nil {
 		t.Fatal(err)
 	}
