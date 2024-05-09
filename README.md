@@ -51,8 +51,8 @@ Freeze is also [super customizable](#customization) and ships with an [interacti
 # macOS or Linux
 brew install charmbracelet/tap/freeze
 
-# Arch Linux (btw)
-pacman -S freeze
+# Arch Linux AUR (btw)
+yay -S freeze # or paru -S freeze
 
 # Nix
 nix-env -iA nixpkgs.charm-freeze
