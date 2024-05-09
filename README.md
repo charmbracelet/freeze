@@ -93,7 +93,7 @@ Screenshots can be customized with `--flags` or [Configuration](#configuration) 
 > [!NOTE]
 > You can view all freeze customization with `freeze --help`.
 
-- [`-o`](#output), [`--output`](#output): Output location for .svg, .png, .jpg.
+- [`-o`](#output), [`--output`](#output): Output location for .svg, .png, .jpg, use - for stdout.
 - [`-c`](#configuration), [`--config`](#configuration): Base configuration file or template.
 - [`-t`](#theme), [`--theme`](#theme): Theme to use for syntax highlighting.
 - [`-l`](#language), [`--language`](#language): Language to apply to code
@@ -152,6 +152,12 @@ freeze main.go --output out.webp
 
 # or all of the above
 freeze main.go --output out.{svg,png,webp}
+```
+
+Have `freeze` send image data to stdout by passing `-` for `--output`
+
+```bash
+freeze main.go --output -
 ```
 
 ### Font

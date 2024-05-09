@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"flag"
 	"fmt"
+	"io"
 	"os"
 	"os/exec"
 	"strings"
@@ -40,19 +41,100 @@ func TestFreeze(t *testing.T) {
 	}
 }
 
+// freeze is a wrapper around calling the binary itself
+func freeze(input, output string, inputRead io.Reader, outputWrite io.Writer) error {
+	args := []string{}
+
+	if input != "" {
+		args = append(args, input)
+	}
+
+	if output != "" {
+		args = append(args, "-o", output)
+	}
+
+	cmd := exec.Command(binary, args...)
+
+	if inputRead != nil {
+		cmd.Stdin = inputRead
+	}
+
+	if outputWrite != nil {
+		cmd.Stdout = outputWrite
+	}
+
+	return cmd.Run()
+}
+
 func TestFreezeOutput(t *testing.T) {
 	output := "artichoke-test.svg"
 	defer os.Remove(output)
 
-	cmd := exec.Command(binary, "test/input/artichoke.hs", "-o", output)
-	err := cmd.Run()
+	if err := freeze("test/input/artichoke.hs", output, nil, nil); err != nil {
+		t.Fatal(err)
+	}
+
+	_, err := os.Stat(output)
 	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+// read file from stdin
+func TestFreezeOutputWhenInputStdin(t *testing.T) {
+	output := "tab.svg"
+	defer os.Remove(output)
+
+	inputMock, err := os.Open("test/input/tab.go")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if err := freeze("-", output, inputMock, nil); err != nil {
 		t.Fatal(err)
 	}
 
 	_, err = os.Stat(output)
 	if err != nil {
 		t.Fatal(err)
+	}
+}
+
+// fall back to default filename
+func TestFreezeOutputWhenNoOutputFilename(t *testing.T) {
+	defer os.Remove(defaultOutputFilename)
+
+	if err := freeze("test/input/tab.go", "", nil, nil); err != nil {
+		t.Fatal(err)
+	}
+
+	_, err := os.Stat(defaultOutputFilename)
+	if err != nil {
+		t.Fatal(err)
+	}
+}
+
+func TestFreezeOutputWhenOutputStdout(t *testing.T) {
+	stdoutMock := "free_stdout.svg"
+
+	f, err := os.OpenFile(stdoutMock, os.O_CREATE|os.O_WRONLY, 0750)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	defer os.Remove(stdoutMock)
+
+	if err := freeze("test/input/tab.go", "-", nil, f); err != nil {
+		t.Fatal(err)
+	}
+
+	i, err := os.Stat(stdoutMock)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if i.Size() == 0 {
+		t.Fatal("nothing was writtent to stdout")
 	}
 }
 
