@@ -93,23 +93,28 @@ Screenshots can be customized with `--flags` or [Configuration](#configuration) 
 > [!NOTE]
 > You can view all freeze customization with `freeze --help`.
 
-- [`-o`](#output), [`--output`](#output): Output location for .svg, .png, .jpg.
+- [`-b`](#background), [`--background`](#background): Apply a background fill.
 - [`-c`](#configuration), [`--config`](#configuration): Base configuration file or template.
-- [`-t`](#theme), [`--theme`](#theme): Theme to use for syntax highlighting.
 - [`-l`](#language), [`--language`](#language): Language to apply to code
-- [`-w`](#window), [`--window`](#window): Display window controls.
 - [`-m`](#margin), [`--margin`](#margin): Apply margin to the window.
+- [`-o`](#output), [`--output`](#output): Output location for .svg, .png, .jpg.
 - [`-p`](#padding), [`--padding`](#padding): Apply padding to the code.
 - [`-r`](#border-radius), [`--border.radius`](#border-radius): Corner radius of window.
+- [`-t`](#theme), [`--theme`](#theme): Theme to use for syntax highlighting.
+- [`-w`](#window), [`--window`](#window): Display window controls.
+- [`-H`](#height), [`--height`](#height): Height of terminal window.
 - [`--border.width`](#border-width): Border width thickness.
 - [`--border.color`](#border-width): Border color.
 - [`--shadow.blur`](#shadow): Shadow Gaussian Blur.
 - [`--shadow.x`](#shadow): Shadow offset x coordinate.
 - [`--shadow.y`](#shadow): Shadow offset y coordinate.
 - [`--font.family`](#font): Font family to use for code.
+- [`--font.ligatures`](#font): Use ligatures in the font.
 - [`--font.size`](#font): Font size to use for code.
 - [`--font.file`](#font): File path to the font to use (embedded in the SVG).
 - [`--line-height`](#font): Line height relative to font size.
+- [`--show-line-numbers`](#line-numbers): Show line numbers.
+- [`--lines`](#line-numbers): Lines to capture (start,end).
 
 ### Language
 
@@ -169,6 +174,22 @@ freeze artichoke.hs \
 You can also embed a font file (in TTF, WOFF, or WOFF2 format) using the
 `--font.file` flag.
 
+To use ligatures in the font, you can apply the `--font.ligatures` flag.
+
+### Line Numbers
+
+Show line numbers in the terminal window with the `--show-line-numbers` flag.
+
+```bash
+freeze artichoke.hs --show-line-numbers
+```
+
+To capture only a specific range of line numbers you can use the `--lines` flag.
+
+```bash
+freeze artichoke.hs --show-line-numbers --lines 2,3
+```
+
 ### Border Radius
 
 Add rounded corners to the terminal.
@@ -194,6 +215,22 @@ freeze artichoke.hs --window
 <a href="https://github.com/charmbracelet/freeze/assets/42545625/ba46bc4a-fb36-4718-88d4-f63b93343615">
   <img alt="output of freeze command, Haskell code block with window controls applied" src="./test/golden/svg/window.svg" width="600" />
 </a>
+
+### Background
+
+Set the background color of the terminal window.
+
+```bash
+freeze artichoke.hs --background "#08163f"
+```
+
+### Height
+
+Set the height of the terminal window.
+
+```bash
+freeze artichoke.hs --height 400
+```
 
 ### Border Width
 
