@@ -114,6 +114,7 @@ Screenshots can be customized with `--flags` or [Configuration](#configuration) 
 - [`--font.file`](#font): File path to the font to use (embedded in the SVG).
 - [`--line-height`](#font): Line height relative to font size.
 - [`--show-line-numbers`](#line-numbers): Show line numbers.
+- [`--copy`](#copy): Copy the output image to the clipboard.
 - [`--lines`](#line-numbers): Lines to capture (start,end).
 
 ### Language
@@ -157,6 +158,14 @@ freeze main.go --output out.webp
 
 # or all of the above
 freeze main.go --output out.{svg,png,webp}
+```
+
+### Copy
+
+Copy the output image to your clipboard, so you can paste it anywhere.
+
+```bash
+freeze main.go --copy
 ```
 
 ### Font
