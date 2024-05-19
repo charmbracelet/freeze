@@ -9,6 +9,7 @@ import (
 	"github.com/beevik/etree"
 	"github.com/charmbracelet/freeze/font"
 	"github.com/kanrichan/resvg-go"
+	"golang.design/x/clipboard"
 )
 
 func libsvgConvert(doc *etree.Document, w, h float64, output string) error {
@@ -30,7 +31,7 @@ func libsvgConvert(doc *etree.Document, w, h float64, output string) error {
 	return err
 }
 
-func resvgConvert(doc *etree.Document, w, h float64, output string) error {
+func resvgConvert(doc *etree.Document, w, h float64, output string, copy bool) error {
 	svg, err := doc.WriteToBytes()
 	if err != nil {
 		return err
@@ -93,6 +94,13 @@ func resvgConvert(doc *etree.Document, w, h float64, output string) error {
 	err = os.WriteFile(output, png, 0644)
 	if err != nil {
 		return err
+	}
+	if copy {
+		err = clipboard.Init()
+		if err != nil {
+			return err
+		}
+		clipboard.Write(clipboard.FmtImage, png)
 	}
 	return err
 }
