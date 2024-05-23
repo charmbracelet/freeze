@@ -22,6 +22,7 @@ import (
 	"github.com/charmbracelet/x/exp/term/ansi"
 	"github.com/charmbracelet/x/exp/term/ansi/parser"
 	"github.com/mattn/go-isatty"
+	"github.com/muesli/reflow/wordwrap"
 )
 
 const (
@@ -171,6 +172,12 @@ func main() {
 	var strippedInput string = ansi.Strip(input)
 	isAnsi := strings.ToLower(config.Language) == "ansi" || strippedInput != input
 	strippedInput = cut(strippedInput, config.Lines)
+
+	// wrap to character limit.
+	if config.Wrap > 0 {
+		strippedInput = wordwrap.String(strippedInput, config.Wrap)
+		input = wordwrap.String(input, config.Wrap)
+	}
 
 	if !isAnsi && lexer == nil {
 		printErrorFatal("Language Unknown", errors.New("specify a language with the --language flag"))
