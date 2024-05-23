@@ -253,6 +253,11 @@ func TestFreezeConfigurations(t *testing.T) {
 			flags:  []string{},
 			output: "tab",
 		},
+		{
+			input:  "test/input/wrap.go",
+			flags:  []string{"--wrap", "80", "--width", "600"},
+			output: "wrap",
+		},
 	}
 
 	err := os.RemoveAll("test/output/svg")

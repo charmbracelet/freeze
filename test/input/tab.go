@@ -1,4 +1,4 @@
-package config
+package main
 
 // freeze/issues/50
 
