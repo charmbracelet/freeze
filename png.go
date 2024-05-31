@@ -31,7 +31,7 @@ func libsvgConvert(doc *etree.Document, w, h float64, output string) error {
 	return err
 }
 
-func resvgConvert(doc *etree.Document, w, h float64, output string, copy bool) error {
+func resvgConvert(doc *etree.Document, w, h float64, output string, toClipboard bool) error {
 	svg, err := doc.WriteToBytes()
 	if err != nil {
 		return err
@@ -95,12 +95,13 @@ func resvgConvert(doc *etree.Document, w, h float64, output string, copy bool) e
 	if err != nil {
 		return err
 	}
-	if copy {
+	if toClipboard {
 		err = clipboard.Init()
 		if err != nil {
 			return err
 		}
 		clipboard.Write(clipboard.FmtImage, png)
+		clipboard.Read(clipboard.FmtImage)
 	}
 	return err
 }
