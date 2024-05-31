@@ -41,7 +41,7 @@ func helpPrinter(_ kong.HelpOptions, ctx *kong.Context) error {
 
 	fmt.Println()
 	for _, f := range flags {
-		if f.Name == "interactive" {
+		if f.Name == "version" || f.Name == "interactive" {
 			printFlag(f)
 		}
 	}
