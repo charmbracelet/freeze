@@ -62,18 +62,17 @@ func main() {
 
 	if config.Version {
 		if Version == "" {
+			Version = "latest (built from source)"
 			if info, ok := debug.ReadBuildInfo(); ok && (info.Main.Version != "" && info.Main.Version != "(devel)") {
 				Version = info.Main.Version
-			} else {
-				Version = "latest (built from source)"
 			}
 		}
 		version := fmt.Sprintf("freeze version: %s", Version)
-		if len(CommitSHA) > 7 {
+		if len(CommitSHA) > shaLen { // if the commit SHA is longer than `shaLen` characters, show the first `shaLen` number of characters.
 			version += fmt.Sprintf(" (%s)", CommitSHA[:shaLen])
 		}
 		fmt.Println(version)
-		os.Exit(0)
+		return
 	}
 
 	// Copy the pty output to buffer
