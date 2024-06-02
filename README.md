@@ -46,7 +46,7 @@ freeze --execute "eza -lah"
 #### Show executed command
 
 ```bash
-freeze --execute "eza -h"
+freeze --execute "eza -h" --show-cmd
 ```
 
 <p align="center">
