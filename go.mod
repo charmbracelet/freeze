@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/adrg/xdg v0.4.0
-	github.com/alecthomas/chroma/v2 v2.13.0
+	github.com/alecthomas/chroma/v2 v2.14.0
 	github.com/alecthomas/kong v0.9.0
 	github.com/aymanbagabas/go-udiff v0.2.0
 	github.com/beevik/etree v1.3.0
