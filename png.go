@@ -9,7 +9,10 @@ import (
 	"github.com/beevik/etree"
 	"github.com/charmbracelet/freeze/font"
 	"github.com/kanrichan/resvg-go"
+	"github.com/mattn/go-isatty"
 )
+
+var istty = isatty.IsTerminal(os.Stdout.Fd())
 
 func libsvgConvert(doc *etree.Document, w, h float64, output string) error {
 	_, err := exec.LookPath("rsvg-convert")
@@ -27,6 +30,9 @@ func libsvgConvert(doc *etree.Document, w, h float64, output string) error {
 	rsvgConvert := exec.Command("rsvg-convert", "-o", output)
 	rsvgConvert.Stdin = bytes.NewReader(svg)
 	err = rsvgConvert.Run()
+	if !istty {
+		_, err = doc.WriteTo(os.Stdout)
+	}
 	return err
 }
 
@@ -93,6 +99,9 @@ func resvgConvert(doc *etree.Document, w, h float64, output string) error {
 	err = os.WriteFile(output, png, 0644)
 	if err != nil {
 		return err
+	}
+	if !istty {
+		_, err = doc.WriteTo(os.Stdout)
 	}
 	return err
 }

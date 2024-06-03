@@ -409,7 +409,9 @@ func main() {
 		if svgConversionErr != nil {
 			printErrorFatal("Unable to convert SVG to PNG", svgConversionErr)
 		}
-		printFilenameOutput(config.Output)
+		if istty {
+			printFilenameOutput(config.Output)
+		}
 
 	default:
 		// output file specified.
