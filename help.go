@@ -45,7 +45,7 @@ func helpPrinter(_ kong.HelpOptions, ctx *kong.Context) error {
 		case "version", "interactive":
 			printFlag(f)
 			break
-    }
+		}
 	}
 
 	fmt.Println(titleStyle.Render("Settings"))
