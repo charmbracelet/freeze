@@ -127,7 +127,7 @@ func TestFreezeConfigurations(t *testing.T) {
 		},
 		{
 			input:  "test/input/eza.ansi",
-			flags:  []string{"--config", "full", "--show-cmd" },
+			flags:  []string{"--config", "full", "--show-cmd"},
 			output: "show-eza",
 		},
 		{
