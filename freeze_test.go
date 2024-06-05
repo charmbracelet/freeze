@@ -58,29 +58,18 @@ func TestFreezeOutput(t *testing.T) {
 }
 
 func TestFreezeCopy(t *testing.T) {
-	output := "artichoke-test.png"
+	output := "bubbletea-copy.png"
 	defer os.Remove(output)
 
-	cmd := exec.Command(binary, "test/input/artichoke.hs", "-o", output, "--copy")
+	cmd := exec.Command(binary, "test/input/bubbletea.model", "-o", output, "--language", "go", "--height", "800", "--width", "750", "--config", "full", "--window=false", "--show-line-numbers", "--copy")
 	err := cmd.Run()
 	if err != nil {
 		t.Fatal(err)
 	}
-
-	_, err = os.Stat(output)
-	if err != nil {
-		t.Fatal(err)
-	}
-
 	err = clipboard.Init()
 	if err != nil {
 		t.Fatal(err)
 	}
-	outputFile, err := os.ReadFile(output)
-	if err != nil {
-	  t.Fatal(err)
-	}
-	clipboard.Write(clipboard.FmtImage, outputFile)
 	png := clipboard.Read(clipboard.FmtImage)
 	if png == nil {
 		t.Fatal("clipboard is empty")
