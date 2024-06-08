@@ -291,6 +291,14 @@ func main() {
 		svg.Move(windowControls, float64(config.Margin[left]), float64(config.Margin[top]))
 		image.AddChild(windowControls)
 		config.Padding[top] += (15 * scale)
+		if config.Title {
+			title, err := svg.NewWindowTitle(float64(config.Margin[left]+imageWidth/2), float64(config.Margin[top]+config.Font.Size*float64(scale)), scale, config.Font.Size, config.Font.Family, config.Input, s)
+			if err != nil {
+				printErrorFatal("Unable to add title", err)
+			} else {
+				image.AddChild(title)
+			}
+		}
 	}
 
 	if config.Border.Radius > 0 {

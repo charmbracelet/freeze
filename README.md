@@ -103,6 +103,7 @@ Screenshots can be customized with `--flags` or [Configuration](#configuration) 
 - [`-t`](#theme), [`--theme`](#theme): Theme to use for syntax highlighting.
 - [`-w`](#window), [`--window`](#window): Display window controls.
 - [`-H`](#height), [`--height`](#height): Height of terminal window.
+- [`--window.title`](#window-title): Display input file as title when window controls are displayed.
 - [`--border.width`](#border-width): Border width thickness.
 - [`--border.color`](#border-width): Border color.
 - [`--shadow.blur`](#shadow): Shadow Gaussian Blur.
@@ -215,6 +216,16 @@ freeze artichoke.hs --window
 <a href="https://github.com/charmbracelet/freeze/assets/42545625/ba46bc4a-fb36-4718-88d4-f63b93343615">
   <img alt="output of freeze command, Haskell code block with window controls applied" src="./test/golden/svg/window.svg" width="600" />
 </a>
+
+#### Window Title
+
+Display the input file as the title of the window.
+
+```bash
+freeze artichoke.hs --window --window.title
+```
+
+<img alt="output of freeze command, Haskell code block with window title applied" src="./test/golden/svg/title.svg" width="600" />
 
 ### Background
 

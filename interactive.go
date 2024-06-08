@@ -103,6 +103,10 @@ func runForm(config *Config) (*Config, error) {
 				Inline(true).
 				Value(&config.Window),
 
+			huh.NewConfirm().Title("Title").
+				Inline(true).
+				Value(&config.Title),
+
 			huh.NewNote().Title("Font"),
 
 			huh.NewInput().Title("Font Family ").
