@@ -6,6 +6,7 @@ package main
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"io"
 	"os"
 	"os/exec"
@@ -48,6 +49,9 @@ func executeCommand(config Config) (string, error) {
 	err = cmd.Wait()
 	if err != nil {
 		return "", err
+	}
+	if config.ShowCmd {
+		return fmt.Sprintf("%s\n\n%s", config.Execute, out.String()), nil
 	}
 	return out.String(), nil
 }

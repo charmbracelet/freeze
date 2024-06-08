@@ -27,6 +27,7 @@ type Config struct {
 
 	// Settings
 	Config      string `json:"config,omitempty" help:"Base configuration file or template." short:"c" group:"Settings" default:"default" placeholder:"base"`
+	ShowCmd     bool   `json:"show_cmd" help:"Show executed command." short:"s" group:"Settings" placeholder:"false"`
 	Interactive bool   `hidden:"" json:",omitempty" help:"Use an interactive form for configuration options." short:"i" group:"Settings"`
 	Language    string `json:"language,omitempty" help:"Language of code file." short:"l" group:"Settings" placeholder:"go"`
 	Theme       string `json:"theme" help:"Theme to use for syntax highlighting." short:"t" group:"Settings" placeholder:"charm"`
