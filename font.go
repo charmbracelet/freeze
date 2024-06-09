@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/alecthomas/chroma/v2/formatters/svg"
 	"github.com/charmbracelet/freeze/font"
@@ -18,7 +19,7 @@ func fontOptions(config *Config) ([]svg.Option, error) {
 		}
 
 		var format svg.FontFormat
-		switch ext := filepath.Ext(config.Font.File); ext {
+		switch ext := filepath.Ext(config.Font.File); strings.ToLower(ext) {
 		case ".ttf":
 			format = svg.TRUETYPE
 		case ".woff2":
