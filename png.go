@@ -12,7 +12,16 @@ import (
 	"golang.design/x/clipboard"
 )
 
-func libsvgConvert(doc *etree.Document, w, h float64, output string) error {
+func copyToClipboard(svg []byte) error {
+	err := clipboard.Init()
+	if err != nil {
+		return err
+	}
+	clipboard.Write(clipboard.FmtImage, svg)
+	clipboard.Read(clipboard.FmtImage)
+	return err
+}
+
 	_, err := exec.LookPath("rsvg-convert")
 	if err != nil {
 		return err
@@ -96,12 +105,10 @@ func resvgConvert(doc *etree.Document, w, h float64, output string, toClipboard 
 		return err
 	}
 	if toClipboard {
-		err = clipboard.Init()
+		err = copyToClipboard(png)
 		if err != nil {
 			return err
 		}
-		clipboard.Write(clipboard.FmtImage, png)
-		clipboard.Read(clipboard.FmtImage)
 	}
 	return err
 }
