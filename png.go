@@ -22,6 +22,7 @@ func copyToClipboard(svg []byte) error {
 	return err
 }
 
+func libsvgConvert(doc *etree.Document, w, h float64, output string, toClipboard bool) error {
 	_, err := exec.LookPath("rsvg-convert")
 	if err != nil {
 		return err
@@ -37,6 +38,16 @@ func copyToClipboard(svg []byte) error {
 	rsvgConvert := exec.Command("rsvg-convert", "-o", output)
 	rsvgConvert.Stdin = bytes.NewReader(svg)
 	err = rsvgConvert.Run()
+	if err != nil {
+		return err
+	}
+
+	if toClipboard {
+		err = copyToClipboard(svg)
+		if err != nil {
+			return err
+		}
+	}
 	return err
 }
 
