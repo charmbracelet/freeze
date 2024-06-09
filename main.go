@@ -391,7 +391,7 @@ func main() {
 	switch {
 	case strings.HasSuffix(config.Output, ".png"):
 		// use libsvg conversion.
-		svgConversionErr := libsvgConvert(doc, imageWidth, imageHeight, config.Output)
+		svgConversionErr := libsvgConvert(doc, imageWidth, imageHeight, config.Output, config.Copy)
 		if svgConversionErr == nil {
 			printFilenameOutput(config.Output)
 			break
@@ -407,6 +407,16 @@ func main() {
 	default:
 		// output file specified.
 		if config.Output != "" {
+			outputSvg, err := doc.WriteToBytes()
+			if err != nil {
+				printErrorFatal("Unable to write output", err)
+			}
+			if config.Copy {
+				err = copyToClipboard(outputSvg)
+				if err != nil {
+					printErrorFatal("Unable to copy to clipboard", err)
+				}
+			}
 			err = doc.WriteToFile(config.Output)
 			if err != nil {
 				printErrorFatal("Unable to write output", err)
