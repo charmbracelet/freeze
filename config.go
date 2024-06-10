@@ -22,7 +22,7 @@ type Config struct {
 	Margin     []float64 `json:"margin" help:"Apply margin to the window." short:"m" placeholder:"0" group:"Window"`
 	Padding    []float64 `json:"padding" help:"Apply padding to the code." short:"p" placeholder:"0" group:"Window"`
 	Window     bool      `json:"window" help:"Display window controls." group:"Window"`
-	Title      bool      `json:"title" help:"Display input file as title." prefix:"window." group:"Window" hidden:""`
+	Title      string    `json:"title,omitempty" help:"Display window title. {{--window.title=auto}} as default for input filename." prefix:"window." group:"Window" default:"auto"`
 	Width      float64   `json:"width" help:"Width of terminal window." short:"W" group:"Window"`
 	Height     float64   `json:"height" help:"Height of terminal window." short:"H" group:"Window"`
 
