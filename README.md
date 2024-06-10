@@ -219,13 +219,21 @@ freeze artichoke.hs --window
 
 #### Window Title
 
-Display the input file as the title of the window.
+Display the input file as the title of the window if `--window.title` is not passed in the arguments (`--window.title=auto` as default).
+
+Display a custom title if `--window.title` is passed in the arguments (`--window.title="custom title"`).
+
+Don't display the title if `--window.title` is passed in the arguments as empty string (`--window.title=""`).
 
 ```bash
-freeze artichoke.hs --window --window.title
+freeze artichoke.hs --window
 ```
 
 <img alt="output of freeze command, Haskell code block with window title applied" src="./test/golden/svg/title.svg" width="600" />
+
+> [!WARNING]
+>
+> `--window.title` is not supported when using `--window=false`.
 
 ### Background
 
