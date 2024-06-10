@@ -226,14 +226,14 @@ Display a custom title if `--window.title` is passed in the arguments (`--window
 Don't display the title if `--window.title` is passed in the arguments as empty string (`--window.title=""`).
 
 ```bash
-freeze artichoke.hs --window
+freeze artichoke.hs --window --window.title "My artichoke code"
 ```
 
 <img alt="output of freeze command, Haskell code block with window title applied" src="./test/golden/svg/title.svg" width="600" />
 
 > [!WARNING]
 >
-> `--window.title` is not supported when using `--window=false`.
+> The **title** can only be supported when using **window** mode (`--window=true`).
 
 ### Background
 
