@@ -103,11 +103,14 @@ func NewWindowTitle(x, y, scale, fs float64, ff, text string, s *chroma.Style) (
 		input.CreateAttr("font-size", fmt.Sprintf("%.2fpx", fs*float64(scale)))
 		input.CreateAttr("fill", s.Get(chroma.Text).Colour.String())
 		input.CreateAttr("font-family", ff)
+		input.CreateAttr("text-anchor", "middle")
+		input.CreateAttr("alignment-baseline", "middle")
+		input.CreateAttr("dominant-baseline", "middle")
 		input.SetText(text)
 		Move(input, float64(x), float64(y))
 		return input, nil
 	}
-	err := errors.New("no text")
+	err := errors.New("No valid text provided")
 	return nil, err
 }
 
