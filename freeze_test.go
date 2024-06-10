@@ -107,7 +107,7 @@ func TestFreezeErrorFileMissing(t *testing.T) {
 
 func TestFreezeWindowTitleFilename(t *testing.T) {
 	output := "artichoke-default-title.svg"
-	defer os.Remove(output)
+	t.Cleanup(func() { os.Remove(output) })
 	testTitle := "artichoke.hs"
 	cmd := exec.Command(binary, "test/input/artichoke.hs", "--output", output, "--window")
 	err := cmd.Run()
@@ -122,6 +122,9 @@ func TestFreezeWindowTitleFilename(t *testing.T) {
 		t.Fatal("unexpected error", err)
 	}
 	childs := doc.ChildElements()
+	if len(childs) == 0 {
+		t.Fatal("no child elements")
+	}
 	lastChild := childs[len(childs)-1]
 	got := lastChild.FindElement("text").Text()
 
@@ -132,7 +135,7 @@ func TestFreezeWindowTitleFilename(t *testing.T) {
 
 func TestFreezeCustomWindowTitle(t *testing.T) {
 	output := "artichoke-custom-title.svg"
-	defer os.Remove(output)
+	t.Cleanup(func() { os.Remove(output) })
 	testTitle := "custom-test title"
 	cmd := exec.Command(binary, "test/input/artichoke.hs", "--output", output, "--window.title", testTitle, "--window")
 	err := cmd.Run()
@@ -146,7 +149,11 @@ func TestFreezeCustomWindowTitle(t *testing.T) {
 	if err != nil {
 		t.Fatal("unexpected error", err)
 	}
-	lastChild := doc.ChildElements()[len(doc.ChildElements())-1]
+	childs := doc.ChildElements()
+	if len(childs) == 0 {
+		t.Fatal("no child elements")
+	}
+	lastChild := childs[len(childs)-1]
 	got := lastChild.FindElement("text").Text()
 
 	if got != testTitle {
@@ -310,7 +317,7 @@ func TestFreezeConfigurations(t *testing.T) {
 		},
 		{
 			input:  "test/input/artichoke.hs",
-			flags:  []string{"--border.radius", "8", "--window", "--window.title", "auto"},
+			flags:  []string{"--border.radius", "8", "--window", "--window.title", "My artichoke code"},
 			output: "title",
 		},
 	}
