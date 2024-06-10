@@ -304,11 +304,9 @@ func main() {
 			}
 			image.AddChild(title)
 		}
-	} else {
-		if config.Title != "auto" {
-			err := errors.New("Title is not supported when not using a window controls")
-			printErrorFatal("Unable to add title", err)
-		}
+	} else if config.Title != "auto" {
+		err := errors.New("Title is not supported when not using a window controls")
+		printErrorFatal("Unable to add title", err)
 	}
 
 	if config.Border.Radius > 0 {
