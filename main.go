@@ -291,12 +291,23 @@ func main() {
 		svg.Move(windowControls, float64(config.Margin[left]), float64(config.Margin[top]))
 		image.AddChild(windowControls)
 		config.Padding[top] += (15 * scale)
-		if config.Title {
-			title, err := svg.NewWindowTitle(float64(config.Margin[left]+imageWidth/2), float64(config.Margin[top]+config.Font.Size*float64(scale)), scale, config.Font.Size, config.Font.Family, config.Input, s)
+		if config.Title != "" {
+			titleText := config.Title
+			if config.Title == "auto" {
+				titleText = filepath.Base(config.Input)
+			}
+			x := float64(config.Margin[left] + imageWidth/2)
+			y := float64(config.Margin[top] + config.Font.Size*float64(scale))
+			title, err := svg.NewWindowTitle(x, y, scale, config.Font.Size, config.Font.Family, titleText, s)
 			if err != nil {
 				printErrorFatal("Unable to add title", err)
 			}
 			image.AddChild(title)
+		}
+	} else {
+		if config.Title != "auto" {
+			err := errors.New("Title is not supported when not using a window controls")
+			printErrorFatal("Unable to add title", err)
 		}
 	}
 
