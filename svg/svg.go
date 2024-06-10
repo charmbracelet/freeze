@@ -98,20 +98,19 @@ func NewWindowControls(r float64, x, y float64) *etree.Element {
 }
 
 func NewWindowTitle(x, y, scale, fs float64, ff, text string, s *chroma.Style) (*etree.Element, error) {
-	if text != "" && text != "-" {
-		input := etree.NewElement("text")
-		input.CreateAttr("font-size", fmt.Sprintf("%.2fpx", fs*float64(scale)))
-		input.CreateAttr("fill", s.Get(chroma.Text).Colour.String())
-		input.CreateAttr("font-family", ff)
-		input.CreateAttr("text-anchor", "middle")
-		input.CreateAttr("alignment-baseline", "middle")
-		input.CreateAttr("dominant-baseline", "middle")
-		input.SetText(text)
-		Move(input, float64(x), float64(y))
-		return input, nil
+	if text == "" || text == "-" {
+		return nil, errors.New("Invalid title provided")
 	}
-	err := errors.New("No valid text provided")
-	return nil, err
+	input := etree.NewElement("text")
+	input.CreateAttr("font-size", fmt.Sprintf("%.2fpx", fs*float64(scale)))
+	input.CreateAttr("fill", s.Get(chroma.Text).Colour.String())
+	input.CreateAttr("font-family", ff)
+	input.CreateAttr("text-anchor", "middle")
+	input.CreateAttr("alignment-baseline", "middle")
+	input.CreateAttr("dominant-baseline", "middle")
+	input.SetText(text)
+	Move(input, float64(x), float64(y))
+	return input, nil
 }
 
 // SetDimensions sets the width and height of the given element.
