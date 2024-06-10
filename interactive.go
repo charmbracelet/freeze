@@ -103,8 +103,10 @@ func runForm(config *Config) (*Config, error) {
 				Inline(true).
 				Value(&config.Window),
 
-			huh.NewConfirm().Title("Title").
+			huh.NewInput().Title("Title").
+				Placeholder("auto").
 				Inline(true).
+				Prompt("").
 				Value(&config.Title),
 
 			huh.NewNote().Title("Font"),
