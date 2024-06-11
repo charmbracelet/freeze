@@ -137,7 +137,7 @@ func TestFreezeCustomWindowTitle(t *testing.T) {
 	output := "artichoke-custom-title.svg"
 	t.Cleanup(func() { os.Remove(output) })
 	testTitle := "custom-test title"
-	cmd := exec.Command(binary, "test/input/artichoke.hs", "--output", output, "--window.title", testTitle, "--window")
+	cmd := exec.Command(binary, "test/input/artichoke.hs", "--output", output, "--title.text", testTitle, "--window")
 	err := cmd.Run()
 
 	if err != nil {
@@ -317,7 +317,7 @@ func TestFreezeConfigurations(t *testing.T) {
 		},
 		{
 			input:  "test/input/artichoke.hs",
-			flags:  []string{"--border.radius", "8", "--window", "--window.title", "My artichoke code"},
+			flags:  []string{"--border.radius", "8", "--window", "--title.text", "My artichoke code"},
 			output: "title",
 		},
 	}
