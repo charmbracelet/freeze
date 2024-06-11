@@ -51,8 +51,8 @@ type Config struct {
 }
 
 type Title struct {
-	Text     string `json:"title" help:"Display window title. {{--title.text=auto}} as default for input filename." group:"Window" default:"auto"`
-	Position string `json:"position" help:"Position of window title, one of {{left}}, {{center}}, or {{right}}. {{--title.position=center}} as default." group:"Window" default:"center"`
+	Text     string `json:"title" help:"Display window title. {{--title.text=auto}} as default for input filename." default:"auto"`
+	Position string `json:"position" help:"Position of window title, one of {{left}}, {{center}}, or {{right}}. {{--title.position=center}} as default." default:"center"`
 }
 
 // Shadow is the configuration options for a drop shadow.
