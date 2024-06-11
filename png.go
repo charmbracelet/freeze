@@ -42,6 +42,7 @@ func libsvgConvert(doc *etree.Document, w, h float64, output string, toClipboard
 		return err
 	}
 
+	// TODO: Get the converted image and copy it to the clipboard.
 	if toClipboard {
 		err = copyToClipboard(svg)
 		if err != nil {
