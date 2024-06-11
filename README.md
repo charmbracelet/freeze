@@ -103,7 +103,8 @@ Screenshots can be customized with `--flags` or [Configuration](#configuration) 
 - [`-t`](#theme), [`--theme`](#theme): Theme to use for syntax highlighting.
 - [`-w`](#window), [`--window`](#window): Display window controls.
 - [`-H`](#height), [`--height`](#height): Height of terminal window.
-- [`--window.title`](#window-title): Display input file as title when window controls are displayed.
+- [`--title.text`](#window-title): Display input file or custom text when window controls are displayed.
+- [`--title.position`](#window-title): Position of the title text.
 - [`--border.width`](#border-width): Border width thickness.
 - [`--border.color`](#border-width): Border color.
 - [`--shadow.blur`](#shadow): Shadow Gaussian Blur.
@@ -219,14 +220,16 @@ freeze artichoke.hs --window
 
 #### Window Title
 
-Display the input file as the title of the window if `--window.title` is not passed in the arguments (`--window.title=auto` as default).
+Display the input file as the title of the window if `--title.text` is not passed in the arguments (`--title.text=auto` as default).
 
-Display a custom title if `--window.title` is passed in the arguments (`--window.title="custom title"`).
+Display a custom title if `--title.text` is passed in the arguments (`--title.text="custom title"`).
 
-Don't display the title if `--window.title` is passed in the arguments as empty string (`--window.title=""`).
+Don't display the title if `--title.text` is passed in the arguments as empty string (`--title.text=""`).
+
+To position the title text, use `--title.position` with `left`, `center` or `right` (`--title.position=center` as default).
 
 ```bash
-freeze artichoke.hs --window --window.title "My artichoke code"
+freeze artichoke.hs --window --title.text "My artichoke code"
 ```
 
 <img alt="output of freeze command, Haskell code block with window title applied" src="./test/golden/svg/title.svg" width="600" />
