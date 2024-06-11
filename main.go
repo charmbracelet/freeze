@@ -287,25 +287,33 @@ func main() {
 	}
 
 	if config.Window {
-		windowControls := svg.NewWindowControls(5.5*float64(scale), 19.0*scale, 12.0*scale)
+		x := 19.0 * scale
+		y := 12.0 * scale
+		windowControls, controlsWidth := svg.NewWindowControls(5.5*float64(scale), x, y)
 		svg.Move(windowControls, float64(config.Margin[left]), float64(config.Margin[top]))
 		image.AddChild(windowControls)
 		config.Padding[top] += (15 * scale)
-		if config.Title != "" {
-			titleText := config.Title
-			if config.Title == "auto" {
+		if config.Title.Text != "" {
+			titleText := config.Title.Text
+			if config.Title.Text == "auto" {
 				titleText = filepath.Base(config.Input)
 			}
-			x := float64(config.Margin[left] + imageWidth/2)
-			y := float64(config.Margin[top] + config.Font.Size*float64(scale))
-			title, err := svg.NewWindowTitle(x, y, scale, config.Font.Size, config.Font.Family, titleText, s)
+			my := float64(config.Margin[top]) + y
+			ml := float64(config.Margin[left]) + x + controlsWidth
+			mr := float64(config.Margin[right]) + x
+			// [0] left, [1] center, [2] right, [3] top
+			titlePos := []float64{ml, imageWidth / 2, imageWidth - mr, my}
+			title, err := svg.NewWindowTitle(titlePos, config.Title.Position, config.Font.Size*float64(scale), config.Font.Family, titleText, s)
 			if err != nil {
 				printErrorFatal("Unable to add title", err)
 			}
 			image.AddChild(title)
 		}
-	} else if config.Title != "auto" {
+	} else if config.Title.Text != "auto" {
 		err := errors.New("Title is not supported when not using a window controls")
+		printErrorFatal("Unable to add title", err)
+	} else if config.Title.Position != "center" {
+		err := errors.New("Title position is not supported when not using a window controls")
 		printErrorFatal("Unable to add title", err)
 	}
 
