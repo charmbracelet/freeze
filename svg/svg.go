@@ -1,12 +1,10 @@
 package svg
 
 import (
-	"errors"
 	"fmt"
 	"strconv"
 	"strings"
 
-	"github.com/alecthomas/chroma/v2"
 	"github.com/beevik/etree"
 )
 
@@ -84,7 +82,7 @@ const (
 )
 
 // NewWindowControls returns a colorful window bar element.
-func NewWindowControls(r float64, x, y float64) (*etree.Element, float64) {
+func NewWindowControls(r float64, x, y float64) *etree.Element {
 	bar := etree.NewElement("svg")
 	for i, color := range []string{red, yellow, green} {
 		circle := etree.NewElement("circle")
@@ -94,45 +92,7 @@ func NewWindowControls(r float64, x, y float64) (*etree.Element, float64) {
 		circle.CreateAttr("fill", color)
 		bar.AddChild(circle)
 	}
-	controlsWidth := float64(len(bar.ChildElements()))*float64(x) + float64(r)*2
-	return bar, controlsWidth
-}
-
-// NewWindowTitle returns a title element with the given text.
-func NewWindowTitle(positions []float64, position string, fs float64, ff, text string, s *chroma.Style) (*etree.Element, error) {
-	if text == "" || text == "-" {
-		return nil, errors.New("Invalid title provided")
-	}
-	if position != "left" && position != "center" && position != "right" {
-		return nil, errors.New("Invalid title position. Must be one of \"left\", \"center\", or \"right\"")
-	}
-	// positions[0] left, [1] center, [2] right, [3] top
-	x := 0.0
-	y := positions[3]
-	var anchor string
-	switch position {
-	case "left":
-		x = positions[0]
-		anchor = "start"
-		break
-	case "center":
-		x = positions[1]
-		anchor = "middle"
-		break
-	case "right":
-		x = positions[2]
-		anchor = "end"
-		break
-	}
-	input := etree.NewElement("text")
-	input.CreateAttr("font-size", fmt.Sprintf("%.2fpx", fs))
-	input.CreateAttr("fill", s.Get(chroma.Text).Colour.String())
-	input.CreateAttr("font-family", ff)
-	input.CreateAttr("text-anchor", anchor)
-	input.CreateAttr("alignment-baseline", "middle")
-	input.SetText(text)
-	Move(input, float64(x), float64(y))
-	return input, nil
+	return bar
 }
 
 // SetDimensions sets the width and height of the given element.

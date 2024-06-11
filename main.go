@@ -289,31 +289,25 @@ func main() {
 	if config.Window {
 		x := 19.0 * scale
 		y := 12.0 * scale
-		windowControls, controlsWidth := svg.NewWindowControls(5.5*float64(scale), x, y)
+		windowControls := svg.NewWindowControls(5.5*float64(scale), x, y)
 		svg.Move(windowControls, float64(config.Margin[left]), float64(config.Margin[top]))
 		image.AddChild(windowControls)
 		config.Padding[top] += (15 * scale)
 		if config.Title.Text != "" {
-			titleText := config.Title.Text
-			if config.Title.Text == "auto" {
-				titleText = filepath.Base(config.Input)
+			windowChilds := windowControls.ChildElements()
+			if len(windowChilds) == 0 {
+				printErrorFatal("Unable to add title", errors.New("no window controls found"))
 			}
-			my := float64(config.Margin[top]) + y
-			ml := float64(config.Margin[left]) + x + controlsWidth
-			mr := float64(config.Margin[right]) + x
-			// [0] left, [1] center, [2] right, [3] top
-			titlePos := []float64{ml, imageWidth / 2, imageWidth - mr, my}
-			title, err := svg.NewWindowTitle(titlePos, config.Title.Position, config.Font.Size*float64(scale), config.Font.Family, titleText, s)
+			controlsWidth := float64(len(windowChilds)) * float64(x)
+			titlePos := getPositions(config, x, y, imageWidth, controlsWidth)
+			title, err := NewWindowTitle(config, titlePos, scale, s)
 			if err != nil {
 				printErrorFatal("Unable to add title", err)
 			}
 			image.AddChild(title)
 		}
-	} else if config.Title.Text != "auto" {
+	} else if config.Title.Text != "auto" || config.Title.Position != "center" {
 		err := errors.New("Title is not supported when not using a window controls")
-		printErrorFatal("Unable to add title", err)
-	} else if config.Title.Position != "center" {
-		err := errors.New("Title position is not supported when not using a window controls")
 		printErrorFatal("Unable to add title", err)
 	}
 
@@ -478,4 +472,68 @@ var outputHeader = lipgloss.NewStyle().Foreground(lipgloss.Color("#F1F1F1")).Bac
 
 func printFilenameOutput(filename string) {
 	fmt.Println(lipgloss.JoinHorizontal(lipgloss.Center, outputHeader.String(), filename))
+}
+
+type Positions struct {
+	Left   float64
+	Center float64
+	Right  float64
+	Top    float64
+}
+
+func getPositions(config Config, x, y, imgW, controlsWidth float64) Positions {
+	return Positions{
+		Left:   config.Margin[left] + x + controlsWidth,
+		Center: imgW / 2,
+		Right:  imgW - (config.Margin[right] + x),
+		Top:    config.Margin[top] + y,
+	}
+}
+
+func (title Title) Validate(value string) error {
+	if title.Text == "" || title.Text == "-" {
+		return errors.New("Invalid title provided")
+	}
+	if title.Position != "left" && title.Position != "center" && title.Position != "right" {
+		return errors.New("Invalid title position. Must be one of \"left\", \"center\", or \"right\"")
+	}
+	return nil
+}
+
+// NewWindowTitle returns a title element with the given text.
+func NewWindowTitle(config Config, positions Positions, scale float64, s *chroma.Style) (*etree.Element, error) {
+	titleText := config.Title.Text
+	err := config.Title.Validate(titleText)
+	if err != nil {
+		return nil, err
+	}
+	if titleText == "auto" {
+		titleText = filepath.Base(config.Input)
+	}
+	x := 0.0
+	y := positions.Top
+	var anchor string
+	switch config.Title.Position {
+	case "left":
+		x = positions.Left
+		anchor = "start"
+		break
+	case "center":
+		x = positions.Center
+		anchor = "middle"
+		break
+	case "right":
+		x = positions.Right
+		anchor = "end"
+		break
+	}
+	input := etree.NewElement("text")
+	input.CreateAttr("font-size", fmt.Sprintf("%.2fpx", config.Font.Size*float64(scale)))
+	input.CreateAttr("fill", s.Get(chroma.Text).Colour.String())
+	input.CreateAttr("font-family", config.Font.Family)
+	input.CreateAttr("text-anchor", anchor)
+	input.CreateAttr("alignment-baseline", "middle")
+	input.SetText(titleText)
+	svg.Move(input, float64(x), float64(y))
+	return input, err
 }
