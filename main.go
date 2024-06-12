@@ -389,7 +389,7 @@ func main() {
 	istty := isatty.IsTerminal(os.Stdout.Fd())
 
 	outputName := config.Output
-	if config.Output == "clipboard" {
+	if config.Output == "clipboard" || config.Output == "copy" {
 		outputName = "clipboard.png"
 	}
 	switch {
