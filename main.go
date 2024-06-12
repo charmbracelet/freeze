@@ -289,7 +289,8 @@ func main() {
 	if config.Window {
 		x := 19.0 * scale
 		y := 12.0 * scale
-		windowControls := svg.NewWindowControls(5.5*float64(scale), x, y)
+		r := 5.5 * scale
+		windowControls := svg.NewWindowControls(r, x, y)
 		svg.Move(windowControls, float64(config.Margin[left]), float64(config.Margin[top]))
 		image.AddChild(windowControls)
 		config.Padding[top] += (15 * scale)
@@ -300,7 +301,7 @@ func main() {
 			}
 			controlsWidth := float64(len(windowChilds)) * float64(x)
 			titlePos := getPositions(config, x, y, imageWidth, controlsWidth)
-			title, err := NewWindowTitle(config, titlePos, scale, s)
+			title, err := NewWindowTitle(config, titlePos, scale, s, r)
 			if err != nil {
 				printErrorFatal("Unable to add title", err)
 			}
@@ -509,7 +510,7 @@ func (title Title) Validate() error {
 }
 
 // NewWindowTitle returns a title element with the given text.
-func NewWindowTitle(config Config, positions Positions, scale float64, s *chroma.Style) (*etree.Element, error) {
+func NewWindowTitle(config Config, positions Positions, scale float64, s *chroma.Style, fs float64) (*etree.Element, error) {
 	err := config.Title.Validate()
 	if err != nil {
 		return nil, err
@@ -520,6 +521,10 @@ func NewWindowTitle(config Config, positions Positions, scale float64, s *chroma
 	}
 	x := 0.0
 	y := positions.Top
+	moveY := hasLibsvg()
+	if moveY == nil {
+		y += fs
+	}
 	var anchor string
 	switch config.Title.Position {
 	case posLeft:
@@ -536,7 +541,7 @@ func NewWindowTitle(config Config, positions Positions, scale float64, s *chroma
 		break
 	}
 	input := etree.NewElement("text")
-	input.CreateAttr("font-size", fmt.Sprintf("%.2fpx", config.Font.Size*float64(scale)))
+	input.CreateAttr("font-size", fmt.Sprintf("%.2fpx", fs*float64(scale)-config.Font.Size))
 	input.CreateAttr("fill", s.Get(chroma.Text).Colour.String())
 	input.CreateAttr("font-family", config.Font.Family)
 	input.CreateAttr("text-anchor", anchor)
