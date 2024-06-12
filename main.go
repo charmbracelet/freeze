@@ -388,81 +388,78 @@ func main() {
 
 	istty := isatty.IsTerminal(os.Stdout.Fd())
 
-	switch {
-	case strings.HasSuffix(config.Output, ".png"):
-		// use libsvg conversion.
-		svgConversionErr := libsvgConvert(doc, imageWidth, imageHeight, config.Output, config.Copy)
-		if svgConversionErr == nil {
-			if config.Copy {
-				outputPNG, err := os.ReadFile(config.Output)
-				if err != nil {
-					printErrorFatal("Unable to read output to copy to clipboard", err)
+	if config.Output != "" {
+		outputName := config.Output
+		if config.Output == "clipboard" {
+			outputName = "clipboard.png"
+		}
+		switch {
+		case strings.HasSuffix(outputName, ".png"):
+			// use libsvg conversion.
+			svgConversionErr := libsvgConvert(doc, imageWidth, imageHeight, outputName)
+			if svgConversionErr == nil {
+				if config.Output == "clipboard" {
+					outputPNG, err := os.ReadFile(outputName)
+					defer os.Remove(outputName)
+					if err != nil {
+						printErrorFatal("Unable to read output to copy to clipboard", err)
+					}
+					err = copyToClipboard(outputPNG)
+					if err != nil {
+						printErrorFatal("Unable to copy to clipboard", err)
+					}
 				}
-				err = copyToClipboard(outputPNG, config.Output)
-				if err != nil {
-					printErrorFatal("Unable to copy to clipboard", err)
-				}
+				printFilenameOutput(config.Output)
+				break
+			}
+
+			// could not convert with libsvg, try resvg
+			svgConversionErr = resvgConvert(doc, imageWidth, imageHeight, config.Output)
+			if svgConversionErr != nil {
+				printErrorFatal("Unable to convert SVG to PNG", svgConversionErr)
 			}
 			printFilenameOutput(config.Output)
-			break
-		}
 
-		// could not convert with libsvg, try resvg
-		svgConversionErr = resvgConvert(doc, imageWidth, imageHeight, config.Output, config.Copy)
-		if svgConversionErr != nil {
-			printErrorFatal("Unable to convert SVG to PNG", svgConversionErr)
-		}
-		printFilenameOutput(config.Output)
-
-	default:
-		// output file specified.
-		if config.Output != "" {
-			_, err := doc.WriteToBytes()
-			if err != nil {
-				printErrorFatal("Unable to write output", err)
-			}
-			err = doc.WriteToFile(config.Output)
-			if err != nil {
-				printErrorFatal("Unable to write output", err)
-			}
-			if config.Copy { // TODO: figure out how to copy `.svg` and `.webp` files as images
-				outputSVG, err := os.ReadFile(config.Output) // gclip aka golang-desing/clipboard copies a broken image if clipboard.FmtImage
+		default:
+			// output file specified.
+			if config.Output != "" {
+				_, err := doc.WriteToBytes()
 				if err != nil {
-					printErrorFatal("Unable to read output to copy to clipboard", err)
+					printErrorFatal("Unable to write output", err)
 				}
-				err = copyToClipboard(outputSVG, config.Output)
+				err = doc.WriteToFile(config.Output)
 				if err != nil {
-					printErrorFatal("Unable to copy to clipboard", err)
+					printErrorFatal("Unable to write output", err)
 				}
+				printFilenameOutput(config.Output)
+				return
 			}
-			printFilenameOutput(config.Output)
-			return
-		}
 
-		// reading from stdin.
-		if config.Input == "" || config.Input == "-" {
+			// reading from stdin.
+			if config.Input == "" || config.Input == "-" {
+				if istty {
+					err = doc.WriteToFile(defaultOutputFilename)
+					printFilenameOutput(defaultOutputFilename)
+				} else {
+					_, err = doc.WriteTo(os.Stdout)
+				}
+				if err != nil {
+					printErrorFatal("Unable to write output", err)
+				}
+				return
+			}
+
+			// reading from file.
 			if istty {
-				err = doc.WriteToFile(defaultOutputFilename)
-				printFilenameOutput(defaultOutputFilename)
+				config.Output = strings.TrimSuffix(filepath.Base(config.Input), filepath.Ext(config.Input)) + ".svg"
+				err = doc.WriteToFile(config.Output)
+				printFilenameOutput(config.Output)
 			} else {
 				_, err = doc.WriteTo(os.Stdout)
 			}
 			if err != nil {
 				printErrorFatal("Unable to write output", err)
 			}
-			return
-		}
-
-		// reading from file.
-		if istty {
-			config.Output = strings.TrimSuffix(filepath.Base(config.Input), filepath.Ext(config.Input)) + ".svg"
-			err = doc.WriteToFile(config.Output)
-			printFilenameOutput(config.Output)
-		} else {
-			_, err = doc.WriteTo(os.Stdout)
-		}
-		if err != nil {
-			printErrorFatal("Unable to write output", err)
 		}
 	}
 }

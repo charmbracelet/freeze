@@ -67,11 +67,6 @@ func runForm(config *Config) (*Config, error) {
 				Prompt("").
 				Value(&config.Output),
 
-			huh.NewConfirm().Title("Clipboard").
-				// Description("Copy the output image to the clipboard.").
-				Inline(true).
-				Value(&config.Copy),
-
 			huh.NewSelect[string]().Title("Theme ").
 				// Description("Theme for syntax highlighting.").
 				Inline(true).
