@@ -491,13 +491,15 @@ func getPositions(config Config, x, y, imgW, controlsWidth float64) Positions {
 }
 
 func (title Title) Validate(value string) error {
-	if title.Text == "" || title.Text == "-" {
-		return errors.New("Invalid title provided")
+	if value == "" || value == "-" {
+		return errors.New("Invalid title text provided.")
 	}
-	if title.Position != "left" && title.Position != "center" && title.Position != "right" {
-		return errors.New("Invalid title position. Must be one of \"left\", \"center\", or \"right\"")
+	switch title.Position {
+	case "left", "center", "right":
+		return nil
+	default:
+		return errors.New("Invalid title position. Must be one of \"left\", \"center\", or \"right\".")
 	}
-	return nil
 }
 
 // NewWindowTitle returns a title element with the given text.
