@@ -13,9 +13,6 @@ import (
 
 func hasLibsvg() error {
 	_, err := exec.LookPath("rsvg-convert")
-	if err != nil {
-		return err
-	}
 	return err
 }
 
