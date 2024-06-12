@@ -490,12 +490,18 @@ func getPositions(config Config, x, y, imgW, controlsWidth float64) Positions {
 	}
 }
 
-func (title Title) Validate(value string) error {
-	if value == "" || value == "-" {
+const (
+	posLeft   = "left"
+	posCenter = "center"
+	posRight  = "right"
+)
+
+func (title Title) Validate() error {
+	if title.Text == "" || title.Text == "-" {
 		return errors.New("Invalid title text provided.")
 	}
 	switch title.Position {
-	case "left", "center", "right":
+	case posLeft, posCenter, posRight:
 		return nil
 	default:
 		return errors.New("Invalid title position. Must be one of \"left\", \"center\", or \"right\".")
@@ -504,11 +510,11 @@ func (title Title) Validate(value string) error {
 
 // NewWindowTitle returns a title element with the given text.
 func NewWindowTitle(config Config, positions Positions, scale float64, s *chroma.Style) (*etree.Element, error) {
-	titleText := config.Title.Text
-	err := config.Title.Validate(titleText)
+	err := config.Title.Validate()
 	if err != nil {
 		return nil, err
 	}
+	titleText := config.Title.Text
 	if titleText == "auto" {
 		titleText = filepath.Base(config.Input)
 	}
@@ -516,15 +522,15 @@ func NewWindowTitle(config Config, positions Positions, scale float64, s *chroma
 	y := positions.Top
 	var anchor string
 	switch config.Title.Position {
-	case "left":
+	case posLeft:
 		x = positions.Left
 		anchor = "start"
 		break
-	case "center":
+	case posCenter:
 		x = positions.Center
 		anchor = "middle"
 		break
-	case "right":
+	case posRight:
 		x = positions.Right
 		anchor = "end"
 		break
