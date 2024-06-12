@@ -393,6 +393,16 @@ func main() {
 		// use libsvg conversion.
 		svgConversionErr := libsvgConvert(doc, imageWidth, imageHeight, config.Output, config.Copy)
 		if svgConversionErr == nil {
+			if config.Copy {
+				outputPNG, err := os.ReadFile(config.Output)
+				if err != nil {
+					printErrorFatal("Unable to read output to copy to clipboard", err)
+				}
+				err = copyToClipboard(outputPNG, config.Output)
+				if err != nil {
+					printErrorFatal("Unable to copy to clipboard", err)
+				}
+			}
 			printFilenameOutput(config.Output)
 			break
 		}
@@ -407,19 +417,23 @@ func main() {
 	default:
 		// output file specified.
 		if config.Output != "" {
-			outputSvg, err := doc.WriteToBytes()
+			_, err := doc.WriteToBytes()
 			if err != nil {
 				printErrorFatal("Unable to write output", err)
-			}
-			if config.Copy {
-				err = copyToClipboard(outputSvg)
-				if err != nil {
-					printErrorFatal("Unable to copy to clipboard", err)
-				}
 			}
 			err = doc.WriteToFile(config.Output)
 			if err != nil {
 				printErrorFatal("Unable to write output", err)
+			}
+			if config.Copy { // TODO: figure out how to copy `.svg` and `.webp` files as images
+				outputSVG, err := os.ReadFile(config.Output) // gclip aka golang-desing/clipboard copies a broken image if clipboard.FmtImage
+				if err != nil {
+					printErrorFatal("Unable to read output to copy to clipboard", err)
+				}
+				err = copyToClipboard(outputSVG, config.Output)
+				if err != nil {
+					printErrorFatal("Unable to copy to clipboard", err)
+				}
 			}
 			printFilenameOutput(config.Output)
 			return

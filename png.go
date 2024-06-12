@@ -5,6 +5,7 @@ import (
 	"context"
 	"os"
 	"os/exec"
+	"strings"
 
 	"github.com/beevik/etree"
 	"github.com/charmbracelet/freeze/font"
@@ -12,13 +13,17 @@ import (
 	"golang.design/x/clipboard"
 )
 
-func copyToClipboard(svg []byte) error {
+func copyToClipboard(img []byte, file string) error {
 	err := clipboard.Init()
 	if err != nil {
 		return err
 	}
-	clipboard.Write(clipboard.FmtImage, svg)
-	clipboard.Read(clipboard.FmtImage)
+	format := clipboard.FmtImage
+	if strings.HasSuffix(file, ".svg") || strings.HasSuffix(file, ".webp") {
+		format = clipboard.FmtText
+	}
+	clipboard.Write(format, img)
+	clipboard.Read(format)
 	return err
 }
 
@@ -38,17 +43,6 @@ func libsvgConvert(doc *etree.Document, w, h float64, output string, toClipboard
 	rsvgConvert := exec.Command("rsvg-convert", "-o", output)
 	rsvgConvert.Stdin = bytes.NewReader(svg)
 	err = rsvgConvert.Run()
-	if err != nil {
-		return err
-	}
-
-	// TODO: Get the converted image and copy it to the clipboard.
-	if toClipboard {
-		err = copyToClipboard(svg)
-		if err != nil {
-			return err
-		}
-	}
 	return err
 }
 
@@ -117,7 +111,7 @@ func resvgConvert(doc *etree.Document, w, h float64, output string, toClipboard 
 		return err
 	}
 	if toClipboard {
-		err = copyToClipboard(png)
+		err = copyToClipboard(png, output)
 		if err != nil {
 			return err
 		}

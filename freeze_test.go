@@ -57,8 +57,27 @@ func TestFreezeOutput(t *testing.T) {
 	}
 }
 
-func TestFreezeCopy(t *testing.T) {
+func TestFreezeCopyNonPng(t *testing.T) {
 	output := "bubbletea-copy.svg"
+	defer os.Remove(output)
+
+	cmd := exec.Command(binary, "test/input/bubbletea.model", "-o", output, "--language", "go", "--height", "800", "--width", "750", "--config", "full", "--window=false", "--show-line-numbers", "--copy")
+	err := cmd.Run()
+	if err != nil {
+		t.Fatal(err)
+	}
+	err = clipboard.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+	png := clipboard.Read(clipboard.FmtText)
+	if png == nil {
+		t.Fatal("clipboard is empty")
+	}
+}
+
+func TestFreezeCopyPng(t *testing.T) {
+	output := "bubbletea-copy.png"
 	defer os.Remove(output)
 
 	cmd := exec.Command(binary, "test/input/bubbletea.model", "-o", output, "--language", "go", "--height", "800", "--width", "750", "--config", "full", "--window=false", "--show-line-numbers", "--copy")
