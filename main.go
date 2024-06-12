@@ -388,67 +388,65 @@ func main() {
 
 	istty := isatty.IsTerminal(os.Stdout.Fd())
 
-	if config.Output != "" {
-		outputName := config.Output
-		if config.Output == "clipboard" {
-			outputName = "clipboard.png"
+	outputName := config.Output
+	if config.Output == "clipboard" {
+		outputName = "clipboard.png"
+	}
+	switch {
+	case strings.HasSuffix(outputName, ".png"):
+		// use libsvg conversion.
+		svgConversionErr := libsvgConvert(doc, imageWidth, imageHeight, outputName)
+		if svgConversionErr == nil {
+			printFilenameOutput(config.Output)
+			break
 		}
-		switch {
-		case strings.HasSuffix(outputName, ".png"):
-			// use libsvg conversion.
-			svgConversionErr := libsvgConvert(doc, imageWidth, imageHeight, outputName)
-			if svgConversionErr == nil {
-				printFilenameOutput(config.Output)
-				break
-			}
 
-			// could not convert with libsvg, try resvg
-			svgConversionErr = resvgConvert(doc, imageWidth, imageHeight, config.Output)
-			if svgConversionErr != nil {
-				printErrorFatal("Unable to convert SVG to PNG", svgConversionErr)
+		// could not convert with libsvg, try resvg
+		svgConversionErr = resvgConvert(doc, imageWidth, imageHeight, config.Output)
+		if svgConversionErr != nil {
+			printErrorFatal("Unable to convert SVG to PNG", svgConversionErr)
+		}
+		printFilenameOutput(config.Output)
+
+	default:
+		// output file specified.
+		if config.Output != "" {
+			_, err := doc.WriteToBytes()
+			if err != nil {
+				printErrorFatal("Unable to write output", err)
+			}
+			err = doc.WriteToFile(config.Output)
+			if err != nil {
+				printErrorFatal("Unable to write output", err)
 			}
 			printFilenameOutput(config.Output)
+			return
+		}
 
-		default:
-			// output file specified.
-			if config.Output != "" {
-				_, err := doc.WriteToBytes()
-				if err != nil {
-					printErrorFatal("Unable to write output", err)
-				}
-				err = doc.WriteToFile(config.Output)
-				if err != nil {
-					printErrorFatal("Unable to write output", err)
-				}
-				printFilenameOutput(config.Output)
-				return
-			}
-
-			// reading from stdin.
-			if config.Input == "" || config.Input == "-" {
-				if istty {
-					err = doc.WriteToFile(defaultOutputFilename)
-					printFilenameOutput(defaultOutputFilename)
-				} else {
-					_, err = doc.WriteTo(os.Stdout)
-				}
-				if err != nil {
-					printErrorFatal("Unable to write output", err)
-				}
-				return
-			}
-
-			// reading from file.
+		// reading from stdin.
+		if config.Input == "" || config.Input == "-" {
 			if istty {
-				config.Output = strings.TrimSuffix(filepath.Base(config.Input), filepath.Ext(config.Input)) + ".svg"
-				err = doc.WriteToFile(config.Output)
-				printFilenameOutput(config.Output)
+				err = doc.WriteToFile(defaultOutputFilename)
+				printFilenameOutput(defaultOutputFilename)
 			} else {
 				_, err = doc.WriteTo(os.Stdout)
 			}
 			if err != nil {
 				printErrorFatal("Unable to write output", err)
 			}
+			return
+		}
+
+		// reading from file.
+		if istty {
+			config.Output = strings.TrimSuffix(filepath.Base(config.Input), filepath.Ext(config.Input)) + ".svg"
+			err = doc.WriteToFile(config.Output)
+			printFilenameOutput(config.Output)
+		} else {
+			_, err = doc.WriteTo(os.Stdout)
+		}
+		if err != nil {
+			printErrorFatal("Unable to write output", err)
 		}
 	}
 }
