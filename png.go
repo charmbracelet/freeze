@@ -5,6 +5,7 @@ import (
 	"context"
 	"os"
 	"os/exec"
+	"strings"
 
 	"github.com/beevik/etree"
 	"github.com/charmbracelet/freeze/font"
@@ -38,6 +39,17 @@ func libsvgConvert(doc *etree.Document, w, h float64, output string) error {
 	rsvgConvert := exec.Command("rsvg-convert", "-o", output)
 	rsvgConvert.Stdin = bytes.NewReader(svg)
 	err = rsvgConvert.Run()
+	if err != nil {
+		return err
+	}
+	if strings.Contains(output, "clipboard") {
+		png, err := os.ReadFile(output)
+		defer os.Remove(output)
+		if err != nil {
+			return err
+		}
+		err = copyToClipboard(png)
+	}
 	return err
 }
 

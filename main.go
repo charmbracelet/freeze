@@ -398,17 +398,6 @@ func main() {
 			// use libsvg conversion.
 			svgConversionErr := libsvgConvert(doc, imageWidth, imageHeight, outputName)
 			if svgConversionErr == nil {
-				if config.Output == "clipboard" {
-					outputPNG, err := os.ReadFile(outputName)
-					defer os.Remove(outputName)
-					if err != nil {
-						printErrorFatal("Unable to read output to copy to clipboard", err)
-					}
-					err = copyToClipboard(outputPNG)
-					if err != nil {
-						printErrorFatal("Unable to copy to clipboard", err)
-					}
-				}
 				printFilenameOutput(config.Output)
 				break
 			}
