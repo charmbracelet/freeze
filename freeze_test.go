@@ -130,6 +130,10 @@ func TestFreezeConfigurations(t *testing.T) {
 			output: "execute",
 		},
 		{
+			flags:  []string{"--execute-non-zero", "--execute", `mkdir "."`},
+			output: "nonzero",
+		},
+		{
 			input:  "test/input/bubbletea.model",
 			flags:  []string{"--language", "go", "--height", "800", "--width", "750", "--config", "full", "--window=false", "--show-line-numbers"},
 			output: "bubbletea",
