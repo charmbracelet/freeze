@@ -35,6 +35,7 @@ type Config struct {
 	Output         string        `json:"output,omitempty" help:"Output location for {{.svg}}, {{.png}}, or {{.webp}}." short:"o" group:"Settings" default:"" placeholder:"freeze.svg"`
 	Execute        string        `json:"-" help:"Capture output of command execution." short:"x" group:"Settings" default:""`
 	ExecuteTimeout time.Duration `json:"-" help:"Execution timeout." group:"Settings" default:"10s" prefix:"execute." name:"timeout" hidden:""`
+	ExecuteNonZero bool					 `json:"nonzero" help:"Don't error on command execution even if exit code is non-zero." group:"Settings"`
 
 	// Decoration
 	Border Border `json:"border" embed:"" prefix:"border." group:"Border"`

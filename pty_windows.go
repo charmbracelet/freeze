@@ -71,7 +71,7 @@ func executeCommand(config Config) (string, error) {
 		err = r.error
 	}
 
-	if err != nil {
+	if err != nil && !config.ExecuteNonZero {
 		return "", err
 	}
 	return out.String(), nil

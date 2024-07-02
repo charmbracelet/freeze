@@ -46,7 +46,7 @@ func executeCommand(config Config) (string, error) {
 	}()
 
 	err = cmd.Wait()
-	if err != nil {
+	if err != nil && !config.ExecuteNonZero {
 		return "", err
 	}
 	return out.String(), nil
