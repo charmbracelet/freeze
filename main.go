@@ -85,6 +85,9 @@ func main() {
 	if config.Execute != "" {
 		input, err = executeCommand(config)
 		if err != nil {
+			if input != "" {
+				printErrorFatal("Something went wrong", errors.New(input))
+			}
 			printErrorFatal("Something went wrong", err)
 		}
 		if input == "" {
