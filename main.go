@@ -62,7 +62,6 @@ func main() {
 
 	if len(ctx.Args) > 0 {
 		switch ctx.Args[0] {
-
 		case "version":
 			if Version == "" {
 				if info, ok := debug.ReadBuildInfo(); ok && info.Main.Sum != "" {
@@ -86,6 +85,7 @@ func main() {
 		input, err = executeCommand(config)
 		if err != nil {
 			if input != "" {
+				// show the full error message output
 				printErrorFatal("Something went wrong", errors.New(input))
 			}
 			printErrorFatal("Something went wrong", err)
