@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/beevik/etree"
-	"github.com/charmbracelet/x/exp/term/ansi"
+	"github.com/charmbracelet/x/ansi"
 	"github.com/mattn/go-runewidth"
 )
 
