@@ -87,7 +87,7 @@ func main() {
 		if err != nil {
 			if input != "" {
 				// show the full error message output
-				printErrorFatal("Something went wrong", errors.New(input))
+				err = fmt.Errorf("%w %s", err, input)
 			}
 			printErrorFatal("Something went wrong", err)
 		}
