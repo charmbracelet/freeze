@@ -60,12 +60,11 @@ func main() {
 		printErrorFatal("Invalid Usage", err)
 	}
 
-  //nolint: nestif
 	if config.Version {
 		if Version == "" {
 			Version = "latest (built from source)"
 			if info, ok := debug.ReadBuildInfo(); ok && (info.Main.Version != "" && info.Main.Version != "(devel)") {
-				Version = info.Main.Version	
+				Version = info.Main.Version
 			}
 		}
 		version := fmt.Sprintf("freeze version: %s", Version)

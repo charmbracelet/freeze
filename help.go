@@ -44,7 +44,6 @@ func helpPrinter(_ kong.HelpOptions, ctx *kong.Context) error {
 		switch f.Name {
 		case "version", "interactive":
 			printFlag(f)
-			break
 		}
 	}
 
