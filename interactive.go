@@ -29,18 +29,18 @@ func runForm(config *Config) (*Config, error) {
 
 	theme := huh.ThemeCharm()
 	theme.FieldSeparator = lipgloss.NewStyle()
-	theme.Blurred.TextInput.Text = theme.Blurred.TextInput.Text.Copy().Foreground(lipgloss.Color("243"))
+	theme.Blurred.TextInput.Text = theme.Blurred.TextInput.Text.Foreground(lipgloss.Color("243"))
 	theme.Blurred.BlurredButton = lipgloss.NewStyle().Foreground(lipgloss.Color("8")).PaddingRight(1)
 	theme.Blurred.FocusedButton = lipgloss.NewStyle().Foreground(lipgloss.Color("7")).PaddingRight(1)
 	theme.Focused.BlurredButton = lipgloss.NewStyle().Foreground(lipgloss.Color("8")).PaddingRight(1)
 	theme.Focused.FocusedButton = lipgloss.NewStyle().Foreground(lipgloss.Color("15")).PaddingRight(1)
-	theme.Focused.NoteTitle = theme.Focused.NoteTitle.Copy().Margin(1, 0)
-	theme.Blurred.NoteTitle = theme.Blurred.NoteTitle.Copy().Margin(1, 0)
-	theme.Blurred.Description = theme.Blurred.Description.Copy().Foreground(lipgloss.Color("0"))
-	theme.Focused.Description = theme.Focused.Description.Copy().Foreground(lipgloss.Color("7"))
-	theme.Blurred.Title = theme.Blurred.Title.Copy().Width(18).Foreground(lipgloss.Color("7"))
-	theme.Focused.Title = theme.Focused.Title.Copy().Width(18).Foreground(green).Bold(true)
-	theme.Blurred.SelectedOption = theme.Blurred.SelectedOption.Copy().Foreground(lipgloss.Color("243"))
+	theme.Focused.NoteTitle = theme.Focused.NoteTitle.Margin(1, 0)
+	theme.Blurred.NoteTitle = theme.Blurred.NoteTitle.Margin(1, 0)
+	theme.Blurred.Description = theme.Blurred.Description.Foreground(lipgloss.Color("0"))
+	theme.Focused.Description = theme.Focused.Description.Foreground(lipgloss.Color("7"))
+	theme.Blurred.Title = theme.Blurred.Title.Width(18).Foreground(lipgloss.Color("7"))
+	theme.Focused.Title = theme.Focused.Title.Width(18).Foreground(green).Bold(true)
+	theme.Blurred.SelectedOption = theme.Blurred.SelectedOption.Foreground(lipgloss.Color("243"))
 	theme.Focused.SelectedOption = lipgloss.NewStyle().Foreground(green)
 	theme.Focused.Base.BorderForeground(green)
 
@@ -197,7 +197,7 @@ func runForm(config *Config) (*Config, error) {
 	config.Shadow.Blur, _ = strconv.ParseFloat(shadowBlur, 64)
 	config.Shadow.X, _ = strconv.ParseFloat(shadowX, 64)
 	config.Shadow.Y, _ = strconv.ParseFloat(shadowY, 64)
-	return config, err
+	return config, err //nolint: wrapcheck
 }
 
 func validateMargin(s string) error {
@@ -256,6 +256,7 @@ func validateColor(s string) error {
 }
 
 func parsePadding(v string) []float64 {
+	//nolint: prealloc
 	var values []float64
 	for _, p := range strings.Fields(v) {
 		pi, _ := strconv.ParseFloat(p, 64) // already validated
