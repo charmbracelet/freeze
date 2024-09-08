@@ -15,7 +15,7 @@ func printError(title string, err error) {
 	fmt.Printf("%s\n", lipgloss.JoinHorizontal(lipgloss.Center, errorHeader.String(), title))
 	splittedError := strings.Split(err.Error(), "\n")
 	for _, line := range splittedError {
-		fmt.Printf("%s\n", errorDetails.Render(line))
+		fmt.Println(errorDetails.Render(line))
 	}
 }
 
