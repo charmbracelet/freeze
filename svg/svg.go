@@ -63,7 +63,7 @@ func AddCornerRadius(e *etree.Element, radius float64) {
 	e.CreateAttr("ry", fmt.Sprintf("%.2f", radius))
 }
 
-// Move moves the given element to the (x, y) position
+// Move moves the given element to the (x, y) position.
 func Move(e *etree.Element, x, y float64) {
 	e.CreateAttr("x", fmt.Sprintf("%.2fpx", x))
 	e.CreateAttr("y", fmt.Sprintf("%.2fpx", y))
@@ -113,7 +113,7 @@ func GetDimensions(element *etree.Element) (int, int) {
 }
 
 // dimensionToInt takes a string and returns the integer value.
-// e.g. "500px" -> 500
+// e.g. "500px" -> 500.
 func dimensionToInt(px string) int {
 	d := strings.TrimSuffix(px, "px")
 	v, _ := strconv.ParseInt(d, 10, 64)
