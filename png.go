@@ -116,7 +116,8 @@ func resvgConvert(doc *etree.Document, w, h float64, output string) error {
 	if output == "clipboard" {
 		err = copyToClipboard(png)
 	} else {
-	err = os.WriteFile(output, png, 0o600)
+		err = os.WriteFile(output, png, 0o600)
+	}
 
 	return err //nolint: wrapcheck
 }
