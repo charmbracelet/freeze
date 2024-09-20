@@ -46,5 +46,4 @@ func TestCut(t *testing.T) {
 			t.Errorf("cut(%s, %v)", test.input, test.lines)
 		}
 	}
-
 }

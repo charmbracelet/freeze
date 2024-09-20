@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.0//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg width="460.00" height="520.00" xmlns="http://www.w3.org/2000/svg">
+<svg width="600.00" height="285.00" xmlns="http://www.w3.org/2000/svg">
 <style>
 @font-face {
 	font-family: &apos;JetBrains Mono&apos;;
@@ -8,35 +8,21 @@
 	font-weight: normal;
 	font-style: normal;
 }
-</style><rect width="460.00" height="520.00" fill="#171717" x="0.00px" y="0.00px"/>
+</style><rect width="600.00" height="285.00" fill="#171717" x="0.00px" y="0.00px"/>
 <g font-family="JetBrains Mono" font-size="14.00px" fill="#c4c4c4" clip-path="url(#terminalMask)">
 <text x="20.00px" y="36.80px" xml:space="preserve"><tspan fill="#ff5f87">package</tspan> main
 </text><text x="20.00px" y="53.60px" xml:space="preserve">
-</text><text x="20.00px" y="70.40px" xml:space="preserve"><tspan fill="#676767">// freeze/issues/50
-</tspan></text><text x="20.00px" y="87.20px" xml:space="preserve"><tspan fill="#676767"/>
-</text><text x="20.00px" y="104.00px" xml:space="preserve"><tspan fill="#00aaff">type</tspan> Config <tspan fill="#00aaff">struct</tspan> <tspan fill="#e8e8a8">{</tspan> <tspan fill="#676767">//nolint: revive
-</tspan></text><text x="20.00px" y="120.80px" xml:space="preserve"><tspan fill="#676767"/>    Telegram <tspan fill="#00aaff">struct</tspan> <tspan fill="#e8e8a8">{</tspan>
-</text><text x="20.00px" y="137.60px" xml:space="preserve">        Token   <tspan fill="#635adf">string</tspan> <tspan fill="#e38356">`env:&quot;TG_TOKEN&quot;`</tspan>
-</text><text x="20.00px" y="154.40px" xml:space="preserve">        ChatID  <tspan fill="#635adf">string</tspan> <tspan fill="#e38356">`env:&quot;TG_CHAT&quot;`</tspan>
-</text><text x="20.00px" y="171.20px" xml:space="preserve">        OwnerID <tspan fill="#635adf">string</tspan> <tspan fill="#e38356">`env:&quot;TG_ADMIN&quot;`</tspan>
-</text><text x="20.00px" y="188.00px" xml:space="preserve">    <tspan fill="#e8e8a8">}</tspan>
-</text><text x="20.00px" y="204.80px" xml:space="preserve">
-</text><text x="20.00px" y="221.60px" xml:space="preserve">    Database <tspan fill="#00aaff">struct</tspan> <tspan fill="#e8e8a8">{</tspan>
-</text><text x="20.00px" y="238.40px" xml:space="preserve">        DSN <tspan fill="#635adf">string</tspan> <tspan fill="#e38356">`env:&quot;DB_DSN&quot;`</tspan>
-</text><text x="20.00px" y="255.20px" xml:space="preserve">    <tspan fill="#e8e8a8">}</tspan>
-</text><text x="20.00px" y="272.00px" xml:space="preserve">
-</text><text x="20.00px" y="288.80px" xml:space="preserve">    Log <tspan fill="#00aaff">struct</tspan> <tspan fill="#e8e8a8">{</tspan>
-</text><text x="20.00px" y="305.60px" xml:space="preserve">        Level <tspan fill="#635adf">string</tspan> <tspan fill="#e38356">`env:&quot;LOG_LEVEL&quot;`</tspan>
-</text><text x="20.00px" y="322.40px" xml:space="preserve">    <tspan fill="#e8e8a8">}</tspan>
-</text><text x="20.00px" y="339.20px" xml:space="preserve">
-</text><text x="20.00px" y="356.00px" xml:space="preserve">    Debug <tspan fill="#635adf">bool</tspan>
-</text><text x="20.00px" y="372.80px" xml:space="preserve"><tspan fill="#e8e8a8">}</tspan>
-</text><text x="20.00px" y="389.60px" xml:space="preserve">
-</text><text x="20.00px" y="406.40px" xml:space="preserve"><tspan fill="#00aaff">func</tspan> <tspan fill="#00dc7f">Load</tspan><tspan fill="#e8e8a8">()</tspan> <tspan fill="#e8e8a8">(</tspan><tspan fill="#ff7f83">*</tspan>Config<tspan fill="#e8e8a8">,</tspan> <tspan fill="#635adf">error</tspan><tspan fill="#e8e8a8">)</tspan> <tspan fill="#e8e8a8">{</tspan> <tspan fill="#676767">//nolint: revive
-</tspan></text><text x="20.00px" y="423.20px" xml:space="preserve"><tspan fill="#676767"/>    <tspan fill="#00aaff">var</tspan> c Config
-</text><text x="20.00px" y="440.00px" xml:space="preserve">    <tspan fill="#00aaff">var</tspan> err <tspan fill="#635adf">error</tspan>
-</text><text x="20.00px" y="456.80px" xml:space="preserve">    <tspan fill="#00aaff">return</tspan> <tspan fill="#ff7f83">&amp;</tspan>c<tspan fill="#e8e8a8">,</tspan> err
-</text><text x="20.00px" y="473.60px" xml:space="preserve"><tspan fill="#e8e8a8">}</tspan>
+</text><text x="20.00px" y="70.40px" xml:space="preserve"><tspan fill="#ff5f87">import</tspan> <tspan fill="#e38356">&quot;fmt&quot;</tspan>
+</text><text x="20.00px" y="87.20px" xml:space="preserve">
+</text><text x="20.00px" y="104.00px" xml:space="preserve"><tspan fill="#676767">// freeze/issues/14
+</tspan></text><text x="20.00px" y="120.80px" xml:space="preserve"><tspan fill="#676767"/>
+</text><text x="20.00px" y="137.60px" xml:space="preserve"><tspan fill="#00aaff">func</tspan> <tspan fill="#00dc7f">main</tspan><tspan fill="#e8e8a8">()</tspan> <tspan fill="#e8e8a8">{</tspan>
+</text><text x="20.00px" y="154.40px" xml:space="preserve">    fmt<tspan fill="#e8e8a8">.</tspan><tspan fill="#00dc7f">Println</tspan><tspan fill="#e8e8a8">(</tspan><tspan fill="#e38356">&quot;This is a really long line that is going to go over the 80
+</tspan></text><text x="20.00px" y="171.20px" xml:space="preserve"><tspan fill="#e38356">character limit. This is a really long line that is going to go over the 80
+</tspan></text><text x="20.00px" y="188.00px" xml:space="preserve"><tspan fill="#e38356">character limit. This is a really long line that is going to go over the 80
+</tspan></text><text x="20.00px" y="204.80px" xml:space="preserve"><tspan fill="#e38356">character limit. This is a really long line that is going to go over the 80
+</tspan></text><text x="20.00px" y="221.60px" xml:space="preserve"><tspan fill="#e38356">character limit.&quot;</tspan><tspan fill="#e8e8a8">)</tspan>
+</text><text x="20.00px" y="238.40px" xml:space="preserve"><tspan fill="#e8e8a8">}</tspan>
 </text>
 </g>
-</svg>
+<defs><clipPath id="terminalMask"><rect x="0.00" y="0.00" width="600.00" height="265.00"/></clipPath></defs></svg>

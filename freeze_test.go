@@ -15,8 +15,10 @@ import (
 
 const binary = "./test/freeze-test"
 
-var update = flag.Bool("update", false, "update golden files")
-var png = flag.Bool("png", false, "update pngs")
+var (
+	update = flag.Bool("update", false, "update golden files")
+	png    = flag.Bool("png", false, "update pngs")
+)
 
 func TestMain(m *testing.M) {
 	flag.Parse()
@@ -278,21 +280,26 @@ func TestFreezeConfigurations(t *testing.T) {
 			flags:  []string{},
 			output: "tab",
 		},
+		{
+			input:  "test/input/wrap.go",
+			flags:  []string{"--wrap", "80", "--width", "600"},
+			output: "wrap",
+		},
 	}
 
 	err := os.RemoveAll("test/output/svg")
 	if err != nil {
 		t.Fatal("unable to remove output files")
 	}
-	err = os.MkdirAll("test/output/svg", 0755)
+	err = os.MkdirAll("test/output/svg", 0o755)
 	if err != nil {
 		t.Fatal("unable to create output directory")
 	}
-	err = os.MkdirAll("test/golden/svg", 0755)
+	err = os.MkdirAll("test/golden/svg", 0o755)
 	if err != nil {
 		t.Fatal("unable to create output directory")
 	}
-	err = os.MkdirAll("test/output/png", 0755)
+	err = os.MkdirAll("test/output/png", 0o755)
 	if err != nil {
 		t.Fatal("unable to create output directory")
 	}
@@ -319,7 +326,7 @@ func TestFreezeConfigurations(t *testing.T) {
 			}
 			goldenfile := "test/golden/svg/" + tc.output + ".svg"
 			if *update {
-				if err := os.WriteFile(goldenfile, got, 0644); err != nil {
+				if err := os.WriteFile(goldenfile, got, 0o644); err != nil {
 					t.Log(err)
 					t.Fatal("unexpected error")
 				}

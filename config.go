@@ -30,6 +30,7 @@ type Config struct {
 	Interactive bool   `hidden:"" json:",omitempty" help:"Use an interactive form for configuration options." short:"i" group:"Settings"`
 	Language    string `json:"language,omitempty" help:"Language of code file." short:"l" group:"Settings" placeholder:"go"`
 	Theme       string `json:"theme" help:"Theme to use for syntax highlighting." short:"t" group:"Settings" placeholder:"charm"`
+	Wrap        int    `json:"wrap" help:"Wrap lines at a specific width." short:"w" group:"Settings" default:"0" placeholder:"80"`
 
 	Output         string        `json:"output,omitempty" help:"Output location for {{.svg}}, {{.png}}, or {{.webp}}." short:"o" group:"Settings" default:"" placeholder:"freeze.svg"`
 	Execute        string        `json:"-" help:"Capture output of command execution." short:"x" group:"Settings" default:""`
@@ -83,7 +84,6 @@ func expandPadding(p []float64, scale float64) []float64 {
 		return []float64{p[top] * scale, p[right] * scale, p[bottom] * scale, p[left] * scale}
 	default:
 		return []float64{0, 0, 0, 0}
-
 	}
 }
 
@@ -101,7 +101,7 @@ const (
 var userConfigPath = filepath.Join(xdg.ConfigHome, "freeze", "user.json")
 
 func loadUserConfig() (fs.File, error) {
-	return os.Open(userConfigPath)
+	return os.Open(userConfigPath) //nolint: wrapcheck
 }
 
 func saveUserConfig(config Config) error {
@@ -111,19 +111,19 @@ func saveUserConfig(config Config) error {
 
 	err := os.MkdirAll(filepath.Dir(userConfigPath), os.ModePerm)
 	if err != nil {
-		return err
+		return err //nolint: wrapcheck
 	}
 	f, err := os.Create(userConfigPath)
 	if err != nil {
-		return err
+		return err //nolint: wrapcheck
 	}
 	b, err := json.Marshal(config)
 	if err != nil {
-		return err
+		return err //nolint: wrapcheck
 	}
 	_, err = f.Write(b)
 
 	printFilenameOutput(userConfigPath)
 
-	return err
+	return err //nolint: wrapcheck
 }
