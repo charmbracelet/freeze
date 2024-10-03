@@ -10,14 +10,14 @@ require (
 	github.com/beevik/etree v1.3.0
 	github.com/caarlos0/go-shellwords v1.0.12
 	github.com/charmbracelet/huh v0.3.1-0.20240327025511-ec643317aa10
-	github.com/charmbracelet/lipgloss v0.10.1-0.20240325130315-f16ea2bdcb88
+	github.com/charmbracelet/lipgloss v0.13.0
 	github.com/charmbracelet/log v0.4.0
 	github.com/charmbracelet/x/exp/term v0.0.0-20240403043919-dea9035a27d4
 	github.com/creack/pty v1.1.21
 	github.com/kanrichan/resvg-go v0.0.2-0.20231001163256-63db194ca9f5
 	github.com/mattn/go-isatty v0.0.20
-	github.com/mattn/go-runewidth v0.0.15
-	golang.org/x/sys v0.18.0
+	github.com/mattn/go-runewidth v0.0.16
+	golang.org/x/sys v0.25.0
 )
 
 require (
@@ -26,6 +26,7 @@ require (
 	github.com/catppuccin/go v0.2.0 // indirect
 	github.com/charmbracelet/bubbles v0.18.0 // indirect
 	github.com/charmbracelet/bubbletea v0.25.0 // indirect
+	github.com/charmbracelet/x/ansi v0.3.2 // indirect
 	github.com/charmbracelet/x/errors v0.0.0-20240117030013-d31dba354651 // indirect
 	github.com/charmbracelet/x/exp/strings v0.0.0-20240327191656-1e1cd98f30d4 // indirect
 	github.com/containerd/console v1.0.4 // indirect
