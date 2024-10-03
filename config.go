@@ -84,7 +84,6 @@ func expandPadding(p []float64, scale float64) []float64 {
 		return []float64{p[top] * scale, p[right] * scale, p[bottom] * scale, p[left] * scale}
 	default:
 		return []float64{0, 0, 0, 0}
-
 	}
 }
 
@@ -102,7 +101,7 @@ const (
 var userConfigPath = filepath.Join(xdg.ConfigHome, "freeze", "user.json")
 
 func loadUserConfig() (fs.File, error) {
-	return os.Open(userConfigPath)
+	return os.Open(userConfigPath) //nolint: wrapcheck
 }
 
 func saveUserConfig(config Config) error {
@@ -112,19 +111,19 @@ func saveUserConfig(config Config) error {
 
 	err := os.MkdirAll(filepath.Dir(userConfigPath), os.ModePerm)
 	if err != nil {
-		return err
+		return err //nolint: wrapcheck
 	}
 	f, err := os.Create(userConfigPath)
 	if err != nil {
-		return err
+		return err //nolint: wrapcheck
 	}
 	b, err := json.Marshal(config)
 	if err != nil {
-		return err
+		return err //nolint: wrapcheck
 	}
 	_, err = f.Write(b)
 
 	printFilenameOutput(userConfigPath)
 
-	return err
+	return err //nolint: wrapcheck
 }

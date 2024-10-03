@@ -105,5 +105,10 @@ var JetBrainsMonoTTF []byte
 //go:embed JetBrainsMonoNL-Regular.ttf
 var JetBrainsMonoNLTTF []byte
 
-var JetBrainsMono string = base64.StdEncoding.EncodeToString(JetBrainsMonoTTF)
-var JetBrainsMonoNL string = base64.StdEncoding.EncodeToString(JetBrainsMonoNLTTF)
+var (
+	// JetBrainsMono font.
+	JetBrainsMono = base64.StdEncoding.EncodeToString(JetBrainsMonoTTF)
+
+	// JetBrainsMonoNL font.
+	JetBrainsMonoNL = base64.StdEncoding.EncodeToString(JetBrainsMonoNLTTF)
+)
