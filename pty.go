@@ -9,7 +9,6 @@ import (
 	"io"
 	"os"
 	"os/exec"
-	"strings"
 	"syscall"
 
 	"github.com/caarlos0/go-shellwords"
@@ -45,12 +44,7 @@ func executeCommand(config Config) (string, error) {
 	var errorOut bytes.Buffer
 	go func() {
 		_, _ = io.Copy(&out, pty)
-		splittedOut := strings.Split(out.String(), "\n")
-		if len(splittedOut) > 0 {
-			errorOut.WriteString(splittedOut[0])
-		} else {
-			errorOut.WriteString(out.String())
-		}
+		errorOut.WriteString(out.String())
 	}()
 
 	err = cmd.Wait()
