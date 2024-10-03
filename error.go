@@ -13,10 +13,8 @@ var (
 )
 
 func printError(title string, err error) {
-	fmt.Printf("%s\n", lipgloss.JoinHorizontal(lipgloss.Center, errorHeader.String(), title))
-	rendered := errorDetails.Render(err.Error())
-	fmt.Println(rendered)
-	fmt.Printf("%s\n", rendered)
+	fmt.Println(lipgloss.JoinHorizontal(lipgloss.Center, errorHeader.String(), title))
+	fmt.Println(errorDetails.Render(err.Error()))
 }
 
 func printErrorFatal(title string, err error) {
