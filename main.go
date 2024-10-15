@@ -62,7 +62,7 @@ func main() {
 
 	if config.Version {
 		if Version == "" {
-			Version = "latest (built from source)"
+			Version = "unknown (built from source)"
 			if info, ok := debug.ReadBuildInfo(); ok && (info.Main.Version != "" && info.Main.Version != "(devel)") {
 				Version = info.Main.Version
 			}
