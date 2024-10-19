@@ -2,7 +2,7 @@ package main
 
 // freeze/issues/50
 
-type Config struct {
+type Config struct { //nolint: revive
 	Telegram struct {
 		Token   string `env:"TG_TOKEN"`
 		ChatID  string `env:"TG_CHAT"`
@@ -20,7 +20,7 @@ type Config struct {
 	Debug bool
 }
 
-func Load() (*Config, error) {
+func Load() (*Config, error) { //nolint: revive
 	var c Config
 	var err error
 	return &c, err
