@@ -42,13 +42,15 @@ func executeCommand(config Config) (string, error) {
 	}
 	defer pty.Close() //nolint: errcheck
 	var out bytes.Buffer
+	var errorOut bytes.Buffer
 	go func() {
 		_, _ = io.Copy(&out, pty)
+		errorOut.Write(out.Bytes())
 	}()
 
 	err = cmd.Wait()
 	if err != nil {
-		return "", err //nolint: wrapcheck
+		return errorOut.String(), err //nolint: wrapcheck
 	}
 	return out.String(), nil
 }
