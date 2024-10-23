@@ -12,7 +12,7 @@ require (
 	github.com/beevik/etree v1.4.1
 	github.com/caarlos0/go-shellwords v1.0.12
 	github.com/charmbracelet/huh v0.6.0
-	github.com/charmbracelet/lipgloss v0.13.0
+	github.com/charmbracelet/lipgloss v0.13.1
 	github.com/charmbracelet/log v0.4.0
 	github.com/charmbracelet/x/ansi v0.3.2
 	github.com/charmbracelet/x/exp/term v0.0.0-20240403043919-dea9035a27d4
