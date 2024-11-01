@@ -16,7 +16,7 @@ require (
 	github.com/charmbracelet/log v0.4.0
 	github.com/charmbracelet/x/ansi v0.4.0
 	github.com/charmbracelet/x/exp/term v0.0.0-20240403043919-dea9035a27d4
-	github.com/creack/pty v1.1.23
+	github.com/creack/pty v1.1.24
 	github.com/kanrichan/resvg-go v0.0.2-0.20231001163256-63db194ca9f5
 	github.com/mattn/go-isatty v0.0.20
 	github.com/mattn/go-runewidth v0.0.16
