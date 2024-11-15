@@ -83,15 +83,14 @@ func main() {
 
 	// Copy the pty output to buffer
 	if config.Execute != "" {
-		out, err := executeCommand(config)
+		input, err = executeCommand(config)
 		if err != nil {
-			if out != "" {
-				// show the full error message output
-				err = fmt.Errorf("%w\n%s", err, out)
+			if input != "" {
+				err = fmt.Errorf("%w\n%s", err, input)
 			}
 			printErrorFatal("Something went wrong", err)
 		}
-		if out == "" {
+		if input == "" {
 			printErrorFatal("Something went wrong", errors.New("no command output"))
 		}
 	}
