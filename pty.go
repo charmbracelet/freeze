@@ -1,6 +1,3 @@
-//go:build !windows
-// +build !windows
-
 package main
 
 import (
@@ -9,38 +6,38 @@ import (
 	"io"
 	"os"
 	"os/exec"
-	"syscall"
 
 	"github.com/caarlos0/go-shellwords"
-	"github.com/creack/pty"
+	"github.com/charmbracelet/x/term"
+	"github.com/charmbracelet/x/xpty"
 )
-
-// runInPty opens a new pty and runs the given command in it.
-// The returned file is the pty's file descriptor and must be closed by the
-// caller.
-func (cfg Config) runInPty(c *exec.Cmd) (*os.File, error) {
-	//nolint: wrapcheck
-	return pty.StartWithAttrs(c, &pty.Winsize{
-		Cols: 80,
-		Rows: 10,
-		X:    uint16(cfg.Width),
-	}, &syscall.SysProcAttr{})
-}
 
 func executeCommand(config Config) (string, error) {
 	args, err := shellwords.Parse(config.Execute)
 	if err != nil {
 		return "", err //nolint: wrapcheck
 	}
+
 	ctx, cancel := context.WithTimeout(context.Background(), config.ExecuteTimeout)
 	defer cancel()
 
-	cmd := exec.CommandContext(ctx, args[0], args[1:]...) //nolint: gosec
-	pty, err := config.runInPty(cmd)
+	width, height, err := term.GetSize(os.Stdout.Fd())
+	if err != nil {
+		width = 80
+		height = 24
+	}
+
+	pty, err := xpty.NewPty(width, height)
 	if err != nil {
 		return "", err
 	}
-	defer pty.Close() //nolint: errcheck
+	defer func() { _ = pty.Close() }()
+
+	cmd := exec.CommandContext(ctx, args[0], args[1:]...) //nolint: gosec
+	if err := pty.Start(cmd); err != nil {
+		return "", err
+	}
+
 	var out bytes.Buffer
 	var errorOut bytes.Buffer
 	go func() {
@@ -48,8 +45,7 @@ func executeCommand(config Config) (string, error) {
 		errorOut.Write(out.Bytes())
 	}()
 
-	err = cmd.Wait()
-	if err != nil {
+	if err := xpty.WaitProcess(ctx, cmd); err != nil {
 		return errorOut.String(), err //nolint: wrapcheck
 	}
 	return out.String(), nil
