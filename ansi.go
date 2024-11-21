@@ -138,7 +138,7 @@ func (p *dispatcher) CsiDispatch(s ansi.CsiSequence) {
 		case 0:
 			reset()
 		case 1:
-			// span.CreateAttr("font-weight", "bold")
+			span.CreateAttr("font-weight", "bold")
 			p.lines[p.row].AddChild(span)
 		case 9:
 			span.CreateAttr("text-decoration", "line-through")
