@@ -165,7 +165,6 @@ Copy the output image to your clipboard, so you can paste it anywhere.
 
 ```bash
 freeze main.go --output clipboard
-freeze main.go --output copy
 ```
 
 ### Font

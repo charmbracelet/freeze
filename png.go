@@ -48,7 +48,7 @@ func libsvgConvert(doc *etree.Document, _, _ float64, output string) error {
 		if err != nil {
 			return err
 		}
-		err = copyToClipboard(png)
+		return copyToClipboard(png)
 	}
 	return err //nolint: wrapcheck
 }
@@ -114,10 +114,7 @@ func resvgConvert(doc *etree.Document, w, h float64, output string) error {
 	}
 
 	if output == "clipboard" {
-		err = copyToClipboard(png)
-	} else {
-		err = os.WriteFile(output, png, 0o600)
+		return copyToClipboard(png)
 	}
-
-	return err //nolint: wrapcheck
+	return os.WriteFile(output, png, 0o600)
 }
