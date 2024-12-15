@@ -4,9 +4,11 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"math"
 	"os"
 	"path/filepath"
 	"runtime/debug"
+	"strconv"
 	"strings"
 
 	"github.com/alecthomas/chroma/v2"
@@ -171,6 +173,7 @@ func main() {
 	for i := range config.Lines {
 		config.Lines[i]--
 	}
+	highlightedLines := config.ComputeHighlightedLines()
 
 	var strippedInput string = ansi.Strip(input)
 	isAnsi := strings.ToLower(config.Language) == "ansi" || strippedInput != input
@@ -344,10 +347,29 @@ func main() {
 		}
 		// Offset the text by padding...
 		// (x, y) -> (x+p, y+p)
+
+		var bg *etree.Element
+		doHighlightLine := highlightedLines[i+1+offsetLine-softWrapOffset]
+		if config.SoftWrap {
+			// If the current line is soft-wrapped, we need to find the previous real line
+			if !isRealLine[i] {
+				j := i
+				// iterate previous lines until we find the previous real line
+				for ; !isRealLine[j]; j-- {
+				}
+				// we apply to the current line the highlight status of the found real line
+				doHighlightLine = highlightedLines[j+1+offsetLine-softWrapOffset]
+			}
+		}
+
 		if config.ShowLineNumbers {
 			ln := etree.NewElement("tspan")
 			ln.CreateAttr("xml:space", "preserve")
-			ln.CreateAttr("fill", s.Get(chroma.LineNumbers).Colour.String())
+			if doHighlightLine {
+				ln.CreateAttr("fill", s.Get(chroma.LineHighlight).Colour.String())
+			} else {
+				ln.CreateAttr("fill", s.Get(chroma.LineNumbers).Colour.String())
+			}
 			if config.SoftWrap {
 				if (isAnsi && strippedIsRealLine[i]) || (!isAnsi && isRealLine[i]) {
 					ln.SetText(fmt.Sprintf("%3d  ", i+1+offsetLine-softWrapOffset))
@@ -357,14 +379,33 @@ func main() {
 			} else {
 				ln.SetText(fmt.Sprintf("%3d  ", i+1+offsetLine))
 			}
+			ln.CreateAttr("height", strconv.Itoa(int(math.Round(config.Font.Size*config.LineHeight))))
 			line.InsertChildAt(0, ln)
 		}
 		if config.SoftWrap && !((isAnsi && strippedIsRealLine[i]) || (!isAnsi && isRealLine[i])) {
 			softWrapOffset++
 		}
 		x := float64(config.Padding[left] + config.Margin[left])
-		y := (float64(i+1))*(config.Font.Size*config.LineHeight) + float64(config.Padding[top]) + float64(config.Margin[top])
+		// Rounding required to ensure that each line have the same height
+		y := (float64(i+1))*math.Round(config.Font.Size*config.LineHeight) + float64(config.Padding[top]) + float64(config.Margin[top])
+		if doHighlightLine {
+			// Create a background element, with grey color and 50% opacity
+			bg = etree.NewElement("rect")
+			bg.CreateAttr("fill", "grey")
+			bg.CreateAttr("fill-opacity", "0.5")
+			// This lineWidth is not accurate when the width is dynamic, it will be computed later
+			lineWidth := imageWidth + config.Margin[left] + config.Padding[left] + config.Margin[right] + config.Padding[right]
+			bg.CreateAttr("width", strconv.Itoa(int(lineWidth)))
+			// We round to ensure that two highlighted consecutive lines do not leave a one pixel line between
+			bg.CreateAttr("height", strconv.Itoa(int(math.Round(config.Font.Size*config.LineHeight))))
+			line.Parent().InsertChildAt(0, bg)
 
+			yRect := float64(i)*math.Round(config.Font.Size*config.LineHeight) +
+				config.Padding[top] +
+				config.Margin[top] + math.Round(config.LineHeight*config.Font.Size)/4
+			// We round to ensure that two highlighted consecutive lines do not leave a one pixel line between
+			svg.Move(bg, 0, math.Round(yRect))
+		}
 		svg.Move(line, x, y)
 
 		// We are passed visible lines, remove the rest.
@@ -399,6 +440,13 @@ func main() {
 			imageWidth += config.Font.Size * 3 * scale
 		} else {
 			terminalWidth -= config.Font.Size * 3
+		}
+	}
+
+	// Adjust the highlighted rect width with the accurate computed width
+	if len(highlightedLines) != 0 {
+		for _, elem := range textGroup.SelectElements("rect") {
+			elem.CreateAttr("width", strconv.Itoa(int(imageWidth)))
 		}
 	}
 
