@@ -7,7 +7,7 @@ toolchain go1.22.5
 require (
 	github.com/adrg/xdg v0.5.2
 	github.com/alecthomas/chroma/v2 v2.14.0
-	github.com/alecthomas/kong v1.2.1
+	github.com/alecthomas/kong v1.6.0
 	github.com/aymanbagabas/go-udiff v0.2.0
 	github.com/beevik/etree v1.4.1
 	github.com/caarlos0/go-shellwords v1.0.12
@@ -21,6 +21,7 @@ require (
 	github.com/mattn/go-isatty v0.0.20
 	github.com/mattn/go-runewidth v0.0.16
 	github.com/muesli/reflow v0.3.0
+	golang.org/x/sys v0.28.0
 )
 
 require (
