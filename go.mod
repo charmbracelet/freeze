@@ -21,7 +21,6 @@ require (
 	github.com/mattn/go-isatty v0.0.20
 	github.com/mattn/go-runewidth v0.0.16
 	github.com/muesli/reflow v0.3.0
-	golang.org/x/sys v0.28.0
 )
 
 require (
@@ -49,6 +48,6 @@ require (
 	github.com/tetratelabs/wazero v1.8.0 // indirect
 	golang.org/x/exp v0.0.0-20240904232852-e7e105dedf7e // indirect
 	golang.org/x/sync v0.8.0 // indirect
-	golang.org/x/sys v0.27.0 // indirect
+	golang.org/x/sys v0.28.0 // indirect
 	golang.org/x/text v0.18.0 // indirect
 )
