@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"io"
 	"os"
 	"os/exec"
@@ -15,7 +16,7 @@ import (
 func executeCommand(config Config) (string, error) {
 	args, err := shellwords.Parse(config.Execute)
 	if err != nil {
-		return "", err //nolint: wrapcheck
+		return "", fmt.Errorf("could not execute: %w", err)
 	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), config.ExecuteTimeout)
@@ -29,13 +30,13 @@ func executeCommand(config Config) (string, error) {
 
 	pty, err := xpty.NewPty(width, height)
 	if err != nil {
-		return "", err
+		return "", fmt.Errorf("could not execute: %w", err)
 	}
 	defer func() { _ = pty.Close() }()
 
 	cmd := exec.CommandContext(ctx, args[0], args[1:]...) //nolint: gosec
 	if err := pty.Start(cmd); err != nil {
-		return "", err
+		return "", fmt.Errorf("could not execute: %w", err)
 	}
 
 	var out bytes.Buffer
@@ -46,7 +47,7 @@ func executeCommand(config Config) (string, error) {
 	}()
 
 	if err := xpty.WaitProcess(ctx, cmd); err != nil {
-		return errorOut.String(), err //nolint: wrapcheck
+		return errorOut.String(), fmt.Errorf("could not execute: %w", err)
 	}
 	return out.String(), nil
 }
