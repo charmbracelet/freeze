@@ -14,7 +14,7 @@ require (
 	github.com/charmbracelet/huh v0.6.0
 	github.com/charmbracelet/lipgloss v1.0.0
 	github.com/charmbracelet/log v0.4.0
-	github.com/charmbracelet/x/ansi v0.4.2
+	github.com/charmbracelet/x/ansi v0.7.0
 	github.com/charmbracelet/x/term v0.2.1
 	github.com/charmbracelet/x/xpty v0.1.1
 	github.com/kanrichan/resvg-go v0.0.2-0.20231001163256-63db194ca9f5
