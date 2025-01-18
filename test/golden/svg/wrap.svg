@@ -14,8 +14,8 @@
 </text><text x="20.00px" y="53.60px" xml:space="preserve">
 </text><text x="20.00px" y="70.40px" xml:space="preserve"><tspan fill="#ff5f87">import</tspan> <tspan fill="#e38356">&quot;fmt&quot;</tspan>
 </text><text x="20.00px" y="87.20px" xml:space="preserve">
-</text><text x="20.00px" y="104.00px" xml:space="preserve"><tspan fill="#676767">// freeze/issues/14
-</tspan></text><text x="20.00px" y="120.80px" xml:space="preserve"><tspan fill="#676767"/>
+</text><text x="20.00px" y="104.00px" xml:space="preserve"><tspan fill="#676767">// freeze/issues/14</tspan>
+</text><text x="20.00px" y="120.80px" xml:space="preserve">
 </text><text x="20.00px" y="137.60px" xml:space="preserve"><tspan fill="#00aaff">func</tspan> <tspan fill="#00dc7f">main</tspan><tspan fill="#e8e8a8">()</tspan> <tspan fill="#e8e8a8">{</tspan>
 </text><text x="20.00px" y="154.40px" xml:space="preserve">    fmt<tspan fill="#e8e8a8">.</tspan><tspan fill="#00dc7f">Println</tspan><tspan fill="#e8e8a8">(</tspan><tspan fill="#e38356">&quot;This is a really long line that is going to go over the 80
 </tspan></text><text x="20.00px" y="171.20px" xml:space="preserve"><tspan fill="#e38356">character limit. This is a really long line that is going to go over the 80

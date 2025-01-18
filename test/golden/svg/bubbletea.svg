@@ -42,8 +42,8 @@
 </text><text x="80.00px" y="574.00px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 30  </tspan><tspan fill="#e8e8a8">}</tspan>
 </text><text x="80.00px" y="590.80px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 31  </tspan>
 </text><text x="80.00px" y="607.60px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 32  </tspan><tspan fill="#00aaff">func</tspan> <tspan fill="#e8e8a8">(</tspan>m model<tspan fill="#e8e8a8">)</tspan> <tspan fill="#00dc7f">View</tspan><tspan fill="#e8e8a8">()</tspan> <tspan fill="#635adf">string</tspan> <tspan fill="#e8e8a8">{</tspan>
-</text><text x="80.00px" y="624.40px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 33  </tspan>    <tspan fill="#00aaff">return</tspan> <tspan fill="#676767">// ...
-</tspan></text><text x="80.00px" y="641.20px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 34  </tspan><tspan fill="#676767"/><tspan fill="#e8e8a8">}</tspan>
+</text><text x="80.00px" y="624.40px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 33  </tspan>    <tspan fill="#00aaff">return</tspan> <tspan fill="#676767">// ...</tspan>
+</text><text x="80.00px" y="641.20px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 34  </tspan><tspan fill="#e8e8a8">}</tspan>
 </text>
 </g>
 <defs><filter id="shadow" filterUnits="userSpaceOnUse"><feGaussianBlur in="SourceAlpha" stdDeviation="24.00"/><feOffset result="offsetblur" dx="0.00" dy="12.00"/><feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge></filter></defs><defs><clipPath id="terminalMask"><rect x="60.00" y="50.00" width="586.00" height="658.00"/></clipPath></defs></svg>
