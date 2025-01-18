@@ -398,14 +398,13 @@ func main() {
 
 	istty := isatty.IsTerminal(os.Stdout.Fd())
 
-	outputName := config.Output
-	if config.Output == "clipboard" {
-		outputName = "clipboard.png"
+	if config.Output == "clipboard" { // convert to png because we can't copy svg to clipboard
+		config.Output = "clipboard.png"
 	}
 	switch {
-	case strings.HasSuffix(outputName, ".png"):
+	case strings.HasSuffix(config.Output, ".png"):
 		// use libsvg conversion.
-		svgConversionErr := libsvgConvert(doc, imageWidth, imageHeight, outputName)
+		svgConversionErr := libsvgConvert(doc, imageWidth, imageHeight, config.Output)
 		if svgConversionErr == nil {
 			printFilenameOutput(config.Output)
 			break

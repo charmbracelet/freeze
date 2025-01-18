@@ -42,9 +42,9 @@ func libsvgConvert(doc *etree.Document, _, _ float64, output string) error {
 	if err != nil {
 		return err
 	}
-	if strings.Contains(output, "clipboard") {
+	if strings.HasPrefix(output, "clipboard") {
 		png, err := os.ReadFile(output)
-		defer os.Remove(output)
+		defer os.Remove(output) // nolint: errcheck
 		if err != nil {
 			return err
 		}
