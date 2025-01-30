@@ -9,7 +9,7 @@ require (
 	github.com/alecthomas/chroma/v2 v2.15.0
 	github.com/alecthomas/kong v1.6.1
 	github.com/aymanbagabas/go-udiff v0.2.0
-	github.com/beevik/etree v1.4.1
+	github.com/beevik/etree v1.5.0
 	github.com/caarlos0/go-shellwords v1.0.12
 	github.com/charmbracelet/huh v0.6.0
 	github.com/charmbracelet/lipgloss v1.0.0
