@@ -31,13 +31,43 @@
                 "title": "Show line numbers",
                 "description": "Show line numbers",
                 "type": "boolean",
-                "prefill": true
+                "default": true
             },
             "window": {
                 "title": "Display window controls",
                 "description": "Display window controls (Mac OS style window decorations)",
                 "type": "boolean",
-                "prefill": true
+                "default": true
+            }
+        }
+    },
+    "storages": {
+        "dataset": {
+            "actorSpecification": 1,
+            "title": "Freeze output",
+            "description": "",
+            "views": {
+                "default": {
+                    "title": "Freeze output",
+                    "description": "",
+                    "transformation": {
+                        "fields": [
+                            "image",
+                            "language"
+                        ]
+                    },
+                    "display": {
+                        "component": "table",
+                        "properties": {
+                            "image": {
+                                "label": "Image"
+                            },
+                            "language": {
+                                "label": "Language"
+                            }
+                        }
+                    }
+                }
             }
         }
     },
