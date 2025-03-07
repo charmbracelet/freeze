@@ -1,0 +1,46 @@
+{
+    "actorSpecification": 1,
+    "name": "freeze",
+    "title": "Freeze",
+    "description": "Generate screenshots from code",
+    "version": "0.1",
+    "buildTag": "latest",
+    "input": {
+        "title": "Freeze settings",
+        "description": "Enter the code that you want to screenshot",
+        "type": "object",
+        "schemaVersion": 1,
+        "properties": {
+            "language": {
+                "title": "Language",
+                "type": "string",
+                "description": "Language of your code snippet",
+                "editor": "select",
+                "prefill": "python",
+                "enum": ["python", "javascript", "go"],
+                "enumTitles": ["Python", "Javascript", "Go"]
+            },
+            "code": {
+                "title": "Source code",
+                "type": "string",
+                "description": "URLs to start with",
+                "prefill": "print('Hello world!')",
+                "editor": "textarea"
+            },
+            "showLineNumbers": {
+                "title": "Show line numbers",
+                "description": "Show line numbers",
+                "type": "boolean",
+                "prefill": true
+            },
+            "window": {
+                "title": "Display window controls",
+                "description": "Display window controls (Mac OS style window decorations)",
+                "type": "boolean",
+                "prefill": true
+            }
+        }
+    },
+    "dockerContextDir": ".",
+    "dockerfile": "./Dockerfile"
+}
