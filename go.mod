@@ -2,12 +2,12 @@ module github.com/charmbracelet/freeze
 
 go 1.21.0
 
-toolchain go1.22.5
+toolchain go1.24.1
 
 require (
 	github.com/adrg/xdg v0.5.3
 	github.com/alecthomas/chroma/v2 v2.15.0
-	github.com/alecthomas/kong v1.8.1
+	github.com/alecthomas/kong v1.9.0
 	github.com/aymanbagabas/go-udiff v0.2.0
 	github.com/beevik/etree v1.5.0
 	github.com/caarlos0/go-shellwords v1.0.12
