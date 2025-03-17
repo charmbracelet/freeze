@@ -93,6 +93,9 @@ func main() {
 		if input == "" {
 			printErrorFatal("Something went wrong", errors.New("no command output"))
 		}
+		if config.Command {
+			input = "> " + config.Execute + "\n" + input
+		}
 	}
 
 	isDefaultConfig := config.Config == "default"
