@@ -60,25 +60,19 @@ func main() {
 		printErrorFatal("Invalid Usage", err)
 	}
 
-	//nolint: nestif
-	if len(ctx.Args) > 0 {
-		switch ctx.Args[0] {
-		case "version":
-			if Version == "" {
-				if info, ok := debug.ReadBuildInfo(); ok && info.Main.Sum != "" {
-					Version = info.Main.Version
-				} else {
-					Version = "unknown (built from source)"
-				}
+	if config.Version {
+		if Version == "" {
+			Version = "unknown (built from source)"
+			if info, ok := debug.ReadBuildInfo(); ok && (info.Main.Version != "" && info.Main.Version != "(devel)") {
+				Version = info.Main.Version
 			}
-			version := fmt.Sprintf("freeze version %s", Version)
-			if len(CommitSHA) >= shaLen {
-				version += " (" + CommitSHA[:shaLen] + ")"
-			}
-
-			fmt.Println(version)
-			os.Exit(0)
 		}
+		version := fmt.Sprintf("freeze version: %s", Version)
+		if len(CommitSHA) > shaLen { // if the commit SHA is longer than `shaLen` characters, show the first `shaLen` number of characters.
+			version += fmt.Sprintf(" (%s)", CommitSHA[:shaLen])
+		}
+		fmt.Println(version)
+		return
 	}
 
 	// Copy the pty output to buffer
