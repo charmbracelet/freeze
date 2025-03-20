@@ -71,6 +71,12 @@ go install github.com/charmbracelet/freeze@latest
 
 [releases]: https://github.com/charmbracelet/freeze/releases
 
+## Apify Actor Usage [![Freeze Actor](https://apify.com/actor-badge?actor=janbuchar/freeze)](https://apify.com/janbuchar/freeze?fpr=freeze)
+
+<a href="https://apify.com/janbuchar/freeze?fpr=freeze"><img src="https://apify.com/ext/run-on-apify.png" alt="Run Freeze Actor on Apify" width="176" height="39" /></a>
+
+You can run Freeze in the cloud without installation using the [Freeze Actor](https://apify.com/janbuchar/freeze?fpr=freeze) on [Apify](https://apify.com?fpr=freeze) free of charge.
+
 ## Customization
 
 ### Interactive mode
