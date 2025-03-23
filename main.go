@@ -62,12 +62,11 @@ func main() {
 	}
 
 	if config.Version {
-		if Version == "" {
-			if info, ok := debug.ReadBuildInfo(); ok && info.Main.Sum != "" {
-				Version = info.Main.Version
-			} else {
-				Version = "unknown (built from source)"
-			}
+		info, ok := debug.ReadBuildInfo()
+		if Version == "" && ok && info.Main.Sum != "" {
+			Version = info.Main.Version
+		} else {
+			Version = "unknown (built from source)"
 		}
 		version := fmt.Sprintf("freeze version %s", Version)
 		if len(CommitSHA) >= shaLen {
