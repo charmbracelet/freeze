@@ -77,7 +77,7 @@
 </tspan></text><text x="80.00px" y="1177.00px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 65  </tspan><tspan fill="#e38356">      {{- if eq .Arch &quot;amd64&quot; }}x86_64
 </tspan></text><text x="80.00px" y="1193.80px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 66  </tspan><tspan fill="#e38356">      {{- else if eq .Arch &quot;386&quot; }}i386
 </tspan></text><text x="80.00px" y="1210.60px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 67  </tspan><tspan fill="#e38356">      {{- else }}{{ .Arch }}{{ end }}
-</tspan></text><text x="80.00px" y="1227.40px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 68  </tspan><tspan fill="#e38356">      {{- with .Arm}}v{{ . }}{{ end }}</tspan>      
+</tspan></text><text x="80.00px" y="1227.40px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 68  </tspan><tspan fill="#e38356">      {{- with .Arm}}v{{ . }}{{ end }}</tspan>
 </text><text x="80.00px" y="1244.20px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 69  </tspan>    <tspan fill="#b083ea">wrap_in_directory</tspan><tspan fill="#e8e8a8">:</tspan> <tspan fill="#00aaff">true</tspan>
 </text><text x="80.00px" y="1261.00px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 70  </tspan>    <tspan fill="#b083ea">files</tspan><tspan fill="#e8e8a8">:</tspan>
 </text><text x="80.00px" y="1277.80px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 71  </tspan>      - README*
@@ -93,7 +93,7 @@
 </text><text x="80.00px" y="1445.80px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 81  </tspan>    <tspan fill="#b083ea">file_name_template</tspan><tspan fill="#e8e8a8">:</tspan> <tspan fill="#e8e8a8">&gt;-</tspan><tspan fill="#e38356">
 </tspan></text><text x="80.00px" y="1462.60px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 82  </tspan><tspan fill="#e38356">      {{- trimsuffix .ConventionalFileName .ConventionalExtension -}}
 </tspan></text><text x="80.00px" y="1479.40px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 83  </tspan><tspan fill="#e38356">      {{- if and (eq .Arm &quot;6&quot;) (eq .ConventionalExtension &quot;.deb&quot;) }}6{{ end -}}
-</tspan></text><text x="80.00px" y="1496.20px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 84  </tspan><tspan fill="#e38356">      {{- .ConventionalExtension -}}</tspan>      
+</tspan></text><text x="80.00px" y="1496.20px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 84  </tspan><tspan fill="#e38356">      {{- .ConventionalExtension -}}</tspan>
 </text><text x="80.00px" y="1513.00px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 85  </tspan>    <tspan fill="#b083ea">license</tspan><tspan fill="#e8e8a8">:</tspan> MIT
 </text><text x="80.00px" y="1529.80px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 86  </tspan>    <tspan fill="#b083ea">formats</tspan><tspan fill="#e8e8a8">:</tspan>
 </text><text x="80.00px" y="1546.60px" xml:space="preserve"><tspan xml:space="preserve" fill="#7f7f7f"> 87  </tspan>      - apk
