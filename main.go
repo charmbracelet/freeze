@@ -15,14 +15,15 @@ import (
 	"github.com/alecthomas/chroma/v2/styles"
 	"github.com/alecthomas/kong"
 	"github.com/beevik/etree"
-	in "github.com/charmbracelet/freeze/input"
-	"github.com/charmbracelet/freeze/svg"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/log"
 	"github.com/charmbracelet/x/ansi"
 	"github.com/charmbracelet/x/ansi/parser"
 	"github.com/mattn/go-isatty"
 	"github.com/muesli/reflow/wordwrap"
+
+	in "github.com/charmbracelet/freeze/input"
+	"github.com/charmbracelet/freeze/svg"
 )
 
 const (
@@ -60,25 +61,19 @@ func main() {
 		printErrorFatal("Invalid Usage", err)
 	}
 
-	//nolint: nestif
-	if len(ctx.Args) > 0 {
-		switch ctx.Args[0] {
-		case "version":
-			if Version == "" {
-				if info, ok := debug.ReadBuildInfo(); ok && info.Main.Sum != "" {
-					Version = info.Main.Version
-				} else {
-					Version = "unknown (built from source)"
-				}
-			}
-			version := fmt.Sprintf("freeze version %s", Version)
-			if len(CommitSHA) >= shaLen {
-				version += " (" + CommitSHA[:shaLen] + ")"
-			}
-
-			fmt.Println(version)
-			os.Exit(0)
+	if config.Version {
+		info, ok := debug.ReadBuildInfo()
+		if Version == "" && ok && info.Main.Sum != "" {
+			Version = info.Main.Version
+		} else {
+			Version = "unknown (built from source)"
 		}
+		version := fmt.Sprintf("freeze version %s", Version)
+		if len(CommitSHA) >= shaLen {
+			version += " (" + CommitSHA[:shaLen] + ")"
+		}
+		fmt.Println(version)
+		os.Exit(0)
 	}
 
 	// Copy the pty output to buffer
