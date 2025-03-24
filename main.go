@@ -18,7 +18,6 @@ import (
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/log"
 	"github.com/charmbracelet/x/ansi"
-	"github.com/charmbracelet/x/ansi/parser"
 	"github.com/mattn/go-isatty"
 	"github.com/muesli/reflow/wordwrap"
 
@@ -379,14 +378,14 @@ func main() {
 	svg.SetDimensions(terminal, terminalWidth, terminalHeight)
 
 	if isAnsi {
-		parser := ansi.NewParser(parser.MaxParamsSize, 0)
-		// parser := ansi.Parser{
-		// 	Print:       d.Print,
-		// 	Execute:     d.Execute,
-		// 	CsiDispatch: d.CsiDispatch,
-		// }
+		parser := ansi.NewParser()
+		parser.SetHandler(ansi.Handler{
+			Print:     d.Print,
+			HandleCsi: d.CsiDispatch,
+			Execute:   d.Execute,
+		})
 		for _, line := range strings.Split(input, "\n") {
-			parser.Parse(d.dispatch, []byte(line))
+			parser.Parse([]byte(line))
 			d.Execute(ansi.LF) // simulate a newline
 		}
 	}
