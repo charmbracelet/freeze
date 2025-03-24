@@ -171,7 +171,7 @@ func main() {
 	strippedInput = cut(strippedInput, config.Lines)
 
 	// wrap to character limit.
-	if config.Wrap > 0 {
+	if config.Wrap > 0 && !config.SoftWrap {
 		strippedInput = wordwrap.String(strippedInput, config.Wrap)
 		input = wordwrap.String(input, config.Wrap)
 	}
@@ -187,6 +187,23 @@ func main() {
 		} else {
 			printErrorFatal("No input", errors.New("check --lines is within bounds"))
 		}
+	}
+
+	isRealLine := []bool{}
+	strippedIsRealLine := []bool{}
+	// wrap to character limit.
+	if config.Wrap > 0 && config.SoftWrap {
+		isRealLine = SoftWrap(input, config.Wrap)
+		strippedIsRealLine = SoftWrap(strippedInput, config.Wrap)
+		strippedInput = wordwrap.String(strippedInput, config.Wrap)
+		input = wordwrap.String(input, config.Wrap)
+	}
+
+	if config.Wrap <= 0 {
+		// If Wrap is disabled, but SoftWrap enabled, we force disable SoftWrap as it does not make sense
+		// to keep this option enabled.
+		printError("Wrap option disabled, but SoftWrap option enabled", fmt.Errorf("wrap option disabled"))
+		config.SoftWrap = false
 	}
 
 	s, ok := styles.Registry[strings.ToLower(config.Theme)]
@@ -314,6 +331,7 @@ func main() {
 
 	config.LineHeight *= float64(scale)
 
+	softWrapOffset := 0
 	for i, line := range text {
 		if isAnsi {
 			line.SetText("")
@@ -324,8 +342,19 @@ func main() {
 			ln := etree.NewElement("tspan")
 			ln.CreateAttr("xml:space", "preserve")
 			ln.CreateAttr("fill", s.Get(chroma.LineNumbers).Colour.String())
-			ln.SetText(fmt.Sprintf("%3d  ", i+1+offsetLine))
+			if config.SoftWrap {
+				if (isAnsi && strippedIsRealLine[i]) || (!isAnsi && isRealLine[i]) {
+					ln.SetText(fmt.Sprintf("%3d  ", i+1+offsetLine-softWrapOffset))
+				} else {
+					ln.SetText("     ")
+				}
+			} else {
+				ln.SetText(fmt.Sprintf("%3d  ", i+1+offsetLine))
+			}
 			line.InsertChildAt(0, ln)
+		}
+		if config.SoftWrap && !((isAnsi && strippedIsRealLine[i]) || (!isAnsi && isRealLine[i])) {
+			softWrapOffset++
 		}
 		x := float64(config.Padding[left] + config.Margin[left])
 		y := (float64(i+1))*(config.Font.Size*config.LineHeight) + float64(config.Padding[top]) + float64(config.Margin[top])
