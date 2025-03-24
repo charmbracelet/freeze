@@ -3,9 +3,12 @@ package main
 import (
 	"embed"
 	"encoding/json"
+	"fmt"
 	"io/fs"
 	"os"
 	"path/filepath"
+	"strconv"
+	"strings"
 	"time"
 
 	"github.com/adrg/xdg"
@@ -32,6 +35,7 @@ type Config struct {
 	Language    string `json:"language,omitempty" help:"Language of code file." short:"l" group:"Settings" placeholder:"go"`
 	Theme       string `json:"theme" help:"Theme to use for syntax highlighting." short:"t" group:"Settings" placeholder:"charm"`
 	Wrap        int    `json:"wrap" help:"Wrap lines at a specific width." short:"w" group:"Settings" default:"0" placeholder:"80"`
+	SoftWrap    bool   `json:"soft-wrap" help:"Do not count wrapped lines (Lines & LineHeight)." group:"Settings"`
 
 	Output         string        `json:"output,omitempty" help:"Output location for {{.svg}}, {{.png}}, or {{.webp}}." short:"o" group:"Settings" default:"" placeholder:"freeze.svg"`
 	Execute        string        `json:"-" help:"Capture output of command execution." short:"x" group:"Settings" default:""`
@@ -47,7 +51,62 @@ type Config struct {
 	// Line
 	LineHeight      float64 `json:"line_height" help:"Line height relative to font size." group:"Line" placeholder:"1.2"`
 	Lines           []int   `json:"-" help:"Lines to capture (start,end)." group:"Line" placeholder:"0,-1" value:"0,-1"`
+	HighlightLines  string  `json:"-" help:"Lines to highlight (range: \"start-end\", separator:\";\")." group:"Line" placeholder:"0,10" value:""`
 	ShowLineNumbers bool    `json:"show_line_numbers" help:"" group:"Line" placeholder:"false"`
+}
+
+// ComputeHighlightedLines parse the config.HighlightLines option
+// And return a map of Line numbers where the highlight should be applied
+func (cfg Config) ComputeHighlightedLines() map[int]bool {
+	uniqueNumbers := make(map[int]bool) // Use a map to ensure uniqueness
+	if cfg.HighlightLines == "" {
+		return uniqueNumbers
+	}
+	// Split the input by ';'
+	parts := strings.Split(cfg.HighlightLines, ";")
+
+	for _, part := range parts {
+		// Check if the part contains a dash '-'
+		if strings.Contains(part, "-") {
+			// Split the part by '-' to get start and end of the range
+			rangeParts := strings.Split(part, "-")
+			if len(rangeParts) == 2 {
+				start, err1 := strconv.Atoi(rangeParts[0])
+				end, err2 := strconv.Atoi(rangeParts[1])
+
+				if end <= start {
+					err := fmt.Errorf("end of range lower (%d) than start of range (%d): %s", end, start, part)
+					printErrorFatal("error while parsing highlight lines range", err)
+				}
+				// If parsing is successful and start <= end
+				if err1 == nil && err2 == nil && start <= end {
+					// Add all numbers in the range to the map
+					for i := start; i <= end; i++ {
+						uniqueNumbers[i] = true
+					}
+				} else if err1 != nil {
+					err := fmt.Errorf("unable to parse the first part of the range: %s", rangeParts[0])
+					printErrorFatal("error while parsing highlight lines range", err)
+				} else if err2 != nil {
+					err := fmt.Errorf("unable to parse the second part of the range: %s", rangeParts[1])
+					printErrorFatal("error while parsing highlight lines range", err)
+				}
+			} else {
+				err := fmt.Errorf("a range should contains exactly two part: %s", part)
+				printErrorFatal("error while parsing highlight lines range", err)
+			}
+		} else {
+			// If no dash, just convert the number and add it to the map
+			num, err := strconv.Atoi(part)
+			if err != nil {
+				err := fmt.Errorf("unable to parse to integer: %s", part)
+				printErrorFatal("error while parsing highlight lines", err)
+			}
+			uniqueNumbers[num] = true
+		}
+	}
+
+	return uniqueNumbers
 }
 
 // Shadow is the configuration options for a drop shadow.
