@@ -4,6 +4,7 @@
   <a href="https://stuff.charm.sh/freeze/freeze-4k.png"><img src="https://github.com/charmbracelet/freeze/assets/25087/de76b799-fa67-4b5b-8da2-d990ca5b4e06" width="500" /></a><br>
   <a href="https://github.com/charmbracelet/freeze/releases"><img src="https://img.shields.io/github/release/charmbracelet/freeze.svg" alt="Latest Release"></a>
   <a href="https://github.com/charmbracelet/freeze/actions"><img src="https://github.com/charmbracelet/freeze/workflows/build/badge.svg" alt="Build Status"></a>
+  <a href="https://apify.com/janbuchar/freeze?fpr=freeze"><img src="https://apify.com/actor-badge?actor=janbuchar/freeze" alt="Freeze Actor"></a>
 </p>
 
 Generate images of code and terminal output.
@@ -71,7 +72,7 @@ go install github.com/charmbracelet/freeze@latest
 
 [releases]: https://github.com/charmbracelet/freeze/releases
 
-## Apify Actor Usage [![Freeze Actor](https://apify.com/actor-badge?actor=janbuchar/freeze)](https://apify.com/janbuchar/freeze?fpr=freeze)
+## Apify Actor Usage
 
 <a href="https://apify.com/janbuchar/freeze?fpr=freeze"><img src="https://apify.com/ext/run-on-apify.png" alt="Run Freeze Actor on Apify" width="176" height="39" /></a>
 
