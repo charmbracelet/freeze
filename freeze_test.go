@@ -136,10 +136,6 @@ func TestFreezeConfigurations(t *testing.T) {
 			flags:  []string{"--language", "go", "--height", "800", "--width", "750", "--config", "full", "--window=false", "--show-line-numbers"},
 			output: "bubbletea",
 		},
-		// {
-		// 	flags:  []string{"--execute", "layout", "--height", "800", "--config", "full", "--margin", "50,10"},
-		// 	output: "composite-2",
-		// },
 		{
 			input:  "test/input/layout.ansi",
 			flags:  []string{},
