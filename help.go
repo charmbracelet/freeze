@@ -90,7 +90,6 @@ func printFlag(f *kong.Flag) {
 		fmt.Print("    ", dashStyle.Render(" "), " ")
 		fmt.Print(dashStyle.Render("--"), f.Name)
 		fmt.Print(strings.Repeat(" ", space-len(f.Name)))
-
 	}
 	help := highlighter.ReplaceAllString(f.Help, keywordStyle.Render("$1")+"\x1b[38;5;"+helpForeground+"m")
 	fmt.Println(helpStyle.Render(help))

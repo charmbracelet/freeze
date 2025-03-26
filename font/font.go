@@ -99,11 +99,20 @@ import (
 	"encoding/base64"
 )
 
+// JetBrainsMonoTTF contains the embedded JetBrainsMono-Regular.ttf font.
+//
 //go:embed JetBrainsMono-Regular.ttf
 var JetBrainsMonoTTF []byte
 
+// JetBrainsMonoNLTTF contains the embedded JetBrainsMonoNL-Regular.ttf font.
+//
 //go:embed JetBrainsMonoNL-Regular.ttf
 var JetBrainsMonoNLTTF []byte
 
-var JetBrainsMono string = base64.StdEncoding.EncodeToString(JetBrainsMonoTTF)
-var JetBrainsMonoNL string = base64.StdEncoding.EncodeToString(JetBrainsMonoNLTTF)
+var (
+	// JetBrainsMono font.
+	JetBrainsMono = base64.StdEncoding.EncodeToString(JetBrainsMonoTTF)
+
+	// JetBrainsMonoNL font.
+	JetBrainsMonoNL = base64.StdEncoding.EncodeToString(JetBrainsMonoNLTTF)
+)
