@@ -110,7 +110,9 @@ func (p *dispatcher) CsiDispatch(cmd ansi.Cmd, params ansi.Params) {
 		// reset ANSI, this is done by creating a new empty tspan,
 		// which would reset all the styles such that when text is appended to the last
 		// child of this line there is no styling applied.
-		p.lines[p.row].AddChild(span)
+		if p.row < len(p.lines) {
+			p.lines[p.row].AddChild(span)
+		}
 		p.endBackground()
 	}
 
