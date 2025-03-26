@@ -87,9 +87,6 @@ func main() {
 		if input == "" {
 			printErrorFatal("Something went wrong", errors.New("no command output"))
 		}
-		if config.Command {
-			input = config.Execute + "\n" + input
-		}
 	}
 
 	isDefaultConfig := config.Config == "default"
@@ -321,6 +318,7 @@ func main() {
 		cursor string = "#5D53C7"
 	)
 
+	var longestLine int
 	for i, line := range text {
 		if isAnsi {
 			line.SetText("")
@@ -343,6 +341,7 @@ func main() {
 		// Add a cursor to the first line, if running a command.
 		if i == 0 && config.Command {
 			newline := etree.NewElement("text")
+			// Prompt
 			ln := etree.NewElement("tspan")
 			ln.CreateAttr("xml:space", "preserve")
 			ln.CreateAttr("fill", cursor)
@@ -351,6 +350,20 @@ func main() {
 			textGroup.InsertChildAt(0, newline)
 			svg.Move(newline, x, y)
 			x += float64(config.Font.Size) * 3
+			// Command
+			// TODO eventually remove these hard-coded styles and use shell as
+			// the language for commands.
+			cmdText := etree.NewElement("tspan")
+			cmdText.CreateAttr("xml:space", "preserve")
+			cmdText.CreateAttr("fill", "#FAFAFA")
+			cmdText.SetText(config.Execute)
+			newline.InsertChildAt(1, cmdText)
+			// Reset position for next line.
+			y += float64(config.Font.Size * config.LineHeight)
+			x = float64(config.Padding[left] + config.Margin[left])
+			// We are showing raw ANSI sequences in the commands, so we need to
+			// account for that when determining the longest line.
+			longestLine = max(longestLine, len(config.Execute))
 		}
 
 		svg.Move(line, x, y)
@@ -366,7 +379,7 @@ func main() {
 		if isAnsi {
 			tabWidth = 6
 		}
-		longestLine := lipgloss.Width(strings.ReplaceAll(strippedInput, "\t", strings.Repeat(" ", tabWidth)))
+		longestLine = max(longestLine, lipgloss.Width(strings.ReplaceAll(strippedInput, "\t", strings.Repeat(" ", tabWidth))))
 		terminalWidth = float64(longestLine+1) * (config.Font.Size / fontHeightToWidthRatio)
 		terminalWidth *= scale
 		terminalWidth += hPadding

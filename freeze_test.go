@@ -329,3 +329,79 @@ func TestFreezeConfigurations(t *testing.T) {
 		})
 	}
 }
+
+// Test README examples.
+func TestREADME(t *testing.T) {
+	tests := []struct {
+		input  string
+		flags  []string
+		output string
+	}{
+		{
+			flags:  []string{"--execute", "echo 'Hello World'"},
+			output: "execute-command",
+		},
+		{
+			flags:  []string{"--execute", "echo 'Hello World'", "--execute.command=false"},
+			output: "execute-command-false",
+		},
+		{
+			flags:  []string{"--execute", "echo '\x1b[1;31mHello'"},
+			output: "execute-command-ansi",
+		},
+	}
+
+	for _, tc := range tests {
+		t.Run(tc.output, func(t *testing.T) {
+			// output SVG
+			out := bytes.Buffer{}
+			args := []string{tc.input}
+			args = append(args, tc.flags...)
+			args = append(args, "--output", "test/readme/output/"+tc.output+".svg")
+			cmd := exec.Command(binary, args...)
+			cmd.Stdout = &out
+			err := cmd.Run()
+			if err != nil {
+				t.Log(err)
+				t.Log(out.String())
+				t.Fatal("unexpected error")
+			}
+			gotfile := "test/readme/output/" + tc.output + ".svg"
+			got, err := os.ReadFile(gotfile)
+			if err != nil {
+				t.Fatal("no output file for:", gotfile)
+			}
+			goldenfile := "test/readme/golden/" + tc.output + ".svg"
+			if *update {
+				if err := os.WriteFile(goldenfile, got, 0o644); err != nil {
+					t.Log(err)
+					t.Fatal("unexpected error")
+				}
+			}
+			want, err := os.ReadFile(goldenfile)
+			if err != nil {
+				t.Fatal("no golden file for:", goldenfile)
+			}
+			if string(want) != string(got) {
+				t.Log(udiff.Unified("want", "got", string(want), string(got)))
+				t.Fatalf("%s != %s", goldenfile, gotfile)
+			}
+
+			// output PNG
+			if png != nil && *png {
+				out = bytes.Buffer{}
+				args = []string{tc.input}
+				args = append(args, tc.flags...)
+				args = append(args, "--output", "test/readme/output/"+tc.output+".png")
+				cmd = exec.Command(binary, args...)
+				cmd.Stdout = &out
+				err = cmd.Run()
+				if err != nil {
+					t.Log(err)
+					t.Log(out.String())
+					t.Fatal("unexpected error")
+				}
+			}
+		})
+	}
+}
