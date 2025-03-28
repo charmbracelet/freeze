@@ -18,8 +18,8 @@ import (
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/log"
 	"github.com/charmbracelet/x/ansi"
+	"github.com/charmbracelet/x/cellbuf"
 	"github.com/mattn/go-isatty"
-	"github.com/muesli/reflow/wordwrap"
 
 	in "github.com/charmbracelet/freeze/input"
 	"github.com/charmbracelet/freeze/svg"
@@ -172,8 +172,8 @@ func main() {
 
 	// wrap to character limit.
 	if config.Wrap > 0 {
-		strippedInput = wordwrap.String(strippedInput, config.Wrap)
-		input = wordwrap.String(input, config.Wrap)
+		strippedInput = cellbuf.Wrap(strippedInput, config.Wrap, "")
+		input = cellbuf.Wrap(input, config.Wrap, "")
 	}
 
 	if !isAnsi && lexer == nil {
