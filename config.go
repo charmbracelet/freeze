@@ -110,7 +110,7 @@ func saveUserConfig(config Config) error {
 	config.Output = ""
 	config.Interactive = false
 
-	err := os.MkdirAll(filepath.Dir(userConfigPath), os.ModePerm)
+	err := os.MkdirAll(filepath.Dir(userConfigPath), os.ModePerm) //nolint:gosec
 	if err != nil {
 		return err //nolint: wrapcheck
 	}

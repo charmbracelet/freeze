@@ -1,4 +1,4 @@
-package svg
+package svg //nolint:revive
 
 import (
 	"fmt"
