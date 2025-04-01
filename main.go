@@ -166,7 +166,7 @@ func main() {
 		config.Lines[i]--
 	}
 
-	var strippedInput string = ansi.Strip(input)
+	strippedInput := ansi.Strip(input)
 	isAnsi := strings.ToLower(config.Language) == "ansi" || strippedInput != input
 	strippedInput = cut(strippedInput, config.Lines)
 

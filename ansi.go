@@ -1,4 +1,4 @@
-package main
+package main //nolint:revive
 
 import (
 	"fmt"

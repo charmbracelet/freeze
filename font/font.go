@@ -92,7 +92,7 @@
 // FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 // OTHER DEALINGS IN THE FONT SOFTWARE.
 
-package font
+package font //nolint:revive
 
 import (
 	_ "embed"
