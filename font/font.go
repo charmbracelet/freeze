@@ -92,16 +92,20 @@
 // FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
 // OTHER DEALINGS IN THE FONT SOFTWARE.
 
-package font
+package font //nolint:revive
 
 import (
 	_ "embed"
 	"encoding/base64"
 )
 
+// JetBrainsMonoTTF contains the embedded JetBrainsMono-Regular.ttf font.
+//
 //go:embed JetBrainsMono-Regular.ttf
 var JetBrainsMonoTTF []byte
 
+// JetBrainsMonoNLTTF contains the embedded JetBrainsMonoNL-Regular.ttf font.
+//
 //go:embed JetBrainsMonoNL-Regular.ttf
 var JetBrainsMonoNLTTF []byte
 

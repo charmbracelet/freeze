@@ -1,4 +1,4 @@
-package input
+package input //nolint:revive
 
 import (
 	"io"

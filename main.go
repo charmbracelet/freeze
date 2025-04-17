@@ -15,14 +15,14 @@ import (
 	"github.com/alecthomas/chroma/v2/styles"
 	"github.com/alecthomas/kong"
 	"github.com/beevik/etree"
-	in "github.com/charmbracelet/freeze/input"
-	"github.com/charmbracelet/freeze/svg"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/log"
 	"github.com/charmbracelet/x/ansi"
-	"github.com/charmbracelet/x/ansi/parser"
+	"github.com/charmbracelet/x/cellbuf"
 	"github.com/mattn/go-isatty"
-	"github.com/muesli/reflow/wordwrap"
+
+	in "github.com/charmbracelet/freeze/input"
+	"github.com/charmbracelet/freeze/svg"
 )
 
 const (
@@ -60,25 +60,21 @@ func main() {
 		printErrorFatal("Invalid Usage", err)
 	}
 
-	//nolint: nestif
-	if len(ctx.Args) > 0 {
-		switch ctx.Args[0] {
-		case "version":
-			if Version == "" {
-				if info, ok := debug.ReadBuildInfo(); ok && info.Main.Sum != "" {
-					Version = info.Main.Version
-				} else {
-					Version = "unknown (built from source)"
-				}
+	if config.Version {
+		if Version == "" {
+			info, ok := debug.ReadBuildInfo()
+			if ok && info.Main.Sum != "" {
+				Version = info.Main.Version
+			} else {
+				Version = "unknown (built from source)"
 			}
-			version := fmt.Sprintf("freeze version %s", Version)
-			if len(CommitSHA) >= shaLen {
-				version += " (" + CommitSHA[:shaLen] + ")"
-			}
-
-			fmt.Println(version)
-			os.Exit(0)
 		}
+		version := fmt.Sprintf("freeze version %s", Version)
+		if len(CommitSHA) >= shaLen {
+			version += " (" + CommitSHA[:shaLen] + ")"
+		}
+		fmt.Println(version)
+		os.Exit(0)
 	}
 
 	// Copy the pty output to buffer
@@ -172,14 +168,14 @@ func main() {
 		config.Lines[i]--
 	}
 
-	var strippedInput string = ansi.Strip(input)
+	strippedInput := ansi.Strip(input)
 	isAnsi := strings.ToLower(config.Language) == "ansi" || strippedInput != input
 	strippedInput = cut(strippedInput, config.Lines)
 
 	// wrap to character limit.
 	if config.Wrap > 0 {
-		strippedInput = wordwrap.String(strippedInput, config.Wrap)
-		input = wordwrap.String(input, config.Wrap)
+		strippedInput = cellbuf.Wrap(strippedInput, config.Wrap, "")
+		input = cellbuf.Wrap(input, config.Wrap, "")
 	}
 
 	if !isAnsi && lexer == nil {
@@ -384,14 +380,14 @@ func main() {
 	svg.SetDimensions(terminal, terminalWidth, terminalHeight)
 
 	if isAnsi {
-		parser := ansi.NewParser(parser.MaxParamsSize, 0)
-		// parser := ansi.Parser{
-		// 	Print:       d.Print,
-		// 	Execute:     d.Execute,
-		// 	CsiDispatch: d.CsiDispatch,
-		// }
+		parser := ansi.NewParser()
+		parser.SetHandler(ansi.Handler{
+			Print:     d.Print,
+			HandleCsi: d.CsiDispatch,
+			Execute:   d.Execute,
+		})
 		for _, line := range strings.Split(input, "\n") {
-			parser.Parse(d.dispatch, []byte(line))
+			parser.Parse([]byte(line))
 			d.Execute(ansi.LF) // simulate a newline
 		}
 	}

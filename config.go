@@ -26,6 +26,7 @@ type Config struct {
 	Height     float64   `json:"height" help:"Height of terminal window." short:"H" group:"Window"`
 
 	// Settings
+	Version     bool   `json:"version" help:"Display Freeze's version." short:"v" group:"Settings"`
 	Config      string `json:"config,omitempty" help:"Base configuration file or template." short:"c" group:"Settings" default:"default" placeholder:"base"`
 	Interactive bool   `hidden:"" json:",omitempty" help:"Use an interactive form for configuration options." short:"i" group:"Settings"`
 	Language    string `json:"language,omitempty" help:"Language of code file." short:"l" group:"Settings" placeholder:"go"`
@@ -109,7 +110,7 @@ func saveUserConfig(config Config) error {
 	config.Output = ""
 	config.Interactive = false
 
-	err := os.MkdirAll(filepath.Dir(userConfigPath), os.ModePerm)
+	err := os.MkdirAll(filepath.Dir(userConfigPath), os.ModePerm) //nolint:gosec
 	if err != nil {
 		return err //nolint: wrapcheck
 	}

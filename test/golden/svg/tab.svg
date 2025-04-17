@@ -10,7 +10,7 @@
 }
 </style><rect width="460.00" height="520.00" fill="#171717" x="0.00px" y="0.00px"/>
 <g font-family="JetBrains Mono" font-size="14.00px" fill="#c4c4c4" clip-path="url(#terminalMask)">
-<text x="20.00px" y="36.80px" xml:space="preserve"><tspan fill="#ff5f87">package</tspan> main
+<text x="20.00px" y="36.80px" xml:space="preserve"><tspan fill="#ff5f87">package</tspan> main <tspan fill="#676767">//nolint:revive</tspan>
 </text><text x="20.00px" y="53.60px" xml:space="preserve">
 </text><text x="20.00px" y="70.40px" xml:space="preserve"><tspan fill="#676767">// freeze/issues/50</tspan>
 </text><text x="20.00px" y="87.20px" xml:space="preserve">
