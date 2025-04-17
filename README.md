@@ -159,6 +159,14 @@ freeze main.go --output out.webp
 freeze main.go --output out.{svg,png,webp}
 ```
 
+### Copy
+
+Copy the output image to your clipboard, so you can paste it anywhere.
+
+```bash
+freeze main.go --output clipboard
+```
+
 ### Font
 
 Specify the font family, font size, and font line height of the output image.

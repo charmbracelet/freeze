@@ -394,6 +394,9 @@ func main() {
 
 	istty := isatty.IsTerminal(os.Stdout.Fd())
 
+	if config.Output == "clipboard" { // convert to png because we can't copy svg to clipboard
+		config.Output = "clipboard.png"
+	}
 	switch {
 	case strings.HasSuffix(config.Output, ".png"):
 		// use libsvg conversion.
@@ -413,6 +416,10 @@ func main() {
 	default:
 		// output file specified.
 		if config.Output != "" {
+			_, err := doc.WriteToBytes()
+			if err != nil {
+				printErrorFatal("Unable to write output", err)
+			}
 			err = doc.WriteToFile(config.Output)
 			if err != nil {
 				printErrorFatal("Unable to write output", err)

@@ -21,6 +21,8 @@ require (
 	github.com/kanrichan/resvg-go v0.0.2-0.20231001163256-63db194ca9f5
 	github.com/mattn/go-isatty v0.0.20
 	github.com/mattn/go-runewidth v0.0.16
+	github.com/muesli/reflow v0.3.0
+	golang.design/x/clipboard v0.7.0
 )
 
 require (
@@ -49,6 +51,9 @@ require (
 	github.com/tetratelabs/wazero v1.8.0 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	golang.org/x/exp v0.0.0-20240904232852-e7e105dedf7e // indirect
+	golang.org/x/exp/shiny v0.0.0-20240506185415-9bf2ced13842 // indirect
+	golang.org/x/image v0.14.0 // indirect
+	golang.org/x/mobile v0.0.0-20231127183840-76ac6878050a // indirect
 	golang.org/x/sync v0.8.0 // indirect
 	golang.org/x/sys v0.31.0 // indirect
 	golang.org/x/text v0.18.0 // indirect

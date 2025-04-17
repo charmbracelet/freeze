@@ -29,5 +29,6 @@
     "size": 14,
     "ligatures": true
   },
-  "line_height": 1.2
+  "line_height": 1.2,
+  "copy": false
 }

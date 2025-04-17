@@ -5,11 +5,23 @@ import (
 	"context"
 	"os"
 	"os/exec"
+	"strings"
 
 	"github.com/beevik/etree"
 	"github.com/charmbracelet/freeze/font"
 	"github.com/kanrichan/resvg-go"
+	"golang.design/x/clipboard"
 )
+
+func copyToClipboard(img []byte) error {
+	err := clipboard.Init()
+	if err != nil {
+		return err
+	}
+	clipboard.Write(clipboard.FmtImage, img)
+	clipboard.Read(clipboard.FmtImage)
+	return err
+}
 
 func libsvgConvert(doc *etree.Document, _, _ float64, output string) error {
 	_, err := exec.LookPath("rsvg-convert")
@@ -27,6 +39,17 @@ func libsvgConvert(doc *etree.Document, _, _ float64, output string) error {
 	rsvgConvert := exec.Command("rsvg-convert", "-o", output)
 	rsvgConvert.Stdin = bytes.NewReader(svg)
 	err = rsvgConvert.Run()
+	if err != nil {
+		return err
+	}
+	if strings.HasPrefix(output, "clipboard") {
+		png, err := os.ReadFile(output)
+		defer os.Remove(output) // nolint: errcheck
+		if err != nil {
+			return err
+		}
+		return copyToClipboard(png)
+	}
 	return err //nolint: wrapcheck
 }
 
@@ -90,9 +113,8 @@ func resvgConvert(doc *etree.Document, w, h float64, output string) error {
 		return err //nolint: wrapcheck
 	}
 
-	err = os.WriteFile(output, png, 0o600)
-	if err != nil {
-		return err //nolint: wrapcheck
+	if output == "clipboard" {
+		return copyToClipboard(png)
 	}
-	return err //nolint: wrapcheck
+	return os.WriteFile(output, png, 0o600)
 }
