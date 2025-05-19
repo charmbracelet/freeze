@@ -32,8 +32,8 @@ github.com/charmbracelet/huh v0.7.0 h1:W8S1uyGETgj9Tuda3/JdVkc3x7DBLZYPZc4c+/rnR
 github.com/charmbracelet/huh v0.7.0/go.mod h1:UGC3DZHlgOKHvHC07a5vHag41zzhpPFj34U92sOmyuk=
 github.com/charmbracelet/lipgloss v1.1.0 h1:vYXsiLHVkK7fp74RkV7b2kq9+zDLoEU4MZoFqR/noCY=
 github.com/charmbracelet/lipgloss v1.1.0/go.mod h1:/6Q8FR2o+kj8rz4Dq0zQc3vYf7X+B0binUUBwA0aL30=
-github.com/charmbracelet/log v0.4.1 h1:6AYnoHKADkghm/vt4neaNEXkxcXLSV2g1rdyFDOpTyk=
-github.com/charmbracelet/log v0.4.1/go.mod h1:pXgyTsqsVu4N9hGdHmQ0xEA4RsXof402LX9ZgiITn2I=
+github.com/charmbracelet/log v0.4.2 h1:hYt8Qj6a8yLnvR+h7MwsJv/XvmBJXiueUcI3cIxsyig=
+github.com/charmbracelet/log v0.4.2/go.mod h1:qifHGX/tc7eluv2R6pWIpyHDDrrb/AG71Pf2ysQu5nw=
 github.com/charmbracelet/x/ansi v0.9.2 h1:92AGsQmNTRMzuzHEYfCdjQeUzTrgE1vfO5/7fEVoXdY=
 github.com/charmbracelet/x/ansi v0.9.2/go.mod h1:3RQDQ6lDnROptfpWuUVIUG64bD2g2BgntdxH0Ya5TeE=
 github.com/charmbracelet/x/cellbuf v0.0.13 h1:/KBBKHuVRbq1lYx5BzEHBAFBP8VcQzJejZ/IA3iR28k=
