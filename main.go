@@ -316,21 +316,57 @@ func main() {
 
 	config.LineHeight *= float64(scale)
 
+	const (
+		cursor string = "#5D53C7"
+	)
+
+	var longestLine int
 	for i, line := range text {
 		if isAnsi {
 			line.SetText("")
 		}
+
+		x := float64(config.Padding[left] + config.Margin[left])
+		y := (float64(i+1))*(config.Font.Size*config.LineHeight) + float64(config.Padding[top]) + float64(config.Margin[top])
+
 		// Offset the text by padding...
 		// (x, y) -> (x+p, y+p)
-		if config.ShowLineNumbers {
+		// Don't show line numbers for command execution.
+		if config.ShowLineNumbers && config.Execute == "" {
 			ln := etree.NewElement("tspan")
 			ln.CreateAttr("xml:space", "preserve")
 			ln.CreateAttr("fill", s.Get(chroma.LineNumbers).Colour.String())
 			ln.SetText(fmt.Sprintf("%3d  ", i+1+offsetLine))
 			line.InsertChildAt(0, ln)
 		}
-		x := float64(config.Padding[left] + config.Margin[left])
-		y := (float64(i+1))*(config.Font.Size*config.LineHeight) + float64(config.Padding[top]) + float64(config.Margin[top])
+
+		// Add a cursor to the first line, if running a command.
+		if i == 0 && config.Command {
+			newline := etree.NewElement("text")
+			// Prompt
+			ln := etree.NewElement("tspan")
+			ln.CreateAttr("xml:space", "preserve")
+			ln.CreateAttr("fill", cursor)
+			ln.SetText("> ")
+			newline.InsertChildAt(0, ln)
+			textGroup.InsertChildAt(0, newline)
+			svg.Move(newline, x, y)
+			x += float64(config.Font.Size) * 3
+			// Command
+			// TODO eventually remove these hard-coded styles and use shell as
+			// the language for commands.
+			cmdText := etree.NewElement("tspan")
+			cmdText.CreateAttr("xml:space", "preserve")
+			cmdText.CreateAttr("fill", "#FAFAFA")
+			cmdText.SetText(config.Execute)
+			newline.InsertChildAt(1, cmdText)
+			// Reset position for next line.
+			y += float64(config.Font.Size * config.LineHeight)
+			x = float64(config.Padding[left] + config.Margin[left])
+			// We are showing raw ANSI sequences in the commands, so we need to
+			// account for that when determining the longest line.
+			longestLine = max(longestLine, len(config.Execute))
+		}
 
 		svg.Move(line, x, y)
 
@@ -345,7 +381,7 @@ func main() {
 		if isAnsi {
 			tabWidth = 6
 		}
-		longestLine := lipgloss.Width(strings.ReplaceAll(strippedInput, "\t", strings.Repeat(" ", tabWidth)))
+		longestLine = max(longestLine, lipgloss.Width(strings.ReplaceAll(strippedInput, "\t", strings.Repeat(" ", tabWidth))))
 		terminalWidth = float64(longestLine+1) * (config.Font.Size / fontHeightToWidthRatio)
 		terminalWidth *= scale
 		terminalWidth += hPadding
@@ -393,6 +429,10 @@ func main() {
 	}
 
 	istty := isatty.IsTerminal(os.Stdout.Fd())
+
+	if config.Execute != "" && config.ShowLineNumbers {
+		printWarning("You cannot show line numbers for command execution.\nThis directive will have no effect.")
+	}
 
 	switch {
 	case strings.HasSuffix(config.Output, ".png"):
@@ -453,4 +493,8 @@ var outputHeader = lipgloss.NewStyle().Foreground(lipgloss.Color("#F1F1F1")).Bac
 
 func printFilenameOutput(filename string) {
 	fmt.Println(lipgloss.JoinHorizontal(lipgloss.Center, outputHeader.String(), filename))
+}
+
+func printWarning(text string) {
+	fmt.Println(lipgloss.NewStyle().Foreground(lipgloss.Color("#D74E6F")).Render(text))
 }
