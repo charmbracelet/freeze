@@ -13,7 +13,11 @@ jobs:
     steps:
       - name: Install deps
         if: runner.os == 'Linux'
-        run:  sudo apt-get update && sudo apt-get install -y libx11-dev xvfb && export DISPLAY=:99 && Xvfb :99 -screen 0 1024-768x24 > /dev/null 2>&1 &
+        run:  |
+          sudo apt-get update
+          sudo apt-get install -y libx11-dev xvfb
+          Xvfb :99 -screen 0 1024-768x24 > /dev/null 2>&1 &
+          echo "DISPLAY=:99" >> $GITHUB_ENV
       - name: Install Go
         uses: actions/setup-go@v5
         with:
