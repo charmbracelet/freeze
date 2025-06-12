@@ -405,6 +405,9 @@ func main() {
 			printFilenameOutput(config.Output)
 			break
 		}
+		if svgConversionErr != nil {
+			printErrorFatal("Oops, came across an error", svgConversionErr)
+		}
 
 		// could not convert with libsvg, try resvg
 		svgConversionErr = resvgConvert(doc, imageWidth, imageHeight, config.Output)
