@@ -11,6 +11,9 @@ jobs:
     env:
       GO111MODULE: "on"
     steps:
+      - name: Install deps
+        if: runner.os == 'Linux'
+        run: sudo apt install libx11-dev
       - name: Install Go
         uses: actions/setup-go@v5
         with:
