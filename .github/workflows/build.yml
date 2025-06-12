@@ -16,7 +16,7 @@ jobs:
         run:  |
           sudo apt-get update
           sudo apt-get install -y libx11-dev xvfb
-          Xvfb :99 -screen 0 1024-768x24 > /dev/null 2>&1 &
+          Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
           echo "DISPLAY=:99" >> $GITHUB_ENV
       - name: Install Go
         uses: actions/setup-go@v5
