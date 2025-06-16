@@ -19,6 +19,7 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/charmbracelet/x/ansi"
 	"github.com/charmbracelet/x/cellbuf"
+	kongcompletion "github.com/jotaen/kong-completion"
 	"github.com/mattn/go-isatty"
 
 	in "github.com/charmbracelet/freeze/input"
@@ -55,6 +56,7 @@ func main() {
 	if err != nil {
 		printErrorFatal("Something went wrong", err)
 	}
+	kongcompletion.Register(k)
 	ctx, err := k.Parse(os.Args[1:])
 	if err != nil || ctx.Error != nil {
 		printErrorFatal("Invalid Usage", err)

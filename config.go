@@ -48,6 +48,19 @@ type Config struct {
 	LineHeight      float64 `json:"line_height" help:"Line height relative to font size." group:"Line" placeholder:"1.2"`
 	Lines           []int   `json:"-" help:"Lines to capture (start,end)." group:"Line" placeholder:"0,-1" value:"0,-1"`
 	ShowLineNumbers bool    `json:"show_line_numbers" help:"" group:"Line" placeholder:"false"`
+
+	Completion Completion `cmd:"" help:"Outputs shell code for initialising tab completions" group:"Completion"`
+}
+
+// Note: is yoinked from `kongcompletion` but with `short:"c"` removed from
+// `Code` to avoid conflicts with preexisting `Config` option
+//
+// Completion is a kong subcommand that prints out the shell code for
+// initializing tab completion in various shells. It also educates the
+// user what to do with the printed code.
+type Completion struct {
+	Shell string `arg:"" help:"The name of the shell you are using" enum:"bash,zsh,fish," default:""`
+	Code  bool   `help:"Generate the initialization code"`
 }
 
 // Shadow is the configuration options for a drop shadow.
