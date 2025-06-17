@@ -59,7 +59,7 @@ type Config struct {
 // initializing tab completion in various shells. It also educates the
 // user what to do with the printed code.
 type Completion struct {
-	Shell string `arg:"" help:"The name of the shell you are using" enum:"bash,zsh,fish," default:""`
+	Shell string `help:"The name of the shell you are using" enum:"bash,zsh,fish," default:""`
 	Code  bool   `help:"Generate the initialization code"`
 }
 
