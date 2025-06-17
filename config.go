@@ -49,7 +49,7 @@ type Config struct {
 	Lines           []int   `json:"-" help:"Lines to capture (start,end)." group:"Line" placeholder:"0,-1" value:"0,-1"`
 	ShowLineNumbers bool    `json:"show_line_numbers" help:"" group:"Line" placeholder:"false"`
 
-	Completion Completion `cmd:"" help:"Outputs shell code for initialising tab completions" group:"Completion"`
+	Completion Completion `cmd:"" json:"-" embed:"" help:"Outputs shell code for initialising tab completions" group:"Completion"`
 }
 
 // Note: is yoinked from `kongcompletion` but with `short:"c"` removed from
