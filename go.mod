@@ -7,7 +7,7 @@ toolchain go1.24.1
 require (
 	github.com/adrg/xdg v0.5.3
 	github.com/alecthomas/chroma/v2 v2.18.0
-	github.com/alecthomas/kong v1.11.0
+	github.com/alecthomas/kong v1.12.0
 	github.com/aymanbagabas/go-udiff v0.3.1
 	github.com/beevik/etree v1.5.1
 	github.com/caarlos0/go-shellwords v1.0.12
