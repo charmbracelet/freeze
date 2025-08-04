@@ -30,11 +30,14 @@ freeze artichoke.hs -o artichoke.png
 
 ### Generate an image of terminal output
 
-You can use `freeze` to capture ANSI output of a terminal command with the
-`--execute` flag.
+You can use `freeze` to capture a terminal command and its ANSI output with the
+`--execute` flag. If you want to omit the command used, use the
+`--execute.command=false` flag.
 
 ```bash
 freeze --execute "eza -lah"
+# or
+freeze --execute "eza -lah" --execute.command=false
 ```
 
 <p align="center">
