@@ -147,7 +147,7 @@ freeze artichoke.hs --theme dracula
 
 ### Output
 
-Change the output file location, defaults to `out.svg` or stdout if piped. This
+Change the output file location, defaults to `freeze.png` or stdout if piped. This
 value supports `.svg`, `.png`, `.webp`.
 
 ```bash
