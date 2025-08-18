@@ -5,7 +5,6 @@ import (
 	"errors"
 	"fmt"
 	"os"
-	"path/filepath"
 	"runtime/debug"
 	"strings"
 
@@ -19,7 +18,6 @@ import (
 	"github.com/charmbracelet/log"
 	"github.com/charmbracelet/x/ansi"
 	"github.com/charmbracelet/x/cellbuf"
-	"github.com/mattn/go-isatty"
 
 	in "github.com/charmbracelet/freeze/input"
 	"github.com/charmbracelet/freeze/svg"
@@ -128,10 +126,6 @@ func main() {
 
 	autoHeight := config.Height == 0
 	autoWidth := config.Width == 0
-
-	if config.Output == "" {
-		config.Output = defaultOutputFilename
-	}
 
 	scale = 1
 	if autoHeight && autoWidth && strings.HasSuffix(config.Output, ".png") {
@@ -392,10 +386,12 @@ func main() {
 		}
 	}
 
-	istty := isatty.IsTerminal(os.Stdout.Fd())
-
+	isOutputPiped := in.IsPipe(os.Stdout)
 	switch {
-	case strings.HasSuffix(config.Output, ".png"):
+	case strings.HasSuffix(config.Output, ".png") || (!isOutputPiped && config.Output == ""):
+		if config.Output == "" {
+			config.Output = defaultOutputFilename
+		}
 		// use libsvg conversion.
 		svgConversionErr := libsvgConvert(doc, imageWidth, imageHeight, config.Output)
 		if svgConversionErr == nil {
@@ -409,48 +405,34 @@ func main() {
 			printErrorFatal("Unable to convert SVG to PNG", svgConversionErr)
 		}
 		printFilenameOutput(config.Output)
+	case isOutputPiped && config.Output == "":
+		// Piping to stdout - convert to PNG and write to stdout
+		// use libsvg conversion.
+		svgConversionErr := libsvgConvertToWriter(doc, imageWidth, imageHeight, os.Stdout)
+		if svgConversionErr == nil {
+			break
+		}
+
+		// could not convert with libsvg, try resvg
+		svgConversionErr = resvgConvertToWriter(doc, imageWidth, imageHeight, os.Stdout)
+		if svgConversionErr != nil {
+			printErrorFatal("Unable to convert SVG to PNG", svgConversionErr)
+		}
 
 	default:
-		// output file specified.
-		if config.Output != "" {
-			err = doc.WriteToFile(config.Output)
-			if err != nil {
-				printErrorFatal("Unable to write output", err)
-			}
-			printFilenameOutput(config.Output)
-			return
-		}
-
-		// reading from stdin.
-		if config.Input == "" || config.Input == "-" {
-			if istty {
-				err = doc.WriteToFile(defaultOutputFilename)
-				printFilenameOutput(defaultOutputFilename)
-			} else {
-				_, err = doc.WriteTo(os.Stdout)
-			}
-			if err != nil {
-				printErrorFatal("Unable to write output", err)
-			}
-			return
-		}
-
-		// reading from file.
-		if istty {
-			config.Output = strings.TrimSuffix(filepath.Base(config.Input), filepath.Ext(config.Input)) + ".svg"
-			err = doc.WriteToFile(config.Output)
-			printFilenameOutput(config.Output)
-		} else {
-			_, err = doc.WriteTo(os.Stdout)
-		}
+		// output file is always specified here.
+		err = doc.WriteToFile(config.Output)
 		if err != nil {
 			printErrorFatal("Unable to write output", err)
 		}
+		printFilenameOutput(config.Output)
+		return
 	}
 }
 
 var outputHeader = lipgloss.NewStyle().Foreground(lipgloss.Color("#F1F1F1")).Background(lipgloss.Color("#6C50FF")).Bold(true).Padding(0, 1).MarginRight(1).SetString("WROTE")
 
 func printFilenameOutput(filename string) {
-	fmt.Println(lipgloss.JoinHorizontal(lipgloss.Center, outputHeader.String(), filename))
+	// Print log to stderr to use stdout for the Image output when piped
+	fmt.Fprintln(os.Stderr, lipgloss.JoinHorizontal(lipgloss.Center, outputHeader.String(), filename))
 }

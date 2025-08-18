@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"context"
+	"io"
 	"os"
 	"os/exec"
 
@@ -11,7 +12,15 @@ import (
 	"github.com/kanrichan/resvg-go"
 )
 
-func libsvgConvert(doc *etree.Document, _, _ float64, output string) error {
+func libsvgConvert(doc *etree.Document, w, h float64, output string) error {
+	return libsvgConvertToWriterOrFile(doc, nil, output)
+}
+
+func libsvgConvertToWriter(doc *etree.Document, _, _ float64, w io.Writer) error {
+	return libsvgConvertToWriterOrFile(doc, w, "")
+}
+
+func libsvgConvertToWriterOrFile(doc *etree.Document, w io.Writer, output string) error {
 	_, err := exec.LookPath("rsvg-convert")
 	if err != nil {
 		return err //nolint: wrapcheck
@@ -24,16 +33,45 @@ func libsvgConvert(doc *etree.Document, _, _ float64, output string) error {
 
 	// rsvg-convert is installed use that to convert the SVG to PNG,
 	// since it is faster.
-	rsvgConvert := exec.Command("rsvg-convert", "-o", output)
+	var rsvgConvert *exec.Cmd
+	if output != "" {
+		rsvgConvert = exec.Command("rsvg-convert", "-o", output)
+	} else {
+		rsvgConvert = exec.Command("rsvg-convert")
+		rsvgConvert.Stdout = w
+	}
 	rsvgConvert.Stdin = bytes.NewReader(svg)
 	err = rsvgConvert.Run()
 	return err //nolint: wrapcheck
 }
 
 func resvgConvert(doc *etree.Document, w, h float64, output string) error {
-	svg, err := doc.WriteToBytes()
+	png, err := resvgConvertToBytes(doc, w, h)
+	if err != nil {
+		return err
+	}
+
+	err = os.WriteFile(output, png, 0o600)
 	if err != nil {
 		return err //nolint: wrapcheck
+	}
+	return nil
+}
+
+func resvgConvertToWriter(doc *etree.Document, w, h float64, writer io.Writer) error {
+	png, err := resvgConvertToBytes(doc, w, h)
+	if err != nil {
+		return err
+	}
+
+	_, err = writer.Write(png)
+	return err //nolint: wrapcheck
+}
+
+func resvgConvertToBytes(doc *etree.Document, w, h float64) ([]byte, error) {
+	svg, err := doc.WriteToBytes()
+	if err != nil {
+		return nil, err //nolint: wrapcheck
 	}
 
 	worker, err := resvg.NewDefaultWorker(context.Background())
@@ -79,20 +117,16 @@ func resvgConvert(doc *etree.Document, w, h float64, output string) error {
 
 	err = tree.ConvertText(fontdb)
 	if err != nil {
-		return err //nolint: wrapcheck
+		return nil, err //nolint: wrapcheck
 	}
 	err = tree.Render(resvg.TransformIdentity(), pixmap)
 	if err != nil {
-		return err //nolint: wrapcheck
+		return nil, err //nolint: wrapcheck
 	}
 	png, err := pixmap.EncodePNG()
 	if err != nil {
-		return err //nolint: wrapcheck
+		return nil, err //nolint: wrapcheck
 	}
 
-	err = os.WriteFile(output, png, 0o600)
-	if err != nil {
-		return err //nolint: wrapcheck
-	}
-	return err //nolint: wrapcheck
+	return png, nil
 }
