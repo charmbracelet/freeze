@@ -1,0 +1,83 @@
+name: Test Clipboard
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test-clipboard-x11:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21'
+    
+    - name: Install X11 dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y xvfb x11-utils xclip
+    
+    - name: Run TestClipboard with X11
+      run: |
+        export DISPLAY=:99
+        Xvfb :99 -screen 0 1024x768x24 &
+        sleep 2
+        go test -run TestClipboard -v
+
+  test-clipboard-wayland:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21'
+    
+    - name: Install Wayland dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y weston wayland-protocols libwayland-dev wl-clipboard
+    
+    - name: Run TestClipboard with Wayland
+      run: |
+        export XDG_RUNTIME_DIR=/tmp/wayland
+        mkdir -p $XDG_RUNTIME_DIR
+        chmod 700 $XDG_RUNTIME_DIR
+        weston --backend=headless-backend.so --width=1024 --height=768 &
+        sleep 3
+        export WAYLAND_DISPLAY=wayland-0
+        go test -run TestClipboard -v
+
+  test-clipboard-gdm:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Go
+      uses: actions/setup-go@v4
+      with:
+        go-version: '1.21'
+    
+    - name: Install GDM and dependencies
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y gdm3 xvfb x11-utils xclip
+    
+    - name: Configure GDM session
+      run: |
+        sudo systemctl stop gdm3
+        export DISPLAY=:99
+        Xvfb :99 -screen 0 1024x768x24 &
+        sleep 2
+    
+    - name: Run TestClipboard with GDM environment
+      run: |
+        export DISPLAY=:99
+        export GDM_SESSION=true
+        go test -run TestClipboard -v
