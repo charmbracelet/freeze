@@ -13,12 +13,41 @@ import (
 	"golang.design/x/clipboard"
 )
 
-func copyToClipboard(img []byte) error {
+func copyToClipboard(path string) error {
 	err := clipboard.Init()
 	if err != nil {
 		return err
 	}
-	clipboard.Write(clipboard.FmtImage, img)
+	// check if WAYLAND_DISPLAY is set
+	switch os.Getenv("XDG_SESSION_TYPE") {
+	case "wayland":
+		var err error
+		if _, pathErr := exec.LookPath("wl-copy"); err != nil {
+			printError("Unable to find wl-copy in your path. Please install it to use clipboard features in wayland.", pathErr)
+		} else {
+			cmd := exec.Command("wl-copy", "--type", "image/png", "<", path)
+			err = cmd.Run()
+		}
+		return err
+		// TODO add tests for GH actions
+	case "x11":
+		// this is x11
+		var err error
+		if _, pathErr := exec.LookPath("xclip"); err != nil {
+			printError("Unable to find xclip in your path. Please install it to use clipboard features in x11.", pathErr)
+		} else {
+			cmd := exec.Command("xclip", "-selection", "clipboard", "-t", "image/png", "-i", path)
+			err = cmd.Run()
+		}
+		return err
+	}
+	png, err := os.ReadFile(path)
+	defer os.Remove(path) // nolint: errcheck
+	if err != nil {
+		return err
+	}
+
+	clipboard.Write(clipboard.FmtImage, png)
 	clipboard.Read(clipboard.FmtImage)
 	return err
 }
@@ -43,12 +72,7 @@ func libsvgConvert(doc *etree.Document, _, _ float64, output string) error {
 		return err
 	}
 	if strings.HasPrefix(output, "clipboard") {
-		png, err := os.ReadFile(output)
-		defer os.Remove(output) // nolint: errcheck
-		if err != nil {
-			return err
-		}
-		return copyToClipboard(png)
+		return copyToClipboard(output)
 	}
 	return err //nolint: wrapcheck
 }
@@ -113,8 +137,8 @@ func resvgConvert(doc *etree.Document, w, h float64, output string) error {
 		return err //nolint: wrapcheck
 	}
 
-	if output == "clipboard" {
-		return copyToClipboard(png)
+	if output == "clipboard.png" {
+		return copyToClipboard(output)
 	}
 	return os.WriteFile(output, png, 0o600)
 }

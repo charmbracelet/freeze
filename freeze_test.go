@@ -59,7 +59,7 @@ func TestFreezeOutput(t *testing.T) {
 	}
 }
 
-func TestFreezeCopy(t *testing.T) {
+func TestClipboard(t *testing.T) {
 	output := "clipboard"
 	defer os.Remove(output)
 
