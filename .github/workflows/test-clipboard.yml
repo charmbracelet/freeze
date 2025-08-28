@@ -20,7 +20,7 @@ jobs:
     - name: Install X11 dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y xvfb x11-utils xclip
+        sudo apt-get install -y xvfb x11-utils xclip libx11-dev
     
     - name: Run TestClipboard with X11
       run: |
@@ -42,7 +42,8 @@ jobs:
     - name: Install Wayland dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y weston wayland-protocols libwayland-dev wl-clipboard
+
+        sudo apt-get install -y weston wayland-protocols libwayland-dev wl-clipboard libx11-dev
     
     - name: Run TestClipboard with Wayland
       run: |
@@ -67,7 +68,7 @@ jobs:
     - name: Install GDM and dependencies
       run: |
         sudo apt-get update
-        sudo apt-get install -y gdm3 xvfb x11-utils xclip
+        sudo apt-get install -y gdm3 xvfb x11-utils xclip libx11-dev
     
     - name: Configure GDM session
       run: |
