@@ -60,6 +60,11 @@ func TestFreezeOutput(t *testing.T) {
 }
 
 func TestClipboard(t *testing.T) {
+	// Clipboard can't be tested in headless CI. Only run this test with a real
+	// display.
+	if os.Getenv("CI") != "" {
+		t.Skip("Clipboard tests require real display server")
+	}
 	output := "clipboard"
 	defer os.Remove(output)
 
