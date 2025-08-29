@@ -19,27 +19,8 @@ func copyToClipboard(path string) error {
 		return err
 	}
 	// check if WAYLAND_DISPLAY is set
-	switch os.Getenv("XDG_SESSION_TYPE") {
-	case "wayland":
-		var err error
-		if _, pathErr := exec.LookPath("wl-copy"); err != nil {
-			printError("Unable to find wl-copy in your path. Please install it to use clipboard features in wayland.", pathErr)
-		} else {
-			cmd := exec.Command("wl-copy", "--type", "image/png", "<", path)
-			err = cmd.Run()
-		}
-		return err
-		// TODO add tests for GH actions
-	case "x11":
-		// this is x11
-		var err error
-		if _, pathErr := exec.LookPath("xclip"); err != nil {
-			printError("Unable to find xclip in your path. Please install it to use clipboard features in x11.", pathErr)
-		} else {
-			cmd := exec.Command("xclip", "-selection", "clipboard", "-t", "image/png", "-i", path)
-			err = cmd.Run()
-		}
-		return err
+	if os.Getenv("XDG_SESSION_TYPE") == "wayland" || os.Getenv("XDG_SESSION_TYPE") == "x11" {
+		printError("if you're using a display server like wayland or x11, use freeze in a pipeline to copy image contents to your clipboard. See the freeze README to learn more.", nil)
 	}
 	png, err := os.ReadFile(path)
 	defer os.Remove(path) // nolint: errcheck

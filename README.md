@@ -161,10 +161,28 @@ freeze main.go --output out.{svg,png,webp}
 
 ### Copy
 
-Copy the output image to your clipboard, so you can paste it anywhere.
+Copy the output image to your clipboard, so you can paste it anywhere. Freeze
+uses `golang.design/clipboard` under the hood which supports macOS, Linux (x11),
+and Windows.
 
 ```bash
 freeze main.go --output clipboard
+```
+
+#### Copy to clipboard (Wayland, x11)
+
+Since there are many different display servers out there that all manage
+clipboards differently, you can pipe freeze images to your clipboard.
+
+> [!TIP]
+> Freeze will automatically output images to stdout if it's used in a pipeline.
+
+``` bash
+# x11
+freeze artichoke.hs | xclip -t image/png -selection clipboard
+
+# Wayland
+wl-copy < $(freeze artichoke.hs)
 ```
 
 ### Font
