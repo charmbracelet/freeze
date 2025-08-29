@@ -5,11 +5,33 @@ import (
 	"context"
 	"os"
 	"os/exec"
+	"strings"
 
 	"github.com/beevik/etree"
 	"github.com/charmbracelet/freeze/font"
 	"github.com/kanrichan/resvg-go"
+	"golang.design/x/clipboard"
 )
+
+func copyToClipboard(path string) error {
+	err := clipboard.Init()
+	if err != nil {
+		return err
+	}
+	// check if WAYLAND_DISPLAY is set
+	if os.Getenv("XDG_SESSION_TYPE") == "wayland" || os.Getenv("XDG_SESSION_TYPE") == "x11" {
+		printError("if you're using a display server like wayland or x11, use freeze in a pipeline to copy image contents to your clipboard. See the freeze README to learn more.", nil)
+	}
+	png, err := os.ReadFile(path)
+	defer os.Remove(path) // nolint: errcheck
+	if err != nil {
+		return err
+	}
+
+	clipboard.Write(clipboard.FmtImage, png)
+	clipboard.Read(clipboard.FmtImage)
+	return err
+}
 
 func libsvgConvert(doc *etree.Document, _, _ float64, output string) error {
 	_, err := exec.LookPath("rsvg-convert")
@@ -27,6 +49,12 @@ func libsvgConvert(doc *etree.Document, _, _ float64, output string) error {
 	rsvgConvert := exec.Command("rsvg-convert", "-o", output)
 	rsvgConvert.Stdin = bytes.NewReader(svg)
 	err = rsvgConvert.Run()
+	if err != nil {
+		return err
+	}
+	if strings.HasPrefix(output, "clipboard") {
+		return copyToClipboard(output)
+	}
 	return err //nolint: wrapcheck
 }
 
@@ -90,9 +118,8 @@ func resvgConvert(doc *etree.Document, w, h float64, output string) error {
 		return err //nolint: wrapcheck
 	}
 
-	err = os.WriteFile(output, png, 0o600)
-	if err != nil {
-		return err //nolint: wrapcheck
+	if output == "clipboard.png" {
+		return copyToClipboard(output)
 	}
-	return err //nolint: wrapcheck
+	return os.WriteFile(output, png, 0o600)
 }

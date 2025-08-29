@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	"github.com/aymanbagabas/go-udiff"
+	"golang.design/x/clipboard"
 )
 
 const binary = "./test/freeze-test"
@@ -55,6 +56,30 @@ func TestFreezeOutput(t *testing.T) {
 	_, err = os.Stat(output)
 	if err != nil {
 		t.Fatal(err)
+	}
+}
+
+func TestClipboard(t *testing.T) {
+	// Clipboard can't be tested in headless CI. Only run this test with a
+	// real display.
+	if os.Getenv("CI") != "" {
+		t.Skip("Clipboard tests require real display server")
+	}
+	output := "clipboard"
+	defer os.Remove(output)
+
+	cmd := exec.Command(binary, "test/input/bubbletea.model", "-o", output, "--language", "go", "--height", "800", "--width", "750", "--config", "full", "--window=false", "--show-line-numbers")
+	err := cmd.Run()
+	if err != nil {
+		t.Fatal(err)
+	}
+	err = clipboard.Init()
+	if err != nil {
+		t.Fatal(err)
+	}
+	png := clipboard.Read(clipboard.FmtImage)
+	if png == nil {
+		t.Fatal("clipboard is empty")
 	}
 }
 
@@ -136,6 +161,15 @@ func TestFreezeConfigurations(t *testing.T) {
 			flags:  []string{"--language", "go", "--height", "800", "--width", "750", "--config", "full", "--window=false", "--show-line-numbers"},
 			output: "bubbletea",
 		},
+		{
+			input:  "test/input/bubbletea.model",
+			flags:  []string{"--language", "go", "--height", "800", "--width", "750", "--config", "full", "--window=false", "--show-line-numbers"},
+			output: "bubbletea-copy",
+		},
+		// {
+		// 	flags:  []string{"--execute", "layout", "--height", "800", "--config", "full", "--margin", "50,10"},
+		// 	output: "composite-2",
+		// },
 		{
 			input:  "test/input/layout.ansi",
 			flags:  []string{},

@@ -11,6 +11,13 @@ jobs:
     env:
       GO111MODULE: "on"
     steps:
+      - name: Install deps
+        if: runner.os == 'Linux'
+        run:  |
+          sudo apt-get update
+          sudo apt-get install -y libx11-dev xvfb
+          Xvfb :99 -screen 0 1024x768x24 > /dev/null 2>&1 &
+          echo "DISPLAY=:99" >> $GITHUB_ENV
       - name: Install Go
         uses: actions/setup-go@v5
         with:
@@ -25,8 +32,8 @@ jobs:
       - name: Build
         run: go build -v ./...
 
-      #- name: Test
-      #  run: go test -v -cover -timeout=30s ./...
+      - name: Test
+        run: go test -v -cover -timeout=30s ./...
   dependabot:
     needs: [build]
     runs-on: ubuntu-latest
