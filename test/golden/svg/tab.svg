@@ -10,11 +10,11 @@
 }
 </style><rect width="460.00" height="520.00" fill="#171717" x="0.00px" y="0.00px"/>
 <g font-family="JetBrains Mono" font-size="14.00px" fill="#c4c4c4" clip-path="url(#terminalMask)">
-<text x="20.00px" y="36.80px" xml:space="preserve"><tspan fill="#ff5f87">package</tspan> main <tspan fill="#676767">//nolint:revive</tspan>
+<text x="20.00px" y="36.80px" xml:space="preserve"><tspan fill="#ff5f87">package</tspan> main <tspan fill="#ff875f">//nolint:revive</tspan>
 </text><text x="20.00px" y="53.60px" xml:space="preserve">
 </text><text x="20.00px" y="70.40px" xml:space="preserve"><tspan fill="#676767">// freeze/issues/50</tspan>
 </text><text x="20.00px" y="87.20px" xml:space="preserve">
-</text><text x="20.00px" y="104.00px" xml:space="preserve"><tspan fill="#00aaff">type</tspan> Config <tspan fill="#00aaff">struct</tspan> <tspan fill="#e8e8a8">{</tspan> <tspan fill="#676767">//nolint: revive</tspan>
+</text><text x="20.00px" y="104.00px" xml:space="preserve"><tspan fill="#00aaff">type</tspan> Config <tspan fill="#00aaff">struct</tspan> <tspan fill="#e8e8a8">{</tspan> <tspan fill="#ff875f">//nolint: revive</tspan>
 </text><text x="20.00px" y="120.80px" xml:space="preserve">    Telegram <tspan fill="#00aaff">struct</tspan> <tspan fill="#e8e8a8">{</tspan>
 </text><text x="20.00px" y="137.60px" xml:space="preserve">        Token   <tspan fill="#635adf">string</tspan> <tspan fill="#e38356">`env:&quot;TG_TOKEN&quot;`</tspan>
 </text><text x="20.00px" y="154.40px" xml:space="preserve">        ChatID  <tspan fill="#635adf">string</tspan> <tspan fill="#e38356">`env:&quot;TG_CHAT&quot;`</tspan>
@@ -32,7 +32,7 @@
 </text><text x="20.00px" y="356.00px" xml:space="preserve">    Debug <tspan fill="#635adf">bool</tspan>
 </text><text x="20.00px" y="372.80px" xml:space="preserve"><tspan fill="#e8e8a8">}</tspan>
 </text><text x="20.00px" y="389.60px" xml:space="preserve">
-</text><text x="20.00px" y="406.40px" xml:space="preserve"><tspan fill="#00aaff">func</tspan> <tspan fill="#00dc7f">Load</tspan><tspan fill="#e8e8a8">()</tspan> <tspan fill="#e8e8a8">(</tspan><tspan fill="#ff7f83">*</tspan>Config<tspan fill="#e8e8a8">,</tspan> <tspan fill="#635adf">error</tspan><tspan fill="#e8e8a8">)</tspan> <tspan fill="#e8e8a8">{</tspan> <tspan fill="#676767">//nolint: revive</tspan>
+</text><text x="20.00px" y="406.40px" xml:space="preserve"><tspan fill="#00aaff">func</tspan> <tspan fill="#00dc7f">Load</tspan><tspan fill="#e8e8a8">()</tspan> <tspan fill="#e8e8a8">(</tspan><tspan fill="#ff7f83">*</tspan>Config<tspan fill="#e8e8a8">,</tspan> <tspan fill="#635adf">error</tspan><tspan fill="#e8e8a8">)</tspan> <tspan fill="#e8e8a8">{</tspan> <tspan fill="#ff875f">//nolint: revive</tspan>
 </text><text x="20.00px" y="423.20px" xml:space="preserve">    <tspan fill="#00aaff">var</tspan> c Config
 </text><text x="20.00px" y="440.00px" xml:space="preserve">    <tspan fill="#00aaff">var</tspan> err <tspan fill="#635adf">error</tspan>
 </text><text x="20.00px" y="456.80px" xml:space="preserve">    <tspan fill="#00aaff">return</tspan> <tspan fill="#ff7f83">&amp;</tspan>c<tspan fill="#e8e8a8">,</tspan> err
