@@ -20,7 +20,7 @@ require (
 	github.com/charmbracelet/x/xpty v0.1.3
 	github.com/kanrichan/resvg-go v0.0.2-0.20231001163256-63db194ca9f5
 	github.com/mattn/go-isatty v0.0.20
-	github.com/mattn/go-runewidth v0.0.16
+	github.com/mattn/go-runewidth v0.0.17
 )
 
 require (
