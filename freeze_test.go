@@ -11,6 +11,7 @@ import (
 	"testing"
 
 	"github.com/aymanbagabas/go-udiff"
+	"github.com/beevik/etree"
 )
 
 var binary = "./test/freeze-test"
@@ -114,6 +115,62 @@ func TestFreezeErrorFileMissing(t *testing.T) {
 		if !strings.Contains(got, c) {
 			t.Fatalf("expected %s to contain \"%s\"", got, c)
 		}
+	}
+}
+
+func TestFreezeWindowTitleFilename(t *testing.T) {
+	output := "artichoke-default-title.svg"
+	t.Cleanup(func() { os.Remove(output) })
+	testTitle := "artichoke.hs"
+	cmd := exec.Command(binary, "test/input/artichoke.hs", "--output", output, "--window")
+	err := cmd.Run()
+
+	if err != nil {
+		t.Fatal("unexpected error", err)
+	}
+
+	doc := etree.NewDocument()
+	err = doc.ReadFromFile(output)
+	if err != nil {
+		t.Fatal("unexpected error", err)
+	}
+	childs := doc.ChildElements()
+	if len(childs) == 0 {
+		t.Fatal("no child elements")
+	}
+	lastChild := childs[len(childs)-1]
+	got := lastChild.FindElement("text").Text()
+
+	if got != testTitle {
+		t.Fatalf("expected %s to be %s", got, testTitle)
+	}
+}
+
+func TestFreezeCustomWindowTitle(t *testing.T) {
+	output := "artichoke-custom-title.svg"
+	t.Cleanup(func() { os.Remove(output) })
+	testTitle := "custom-test title"
+	cmd := exec.Command(binary, "test/input/artichoke.hs", "--output", output, "--title.text", testTitle, "--window")
+	err := cmd.Run()
+
+	if err != nil {
+		t.Fatal("unexpected error", err)
+	}
+
+	doc := etree.NewDocument()
+	err = doc.ReadFromFile(output)
+	if err != nil {
+		t.Fatal("unexpected error", err)
+	}
+	childs := doc.ChildElements()
+	if len(childs) == 0 {
+		t.Fatal("no child elements")
+	}
+	lastChild := childs[len(childs)-1]
+	got := lastChild.FindElement("text").Text()
+
+	if got != testTitle {
+		t.Fatalf("expected %s to be %s", got, testTitle)
 	}
 }
 
@@ -266,6 +323,11 @@ func TestFreezeConfigurations(t *testing.T) {
 			input:  "test/input/wrap.go",
 			flags:  []string{"--wrap", "80", "--width", "600"},
 			output: "wrap",
+		},
+		{
+			input:  "test/input/artichoke.hs",
+			flags:  []string{"--border.radius", "8", "--window", "--title.text", "My artichoke code"},
+			output: "title",
 		},
 	}
 
