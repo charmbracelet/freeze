@@ -8,6 +8,7 @@ import (
 
 	"github.com/beevik/etree"
 	"github.com/charmbracelet/freeze/font"
+	"github.com/charmbracelet/log"
 	"github.com/kanrichan/resvg-go"
 )
 
@@ -54,6 +55,31 @@ func resvgConvert(doc *etree.Document, w, h float64, output string) error {
 	err = fontdb.LoadFontData(font.JetBrainsMonoNLTTF)
 	if err != nil {
 		printErrorFatal("Unable to load font", err)
+	}
+
+	// Load system fonts to support CJK and other non-ASCII characters.
+	// Set FREEZE_NO_SYSTEM_FONTS=1 to skip system font loading for better performance.
+	// Note: Without this, font directories are scanned on each conversion.
+	// For better performance with large font sets, use SVG output or install rsvg-convert.
+	if os.Getenv("FREEZE_NO_SYSTEM_FONTS") != "1" {
+		if len(font.DefaultFontsDirs) == 0 {
+			log.Warn("No system font directories configured for this platform; CJK characters may not render correctly. Use --font.file to specify a font.")
+		} else {
+			var failedDirs []string
+			loadedDirs := 0
+			for _, dir := range font.DefaultFontsDirs {
+				if err := fontdb.LoadFontsDir(dir); err != nil {
+					failedDirs = append(failedDirs, dir)
+				} else {
+					loadedDirs++
+				}
+			}
+			if loadedDirs == 0 {
+				log.Warn("No system font directories could be loaded; CJK characters may not render correctly. Use --font.file to specify a font.")
+			} else if len(failedDirs) > 0 {
+				log.Warnf("Some font directories could not be loaded: %v; some characters may not render correctly", failedDirs)
+			}
+		}
 	}
 
 	pixmap, err := worker.NewPixmap(uint32(w), uint32(h))
