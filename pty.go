@@ -8,9 +8,9 @@ import (
 	"os"
 	"os/exec"
 
-	"github.com/caarlos0/go-shellwords"
 	"github.com/charmbracelet/x/term"
 	"github.com/charmbracelet/x/xpty"
+	"github.com/mattn/go-shellwords"
 )
 
 func executeCommand(config Config) (string, error) {
