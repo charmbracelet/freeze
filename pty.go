@@ -49,5 +49,8 @@ func executeCommand(config Config) (string, error) {
 	if err := xpty.WaitProcess(ctx, cmd); err != nil {
 		return errorOut.String(), fmt.Errorf("could not execute: %w", err)
 	}
+	if config.ShowCmd {
+		return fmt.Sprintf("%s\n\n%s", config.Execute, out.String()), nil
+	}
 	return out.String(), nil
 }

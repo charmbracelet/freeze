@@ -43,6 +43,16 @@ freeze --execute "eza -lah"
   </a>
 </p>
 
+#### Show executed command
+
+```bash
+freeze --execute "eza -h" --show-cmd
+```
+
+<p align="center">
+  <img alt="output of freeze command showing executed command, ANSI" src="./test/golden/svg/show-eza.svg" width="800" />
+</p>
+
 Freeze is also [super customizable](#customization) and ships with an [interactive TUI](#interactive-mode).
 
 ## Installation
@@ -95,6 +105,7 @@ Screenshots can be customized with `--flags` or [Configuration](#configuration) 
 
 - [`-b`](#background), [`--background`](#background): Apply a background fill.
 - [`-c`](#configuration), [`--config`](#configuration): Base configuration file or template.
+- [`-s`](#show-executed-command), [`--show-cmd`](#show-executed-command): Show executed command.
 - [`-l`](#language), [`--language`](#language): Language to apply to code
 - [`-m`](#margin), [`--margin`](#margin): Apply margin to the window.
 - [`-o`](#output), [`--output`](#output): Output location for .svg, .png, .jpg.
