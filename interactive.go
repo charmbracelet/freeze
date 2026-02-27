@@ -103,6 +103,17 @@ func runForm(config *Config) (*Config, error) {
 				Inline(true).
 				Value(&config.Window),
 
+			huh.NewInput().Title("Title text").
+				Placeholder("auto").
+				Inline(true).
+				Prompt("").
+				Value(&config.Title.Text),
+
+			huh.NewSelect[string]().Title("Title position").
+				Inline(true).
+				Options(huh.NewOptions("left", "center", "right")...).
+				Value(&config.Title.Position),
+
 			huh.NewNote().Title("Font"),
 
 			huh.NewInput().Title("Font Family ").

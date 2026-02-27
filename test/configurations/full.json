@@ -1,5 +1,9 @@
 {
   "window": true,
+	"title": {
+		"text": "auto",
+		"position": "center"
+	},
   "theme": "charm",
   "border": {
     "radius": 8,
