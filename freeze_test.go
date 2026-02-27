@@ -267,6 +267,11 @@ func TestFreezeConfigurations(t *testing.T) {
 			flags:  []string{"--wrap", "80", "--width", "600"},
 			output: "wrap",
 		},
+		{
+			input:  "test/input/zprofile",
+			flags:  []string{"--wrap", "80", "--width", "600"},
+			output: "wrap",
+		},
 	}
 
 	err := os.RemoveAll("test/output/svg")
