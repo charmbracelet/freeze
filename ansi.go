@@ -171,8 +171,8 @@ func (p *dispatcher) CsiDispatch(cmd ansi.Cmd, params ansi.Params) {
 				p.beginBackground(fill)
 				i += 3
 			}
-		case 100, 101, 102, 103, 104, 105, 106, 107:
-			p.beginBackground(ansiPalette[v])
+		case 40, 41, 42, 43, 44, 45, 46, 47, 100, 101, 102, 103, 104, 105, 106, 107:
+			p.beginBackground(ansiPalette[v-10])
 		}
 		i++
 	}
