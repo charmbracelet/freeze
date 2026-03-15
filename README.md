@@ -58,7 +58,7 @@ yay -S freeze
 nix-env -iA nixpkgs.charm-freeze
 ```
 
-Or, download it:
+Or download it:
 
 - [Packages][releases] are available in Debian and RPM formats
 - [Binaries][releases] are available for Linux, macOS, and Windows
