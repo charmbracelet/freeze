@@ -1,6 +1,6 @@
 module github.com/charmbracelet/freeze
 
-go 1.24.2
+go 1.25.8
 
 require (
 	github.com/adrg/xdg v0.5.3
