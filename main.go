@@ -157,6 +157,11 @@ func main() {
 			printErrorFatal("File not found", err)
 		}
 		lexer = lexers.Get(config.Input)
+		if lexer == nil {
+			// cannot get/match from filename alone
+			// pass the content for one more attempt to identify
+			lexer = lexers.Analyse(input)
+		}
 	}
 
 	if config.Language != "" {
