@@ -133,6 +133,21 @@ func main() {
 		config.Output = defaultOutputFilename
 	}
 
+	// Check if output file already exists and prompt for confirmation
+	if config.Output != "" && !config.Force {
+		if _, statErr := os.Stat(config.Output); statErr == nil {
+			if isatty.IsTerminal(os.Stdin.Fd()) {
+				fmt.Fprintf(os.Stderr, "File %q already exists. Overwrite? [y/N] ", config.Output)
+				var answer string
+				fmt.Fscanln(os.Stdin, &answer)
+				if answer != "y" && answer != "Y" {
+					fmt.Fprintln(os.Stderr, "Aborted.")
+					os.Exit(0)
+				}
+			}
+		}
+	}
+
 	scale = 1
 	if autoHeight && autoWidth && strings.HasSuffix(config.Output, ".png") {
 		scale = 4
