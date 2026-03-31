@@ -17,6 +17,7 @@ import (
 	"github.com/beevik/etree"
 	"github.com/charmbracelet/lipgloss"
 	"github.com/charmbracelet/log"
+	"github.com/atotto/clipboard"
 	"github.com/charmbracelet/x/ansi"
 	"github.com/charmbracelet/x/cellbuf"
 	"github.com/mattn/go-isatty"
@@ -447,10 +448,27 @@ func main() {
 			printErrorFatal("Unable to write output", err)
 		}
 	}
+
+	// Copy SVG to clipboard if --clipboard flag is set
+	if config.Clipboard {
+		copyToClipboard(doc)
+	}
 }
 
-var outputHeader = lipgloss.NewStyle().Foreground(lipgloss.Color("#F1F1F1")).Background(lipgloss.Color("#6C50FF")).Bold(true).Padding(0, 1).MarginRight(1).SetString("WROTE")
+var (
+	outputHeader   = lipgloss.NewStyle().Foreground(lipgloss.Color("#F1F1F1")).Background(lipgloss.Color("#6C50FF")).Bold(true).Padding(0, 1).MarginRight(1).SetString("WROTE")
+	clipboardHeader = lipgloss.NewStyle().Foreground(lipgloss.Color("#F1F1F1")).Background(lipgloss.Color("#50C878")).Bold(true).Padding(0, 1).MarginRight(1).SetString("COPIED")
+)
 
 func printFilenameOutput(filename string) {
 	fmt.Println(lipgloss.JoinHorizontal(lipgloss.Center, outputHeader.String(), filename))
+}
+
+func copyToClipboard(doc *etree.Document) {
+	var buf bytes.Buffer
+	doc.WriteTo(&buf) //nolint:errcheck
+	if err := clipboard.WriteAll(buf.String()); err != nil {
+		printErrorFatal("Unable to copy to clipboard", err)
+	}
+	fmt.Println(lipgloss.JoinHorizontal(lipgloss.Center, clipboardHeader.String(), "SVG copied to clipboard"))
 }
