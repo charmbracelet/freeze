@@ -130,7 +130,11 @@ func main() {
 	autoWidth := config.Width == 0
 
 	if config.Output == "" {
-		config.Output = defaultOutputFilename
+		if config.DefaultOutput != "" {
+			config.Output = config.DefaultOutput
+		} else {
+			config.Output = defaultOutputFilename
+		}
 	}
 
 	scale = 1
