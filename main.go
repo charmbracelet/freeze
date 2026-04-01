@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"io/fs"
 	"os"
 	"path/filepath"
 	"runtime/debug"
@@ -92,7 +93,15 @@ func main() {
 	}
 
 	isDefaultConfig := config.Config == "default"
-	configFile, err := configs.Open("configurations/" + config.Config + ".json")
+
+	// Quando nenhum -c e informado, tenta o config do usuario primeiro
+	var configFile fs.File
+	if isDefaultConfig {
+		configFile, err = loadUserConfig()
+	}
+	if configFile == nil || err != nil {
+		configFile, err = configs.Open("configurations/" + config.Config + ".json")
+	}
 	if config.Config == "user" {
 		configFile, err = loadUserConfig()
 	}
