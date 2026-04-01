@@ -447,10 +447,25 @@ func main() {
 			printErrorFatal("Unable to write output", err)
 		}
 	}
+
+	// Publish: faz upload do arquivo e imprime a URL
+	if config.Publish && config.Output != "" {
+		url, publishErr := publishFile(config.Output)
+		if publishErr != nil {
+			printErrorFatal("Unable to publish", publishErr)
+		}
+		printPublishOutput(url)
+	}
 }
 
 var outputHeader = lipgloss.NewStyle().Foreground(lipgloss.Color("#F1F1F1")).Background(lipgloss.Color("#6C50FF")).Bold(true).Padding(0, 1).MarginRight(1).SetString("WROTE")
 
+var publishHeader = lipgloss.NewStyle().Foreground(lipgloss.Color("#F1F1F1")).Background(lipgloss.Color("#50C878")).Bold(true).Padding(0, 1).MarginRight(1).SetString("URL")
+
 func printFilenameOutput(filename string) {
 	fmt.Println(lipgloss.JoinHorizontal(lipgloss.Center, outputHeader.String(), filename))
+}
+
+func printPublishOutput(url string) {
+	fmt.Println(lipgloss.JoinHorizontal(lipgloss.Center, publishHeader.String(), url))
 }
