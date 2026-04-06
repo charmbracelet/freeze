@@ -5,7 +5,7 @@ go 1.25.8
 require (
 	github.com/adrg/xdg v0.5.3
 	github.com/alecthomas/chroma/v2 v2.23.1
-	github.com/alecthomas/kong v1.14.0
+	github.com/alecthomas/kong v1.15.0
 	github.com/aymanbagabas/go-udiff v0.4.1
 	github.com/beevik/etree v1.6.0
 	github.com/caarlos0/go-shellwords v1.0.12
@@ -18,7 +18,7 @@ require (
 	github.com/charmbracelet/x/xpty v0.1.3
 	github.com/kanrichan/resvg-go v0.0.2-0.20231001163256-63db194ca9f5
 	github.com/mattn/go-isatty v0.0.20
-	github.com/mattn/go-runewidth v0.0.21
+	github.com/mattn/go-runewidth v0.0.22
 )
 
 require (
