@@ -71,6 +71,33 @@ go install github.com/charmbracelet/freeze@latest
 
 [releases]: https://github.com/charmbracelet/freeze/releases
 
+### PNG output (recommended)
+
+For faster PNG output, install `librsvg`. Freeze uses the `rsvg-convert`
+binary when it's on your `PATH` and falls back to a pure-Go WASM renderer
+otherwise. Installing `librsvg` also sidesteps an older WASM-renderer crash on
+Linux ([#203][issue-203]) if you're on a release prior to the `wazero` 1.11.0
+upgrade.
+
+```sh
+# macOS
+brew install librsvg
+
+# Debian / Ubuntu / PopOS
+sudo apt install librsvg2-bin
+
+# Fedora
+sudo dnf install librsvg2-tools
+
+# Arch
+sudo pacman -S librsvg
+
+# Nix
+nix-env -iA nixpkgs.librsvg
+```
+
+[issue-203]: https://github.com/charmbracelet/freeze/issues/203
+
 ## Customization
 
 ### Interactive mode
@@ -349,6 +376,21 @@ Here's what an example configuration looks like:
   "line_height": 1.2
 }
 ```
+
+## Troubleshooting
+
+### PNG generation segfaults on Linux
+
+If `freeze --output foo.png` (or `freeze execute`) crashes with
+`SIGSEGV: segmentation violation` or `runtime: split stack overflow`, you're
+hitting [#203][issue-203]. This was caused by an incompatibility between
+`wazero` 1.7.3 and Go 1.24+ in the bundled WASM renderer
+([resvg-go#10](https://github.com/kanrichan/resvg-go/issues/10)), and is fixed
+in current `freeze` releases via a `wazero` 1.11.0 upgrade.
+
+If you're on an older release or still see the crash, install `librsvg` (see
+[PNG output](#png-output-recommended) above). Once `rsvg-convert` is on your
+`PATH`, `freeze` will use it automatically and bypass the WASM path entirely.
 
 ## Contributing
 
