@@ -7,9 +7,9 @@ import (
 	"strconv"
 	"strings"
 
+	"charm.land/huh/v2"
+	"charm.land/lipgloss/v2"
 	"github.com/alecthomas/chroma/v2/styles"
-	"github.com/charmbracelet/huh"
-	"github.com/charmbracelet/lipgloss"
 )
 
 var green = lipgloss.Color("#03BF87")
@@ -27,22 +27,25 @@ func runForm(config *Config) (*Config, error) {
 		shadowY      = fmt.Sprintf("%.0f", config.Shadow.Y)
 	)
 
-	theme := huh.ThemeCharm()
-	theme.FieldSeparator = lipgloss.NewStyle()
-	theme.Blurred.TextInput.Text = theme.Blurred.TextInput.Text.Foreground(lipgloss.Color("243"))
-	theme.Blurred.BlurredButton = lipgloss.NewStyle().Foreground(lipgloss.Color("8")).PaddingRight(1)
-	theme.Blurred.FocusedButton = lipgloss.NewStyle().Foreground(lipgloss.Color("7")).PaddingRight(1)
-	theme.Focused.BlurredButton = lipgloss.NewStyle().Foreground(lipgloss.Color("8")).PaddingRight(1)
-	theme.Focused.FocusedButton = lipgloss.NewStyle().Foreground(lipgloss.Color("15")).PaddingRight(1)
-	theme.Focused.NoteTitle = theme.Focused.NoteTitle.Margin(1, 0)
-	theme.Blurred.NoteTitle = theme.Blurred.NoteTitle.Margin(1, 0)
-	theme.Blurred.Description = theme.Blurred.Description.Foreground(lipgloss.Color("0"))
-	theme.Focused.Description = theme.Focused.Description.Foreground(lipgloss.Color("7"))
-	theme.Blurred.Title = theme.Blurred.Title.Width(18).Foreground(lipgloss.Color("7"))
-	theme.Focused.Title = theme.Focused.Title.Width(18).Foreground(green).Bold(true)
-	theme.Blurred.SelectedOption = theme.Blurred.SelectedOption.Foreground(lipgloss.Color("243"))
-	theme.Focused.SelectedOption = lipgloss.NewStyle().Foreground(green)
-	theme.Focused.Base.BorderForeground(green)
+	theme := huh.ThemeFunc(func(isDark bool) *huh.Styles {
+		theme := huh.ThemeCharm(isDark)
+		theme.FieldSeparator = lipgloss.NewStyle()
+		theme.Blurred.TextInput.Text = theme.Blurred.TextInput.Text.Foreground(lipgloss.Color("243"))
+		theme.Blurred.BlurredButton = lipgloss.NewStyle().Foreground(lipgloss.Color("8")).PaddingRight(1)
+		theme.Blurred.FocusedButton = lipgloss.NewStyle().Foreground(lipgloss.Color("7")).PaddingRight(1)
+		theme.Focused.BlurredButton = lipgloss.NewStyle().Foreground(lipgloss.Color("8")).PaddingRight(1)
+		theme.Focused.FocusedButton = lipgloss.NewStyle().Foreground(lipgloss.Color("15")).PaddingRight(1)
+		theme.Focused.NoteTitle = theme.Focused.NoteTitle.Margin(1, 0)
+		theme.Blurred.NoteTitle = theme.Blurred.NoteTitle.Margin(1, 0)
+		theme.Blurred.Description = theme.Blurred.Description.Foreground(lipgloss.Color("0"))
+		theme.Focused.Description = theme.Focused.Description.Foreground(lipgloss.Color("7"))
+		theme.Blurred.Title = theme.Blurred.Title.Width(18).Foreground(lipgloss.Color("7"))
+		theme.Focused.Title = theme.Focused.Title.Width(18).Foreground(green).Bold(true)
+		theme.Blurred.SelectedOption = theme.Blurred.SelectedOption.Foreground(lipgloss.Color("243"))
+		theme.Focused.SelectedOption = lipgloss.NewStyle().Foreground(green)
+		theme.Focused.Base.BorderForeground(green)
+		return theme
+	})
 
 	f := huh.NewForm(
 		huh.NewGroup(

@@ -1,12 +1,14 @@
 package main
 
 import (
-	"fmt"
+	"os"
 	"regexp"
 	"strings"
 
+	"charm.land/lipgloss/v2"
+	"charm.land/lipgloss/v2/compat"
 	"github.com/alecthomas/kong"
-	"github.com/charmbracelet/lipgloss"
+	"github.com/charmbracelet/colorprofile"
 )
 
 const space = 18
@@ -14,19 +16,22 @@ const space = 18
 var highlighter = regexp.MustCompile("{{(.+?)}}")
 
 func helpPrinter(_ kong.HelpOptions, ctx *kong.Context) error {
-	codeBlockStyle := lipgloss.NewStyle().Background(lipgloss.AdaptiveColor{Light: "254", Dark: "235"}).MarginLeft(2).Padding(1, 2)
+	compat.HasDarkBackground = lipgloss.HasDarkBackground(os.Stdin, os.Stdout)
+	compat.Profile = colorprofile.Detect(os.Stdout, os.Environ())
+
+	codeBlockStyle := lipgloss.NewStyle().Background(compat.AdaptiveColor{Light: lipgloss.Color("254"), Dark: lipgloss.Color("235")}).MarginLeft(2).Padding(1, 2)
 	programStyle := lipgloss.NewStyle().Background(codeBlockStyle.GetBackground()).Foreground(lipgloss.Color("#7E65FF")).PaddingLeft(1)
-	stringStyle := lipgloss.NewStyle().Background(codeBlockStyle.GetBackground()).Foreground(lipgloss.AdaptiveColor{Light: "#02BA84", Dark: "#02BF87"}).PaddingLeft(1)
+	stringStyle := lipgloss.NewStyle().Background(codeBlockStyle.GetBackground()).Foreground(compat.AdaptiveColor{Light: lipgloss.Color("#02BA84"), Dark: lipgloss.Color("#02BF87")}).PaddingLeft(1)
 	argumentStyle := lipgloss.NewStyle().Background(codeBlockStyle.GetBackground()).Foreground(lipgloss.Color("248")).PaddingLeft(1)
 	flagStyle := lipgloss.NewStyle().Background(codeBlockStyle.GetBackground()).Foreground(lipgloss.Color("244")).PaddingLeft(1)
 	titleStyle := lipgloss.NewStyle().Bold(true).Transform(strings.ToUpper).Margin(1, 0, 0, 2).Foreground(lipgloss.Color("#6C50FF"))
 
-	fmt.Println()
-	fmt.Println("  Generate images of code and terminal output. 📸")
+	lipgloss.Println()
+	lipgloss.Println("  Generate images of code and terminal output. 📸")
 
-	fmt.Println(titleStyle.Render(strings.ToUpper("Usage")))
-	fmt.Println()
-	fmt.Println(
+	lipgloss.Println(titleStyle.Render(strings.ToUpper("Usage")))
+	lipgloss.Println()
+	lipgloss.Println(
 		codeBlockStyle.Render(
 			lipgloss.JoinVertical(
 				lipgloss.Top,
@@ -39,14 +44,14 @@ func helpPrinter(_ kong.HelpOptions, ctx *kong.Context) error {
 	flags := ctx.Flags()
 	lastGroup := ""
 
-	fmt.Println()
+	lipgloss.Println()
 	for _, f := range flags {
 		if f.Name == "interactive" {
 			printFlag(f)
 		}
 	}
 
-	fmt.Println(titleStyle.Render("Settings"))
+	lipgloss.Println(titleStyle.Render("Settings"))
 
 	for _, f := range flags {
 		if f.Group != nil && f.Group.Title == "Settings" {
@@ -57,7 +62,7 @@ func helpPrinter(_ kong.HelpOptions, ctx *kong.Context) error {
 		}
 	}
 
-	fmt.Print(titleStyle.Render("Customization"))
+	lipgloss.Print(titleStyle.Render("Customization"))
 
 	for _, f := range flags {
 		if f.Hidden || f.Name == "help" || f.Group.Title == "Settings" {
@@ -66,12 +71,12 @@ func helpPrinter(_ kong.HelpOptions, ctx *kong.Context) error {
 
 		if f.Group != nil && lastGroup != f.Group.Title {
 			lastGroup = f.Group.Title
-			fmt.Println()
+			lipgloss.Println()
 		}
 
 		printFlag(f)
 	}
-	fmt.Println()
+	lipgloss.Println()
 	return nil
 }
 
@@ -83,14 +88,14 @@ func printFlag(f *kong.Flag) {
 	keywordStyle := lipgloss.NewStyle().Foreground(lipgloss.Color("1"))
 
 	if f.Short > 0 {
-		fmt.Print("    ", dashStyle.Render("-"), string(f.Short))
-		fmt.Print(dashStyle.Render("--"), f.Name)
-		fmt.Print(strings.Repeat(" ", space-len(f.Name)))
+		lipgloss.Print("    ", dashStyle.Render("-"), string(f.Short))
+		lipgloss.Print(dashStyle.Render("--"), f.Name)
+		lipgloss.Print(strings.Repeat(" ", space-len(f.Name)))
 	} else {
-		fmt.Print("    ", dashStyle.Render(" "), " ")
-		fmt.Print(dashStyle.Render("--"), f.Name)
-		fmt.Print(strings.Repeat(" ", space-len(f.Name)))
+		lipgloss.Print("    ", dashStyle.Render(" "), " ")
+		lipgloss.Print(dashStyle.Render("--"), f.Name)
+		lipgloss.Print(strings.Repeat(" ", space-len(f.Name)))
 	}
 	help := highlighter.ReplaceAllString(f.Help, keywordStyle.Render("$1")+"\x1b[38;5;"+helpForeground+"m")
-	fmt.Println(helpStyle.Render(help))
+	lipgloss.Println(helpStyle.Render(help))
 }
