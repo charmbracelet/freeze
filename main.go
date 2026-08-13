@@ -406,7 +406,10 @@ func main() {
 		// could not convert with libsvg, try resvg
 		svgConversionErr = resvgConvert(doc, imageWidth, imageHeight, config.Output)
 		if svgConversionErr != nil {
-			printErrorFatal("Unable to convert SVG to PNG", svgConversionErr)
+			printErrorFatal(
+				"Unable to convert SVG to PNG.\nInstall librsvg for reliable PNG output — see the README's 'PNG output' section: https://github.com/charmbracelet/freeze#png-output-recommended",
+				svgConversionErr,
+			)
 		}
 		printFilenameOutput(config.Output)
 

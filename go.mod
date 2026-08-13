@@ -16,7 +16,7 @@ require (
 	github.com/charmbracelet/x/cellbuf v0.0.15
 	github.com/charmbracelet/x/term v0.2.2
 	github.com/charmbracelet/x/xpty v0.1.3
-	github.com/kanrichan/resvg-go v0.0.2-0.20231001163256-63db194ca9f5
+	github.com/kanrichan/resvg-go v0.0.2-0.20260124063605-1b2ace355216
 	github.com/mattn/go-isatty v0.0.22
 	github.com/mattn/go-runewidth v0.0.23
 )
@@ -46,7 +46,7 @@ require (
 	github.com/muesli/cancelreader v0.2.2 // indirect
 	github.com/muesli/termenv v0.16.0 // indirect
 	github.com/rivo/uniseg v0.4.7 // indirect
-	github.com/tetratelabs/wazero v1.8.0 // indirect
+	github.com/tetratelabs/wazero v1.11.0 // indirect
 	github.com/xo/terminfo v0.0.0-20220910002029-abceb7e1c41e // indirect
 	golang.org/x/exp v0.0.0-20240904232852-e7e105dedf7e // indirect
 	golang.org/x/sync v0.15.0 // indirect
