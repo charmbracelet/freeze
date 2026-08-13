@@ -14,10 +14,42 @@ import (
 
 var green = lipgloss.Color("#03BF87")
 
+const (
+	embeddedFontJetBrainsMono   = "JetBrains Mono"
+	embeddedFontJetBrainsMonoNL = "JetBrains Mono NL"
+)
+
+var embeddedFontFamilies = []string{
+	embeddedFontJetBrainsMono,
+	embeddedFontJetBrainsMonoNL,
+}
+
+func embeddedFontFamilySelection(config *Config) string {
+	if !config.Font.Ligatures {
+		return embeddedFontJetBrainsMonoNL
+	}
+	return embeddedFontJetBrainsMono
+}
+
+func applyEmbeddedFontFamily(selection string, config *Config) {
+	switch selection {
+	case embeddedFontJetBrainsMonoNL:
+		config.Font.Family = embeddedFontJetBrainsMono
+		config.Font.Ligatures = false
+	case embeddedFontJetBrainsMono:
+		config.Font.Family = embeddedFontJetBrainsMono
+		config.Font.Ligatures = true
+	default:
+		config.Font.Family = embeddedFontJetBrainsMono
+		config.Font.Ligatures = true
+	}
+}
+
 func runForm(config *Config) (*Config, error) {
 	var (
 		padding      = strings.Trim(fmt.Sprintf("%v", config.Padding), "[]")
 		margin       = strings.Trim(fmt.Sprintf("%v", config.Margin), "[]")
+		fontFamily   = embeddedFontFamilySelection(config)
 		fontSize     = fmt.Sprintf("%d", int(config.Font.Size))
 		lineHeight   = fmt.Sprintf("%.1f", config.LineHeight)
 		borderRadius = fmt.Sprintf("%.0f", config.Border.Radius)
@@ -105,12 +137,11 @@ func runForm(config *Config) (*Config, error) {
 
 			huh.NewNote().Title("Font"),
 
-			huh.NewInput().Title("Font Family ").
+			huh.NewSelect[string]().Title("Font Family ").
 				// Description("Font family to use for code").
-				Placeholder("JetBrains Mono").
 				Inline(true).
-				Prompt("").
-				Value(&config.Font.Family),
+				Options(huh.NewOptions(embeddedFontFamilies...)...).
+				Value(&fontFamily),
 
 			huh.NewInput().Title("Font Size ").
 				// Description("Font size to use for code.").
@@ -190,6 +221,7 @@ func runForm(config *Config) (*Config, error) {
 
 	config.Padding = parsePadding(padding)
 	config.Margin = parseMargin(margin)
+	applyEmbeddedFontFamily(fontFamily, config)
 	config.Font.Size, _ = strconv.ParseFloat(fontSize, 64)
 	config.LineHeight, _ = strconv.ParseFloat(lineHeight, 64)
 	config.Border.Radius, _ = strconv.ParseFloat(borderRadius, 64)
