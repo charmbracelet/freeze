@@ -145,6 +145,8 @@ freeze artichoke.hs --theme dracula
   <img alt="output of freeze command, Haskell code block with dracula theme" src="./test/golden/svg/dracula.svg" width="600" />
 </a>
 
+(for an incomplete list of themes and their previews please refer to [the splash lib doc page](https://xyproto.github.io/splash/docs/all.html)).
+
 ### Output
 
 Change the output file location, defaults to `out.svg` or stdout if piped. This
