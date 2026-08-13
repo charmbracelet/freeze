@@ -1,0 +1,6 @@
+export WHERE=a_zsh_script_without_suffix
+
+foobar() {
+  echo "Hello, because unfortunately zprofile filename does not Get/Match a lexer
+  so we're using Lexer.Analyse to read this content to guess language is Shell"
+}
