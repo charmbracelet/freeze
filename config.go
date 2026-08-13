@@ -22,6 +22,7 @@ type Config struct {
 	Margin     []float64 `json:"margin" help:"Apply margin to the window." short:"m" placeholder:"0" group:"Window"`
 	Padding    []float64 `json:"padding" help:"Apply padding to the code." short:"p" placeholder:"0" group:"Window"`
 	Window     bool      `json:"window" help:"Display window controls." group:"Window"`
+	Title      Title     `json:"title" embed:"" prefix:"title." group:"Window"`
 	Width      float64   `json:"width" help:"Width of terminal window." short:"W" group:"Window"`
 	Height     float64   `json:"height" help:"Height of terminal window." short:"H" group:"Window"`
 
@@ -48,6 +49,11 @@ type Config struct {
 	LineHeight      float64 `json:"line_height" help:"Line height relative to font size." group:"Line" placeholder:"1.2"`
 	Lines           []int   `json:"-" help:"Lines to capture (start,end)." group:"Line" placeholder:"0,-1" value:"0,-1"`
 	ShowLineNumbers bool    `json:"show_line_numbers" help:"" group:"Line" placeholder:"false"`
+}
+
+type Title struct {
+	Text     string `json:"title" help:"Display window title. {{--title.text=auto}} as default for input filename." default:"auto"`
+	Position string `json:"position" help:"Position of window title, one of {{left}}, {{center}}, or {{right}}. {{--title.position=center}} as default." default:"center"`
 }
 
 // Shadow is the configuration options for a drop shadow.
