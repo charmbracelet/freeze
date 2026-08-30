@@ -7,17 +7,29 @@ import (
 	"io"
 	"os"
 	"os/exec"
+	"runtime"
 
-	"github.com/caarlos0/go-shellwords"
 	"github.com/charmbracelet/x/term"
 	"github.com/charmbracelet/x/xpty"
 )
 
-func executeCommand(config Config) (string, error) {
-	args, err := shellwords.Parse(config.Execute)
-	if err != nil {
-		return "", fmt.Errorf("could not execute: %w", err)
+// shellCommand returns the shell and the flag used to run a command string
+// through it, so --execute supports pipes, redirects, &&, and other shell
+// operators instead of only a single literal argv.
+func shellCommand() (string, string) {
+	if runtime.GOOS == "windows" {
+		return "cmd", "/c"
 	}
+
+	shell := os.Getenv("SHELL")
+	if shell == "" {
+		shell = "sh"
+	}
+	return shell, "-c"
+}
+
+func executeCommand(config Config) (string, error) {
+	shell, shellFlag := shellCommand()
 
 	ctx, cancel := context.WithTimeout(context.Background(), config.ExecuteTimeout)
 	defer cancel()
@@ -34,7 +46,7 @@ func executeCommand(config Config) (string, error) {
 	}
 	defer func() { _ = pty.Close() }()
 
-	cmd := exec.CommandContext(ctx, args[0], args[1:]...) //nolint: gosec
+	cmd := exec.CommandContext(ctx, shell, shellFlag, config.Execute) //nolint: gosec
 	if err := pty.Start(cmd); err != nil {
 		return "", fmt.Errorf("could not execute: %w", err)
 	}
