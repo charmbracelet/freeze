@@ -40,14 +40,16 @@ func executeCommand(config Config) (string, error) {
 	}
 
 	var out bytes.Buffer
-	var errorOut bytes.Buffer
+	donec := make(chan struct{})
 	go func() {
 		_, _ = io.Copy(&out, pty)
-		errorOut.Write(out.Bytes())
+		close(donec)
 	}()
 
-	if err := xpty.WaitProcess(ctx, cmd); err != nil {
-		return errorOut.String(), fmt.Errorf("could not execute: %w", err)
+	err = xpty.WaitProcess(ctx, cmd)
+	waitOutput(pty, donec)
+	if err != nil {
+		return out.String(), fmt.Errorf("could not execute: %w", err)
 	}
 	return out.String(), nil
 }
