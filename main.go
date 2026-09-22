@@ -132,6 +132,11 @@ func main() {
 	if config.Output == "" {
 		config.Output = defaultOutputFilename
 	}
+	if expanded, err := expandPath(config.Output); err == nil {
+		config.Output = expanded
+	} else {
+		printErrorFatal("Unable to resolve output path", err)
+	}
 
 	scale = 1
 	if autoHeight && autoWidth && strings.HasSuffix(config.Output, ".png") {
@@ -453,4 +458,23 @@ var outputHeader = lipgloss.NewStyle().Foreground(lipgloss.Color("#F1F1F1")).Bac
 
 func printFilenameOutput(filename string) {
 	fmt.Println(lipgloss.JoinHorizontal(lipgloss.Center, outputHeader.String(), filename))
+}
+
+// expandPath replaces a leading "~" with the user's home directory and turns
+// the result into an absolute path. rsvg-convert and os.WriteFile both treat
+// "~" literally, so without this an output like "~/out.png" lands in a file
+// named "~" rather than under $HOME.
+func expandPath(p string) (string, error) {
+	if p == "~" || strings.HasPrefix(p, "~/") {
+		home, err := os.UserHomeDir()
+		if err != nil {
+			return "", err
+		}
+		if p == "~" {
+			p = home
+		} else {
+			p = filepath.Join(home, p[2:])
+		}
+	}
+	return filepath.Abs(p)
 }
