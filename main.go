@@ -96,6 +96,12 @@ func main() {
 	if config.Config == "user" {
 		configFile, err = loadUserConfig()
 	}
+	// when using the default config, prefer the user config if it exists
+	if isDefaultConfig {
+		if uf, userErr := loadUserConfig(); userErr == nil {
+			configFile = uf
+		}
+	}
 	if err != nil {
 		configFile, err = os.Open(config.Config)
 	}
