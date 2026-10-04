@@ -29,9 +29,9 @@ func helpPrinter(_ kong.HelpOptions, ctx *kong.Context) error {
 	fmt.Println(
 		codeBlockStyle.Render(
 			lipgloss.JoinVertical(
-				lipgloss.Top,
-				lipgloss.JoinHorizontal(lipgloss.Left, programStyle.Render("freeze"), argumentStyle.Render("main.go"), flagStyle.Render("[-o code.svg] [--flags]")),
-				lipgloss.JoinHorizontal(lipgloss.Left, programStyle.Render("freeze"), argumentStyle.Render("--execute"), stringStyle.Render("\"ls -la\""), flagStyle.Render("[--flags]   ")),
+				lipgloss.Left,
+				lipgloss.JoinHorizontal(lipgloss.Top, programStyle.Render("freeze"), argumentStyle.Render("main.go"), flagStyle.Render("[-o code.svg] [--flags]")),
+				lipgloss.JoinHorizontal(lipgloss.Top, programStyle.Render("freeze"), argumentStyle.Render("--execute"), stringStyle.Render("\"ls -la\""), flagStyle.Render("[--flags]   ")),
 			),
 		),
 	)
