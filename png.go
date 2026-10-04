@@ -11,12 +11,16 @@ import (
 	"github.com/kanrichan/resvg-go"
 )
 
-func libsvgConvert(doc *etree.Document, _, _ float64, output string) error {
+func hasLibsvg() error {
 	_, err := exec.LookPath("rsvg-convert")
+	return err
+}
+
+func libsvgConvert(doc *etree.Document, _, _ float64, output string) error {
+	err := hasLibsvg()
 	if err != nil {
 		return err //nolint: wrapcheck
 	}
-
 	svg, err := doc.WriteToBytes()
 	if err != nil {
 		return err //nolint: wrapcheck
