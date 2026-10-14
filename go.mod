@@ -1,6 +1,6 @@
 module github.com/charmbracelet/freeze
 
-go 1.25.8
+go 1.23.0
 
 require (
 	github.com/adrg/xdg v0.5.3
@@ -15,7 +15,6 @@ require (
 	github.com/charmbracelet/x/ansi v0.11.7
 	github.com/charmbracelet/x/cellbuf v0.0.15
 	github.com/charmbracelet/x/term v0.2.2
-	github.com/charmbracelet/x/xpty v0.1.4
 	github.com/kanrichan/resvg-go v0.0.2-0.20231001163256-63db194ca9f5
 	github.com/mattn/go-isatty v0.0.22
 	github.com/mattn/go-runewidth v0.0.23
