@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"context"
 	"flag"
 	"fmt"
 	"os"
@@ -9,6 +10,7 @@ import (
 	"runtime"
 	"strings"
 	"testing"
+	"time"
 
 	"github.com/aymanbagabas/go-udiff"
 )
@@ -62,6 +64,35 @@ func TestFreezeOutput(t *testing.T) {
 	_, err = os.Stat(output)
 	if err != nil {
 		t.Fatal(err)
+	}
+}
+
+func TestFreezeFileWithPipedStdin(t *testing.T) {
+	output := "artichoke-stdin-test.svg"
+	defer os.Remove(output)
+
+	// stdin is a pipe that never closes, like in many scripts and CI jobs
+	r, w, err := os.Pipe()
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer r.Close()
+	defer w.Close()
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	cmd := exec.CommandContext(ctx, binary, "test/input/artichoke.hs", "-o", output)
+	cmd.Stdin = r
+	if err := cmd.Run(); err != nil {
+		t.Fatalf("freeze did not render the file: %v", err)
+	}
+
+	svg, err := os.ReadFile(output)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !strings.Contains(string(svg), "Main") {
+		t.Fatal("expected the file contents, not stdin, in the output")
 	}
 }
 

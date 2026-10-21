@@ -146,7 +146,8 @@ func main() {
 		os.Exit(0)
 	}
 
-	if config.Input == "-" || in.IsPipe(os.Stdin) {
+	// A file argument or --execute wins over piped stdin, which scripts often leave open.
+	if config.Input == "-" || (config.Input == "" && config.Execute == "" && in.IsPipe(os.Stdin)) {
 		input, err = in.ReadInput(os.Stdin)
 		lexer = lexers.Analyse(input)
 	} else if config.Execute != "" {
