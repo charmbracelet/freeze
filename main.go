@@ -40,6 +40,10 @@ var (
 	CommitSHA = ""
 )
 
+func isPNGOutput(path string) bool {
+	return strings.EqualFold(filepath.Ext(path), ".png")
+}
+
 func main() {
 	const shaLen = 7
 
@@ -134,7 +138,7 @@ func main() {
 	}
 
 	scale = 1
-	if autoHeight && autoWidth && strings.HasSuffix(config.Output, ".png") {
+	if autoHeight && autoWidth && isPNGOutput(config.Output) {
 		scale = 4
 	}
 
@@ -395,7 +399,7 @@ func main() {
 	istty := isatty.IsTerminal(os.Stdout.Fd())
 
 	switch {
-	case strings.HasSuffix(config.Output, ".png"):
+	case isPNGOutput(config.Output):
 		// use libsvg conversion.
 		svgConversionErr := libsvgConvert(doc, imageWidth, imageHeight, config.Output)
 		if svgConversionErr == nil {
